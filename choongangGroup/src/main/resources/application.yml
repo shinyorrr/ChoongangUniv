@@ -1,5 +1,5 @@
 server:
-  port : 8391
+  port : 8392
 
 # Oracle Connect
 spring:
@@ -12,7 +12,7 @@ spring:
 
   datasource:
    url: jdbc:oracle:thin:@localhost:1521/xe
-   username: choongang
+   username: scott
    password: tiger
    driver-class-name: oracle.jdbc.driver.OracleDriver
    
