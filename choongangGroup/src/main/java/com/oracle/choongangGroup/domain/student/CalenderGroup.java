@@ -15,9 +15,11 @@ public class CalenderGroup {
 	private int calGroup;
 	
 	@Column(name = "cal_g_name")
+
 	private String calGname;
 	
 	@Column(name = "cal_g_color")
 	private String calGcolor;
+  
 }
    

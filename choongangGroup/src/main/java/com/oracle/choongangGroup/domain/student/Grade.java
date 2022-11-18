@@ -1,5 +1,6 @@
 package com.oracle.choongangGroup.domain.student;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -29,11 +30,22 @@ public class Grade {
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Member member;
 	
-	private int sco_midterm;
-	private int sco_final;
-	private String sco_report;
-	private int sco_attendance;
-	private int rep_sco;
-	private String sco_status;
+	@Column(name = "sco_midterm")
+	private int scoMidterm;
+	
+	@Column(name = "sco_final")
+	private int scoFinal;
+	
+	@Column(name = "sco_report")
+	private String scoReport;
+	
+	@Column(name = "sco_attendance")
+	private int scoAttendance;
+	
+	@Column(name = "rep_sco")
+	private int repSco;
+	
+	@Column(name = "sco_status")
+	private String scoStatus;
 	
 }

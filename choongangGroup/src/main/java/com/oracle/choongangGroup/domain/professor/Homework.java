@@ -24,7 +24,7 @@ public class Homework {
 	
 	@Id
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "mem_userid")
+	@JoinColumn(name = "userid")
 	private Member member;
 	
 	@Column(name = "rep_sco")
