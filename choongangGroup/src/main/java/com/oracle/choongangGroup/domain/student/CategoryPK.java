@@ -1,5 +1,7 @@
 package com.oracle.choongangGroup.domain.student;
 
+import java.io.Serializable;
+
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -11,7 +13,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
-public class CategoryPK {
+public class CategoryPK implements Serializable {
 	private int bigCategory;
 	private int smallCategory;
 }
