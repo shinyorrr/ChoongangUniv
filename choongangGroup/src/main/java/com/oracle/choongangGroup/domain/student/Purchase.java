@@ -26,7 +26,7 @@ public class Purchase {
 	
 	@Id
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "userid")
+	@JoinColumn(name = "mem_userid")
 	private Member member;
 	
 	@ManyToOne(fetch = FetchType.LAZY)

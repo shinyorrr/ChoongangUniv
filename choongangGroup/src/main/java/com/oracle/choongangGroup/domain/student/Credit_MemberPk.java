@@ -13,8 +13,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @EqualsAndHashCode
 public class Credit_MemberPk implements Serializable {
-	 private String credit_id;
+	 private String creditId;
 	 private String member;
-	
-	
 }

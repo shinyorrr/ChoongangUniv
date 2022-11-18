@@ -37,12 +37,17 @@ public class Notice {
 		@ManyToOne
 		@JoinColumn(name = "userid")
 		private Member member;
+
+		
 		@Column(name = "notice_title")
 		private String noticeTitle;
+		
 		@Column(name = "notice_content")
 		private String noticeContent;
+		
 		@Column(name = "notice_type")
 		private String noticeType;
+		
 		@Column(name = "notice_date")
 		private String noticeDate;
 		

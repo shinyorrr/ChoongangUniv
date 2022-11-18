@@ -11,7 +11,7 @@ import javax.persistence.Column;
 @Entity
 public class Member {
 	@Id
-	private String userId;
+	private String userid;
 	private String name;
 	private String password;
 	private String birth;

@@ -25,7 +25,7 @@ public class Calender {
 	private CalenderGroup calendarGroup;
 
 	@Id
-	@JoinColumn(name="userId")
+	@JoinColumn(name="userid")
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Member member;
 }

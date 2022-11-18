@@ -4,24 +4,26 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import com.oracle.choongangGroup.domain.Member;
+import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-
-import com.oracle.choongangGroup.domain.Member;
 
 import lombok.Data;
 
 @Data
 @Entity
+@IdClass(PhoneLikePK.class)
 public class PhoneLike {
 	
+  @Id
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "userId")
-	@Id
+	@JoinColumn(name = "userid")
 	private Member member;
-	@Id
-	@Column(name = "mem_favorite")
-	private String favorite;
 	
-
+	@Id
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "userid")
+	@Column(name = "favorite_user")
+	private String favoriteUser;
 }
