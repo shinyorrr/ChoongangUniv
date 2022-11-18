@@ -55,6 +55,7 @@ public class Approval {
     private String finApprovalOk;
     
     @Enumerated(EnumType.STRING)
+    @Column(name = "approval_status")
     private ApprovalStatus approvalStatus;
     
     @Column(name = "approval_start")
