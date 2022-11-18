@@ -1,43 +1,45 @@
 package com.oracle.choongangGroup.domain;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-
 import lombok.Data;
+import javax.persistence.Column;
 
-@Entity
 @Data
+@Entity
 public class Member {
-		@Id
-		private String mem_userid;
-		private String mem_name;
-		private String mem_password;
-		private String mem_birth;
-		private String mem_image;
-		private String mem_phone;
-		private String mem_subphone;
-		private String mem_email;
-		private String mem_address;
-		private String mem_nation;
-		private String mem_hiredate;
-		private String mem_admission;
-		private String mem_graduate;
-		private String mem_position;
-		private String mem_gender;
-		private int    mem_grade;
-		private String mem_major;
-		private String mem_adm_type;
-		private String mem_account;
-		private String mem_bank;
-		private String mem_extention;
-		private String mem_lab;
-		@ManyToOne(fetch = FetchType.LAZY)
-		@JoinColumn(name = "deptno")
-		private Dept  dept;
-		private int    mem_role;
-
-		private String mem_right;
+	@Id
+	private String userid;
+	private String name;
+	private String password;
+	private String birth;
+	private String image;
+	private String phone;
+	private String subphone;
+	private String email;
+	private String address;
+	private String nation;
+	private String hiredate;
+	private String admission;
+	private String graduate;
+	private String position;
+	private String gender;
+	private int    grade;
+	private String major;
+	private String admType;
+	private String account;
+	private String bank;
+	private String extention;
+	private String lab;
+	
+	@ManyToOne
+	@JoinColumn(name = "deptno")
+	private int    deptno;
+	
+	@Column(name = "mem_role")
+	private int    memRole;
+	@Column(name = "mem_right")
+	private String memRight;
 }
