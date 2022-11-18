@@ -7,7 +7,6 @@ import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 
 import com.oracle.choongangGroup.domain.Member;
 import com.oracle.choongangGroup.domain.professor.Lecture;
@@ -30,7 +29,7 @@ public class Purchase {
 	@JoinColumn(name = "mem_userid")
 	private Member member;
 	
-	@OneToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "book_id")
 	private Book book;
 	
