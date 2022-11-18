@@ -35,12 +35,20 @@ public class Notice {
 		private Notice notice;
 		@Id
 		@ManyToOne
-		@JoinColumn(name = "mem_userid")
+		@JoinColumn(name = "userid")
 		private Member member;
-		private String notice_title;
-		private String notice_content;
-		private String notice_type;
-		private String notice_date;
+		
+		@Column(name = "notice_title")
+		private String noticeTitle;
+		
+		@Column(name = "notice_content")
+		private String noticeContent;
+		
+		@Column(name = "notice_type")
+		private String noticeType;
+		
+		@Column(name = "notice_date")
+		private String noticeDate;
 		
 		
 }

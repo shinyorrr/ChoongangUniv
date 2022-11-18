@@ -21,7 +21,7 @@ public class Evaluation {
 	private Lecture lecture;
 	
 	@Id
-	@JoinColumn(name = "mem_userid")
+	@JoinColumn(name = "userid")
 	private Member member;
 	
 	@Id

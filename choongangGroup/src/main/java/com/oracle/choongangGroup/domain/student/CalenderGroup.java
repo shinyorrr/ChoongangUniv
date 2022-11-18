@@ -1,5 +1,6 @@
 package com.oracle.choongangGroup.domain.student;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -9,7 +10,12 @@ import lombok.Data;
 @Data
 public class CalenderGroup {
 	@Id
-	private int cal_group;
-	private String cal_g_name;
-	private String cal_g_color;
+	@Column(name = "cal_group")
+	private int calGroup;
+	
+	@Column(name = "cal_g_name")
+	private String calName;
+	
+	@Column(name = "cal_g_color")
+	private String calColor;
 }
