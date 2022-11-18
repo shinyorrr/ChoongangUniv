@@ -23,7 +23,6 @@ public class Application {
 	@ManyToOne
 	@JoinColumn(name = "userid")
 	private Member member;
-	private String mem_useid;
 	private String regiser_start;
 	private String register_end;
 

@@ -2,6 +2,8 @@ package com.oracle.choongangGroup.domain.manager;
 
 import javax.persistence.*;
 
+import com.oracle.choongangGroup.domain.Member;
+
 import lombok.Data;
 
 @Entity

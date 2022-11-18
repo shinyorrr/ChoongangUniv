@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 @EqualsAndHashCode
-public class Lec_id_wee_orderPK implements Serializable {
+public class LecIdWeekOrderPK implements Serializable {
 		private Long Lecture_plan;
 		private String Lec_week_Plan;
 }

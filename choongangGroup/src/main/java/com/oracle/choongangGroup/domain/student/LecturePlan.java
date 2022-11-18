@@ -14,7 +14,7 @@ import lombok.Data;
 @Entity
 @Data
 @Table
-public class Lecture_Plan {
+public class LecturePlan {
 	
 	@Id
 	@OneToOne
