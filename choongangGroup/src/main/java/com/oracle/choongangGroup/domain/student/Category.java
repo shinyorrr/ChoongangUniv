@@ -1,17 +1,26 @@
 package com.oracle.choongangGroup.domain.student;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 
 import lombok.Data;
 
 
 @Data
 @Entity
+@IdClass(CategoryPK.class)
 public class Category {
+	
 	@Id
-	private String big_category;
+	@Column(name = "big_category")
+	private String bigCategory;
+	
 	@Id
-	private String small_category;
-	private String category_content;
+	@Column(name = "small_category")
+	private String smallCategory;
+	
+	@Column(name = "category_cotent")
+	private String categoryContent;
 }

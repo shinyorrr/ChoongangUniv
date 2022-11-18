@@ -12,7 +12,7 @@ import lombok.Data;
 @Entity
 public class Member {
 	@Id
-	private String userid;
+	private String userId;
 	private String name;
 	private String password;
 	private String birth;

@@ -19,7 +19,7 @@ public class Credit {
 	
 	@Id
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "userid")
+	@JoinColumn(name = "userId")
 	private Member member;
 	
 	@Id
