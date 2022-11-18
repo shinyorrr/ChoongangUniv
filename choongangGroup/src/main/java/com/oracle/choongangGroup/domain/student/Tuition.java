@@ -1,5 +1,6 @@
 package com.oracle.choongangGroup.domain.student;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -17,8 +18,12 @@ public class Tuition {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "userid")
 	private Member member;
-	private String file_dir;
-	private String file_name;
+	
+	@Column(name = "file_dir")
+	private String fileDir;
+	
+	@Column(name = "file_name")
+	private String fileName;
 	
 	
 	

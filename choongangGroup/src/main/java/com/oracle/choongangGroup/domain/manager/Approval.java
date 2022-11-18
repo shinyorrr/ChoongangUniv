@@ -8,13 +8,21 @@ import lombok.Data;
 
 @Entity
 @Data
+@SequenceGenerator(
+		name = "APPROVAL_SEQ_GENERATOR",
+		sequenceName = "APPROVAL_SEQ_GEN",
+		initialValue = 5,
+		allocationSize = 1
+)
 public class Approval {
     
 	@Enumerated(EnumType.STRING)
+	@Column(name = "approval_form")
 	private ApprovalForm approvalForm;
 	
     @Id
-    private int approval_no;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private int approvalNo;
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userid")
