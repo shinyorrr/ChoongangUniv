@@ -10,7 +10,6 @@ import javax.persistence.ManyToOne;
 import com.oracle.choongangGroup.domain.Member;
 import com.oracle.choongangGroup.domain.professor.Lecture;
 import com.oracle.choongangGroup.domain.professor.LectureMemberPK;
-import com.oracle.choongangGroup.domain.professor.Lecture_MemberPK;
 
 import lombok.Data;
 
