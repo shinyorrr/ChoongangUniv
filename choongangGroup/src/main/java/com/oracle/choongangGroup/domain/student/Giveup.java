@@ -1,5 +1,6 @@
 package com.oracle.choongangGroup.domain.student;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -10,7 +11,11 @@ import lombok.Data;
 @Table
 @Data
 public class Giveup {
+	
 	@Id
-	private String dfile_name;
-	private String dfile_path;
+	@Column(name = "dfile_name")
+	private String dfileName;
+	
+	@Column(name = "dfile_path")
+	private String dfilePath;
 }
