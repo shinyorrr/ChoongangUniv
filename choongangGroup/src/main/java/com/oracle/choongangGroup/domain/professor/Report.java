@@ -12,7 +12,6 @@ import java.lang.reflect.Member;
 @Data
 @Table(name = "report")
 @IdClass(Lecture_MemberPK.class)
-@NoArgsConstructor
 public class Report {
 
     @Id
@@ -23,14 +22,27 @@ public class Report {
 //    Lecture_MemberPK lectureMemberPK = new Lecture_MemberPK();
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "mem_userid")
+    @JoinColumn(name = "userid")
     private Member member;
-
-    private String rep_sco;
-    private String rep_file_name;
-    private String rep_file_path;
-    private String rep_submit_date;
-    private String rep_deadline;
-    private String rep_whether;
-    private String rep_grade;
+    
+    @Column(name = "rep_sco")
+    private String score;
+    
+    @Column(name = "rep_file_name")
+    private String fileName;
+    
+    @Column(name = "rep_file_path")
+    private String filePath;
+    
+    @Column(name = "rep_submit_date")
+    private String submitDate;
+    
+    @Column(name = "rep_deadline")
+    private String deadline;
+    
+    @Column(name = "rep_whether")
+    private String whether;
+    
+    @Column(name = "rep_grade")
+    private String reportGrade;
 }
