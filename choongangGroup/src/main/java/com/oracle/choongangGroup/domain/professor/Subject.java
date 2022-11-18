@@ -1,7 +1,9 @@
 package com.oracle.choongangGroup.domain.professor;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 import lombok.Data;
@@ -10,8 +12,11 @@ import lombok.Data;
 @Data
 public class Subject {
 	@Id
-	@OneToMany(mappedBy = "subject")
-	private String subject_num;
-	private String s_gubun;
-	private String m_gubun;
+	@OneToMany
+	@JoinColumn(name = "subject_num")
+	private String subjectNum;
+	@Column(name = "s_gubun")
+	private String subjectGubun;
+	@Column(name = "m_gubun")
+	private String majorGubun;
 }

@@ -9,7 +9,6 @@ import java.lang.reflect.Member;
 @Entity
 @Data
 @IdClass(Lecture_MemberPK.class)
-@NoArgsConstructor
 public class Score {
 
     @Id
@@ -20,13 +19,24 @@ public class Score {
     //    Lecture_MemberPK lectureMemberPK = new Lecture_MemberPK();
     @Id
     @OneToMany
-    @JoinColumn(name = "mem_userid")
+    @JoinColumn(name = "userid")
     private Member member;
-
-    private Long sco_midterm;
-    private Long sco_final;
-    private String sco_report;
-    private Long sco_attendance;
-    private Long rep_sco;
-    private String  sco_status;
+    
+    @Column(name = "sco_midterm")
+    private Long midterm;
+    
+    @Column(name = "sco_final")
+    private Long scoreFinal;
+    
+    @Column(name = "sco_report")
+    private String scoreReport;
+    
+    @Column(name = "sco_attendance")
+    private Long scoreAttendance;
+    
+    @Column(name = "rep_sco")
+    private Long reportScore;
+    
+    @Column(name = "sco_status")
+    private String scoreStatus;
 }

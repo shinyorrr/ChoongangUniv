@@ -1,9 +1,12 @@
 package com.oracle.choongangGroup.domain.professor;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import com.oracle.choongangGroup.domain.Member;
 
@@ -19,16 +22,29 @@ public class Makeup {
 //	private 
 	
 	@Id
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "lec_id")
 	private Lecture lecture;
 	
-	@JoinColumn(name = "mem_userid")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "userid")
 	private Member  member;
 	
-	private String mak_date;
-	private String mak_status;
-	private String mak_time;
-	private String mak_cancle_date;
-	private String mak_cancle_time;
-	private String mak_lec_room;
+	@Column(name = "mak_date")
+	private String date;
+	
+	@Column(name = "mak_status")
+	private String status;
+	
+	@Column(name = "mak_time")
+	private String time;
+	
+	@Column(name = "mak_cancle_date")
+	private String cancleDate;
+	
+	@Column(name = "mak_cancle_time")
+	private String cancleTime;
+	
+	@Column(name = "mak_lec_room")
+	private String lecRoom;
 }
