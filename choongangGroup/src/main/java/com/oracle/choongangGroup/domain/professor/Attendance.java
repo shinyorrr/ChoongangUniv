@@ -31,7 +31,7 @@ public class Attendance {
 	private Member member;
 	
 	@Column(name = "att_score")
-	private String score;
+	private String attScore;
 	@Column(name = "lec_order")
 	private String lecOrder;
 	@Column(name = "att_status")
