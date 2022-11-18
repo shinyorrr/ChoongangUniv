@@ -29,7 +29,7 @@ public class Mail {
 				)
 	private int mail_num;
 	@ManyToOne
-	@JoinColumn(name = "mem_userid")
+	@JoinColumn(name = "userid")
 	private Member member;
 	private String mail_title;
 	private String mail_content;
