@@ -1,5 +1,6 @@
 package com.oracle.choongangGroup.domain.student;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -11,15 +12,17 @@ import com.oracle.choongangGroup.domain.professor.Lecture;
 import lombok.Data;
 
 @Entity
-@Table
 @Data
 public class Subject {
 	
 	@Id
 	@JoinColumn(name = "subject_num")
-	@OneToOne
 	private Lecture lecture;
-	private String s_gubun;
-	private String m_gubun;
+	
+	@Column(name = "s_gubun")
+	private String sgubun;
+	
+	@Column(name = "m_gubun")
+	private String mgubun;
 }
 
