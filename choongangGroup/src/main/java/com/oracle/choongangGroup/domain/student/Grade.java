@@ -8,24 +8,31 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import com.oracle.choongangGroup.domain.Member;
+import com.oracle.choongangGroup.domain.professor.Lecture;
+import com.oracle.choongangGroup.domain.professor.Lecture_MemberPK;
 
 import lombok.Data;
 
-@Entity
 @Data
-@IdClass(CalCalGroupPK.class)
-public class Calender {
-
+@Entity
+@IdClass(LectureMemberPK.class)
+public class Grade {
+	
 	@Id
-	private Long cal_id;
-
-	@JoinColumn(name="cal_group")
+	@JoinColumn(name = "lecId")
 	@ManyToOne(fetch = FetchType.LAZY)
+	private Lecture lecture;
+	
 	@Id
-	private CalenderGroup calendarGroup;
-
-	@Id
-	@JoinColumn(name="userId")
+	@JoinColumn(name = "userId")
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Member member;
+	
+	private int sco_midterm;
+	private int sco_final;
+	private String sco_report;
+	private int sco_attendance;
+	private int rep_sco;
+	private String sco_status;
+	
 }
