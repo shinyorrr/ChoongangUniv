@@ -1,4 +1,4 @@
-package com.oracle.choongangGroup.domain;
+package com.oracle.choongangGroup.domain.manager;
 
 import java.io.Serializable;
 
