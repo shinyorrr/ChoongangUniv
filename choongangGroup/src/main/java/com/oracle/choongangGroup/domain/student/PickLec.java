@@ -3,12 +3,16 @@ package com.oracle.choongangGroup.domain.student;
 import java.lang.reflect.Member;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.oracle.choongangGroup.domain.professor.Attendance;
 import com.oracle.choongangGroup.domain.professor.Lecture;
 import com.oracle.choongangGroup.domain.professor.LectureMemberPK;
 
@@ -17,21 +21,26 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@Table(name = "report")
 @IdClass(LectureMemberPK.class)
 @NoArgsConstructor
+@Table
 public class PickLec {
 	
     @Id
     @JoinColumn(name = "lec_id", nullable = false)
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private  Lecture lecture;
 
     @Id
     @JoinColumn(name = "userid")
     private Member member;
 
-    private String att_status;
-    private String lec_grade;
+    @JoinColumn(name="att_status")
+    @OneToMany(mappedBy = "attStatus")
+    private Attendance attendance;
+    
+    @JoinColumn(name = "lec_grade")
+    @OneToOne(fetch = FetchType.LAZY)
+    private Grade grade;
 }
 

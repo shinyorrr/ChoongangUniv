@@ -2,6 +2,7 @@ package com.oracle.choongangGroup.domain.student;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 import lombok.Data;
 

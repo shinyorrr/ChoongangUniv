@@ -1,5 +1,6 @@
 package com.oracle.choongangGroup.domain.student;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -19,10 +20,11 @@ public class LecWeekPlan {
 	@Id
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "lec_id")
-	private LecturePlan lecture_Plan;
+	private LecturePlan lecturePlan;
 	
 	@Id
-	private int wee_order;
+	@Column(name = "week_order")
+	private int weekOrder;
 	
-	private String wee_detail;
+	private String weekDetail;
 }
