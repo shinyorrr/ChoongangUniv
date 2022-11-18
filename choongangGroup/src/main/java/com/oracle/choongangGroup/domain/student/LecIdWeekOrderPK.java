@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @Getter
 @EqualsAndHashCode
 public class LecIdWeekOrderPK implements Serializable {
-		private Long Lecture_plan;
-		private String Lec_week_Plan;
+		private Long lecturePlan;
+		private String weekOrder;
 }

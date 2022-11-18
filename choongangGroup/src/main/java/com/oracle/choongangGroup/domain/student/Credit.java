@@ -1,12 +1,12 @@
 package com.oracle.choongangGroup.domain.student;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
 
 import com.oracle.choongangGroup.domain.Member;
 
@@ -14,7 +14,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@IdClass(Credit_MemberPk.class)
+@IdClass(CreditMemberPK.class)
 public class Credit {
 	
 	@Id
@@ -23,9 +23,14 @@ public class Credit {
 	private Member member;
 	
 	@Id
-    private String credit_id;
-	private String credit_bank;
-	private String credit_date;
+	@Column(name = "credit_id")
+    private String creditId;
+	
+	@Column(name = "credit_bank")
+	private String creditBank;
+	
+	@Column(name = "credit_date")
+	private String creditDate;
 	
 	
 }

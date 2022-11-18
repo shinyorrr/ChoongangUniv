@@ -17,7 +17,7 @@ import lombok.Data;
 @Data
 @Entity
 @IdClass(LectureMemberPK.class)
-public class Application {
+public class Purchase {
 	
 	@Id
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -29,10 +29,15 @@ public class Application {
 	@JoinColumn(name = "userid")
 	private Member member;
 	
-	@Column(name = "register_start")
-	private String regiserStart;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "book_id")
+	private Book book;
 	
-	@Column(name = "register_end")
-	private String registerEnd;
-
+	private String deadline;
+	private long amount;
+	
+	@Column(name = "purchase_status")
+	private int purchaseStatus;
+	
+	
 }

@@ -17,9 +17,12 @@ import lombok.Data;
 public class Dept {
 	@Id
 	private int deptno;
-	@Column(length = 100)
-	private String dname;
 
+	private String dname;
+	
+	@Column(name = "up_deptno")
+	private int upDeptno;
+	
 	@OneToMany(mappedBy = "dept")
-	private List<Member> members =new ArrayList<>();
+	private List<Member> members = new ArrayList<>();
 }
