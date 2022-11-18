@@ -1,4 +1,4 @@
-package com.oracle.choongangGroup.domain.student;
+package com.oracle.choongangGroup.domain.manager;
 
 import java.io.Serializable;
 
@@ -6,16 +6,13 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @AllArgsConstructor
 @Getter
-@Setter
 @NoArgsConstructor
 @EqualsAndHashCode
-public class Application_LecturePk implements Serializable {
-
-	private Long Lecture;
-	private String Member;
+public class WorkId implements Serializable {
 	
+	private String attDate;
+	private String member;
 }

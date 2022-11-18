@@ -6,6 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 
 import com.oracle.choongangGroup.domain.Member;
 
@@ -13,12 +14,12 @@ import lombok.Data;
 
 @Data
 @Entity
-@IdClass(credit_MemberPk.class)
-public class credit {
+@IdClass(Credit_MemberPk.class)
+public class Credit {
 	
 	@Id
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "mem_userid")
+	@JoinColumn(name = "userid")
 	private Member member;
 	
 	@Id

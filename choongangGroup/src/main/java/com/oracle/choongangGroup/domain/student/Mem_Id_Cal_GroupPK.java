@@ -7,14 +7,12 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-
 @AllArgsConstructor
 @Getter
 @NoArgsConstructor
 @EqualsAndHashCode
-public class credit_MemberPk implements Serializable {
-	 private String credit_id;
-	 private String mem_userid;
-	
+public class Mem_Id_Cal_GroupPK implements Serializable {
+	private Long CalenderGroup;
+	private String Member;
 	
 }

@@ -2,15 +2,19 @@ package com.oracle.choongangGroup.domain.student;
 
 import java.io.Serializable;
 
-
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
+
+@AllArgsConstructor
 @Getter
+@NoArgsConstructor
 @EqualsAndHashCode
-public class Lec_id_wee_orderPK implements Serializable {
-		private Long Lecture_plan;
-		private String Lec_week_Plan;
+public class Credit_MemberPk implements Serializable {
+	 private String credit_id;
+	 private String member;
+	
+	
 }
