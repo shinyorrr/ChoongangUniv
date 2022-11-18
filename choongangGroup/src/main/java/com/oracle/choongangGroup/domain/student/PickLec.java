@@ -33,6 +33,7 @@ public class PickLec {
 
     @Id
     @JoinColumn(name = "userid")
+    @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
 
     @JoinColumn(name="att_status")
