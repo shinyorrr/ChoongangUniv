@@ -1,5 +1,6 @@
 package com.oracle.choongangGroup.domain.manager;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,14 +28,19 @@ public class Mail {
 					strategy = GenerationType.SEQUENCE,
 					generator = "mail_seq_gen"
 				)
-	private int mail_num;
+	private int mailNum;
 	@ManyToOne
-	@JoinColumn(name = "mem_userid")
+	@JoinColumn(name = "userid")
 	private Member member;
-	private String mail_title;
-	private String mail_content;
-	private String mail_gubun;
-	private String mail_time;
-	private String mail_status;
+	@Column(name = "mail_title")
+	private String mailTitle;
+	@Column(name = "mail_content")
+	private String mailContent;
+	@Column(name = "mail_gubun")
+	private String mailGubun;
+	@Column(name = "mail_time")
+	private String mailTime;
+	@Column(name = "mail_status")
+	private String mailStatus;
 
 }
