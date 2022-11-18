@@ -12,6 +12,7 @@ import com.oracle.choongangGroup.domain.Member;
 import com.oracle.choongangGroup.domain.professor.Lecture;
 import com.oracle.choongangGroup.domain.professor.LectureMemberPK;
 
+
 import lombok.Data;
 
 @Data
