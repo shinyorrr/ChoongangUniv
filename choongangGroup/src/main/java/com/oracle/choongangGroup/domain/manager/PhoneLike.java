@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import com.oracle.choongangGroup.domain.Member;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -15,10 +16,10 @@ import lombok.Data;
 @IdClass(PhoneLikePK.class)
 public class PhoneLike {
 	
-	@Id
+  @Id
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "userid")
-	private String userid;
+	private Member member;
 	
 	@Id
 	@ManyToOne(fetch = FetchType.LAZY)
