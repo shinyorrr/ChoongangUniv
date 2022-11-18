@@ -15,7 +15,7 @@ import javax.persistence.Column;
 @NoArgsConstructor //기본생성자 생성
 public class Lecture_MemberPK implements Serializable {
     @Column(name = "lec_id")
-	private  Long   id;
+	private  Long   lecId;
     @Column(name = "userid")
     private  String userid;
 }

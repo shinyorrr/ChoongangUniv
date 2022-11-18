@@ -23,20 +23,20 @@ public class Score {
     private Member member;
     
     @Column(name = "sco_midterm")
-    private Long midterm;
+    private Long scoMidterm;
     
     @Column(name = "sco_final")
-    private Long scoreFinal;
+    private Long scoFinal;
     
     @Column(name = "sco_report")
-    private String scoreReport;
+    private String scoReport;
     
     @Column(name = "sco_attendance")
-    private Long scoreAttendance;
+    private Long scoAttendance;
     
     @Column(name = "rep_sco")
-    private Long reportScore;
+    private Long repScore;
     
     @Column(name = "sco_status")
-    private String scoreStatus;
+    private String scoStatus;
 }
