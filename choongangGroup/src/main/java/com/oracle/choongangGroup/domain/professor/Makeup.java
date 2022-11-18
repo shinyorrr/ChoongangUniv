@@ -31,20 +31,20 @@ public class Makeup {
 	private Member  member;
 	
 	@Column(name = "mak_date")
-	private String date;
+	private String makDate;
 	
 	@Column(name = "mak_status")
-	private String status;
+	private String makStatus;
 	
 	@Column(name = "mak_time")
-	private String time;
+	private String makTime;
 	
 	@Column(name = "mak_cancle_date")
-	private String cancleDate;
+	private String makCancleDate;
 	
 	@Column(name = "mak_cancle_time")
-	private String cancleTime;
+	private String makCancleTime;
 	
 	@Column(name = "mak_lec_room")
-	private String lecRoom;
+	private String makLecRoom;
 }

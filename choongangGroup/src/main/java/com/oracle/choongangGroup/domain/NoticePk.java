@@ -1,18 +1,19 @@
-package com.oracle.choongangGroup.domain.manager;
+package com.oracle.choongangGroup.domain;
 
 import java.io.Serializable;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@Data
 @AllArgsConstructor
-@Getter
-@NoArgsConstructor
 @EqualsAndHashCode
-public class WorkId implements Serializable {
+@NoArgsConstructor
+public class NoticePk implements Serializable {
 	
-	private String attDate;
+	private int notice;
 	private String member;
+
 }

@@ -16,7 +16,7 @@ public class Subject {
 	@JoinColumn(name = "subject_num")
 	private String subjectNum;
 	@Column(name = "s_gubun")
-	private String subjectGubun;
+	private String sGubun;
 	@Column(name = "m_gubun")
-	private String majorGubun;
+	private String mGubun;
 }

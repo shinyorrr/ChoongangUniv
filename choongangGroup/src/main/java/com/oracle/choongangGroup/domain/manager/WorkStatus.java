@@ -1,5 +1,5 @@
 package com.oracle.choongangGroup.domain.manager;
 
-public enum AttendanceStatus {
+public enum WorkStatus {
 	GO, LEAVE, LATE
 }

@@ -26,23 +26,23 @@ public class Report {
     private Member member;
     
     @Column(name = "rep_sco")
-    private String score;
+    private String repScore;
     
     @Column(name = "rep_file_name")
-    private String fileName;
+    private String repFileName;
     
     @Column(name = "rep_file_path")
-    private String filePath;
+    private String repFilePath;
     
     @Column(name = "rep_submit_date")
-    private String submitDate;
+    private String repSubmitDate;
     
     @Column(name = "rep_deadline")
-    private String deadline;
+    private String repDeadline;
     
     @Column(name = "rep_whether")
-    private String whether;
+    private String repWhether;
     
     @Column(name = "rep_grade")
-    private String reportGrade;
+    private String repGrade;
 }

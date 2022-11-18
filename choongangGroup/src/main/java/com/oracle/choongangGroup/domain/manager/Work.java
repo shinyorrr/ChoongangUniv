@@ -16,25 +16,25 @@ import lombok.Data;
 
 @Entity
 @Data
-@IdClass(WorkId.class)
+@IdClass(WorkPK.class)
 public class Work {
 	
 	@Id
 	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "userid")
 	private Member member;
 	
 	@Id
-	@Column(name = "att_date")
-	private String attDate;
+	@Column(name = "work_date")
+	private String workDate;
 	
-	@Column(name = "att_on_date")
-	private String attOnTime;
+	@Column(name = "work_on_date")
+	private String workOnTime;
 	
-	@Column(name = "att_off_date")
-	private String attoffTime;
+	@Column(name = "work_off_date")
+	private String workOffTime;
 	private String vacation;
 	
 	@Enumerated(EnumType.STRING)
-	private AttendanceStatus status;
+	private WorkStatus status;
 }
