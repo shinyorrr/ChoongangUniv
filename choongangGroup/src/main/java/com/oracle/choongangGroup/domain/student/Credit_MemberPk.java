@@ -12,9 +12,9 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @EqualsAndHashCode
-public class credit_MemberPk implements Serializable {
+public class Credit_MemberPk implements Serializable {
 	 private String credit_id;
-	 private String mem_userid;
+	 private String member;
 	
 	
 }

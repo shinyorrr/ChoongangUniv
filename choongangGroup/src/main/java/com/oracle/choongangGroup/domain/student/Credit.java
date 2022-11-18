@@ -13,12 +13,12 @@ import lombok.Data;
 
 @Data
 @Entity
-@IdClass(credit_MemberPk.class)
-public class credit {
+@IdClass(Credit_MemberPk.class)
+public class Credit {
 	
 	@Id
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "mem_userid")
+	@JoinColumn(name = "userid")
 	private Member member;
 	
 	@Id

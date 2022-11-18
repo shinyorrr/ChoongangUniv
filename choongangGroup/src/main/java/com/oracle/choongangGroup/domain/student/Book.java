@@ -5,13 +5,13 @@ import javax.persistence.Id;
 
 import lombok.Data;
 
-
 @Data
 @Entity
-public class Category {
+public class Book {
+	
 	@Id
-	private String big_category;
-	@Id
-	private String small_category;
-	private String category_content;
+	private Long  	book_id;
+	private String 	book_name;
+	private String  	book_price;
+	
 }

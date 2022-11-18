@@ -15,7 +15,7 @@ import lombok.Data;
 public class tuition {
 	@Id
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "mem_userid")
+	@JoinColumn(name = "userid")
 	private Member member;
 	private String file_dir;
 	private String file_name;

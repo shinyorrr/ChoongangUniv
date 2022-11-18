@@ -11,9 +11,8 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @EqualsAndHashCode
-public class Application_LecturePk implements Serializable {
-
-	private Long Lecture;
+public class Mem_Id_Cal_GroupPK implements Serializable {
+	private Long CalenderGroup;
 	private String Member;
 	
 }
