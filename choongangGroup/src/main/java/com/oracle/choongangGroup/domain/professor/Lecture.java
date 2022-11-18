@@ -27,10 +27,12 @@ public class Lecture {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE,
 					generator = "lecture_seq_gen")
 	@Column(name = "lec_id")
-	private Long    id;
+	private Long    lecId;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "userid")
 	private Member  member;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "subject_num")
 	private Subject subjectNum;
@@ -38,41 +40,59 @@ public class Lecture {
 	private String  order;
 	
 	@Column(name = "lec_name")
-	private String  name;
+	private String  lecName;
+	
 	@Column(name = "lec_target_grade")
-	private int     targetGrade;
+	private int     lecTargetGrade;
+	
 	@Column(name = "lec_room")
-	private String  room;
+	private String  lecRoom;
+	
 	@Column(name = "lec_building")
-	private String  building;
+	private String  lecBuilding;
+	
 	@Column(name = "lec_day1")
-	private String  day1;
+	private String  lecDay1;
+	
 	@Column(name = "lec_day2")
-	private String  day2;
+	private String  lecDay2;
+	
 	@Column(name = "lec_time1")
-	private String  time1;
+	private String  lecTime1;
+	
 	@Column(name = "lec_time2")
-	private String  time2;
+	private String  lecTime2;
+	
 	@Column(name = "lec_count_stud")
-	private int     stud;
+	private int     lecCountStud;
+	
 	@Column(name = "lec_max_stud")
-	private int     maxStud;
+	private int     lecMaxStud;
+	
 	@Column(name = "lec_status")
-	private String  status;
+	private String  lecStatus;
+	
 	@Column(name = "lec_max_count")
-	private int     maxCount;
+	private int     lecMaxCount;
+	
 	@Column(name = "lec_type")
-	private String  type;
+	private String  lecType;
+	
 	@Column(name = "lec_unit_score")
-	private int     unitScore;
+	private int     lecUnitScore;
+	
 	@Column(name = "lec_file_path")
-	private String  filePath;
+	private String  lecFilePath;
+	
 	@Column(name = "lec_file_name")
-	private String  fileName;
+	private String  lecFileName;
+	
 	@Column(name = "lec_year")
-	private String  year;
+	private String  lecYear;
+	
 	@Column(name = "lec_semester")
-	private String  semester;
+	private String  lecSemester;
+	
 	@Column(name = "lec_start")
-	private String  start;
+	private String  lecStart;
 }

@@ -17,7 +17,7 @@ public class Approval {
     private int approval_no;
     
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "userid")
     private Member member;
     
     @Column(name = "mid_approver")
@@ -28,16 +28,16 @@ public class Approval {
     private String title;
     
     @Column(name = "item_need")
-    private String need;
+    private String itemNeed;
     
     @Column(name = "item_quantity")
-    private String quantity;
+    private String itemQuantity;
     
     @Column(name = "approval_content")
-    private String content;
+    private String approvalContent;
     
     @Column(name = "item_price")
-    private String price;
+    private String itemPrice;
     
     @Column(name = "server_file_name")
     private String ServerFileName;
