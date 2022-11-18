@@ -21,7 +21,7 @@ public class Application {
 	private Lecture lecture;
 	@Id
 	@ManyToOne
-	@JoinColumn(name = "mem_userid")
+	@JoinColumn(name = "userid")
 	private Member member;
 	private String mem_useid;
 	private String regiser_start;

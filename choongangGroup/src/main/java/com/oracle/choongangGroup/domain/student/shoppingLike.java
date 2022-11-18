@@ -22,7 +22,7 @@ public class shoppingLike {
 	private Lecture lecture;
 	@Id
 	@ManyToOne
-	@JoinColumn(name = "mem_userid")
+	@JoinColumn(name = "userid")
 	private Member member;
 	//private int lec_id;
 	//private String mem_userid;

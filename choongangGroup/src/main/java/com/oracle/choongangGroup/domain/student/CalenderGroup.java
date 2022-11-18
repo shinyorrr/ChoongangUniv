@@ -5,13 +5,11 @@ import javax.persistence.Id;
 
 import lombok.Data;
 
-
-@Data
 @Entity
-public class Category {
+@Data
+public class CalenderGroup {
 	@Id
-	private String big_category;
-	@Id
-	private String small_category;
-	private String category_content;
+	private int cal_group;
+	private String cal_g_name;
+	private String cal_g_color;
 }
