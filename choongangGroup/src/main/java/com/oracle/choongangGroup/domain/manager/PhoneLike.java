@@ -16,14 +16,12 @@ import lombok.Data;
 @IdClass(PhoneLikePK.class)
 public class PhoneLike {
 	
-  @Id
+	@Id
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "userid")
 	private Member member;
 	
 	@Id
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "userid")
 	@Column(name = "favorite_user")
 	private String favoriteUser;
 }
