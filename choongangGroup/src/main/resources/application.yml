@@ -1,5 +1,5 @@
 server:
-  port : 8392
+  port : 8399
 
 # Oracle Connect
 spring:
@@ -12,14 +12,14 @@ spring:
 
   datasource:
    url: jdbc:oracle:thin:@localhost:1521/xe
-   username: scott
+   username: choongang
    password: tiger
    driver-class-name: oracle.jdbc.driver.OracleDriver
    
    # Jpa Setting  
   jpa: 
     hibernate:
-      ddl-auto: update  # none   update
+      ddl-auto: create  # none   update
     properties:
       hibernate:
         default_batch_fetch_size : 500 
