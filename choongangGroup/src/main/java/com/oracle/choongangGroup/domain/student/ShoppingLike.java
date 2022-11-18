@@ -13,7 +13,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@IdClass(Application_LecturePk.class)
+@IdClass(ApplicationLecturePK.class)
 public class ShoppingLike {
 	
 	@Id

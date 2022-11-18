@@ -10,7 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.oracle.choongangGroup.domain.professor.Lecture;
-import com.oracle.choongangGroup.domain.professor.Lecture_MemberPK;
+import com.oracle.choongangGroup.domain.professor.LectureMemberPK;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Data
 @Table(name = "report")
-@IdClass(Lecture_MemberPK.class)
+@IdClass(LectureMemberPK.class)
 @NoArgsConstructor
 public class PickLec {
 	
