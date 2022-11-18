@@ -11,8 +11,9 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @EqualsAndHashCode
-public class WorkId implements Serializable {
+public class WorkPK implements Serializable {
 	
-	private String attDate;
 	private String member;
+	private String workDate;
+	
 }
