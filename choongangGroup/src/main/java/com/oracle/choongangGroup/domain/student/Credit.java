@@ -6,23 +6,26 @@ import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.SequenceGenerator;
+
+import com.oracle.choongangGroup.domain.Member;
 
 import lombok.Data;
 
-@Entity
-@IdClass(Lec_id_wee_orderPK.class)
 @Data
-@Table
-public class Lec_week_Plan {
+@Entity
+@IdClass(CreditMemberPk.class)
+public class Credit {
 	
 	@Id
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "lec_id")
-	private Lecture_Plan lecture_Plan;
+	@JoinColumn(name = "mem_userid")
+	private Member member;
 	
 	@Id
-	private int wee_order;
+    private String credit_id;
+	private String credit_bank;
+	private String credit_date;
 	
-	private String wee_detail;
+	
 }

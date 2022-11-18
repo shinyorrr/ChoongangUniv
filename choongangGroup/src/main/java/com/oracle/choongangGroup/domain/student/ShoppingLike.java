@@ -14,7 +14,7 @@ import lombok.Data;
 @Data
 @Entity
 @IdClass(Application_LecturePk.class)
-public class shoppingLike {
+public class ShoppingLike {
 	
 	@Id
 	@ManyToOne

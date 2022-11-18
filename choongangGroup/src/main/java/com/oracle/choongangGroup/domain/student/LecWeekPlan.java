@@ -3,23 +3,26 @@ package com.oracle.choongangGroup.domain.student;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-
-import com.oracle.choongangGroup.domain.Member;
+import javax.persistence.Table;
 
 import lombok.Data;
 
 @Entity
+@IdClass(LecIdWeekOrderPK.class)
 @Data
-public class tuition {
+@Table
+public class LecWeekPlan {
+	
 	@Id
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "mem_userid")
-	private Member member;
-	private String file_dir;
-	private String file_name;
+	@JoinColumn(name = "lec_id")
+	private LecturePlan lecture_Plan;
 	
+	@Id
+	private int wee_order;
 	
-	
+	private String wee_detail;
 }
