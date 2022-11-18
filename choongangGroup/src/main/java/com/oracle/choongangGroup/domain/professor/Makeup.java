@@ -15,7 +15,7 @@ import lombok.Data;
 
 @Entity
 @Data
-@IdClass(Lecture_MemberPK.class)
+@IdClass(LectureMemberPK.class)
 public class Makeup {
 	//날짜?
 //	@Id

@@ -12,7 +12,7 @@ import lombok.Data;
 
 @Entity
 @Data
-public class tuition {
+public class Tuition {
 	@Id
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "userid")

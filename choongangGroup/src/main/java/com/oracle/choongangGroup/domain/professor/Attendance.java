@@ -14,7 +14,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@IdClass(Lecture_MemberPK.class)
+@IdClass(LectureMemberPK.class)
 public class Attendance {
 	@Id
 	@Column(name = "att_date")

@@ -6,13 +6,14 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@AllArgsConstructor
 @Getter
+@Setter
+@AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
-public class Mem_Id_Cal_GroupPK implements Serializable {
-	private Long CalenderGroup;
-	private String Member;
-	
+public class CategoryPK implements Serializable {
+	private int bigCategory;
+	private int smallCategory;
 }

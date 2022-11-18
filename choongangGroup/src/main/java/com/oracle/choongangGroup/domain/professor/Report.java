@@ -11,7 +11,7 @@ import java.lang.reflect.Member;
 @Entity
 @Data
 @Table(name = "report")
-@IdClass(Lecture_MemberPK.class)
+@IdClass(LectureMemberPK.class)
 public class Report {
 
     @Id

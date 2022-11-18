@@ -14,7 +14,8 @@ import lombok.Data;
 @Data
 @Entity
 @IdClass(ApplicationLecturePK.class)
-public class Application {
+public class ShoppingLike {
+	
 	@Id
 	@ManyToOne
 	@JoinColumn(name = "lec_id")
@@ -23,7 +24,8 @@ public class Application {
 	@ManyToOne
 	@JoinColumn(name = "userid")
 	private Member member;
-	private String regiser_start;
-	private String register_end;
-
+	//private int lec_id;
+	//private String mem_userid;
+	private String like_start;
+	private String like_end;
 }

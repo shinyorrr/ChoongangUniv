@@ -8,7 +8,7 @@ import java.lang.reflect.Member;
 
 @Entity
 @Data
-@IdClass(Lecture_MemberPK.class)
+@IdClass(LectureMemberPK.class)
 public class Score {
 
     @Id
