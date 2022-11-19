@@ -17,6 +17,7 @@ public class DeptService {
 
 	public List<Dept> deptList() {
 		List<Dept> deptList = deptRepository.findAll();
+		System.out.println(deptList.size());
 		return deptList;
 	}
 	
