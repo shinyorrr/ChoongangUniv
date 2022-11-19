@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ include file="header.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -133,8 +134,23 @@
 						<i class="bi bi-bookmark-fill me-2"></i>부서등록 </div>
 					<!----- card content 내용 ------>
 					<div class="col-12 rounded-bottom overflow-auto bg-light p-5" style="min-height: 550px;">
-						
-						
+						<table class="table table-striped table-hover">	
+						<thead class = "table-dark">
+							<tr>
+								<th scope = "col">부서코드</th>
+								<th scope = "col">부서명</th>
+								<th scope = "col">수정/삭제</th>
+							<tr>
+						</tr>
+						</thead>
+						<tbody>
+							<c:forEach var="dept" items="${ deptList}">
+								<tr><td>${dept.deptno }</td>
+									<td>${dept.dname }</td>
+								</tr>
+							</c:forEach>
+						</tbody>
+						</table>
 
 					</div>
 					

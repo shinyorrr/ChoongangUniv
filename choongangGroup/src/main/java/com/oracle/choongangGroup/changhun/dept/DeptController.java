@@ -3,6 +3,7 @@ package com.oracle.choongangGroup.changhun.dept;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,11 +22,11 @@ public class DeptController {
 	@RequestMapping(value = "deptForm")
 	public String DeptForm(Model model) {
 		
-		List<Dept> deptList = deptRepository.findAll();
+		List<Dept> deptList = deptRepository.findAll(Sort.by(Sort.Direction.ASC ,"deptno"));
 		System.out.println("deptlist size -> " + deptList.size());
 		model.addAttribute("deptList",deptList);
 		
-		return "deptForm";
+		return "/manager/deptForm";
 	}
 	
 }
