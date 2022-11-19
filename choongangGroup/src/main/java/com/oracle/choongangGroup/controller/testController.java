@@ -17,6 +17,6 @@ public class testController {
 
     @RequestMapping(value = "/content")
     public String test() {
-        return "views/content";
+        return "content";
     }
 }

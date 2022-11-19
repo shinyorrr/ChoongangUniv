@@ -2,8 +2,10 @@ server:
   port : 8399
 
 # Oracle Connect
-spring:
-
+spring: 
+  devtools: 
+    livereload:
+      enabled: true
   # File Size
   servlet:
     multipart:
