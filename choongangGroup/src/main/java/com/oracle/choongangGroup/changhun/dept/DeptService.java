@@ -14,11 +14,5 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 public class DeptService {
 	private final DeptRepository deptRepository;
-
-	public List<Dept> deptList() {
-		List<Dept> deptList = deptRepository.findAll();
-		System.out.println(deptList.size());
-		return deptList;
-	}
 	
 }
