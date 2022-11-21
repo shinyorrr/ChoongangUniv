@@ -249,7 +249,7 @@
 							  <option value="code"  selected="selected">코드조회</option>
 							  <option value="codeName">부서이름조회</option>
 							</select>		
-						</div>				
+						</div>		 		
 						<div class = "col-4"  style="margin-bottom: 20px">
 							<input  type = "text"  name = "search" class="form-control" placeholder="search">
 						</div>
