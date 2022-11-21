@@ -13,6 +13,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Transactional
 public class DeptService {
-	private final DeptRepository deptRepository;
 	
+	private final DeptRepository deptRepository;
 }
