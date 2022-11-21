@@ -24,5 +24,11 @@ public class DeptRestCotroller {
 		
 		return result;
 	}
+	
+	@RequestMapping(value = "deptUpdate")
+	public String deptUpdate(Dept dept) {
+		dp.save(dept);
+		return null;
+	}
 
 }

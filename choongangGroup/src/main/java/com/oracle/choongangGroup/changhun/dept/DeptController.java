@@ -1,22 +1,21 @@
 package com.oracle.choongangGroup.changhun.dept;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.oracle.choongangGroup.changhun.JPA.Dept;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class DeptController {
 	
 	private final DeptService deptService;
@@ -39,6 +38,25 @@ public class DeptController {
 		System.out.println(data);
 		
 		return "redirect:/deptForm";
+	}
+	
+	@RequestMapping(value = "searchDept")
+	public String searchDept(Model model, @RequestParam(value = "searchGubun")String searchGubun,
+										  @RequestParam(value = "search") String search) 
+	{
+		log.info("searchDept param searchGubun -> {}" , searchGubun);
+		
+		List<Dept> searchDeptList = deptService.searchDept(search, searchGubun);
+		
+		String msg = "";
+		if(searchDeptList == null) {
+			msg += "다시 입력해주세요";
+		}
+		
+		model.addAttribute("msg", msg);
+		model.addAttribute("deptList", searchDeptList);
+		
+		return "/manager/deptForm";
 	}
 	
 	
