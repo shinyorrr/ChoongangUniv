@@ -6,6 +6,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.sun.istack.NotNull;
+
 import lombok.Data;
 
 @Data
@@ -40,7 +42,7 @@ public class Member {
 	private Dept deptno;
 	
 	@Column(name = "mem_role")
-	private int    memRole;
+	private String memRole;
 	
 	@Column(name = "mem_right")
 	private String memRight;
