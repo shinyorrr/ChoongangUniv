@@ -1,10 +1,11 @@
 package com.oracle.choongangGroup.hj.dao;
 
+import java.util.HashMap;
+
 import org.apache.ibatis.session.SqlSession;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.oracle.choongangGroup.hj.model.Member;
+import com.oracle.choongangGroup.hj.model.MemberVo;
 
 import lombok.RequiredArgsConstructor;
 
@@ -13,21 +14,23 @@ import lombok.RequiredArgsConstructor;
 public class MemberDaoImpl implements MemberDao {
 
 	
-	private SqlSession Session;
+	private final SqlSession session;
 
+	//아이디 받아와서 학적 조회 
 	@Override
-	public Member detailList(String mem_userid) {
+	public MemberVo detailList(String userid) {
 		System.out.println("MemberDaoImpl detailEmp start. . . ");
 		
-		Member member = new Member();
+		MemberVo member = new MemberVo();
+		
 		
 		try {
-			
-	  
+			member = session.selectOne("hjMemberSelOne", userid);
+			System.out.println("EmpDaoImpl MemberDaoImpl name-> "+member.getName());
 			
 			
 		} catch (Exception e) {
-			// TODO: handle exception
+			System.out.println("MemberDaoImpl detailList Exception-> "+e.getMessage());
 		}
 		
 		
@@ -38,6 +41,29 @@ public class MemberDaoImpl implements MemberDao {
 		
 		
 		
+	}
+
+		//학적수정 
+	@Override
+	public int updateMember(MemberVo member) {
+		System.out.println("MemberDaoImpl updateEmp start. . . ");
+		int updateCount = 0;
+		
+		
+		try {
+			
+			updateCount=session.update("hjMemberUpdate" ,member);
+			System.out.println("MemberDaoImpl updateMember getEname-> "+member.getName());  
+			
+			
+		} catch (Exception e) {
+			System.out.println("MemberDaoImpl updateMember Exception-> "+e.getMessage());
+		}
+		
+		
+		
+		
+		return updateCount;
 	}
 	
 }

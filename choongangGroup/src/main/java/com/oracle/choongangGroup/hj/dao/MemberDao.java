@@ -1,10 +1,13 @@
 package com.oracle.choongangGroup.hj.dao;
 
-import com.oracle.choongangGroup.hj.model.Member;
+import com.oracle.choongangGroup.hj.model.MemberVo;
 
 public interface MemberDao {
 
-	Member detailList(String mem_userid);
+	//아이디 받아와서 학적 조회 
+	MemberVo detailList(String userid);
+
+	int updateMember(MemberVo member);
   
 	
 	

@@ -4,7 +4,7 @@
 <configuration>
 	<typeAliases>
 	   
-	  	<typeAlias  alias="Member"  type="com.oracle.choongangGroup.hj.model.Member"/> 
+	  	<typeAlias  alias="MemberVo"  type="com.oracle.choongangGroup.hj.model.MemberVo"/> 
 	   
 	</typeAliases>
 
