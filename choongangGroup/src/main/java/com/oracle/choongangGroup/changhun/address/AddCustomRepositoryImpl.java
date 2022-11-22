@@ -46,7 +46,7 @@ public class AddCustomRepositoryImpl implements AddCustomRepository {
 	@Override
 	public List<PhoneLike> likeAddress(String userid) {
 		
-		String query = "select p from PhoneLike p where userid = :userid";
+		String query = "select p from PhoneLike p where my_userid = :userid";
 		
 		List<PhoneLike> likeList = em.createQuery(query,PhoneLike.class)
 									.setParameter("userid", userid)

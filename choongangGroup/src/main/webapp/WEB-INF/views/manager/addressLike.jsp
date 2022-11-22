@@ -154,7 +154,7 @@
 							  	<c:forEach var="like" items="${likeList}" varStatus="status">
 							  	<tr>
 							  		<td><input type="text" name ="userid" id = "user${status.index}" value="${like.userid}" hidden="true">
-							  			${like.memFavorite }</td>
+							  			${like.member.name }</td>
 							  		<td>${like.member.dept.dname}</td>
 							  		<td>${like.member.phone}</td>
 							  		<td>

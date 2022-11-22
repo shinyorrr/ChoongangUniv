@@ -30,7 +30,7 @@ public class AddRestController {
 //		(String)session.getAttribute("userid"); 
 		
 		try {
-			addressService.phoneLikeSave(Myuserid,userid);			
+			addressService.phoneLikeSave(userid,Myuserid);			
 		} catch (Exception e) {
 			msg = "이미 등록된 주소록입니다!";
 		}

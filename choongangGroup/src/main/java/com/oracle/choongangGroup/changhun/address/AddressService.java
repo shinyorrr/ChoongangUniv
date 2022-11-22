@@ -28,9 +28,13 @@ public class AddressService {
 	}
 
   
-	public void phoneLikeSave(String myuserid, String userid) {
+	public void phoneLikeSave(String userid, String myuserid) {
 
-		Member member = addCustomRepository.findByOne(myuserid);
+		log.info("userid -> {} ",userid);
+		
+		Member member = addCustomRepository.findByOne(userid);
+		
+		log.info("member--> {}", member.getUserid());
 		
 		log.info("phoneLikeSave myuserid --> {}", myuserid);
 		

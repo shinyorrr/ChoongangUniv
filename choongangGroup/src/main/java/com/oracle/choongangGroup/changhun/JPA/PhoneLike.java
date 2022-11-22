@@ -25,12 +25,12 @@ import lombok.Setter;
 public class PhoneLike{
 	
 	@Id
-	private String userid;
-	
+	@Column(name = "my_userid")
+	private String myUserid;
 	
 	@Id
-	@Column(name = "mem_favorite")
-	private String memFavorite;
+	private String userid;
+	
 	
 	@ManyToOne(fetch = FetchType.LAZY,
 			cascade = CascadeType.ALL)
@@ -40,9 +40,9 @@ public class PhoneLike{
 	public static PhoneLike createLike(String userid ,Member member) {
 		
 		PhoneLike phoneLike = new PhoneLike();
-		phoneLike.setUserid(userid);
+		phoneLike.setMyUserid(userid);
 		phoneLike.setMember(member);
-		phoneLike.setMemFavorite(member.getUserid());
+		phoneLike.setUserid(member.getUserid());
 		
 		return phoneLike;
 	}
