@@ -13,6 +13,13 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Transactional
 public class DeptService {
-	private final DeptRepository deptRepository;
 	
+	private final DeptRepository deptRepository;
+
+	public List<Dept> searchDept(String search, String searchGubun) {
+		
+		List<Dept> searchDeptList = deptRepository.searchDept(search, searchGubun);
+		
+		return searchDeptList;
+	}
 }
