@@ -19,8 +19,8 @@ public class Dept {
 	private String dname;
 	
 	@Column(name = "up_deptno")
-	private int upDeptno;
+	private Long upDeptno;
 	
-	@OneToMany(mappedBy = "deptno")
+	@OneToMany(mappedBy = "dept")
 	private List<Member> members = new ArrayList<>();
 }
