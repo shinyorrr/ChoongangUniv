@@ -19,6 +19,7 @@ repositories {
 }
 
 dependencies {
+
    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
    implementation 'org.springframework.boot:spring-boot-starter-mail'
@@ -36,6 +37,7 @@ dependencies {
    annotationProcessor 'org.projectlombok:lombok'
    testImplementation 'org.springframework.boot:spring-boot-starter-test'
    implementation group: 'org.javassist', name: 'javassist', version: '3.15.0-GA'
+	
 
 }
 
