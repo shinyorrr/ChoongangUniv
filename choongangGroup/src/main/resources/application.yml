@@ -30,7 +30,14 @@ spring:
   mvc:
     view:
       prefix: /WEB-INF/views/
-      suffix: .jsp    
+      suffix: .jsp
+  
+  #jsp Devtools
+  spring: 
+    devtools:
+      livereload:
+        enbled: true
+  
   
   # gmail Transfer 
   mail:

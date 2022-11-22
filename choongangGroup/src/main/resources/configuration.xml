@@ -4,6 +4,8 @@
 <configuration>
 	<typeAliases>
 	   
+	  	<typeAlias  alias="Member"  type="com.oracle.choongangGroup.hj.model.Member"/> 
+	   
 	</typeAliases>
 
 
