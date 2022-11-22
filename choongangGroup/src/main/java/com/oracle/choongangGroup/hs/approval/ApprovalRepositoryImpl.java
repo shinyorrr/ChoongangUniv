@@ -1,4 +1,4 @@
-package com.oracle.choongangGroup.hs.repository;
+package com.oracle.choongangGroup.hs.approval;
 
 import javax.persistence.EntityManager;
 
