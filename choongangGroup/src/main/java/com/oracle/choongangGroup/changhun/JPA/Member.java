@@ -40,7 +40,7 @@ public class Member {
 	private Dept deptno;
 	
 	@Column(name = "mem_role")
-	private int    memRole;
+	private String memRole;
 	
 	@Column(name = "mem_right")
 	private String memRight;
