@@ -2,6 +2,7 @@ package com.oracle.choongangGroup.changhun.JPA;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -9,10 +10,13 @@ import javax.persistence.ManyToOne;
 import com.sun.istack.NotNull;
 
 import lombok.Data;
+import lombok.ToString;
 
 @Data
 @Entity
+@ToString
 public class Member {
+	
 	@Id
 	private String userid;
 	private String name;
@@ -29,7 +33,7 @@ public class Member {
 	private String graduate;
 	private String position;
 	private String gender;
-	private int    grade;
+	private Long    grade;
 	private String major;
 	private String admType;
 	private String account;
@@ -38,8 +42,8 @@ public class Member {
 	private String lab;
 	
 	@JoinColumn(name = "deptno")
-	@ManyToOne
-	private Dept deptno;
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Dept dept;
 	
 	@Column(name = "mem_role")
 	private String memRole;
