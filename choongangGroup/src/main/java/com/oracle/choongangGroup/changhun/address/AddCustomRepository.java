@@ -14,4 +14,6 @@ public interface AddCustomRepository {
 
 	Member findByOne(String userid);
 
+	List<PhoneLike> likeAddress(String userid);
+
 }

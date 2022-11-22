@@ -12,10 +12,12 @@ import com.oracle.choongangGroup.changhun.JPA.Member;
 import com.oracle.choongangGroup.changhun.JPA.PhoneLike;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Repository
 @Primary
 @RequiredArgsConstructor
+@Slf4j
 public class AddCustomRepositoryImpl implements AddCustomRepository {
 
 	private final EntityManager em;
@@ -39,6 +41,20 @@ public class AddCustomRepositoryImpl implements AddCustomRepository {
 	@Override
 	public void phoneLikeSave(PhoneLike like) {
 		em.persist(like);
+	}
+
+	@Override
+	public List<PhoneLike> likeAddress(String userid) {
+		
+		String query = "select p from PhoneLike p where userid = :userid";
+		
+		List<PhoneLike> likeList = em.createQuery(query,PhoneLike.class)
+									.setParameter("userid", userid)
+									.getResultList();
+		
+		log.info("likeAddress likeListSize --> {}" , likeList.size());
+		
+		return likeList;
 	}
 
 

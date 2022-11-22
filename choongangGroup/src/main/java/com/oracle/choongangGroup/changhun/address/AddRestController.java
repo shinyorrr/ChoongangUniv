@@ -26,7 +26,7 @@ public class AddRestController {
 		
 		log.info("userid 값은? -> {}",userid);
 		
-		String Myuserid = "12"; 
+		String Myuserid = "18301001"; 
 //		(String)session.getAttribute("userid"); 
 		
 		try {

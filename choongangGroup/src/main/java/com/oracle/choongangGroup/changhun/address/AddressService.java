@@ -30,15 +30,23 @@ public class AddressService {
   
 	public void phoneLikeSave(String myuserid, String userid) {
 
-		Member member = addCustomRepository.findByOne(userid);
+		Member member = addCustomRepository.findByOne(myuserid);
 		
-//		log.info("phoneLikeSave member --> {}", member.getDept());
+		log.info("phoneLikeSave myuserid --> {}", myuserid);
 		
-		PhoneLike like = PhoneLike.createLike(userid, member);
+		PhoneLike like = PhoneLike.createLike(myuserid, member);
 		
 //		log.info("like ==> {}",like);
 		
 		addCustomRepository.phoneLikeSave(like);
+	}
+
+
+	public List<PhoneLike> likeAddress(String userid) {
+		
+		List<PhoneLike> likeAddressList = addCustomRepository.likeAddress(userid);
+		
+		return likeAddressList;
 	}
 
 }

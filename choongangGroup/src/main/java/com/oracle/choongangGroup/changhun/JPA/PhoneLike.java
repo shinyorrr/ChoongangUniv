@@ -27,14 +27,15 @@ public class PhoneLike{
 	@Id
 	private String userid;
 	
-	@ManyToOne(fetch = FetchType.LAZY,
-			   cascade = CascadeType.ALL)
-	@JoinColumn(name = "userid", insertable = false, updatable = false)
-	private Member member;
 	
 	@Id
 	@Column(name = "mem_favorite")
 	private String memFavorite;
+	
+	@ManyToOne(fetch = FetchType.LAZY,
+			cascade = CascadeType.ALL)
+	@JoinColumn(name = "userid", insertable = false, updatable = false)
+	private Member member;
 	
 	public static PhoneLike createLike(String userid ,Member member) {
 		
