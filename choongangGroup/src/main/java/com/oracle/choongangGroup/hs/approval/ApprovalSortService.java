@@ -1,5 +1,5 @@
 package com.oracle.choongangGroup.hs.approval;
 
-public interface ApprovalRepository {
+public interface ApprovalSortService {
 
 }

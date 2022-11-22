@@ -1,16 +1,16 @@
 package com.oracle.choongangGroup.hs.approval;
 
-import javax.persistence.EntityManager;
-
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import lombok.RequiredArgsConstructor;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Repository
-@RequiredArgsConstructor
 @Slf4j
-public class ApprovalRepositoryImpl implements ApprovalRepository {
+@RequiredArgsConstructor
+public class ApprovalSortDaoImpl implements ApprovalSortDao {
 	
-	private final EntityManager em;
+	private final SqlSession session;
 }

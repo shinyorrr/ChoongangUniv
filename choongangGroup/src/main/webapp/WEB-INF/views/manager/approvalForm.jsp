@@ -219,6 +219,8 @@
 							
 								<form action="approvalWrite" name="addFrm" enctype="multipart/form-data" method="post">
 								<!--===================================== 문서선택  ======================================-->
+								<!-- 사용자 아이디값 가져오기 -->
+								<input type="hidden" name="userid" value="${userid}">
 								<div class="ApprListTitle">기본설정</div>
 								<div style="display: inline-block; width: 100%">
 								<div style="float: left; width: 45%">
@@ -229,10 +231,10 @@
 												<div>
 													<select name="approval_sort_no" id="approvalSort" class="form-select" aria-label="Default select example" style="width: 100%;">
 													  <option selected value="">문서 선택</option>
-													  <option value="BUSINESS">출장보고서</option>
-													  <option value="VACATION">연차신청서</option>
-													  <option value="ITEM">비품신청서</option>
-													  <option value="RESIGN">사직서</option>
+													  <option value="1">출장보고서</option>
+													  <option value="2">연차신청서</option>
+													  <option value="3">비품신청서</option>
+													  <option value="4">사직서</option>
 													</select>
 													<input type="hidden" id="selectedSort" name="selectedSort" />
 												</div>

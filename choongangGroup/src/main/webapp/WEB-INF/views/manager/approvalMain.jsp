@@ -158,12 +158,14 @@
                     <!-- card content -->  
                     <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
                         <div id="titleInBox" style="font-weight: bold; font-size: 19px;">전자결재홈
-							 <a id="btnNewAppr" href="approvalForm" class="btn btn-danger pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light">새 결재 진행</a>
+							 <a id="btnNewAppr" href="approvalForm?userid=${userid}" class="btn btn-danger pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light">새 결재 진행</a>
 						</div>
 						<div id="containerBox">
 							<div style="border-top: 1px dashed #c9c9c9; margin-top: 10px;"></div>
+							
+							<!-- =================================결재 대기중 문서================================= -->
 							<div class="#">결재 대기중 문서</div>
-							<div class="btnProcess">승인 해야할 문서가 3건 있습니다.</div>
+							<div class="btnProcess">승인 해야할 문서가 ${waitTotal}건 있습니다.</div>
 							<table class="table table-hover" style="font-size: 14px; text-align: center;">
 								<thead>
 									<tr>
@@ -172,15 +174,42 @@
 										<th>결재양식</th>
 										<th style="width: 57%;">제목</th>
 										<th>첨부</th>
+										<th>결재상태</th>
 									</tr>
 								</thead>
 								<tbody>
-					
+									<c:forEach var="wait" items="${waitList}">
+										<tr>
+											<td>${wait.approval_no}</td>
+											<td>${wait.writeday}</td>
+											<td>${wait.approval_sort_no}</td>
+											<td>${wait.title}</td>
+											<c:if test="${wait.file_path ne null }">
+												<td><i class="bi bi-file-earmark"></i></td>
+											</c:if>
+											<c:if test="${wait.file_path eq null }">
+												<td>&nbsp;</td>
+											</c:if>
+											<c:if test="${wait.approval_status eq 0}">
+												<td>대기중<td>
+											</c:if>
+											<c:if test="${wait.approval_status eq 1}">
+												<td>심사중<td>
+											</c:if>
+											<c:if test="${wait.approval_status eq 2}">
+												<td>반려<td>
+											</c:if>
+											<c:if test="${wait.approval_status eq 3}">
+												<td>승인<td>
+											</c:if>
+										</tr>
+									</c:forEach>
 								</tbody>
 							</table>
 					
 							<div style="border-top: 1px dashed #c9c9c9; margin-top: 50px;"></div>
-					
+						
+							<!-- =================================기안 진행 문서================================= -->
 							<div class="#">기안 진행 문서</div>
 							<table class="table table-hover" style="font-size: 14px; text-align: center;">
 								<thead>
@@ -190,15 +219,42 @@
 										<th>결재양식</th>
 										<th style="width: 57%;">제목</th>
 										<th>첨부</th>
+										<th>결재상태</th>
 									</tr>
 								</thead>
 								<tbody>
-					
+									<c:forEach var="process" items="${processList}">
+										<tr>
+											<td>${process.approval_no}</td>
+											<td>${process.writeday}</td>
+											<td>${process.approval_sort_no}</td>
+											<td>${process.title}</td>
+											<c:if test="${process.file_path ne null }">
+												<td><i class="bi bi-file-earmark"></i></td>
+											</c:if>
+											<c:if test="${process.file_path eq null }">
+												<td>&nbsp;</td>
+											</c:if>
+											<c:if test="${process.approval_status eq 0}">
+												<td>대기중<td>
+											</c:if>
+											<c:if test="${process.approval_status eq 1}">
+												<td>심사중<td>
+											</c:if>
+											<c:if test="${process.approval_status eq 2}">
+												<td>반려<td>
+											</c:if>
+											<c:if test="${process.approval_status eq 3}">
+												<td>승인<td>
+											</c:if>
+										</tr>
+									</c:forEach>
 								</tbody>
 							</table>
 					
 							<div style="border-top: 1px dashed #c9c9c9; margin-top: 50px;"></div>
-					
+							
+							<!-- =================================기안 완료 문서================================= -->
 							<div class="#">기안 완료 문서</div>
 							<table class="table table-hover" style="font-size: 14px; text-align: center;">
 								<thead>
@@ -208,10 +264,36 @@
 										<th>결재양식</th>
 										<th style="width: 57%;">제목</th>
 										<th>첨부</th>
+										<th>결재상태</th>
 									</tr>
 								</thead>
 								<tbody>
-					
+									<c:forEach var="finish" items="${finishList}">
+										<tr>
+											<td>${finish.approval_no}</td>
+											<td>${finish.writeday}</td>
+											<td>${finish.approval_sort_no}</td>
+											<td>${finish.title}</td>
+											<c:if test="${finish.file_path ne null }">
+												<td><i class="bi bi-file-earmark"></i></td>
+											</c:if>
+											<c:if test="${finish.file_path eq null }">
+												<td>&nbsp;</td>
+											</c:if>
+											<c:if test="${finish.approval_status eq 0}">
+												<td>대기중<td>
+											</c:if>
+											<c:if test="${finish.approval_status eq 1}">
+												<td>심사중<td>
+											</c:if>
+											<c:if test="${finish.approval_status eq 2}">
+												<td>반려<td>
+											</c:if>
+											<c:if test="${finish.approval_status eq 3}">
+												<td>승인<td>
+											</c:if>
+										</tr>
+									</c:forEach>
 								</tbody>
 							</table>
 						</div>
