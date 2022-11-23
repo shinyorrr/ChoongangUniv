@@ -28,6 +28,8 @@
 		$('#page-item'+pageResult).addClass(' active');		
 	})
 	
+	
+	/* 삭제기능 구현 */
 	function likeDelete(index){
 		var myuserid = $('#myuser'+index).val();
 		var userid = $('#user'+index).val();
@@ -52,7 +54,7 @@
     <title>즐겨찾기 주소록</title>
 </head>
 
-<body class="" id="body-pd">
+<body class="" id="body-pd" onload="printClock()">
     <!-- header -->
     <!-- <nav class="navbar navbar-expand-lg navbar-dark bd-navbar bg-light sticky-top position-fixed fixed-top w-100" style="position : absolute">
         <a class="navbar-brand">
@@ -145,29 +147,41 @@
             
             
             <!-- content header -->
-            <div class="col-12 pt-4" style="height: 150px; background-color: rgb(95, 142, 241)">
-                <div class="d-flex flex-row mb-3">
-                    <div>
-                        <span class="text-white h4">안녕하세요. <span class="fw-bold">김중앙</span>님!</span>
-                    </div>
-                    <div class="border border-1 border-white border-bottom rounded-pill text-white px-2 pt-1 ms-2 h6">교수</div>
-                    <div>
-                        <i class="text-white bi-gear-fill mx-2"></i>
-                    </div>
-                </div>
+              <div class="col-12 pt-4" style="height: 150px; background-color: rgb(95, 142, 241)">
                 <div class="row">
-                    <div>
-                        <span class="text-white h6">이공대학 컴퓨터공학과 | 정교수</span>
-                    </div>
-                </div>
-                <div class="d-flex flex-low">
-                    <div>
-                        <i class="bi bi-envelope-fill text-white"></i>
-                    </div>
-                    <div>
-                        <span class="text-white ms-3">test123@naver.com</span>
-                    </div>
-                </div>
+                	<div class="col-6">
+		                <div class="d-flex flex-row mb-3">
+		                    <div>
+		                        <span class="text-white h4">안녕하세요. <span class="fw-bold">김중앙</span>님!</span>
+		                    </div>
+		                    <div class="border border-1 border-white border-bottom rounded-pill text-white px-2 pt-1 ms-2 h6">교수</div>
+		                    <div>
+		                        <i class="text-white bi-gear-fill mx-2"></i>
+		                    </div>
+		                </div>
+		                <div class="row">
+		                    <div>
+		                        <span class="text-white h6">이공대학 컴퓨터공학과 | 정교수</span>
+		                    </div>
+		                </div>
+		                <div class="d-flex flex-low">
+		                    <div>
+		                        <i class="bi bi-envelope-fill text-white"></i>
+		                    </div>
+		                    <div>
+		                        <span class="text-white ms-3">test123@naver.com</span>
+		                    </div>
+		                </div>
+		            </div>
+		            <div class="col-4">
+		            	<div style="width: 598px;line-height: 100px;color: white;font-size: 77px;text-align:center;" id="clock">
+						</div>
+		            </div>
+		            <div class="col-1">
+		            	<button type="button" class="btn btn-secondary" style="width: 100px;height: 43px;margin: 5px;" onclick="attInsert()">출근</button>
+		            	<button type="button" class="btn btn-secondary" style="width: 100px;height: 43px;margin: 5px;" onclick="attOff()">퇴근</button>
+		            </div>
+	           </div>
                 
             </div>
             <main class="col-9 h-100 w-100">
@@ -207,7 +221,7 @@
                     	<!-- ================= 페이징 작업 ==================  -->
                     	<!-- =============================================  -->
                     <nav aria-label="...">
-					  <ul class="pagination" style="margin-left: 521px;">
+					  <ul class="pagination" style="margin-left: 40%;">
 					  
 					    <li class="page-item">
 					      <c:if test="${page > 0}">
