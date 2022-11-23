@@ -16,4 +16,6 @@ public interface AddCustomRepository {
 
 	List<PhoneLike> likeAddress(String userid);
 
+	void phoneLikeDelete(String myuserid, String userid);
+
 }

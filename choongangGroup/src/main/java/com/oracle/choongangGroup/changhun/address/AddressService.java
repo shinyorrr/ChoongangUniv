@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 public class AddressService {
-
+	
 	private final AddCustomRepository addCustomRepository;
 	
 	public List<Member> findByAddress() {
@@ -51,6 +51,12 @@ public class AddressService {
 		List<PhoneLike> likeAddressList = addCustomRepository.likeAddress(userid);
 		
 		return likeAddressList;
+	}
+
+
+	public void phoneLikeDelete(String myuserid, String userid) {
+		
+		addCustomRepository.phoneLikeDelete(myuserid, userid);
 	}
 
 }

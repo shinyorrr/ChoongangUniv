@@ -2,12 +2,11 @@ package com.oracle.choongangGroup.changhun.address;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.oracle.choongangGroup.changhun.JPA.Member;
-import com.oracle.choongangGroup.changhun.JPA.PhoneLike;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 public class AddRestController {
 
 	private final AddressService addressService;
+	private final AddressRepository ar;
 	
 	@RequestMapping("phoneLikeSave")
 	public String phoneLikeSave(HttpSession session,
@@ -35,5 +35,12 @@ public class AddRestController {
 			msg = "이미 등록된 주소록입니다!";
 		}
 		return msg;
+	}
+	
+	@RequestMapping("phoneLikeDelete")
+	public String phoneLikeDelete(@RequestParam(value = "myUserid") String myuserid,
+								  @RequestParam(value = "userid") String userid) {
+		addressService.phoneLikeDelete(myuserid,userid);
+	return null;
 	}
 }

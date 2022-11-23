@@ -28,6 +28,26 @@
 		$('#page-item'+pageResult).addClass(' active');		
 	})
 	
+	function likeDelete(index){
+		var myuserid = $('#myuser'+index).val();
+		var userid = $('#user'+index).val();
+		
+		console.log("myuserid -> " + myuserid);
+		console.log("userid -> " + userid);
+		if(confirm("삭제하시겠습니까?")){
+			$.ajax({
+						url 	: "phoneLikeDelete",
+						data	: {myUserid : myuserid, userid : userid },
+						dataType: 'text',
+						success : function(data){
+							$('#deleteLine'+index).remove();
+						} 
+			});
+		}
+		
+	}
+	
+	
 </script>
     <title>즐겨찾기 주소록</title>
 </head>
@@ -163,8 +183,9 @@
 							    <tr><th>이름</th><th>직위</th><th>부서</th><th>연락처</th><th>삭제</th></tr>
 							  </thead>
 							  	<c:forEach var="like" items="${likeList}" varStatus="status">
-							  	<tr>
+							  	<tr id="deleteLine${status.index}">
 							  		<td><input type="text" name ="userid" id = "user${status.index}" value="${like.userid}" hidden="true">
+							  			<input type="text" name ="myuserid" id = "myuser${status.index}" value="${like.myUserid}" hidden="true" >
 							  			${like.member.name }</td>
 							  		<c:if test="${like.member.dept.upDeptno == 100}">
 								  		<td>교직원</td>							  		
@@ -175,7 +196,7 @@
 							  		<td>${like.member.dept.dname}</td>
 							  		<td>${like.member.phone}</td>
 							  		<td>
-							  			<button type="button" class="btn btn-outline-danger" onclick="">삭제</button>
+							  			<button type="button" class="btn btn-outline-danger" onclick="likeDelete(${status.index})">삭제</button>
 							  		</td>
 							  	</tr>	
 							  	</c:forEach>

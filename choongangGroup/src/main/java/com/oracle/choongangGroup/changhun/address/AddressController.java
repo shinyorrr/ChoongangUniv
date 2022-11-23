@@ -58,7 +58,7 @@ public class AddressController {
 		
 		String userid = "18301001";
 		
-		Page<PhoneLike> like = addressRepository.findByMyUserid(userid, PageRequest.of(page, 1, Sort.by(Sort.Direction.ASC,"member.name")));
+		Page<PhoneLike> like = addressRepository.findByMyUserid(userid, PageRequest.of(page, 2, Sort.by(Sort.Direction.ASC,"member.name")));
 		
 		int totalPage = like.getTotalPages();
 		
