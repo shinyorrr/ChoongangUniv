@@ -28,6 +28,8 @@
 		$('#page-item'+pageResult).addClass(' active');		
 	})
 	
+	
+	/* 삭제기능 구현 */
 	function likeDelete(index){
 		var myuserid = $('#myuser'+index).val();
 		var userid = $('#user'+index).val();
@@ -207,7 +209,7 @@
                     	<!-- ================= 페이징 작업 ==================  -->
                     	<!-- =============================================  -->
                     <nav aria-label="...">
-					  <ul class="pagination" style="margin-left: 521px;">
+					  <ul class="pagination" style="margin-left: 40%;">
 					  
 					    <li class="page-item">
 					      <c:if test="${page > 0}">

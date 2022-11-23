@@ -25,18 +25,34 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class AddressController {
 	
+	public final MemberRepository memberRepository;
 	public final AddressRepository addressRepository;
 	public final AddressService addressService;
 	
+//	@RequestMapping(value = "/addressForm")
+//	public String addressForm(Model model) {
+//		
+//		List<Member> addressList = addressService.findByAddress();
+//		
+//		
+//		log.info("addressForm addressList.size() -> {}" , addressList.size());
+//		
+//		model.addAttribute("addressList",addressList);
+//		
+//		return "manager/addressForm";
+//	}
+	
 	@RequestMapping(value = "/addressForm")
-	public String addressForm(Model model) {
+	public String addressForm(Model model,
+			 				  @RequestParam(required = false, defaultValue = "0", value="page") int page) {
 		
-		List<Member> addressList = addressService.findByAddress();
+		Page<Member> addressList = memberRepository.findAll(PageRequest.of(page, 10, Sort.by(Sort.Direction.ASC,"name")));
 		
+		int totalPage = addressList.getTotalPages();
 		
-		log.info("addressForm addressList.size() -> {}" , addressList.size());
-		
-		model.addAttribute("addressList",addressList);
+		model.addAttribute("page", page);
+		model.addAttribute("totalPage", totalPage);
+		model.addAttribute("addressList",addressList.getContent());
 		
 		return "manager/addressForm";
 	}

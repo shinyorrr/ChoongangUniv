@@ -22,6 +22,18 @@
 </head>
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
+
+	/* 현재 페이지 표시하기 */
+	const urlParams = new URL(location.href).searchParams;
+	var page = parseInt(urlParams.get('page'));
+	var pageResult = page + 1; 
+	console.log(pageResult);
+	$(document).ready(function(){
+		$('#page-item'+pageResult).addClass(' active');		
+	})
+
+
+	/* 즐겨찾기 추가기능 */
 	function phoneLikeSave(vIndex){
 		var user= $('#user'+vIndex).val();
 		console.log(user);
@@ -184,10 +196,10 @@
 							  	<tr>
 							  		<td><input type="text" name ="userid" id = "user${status.index}" value="${address.userid}" hidden="true">
 							  			${address.name }</td>
-							  		<c:if test="${like.member.dept.upDeptno == 100}">
+							  		<c:if test="${address.dept.upDeptno == 100}">
 								  		<td>교직원</td>							  		
 							  		</c:if>
-							  		<c:if test="${like.member.dept.upDeptno == 200}">
+							  		<c:if test="${address.dept.upDeptno == 200}">
 								  		<td>교수</td>
 								  	</c:if>
 							  		<td>${address.dept.dname}</td>
@@ -200,6 +212,32 @@
 							  <tbody>
 							  </tbody>
                     	</table>
+                    	<nav aria-label="...">
+					  <ul class="pagination" style="margin-left: 40%;">
+					  
+					    <li class="page-item">
+					      <c:if test="${page > 0}">
+						      <a class="page-link" href="addressForm?page=${page-1}">Previous</a>				      
+					      </c:if>
+					      <c:if test= "${page == 0 }">
+					      	  <a class="page-link">Previous</a>
+					      </c:if>
+					    </li>					  
+					
+					  <c:forEach var="i" begin="1" end="${totalPage}">
+					    <li id="page-item${i}" class="page-item" onclick="active(${i})">
+					    <a class="page-link" href="addressForm?page=${i-1 }" >${i }</a></li>
+					  </c:forEach>
+					    <li class="page-item">
+					    	<c:if test="${page < totalPage-1}">
+						      <a class="page-link" href="addressForm?page=${page+1}">Next</a>
+					    	</c:if>
+					      	<c:if test= "${page > totalPage-2}">
+						      <a class="page-link">Next</a>
+					      	</c:if>
+					    </li>
+					  </ul>
+					</nav>
                     </div>
                     <!-- footer -->
                     <footer class="col-12" style="height: 60px;">
