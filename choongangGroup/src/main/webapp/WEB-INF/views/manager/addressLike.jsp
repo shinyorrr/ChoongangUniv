@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="header.jsp"%>
+<%@ include file="header.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,29 +17,40 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <!-- CSS -->
 <link rel="stylesheet" href="/css/styles.css">
-
-    <title>SideBar sub menus</title>
-</head>
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
-	function phoneLikeSave(vIndex){
-		var user= $('#user'+vIndex).val();
-		console.log(user);
-		$.ajax({
-			url 	: '/phoneLikeSave',
-			data	: {userid : user},
-			dataType: 'text',
-			success : function(data){
-				console.log("성공");
-				$('#msg').text(data);
-				 
-			}
-		});
+	/* 현재 페이지 표시하기 */
+	const urlParams = new URL(location.href).searchParams;
+	var page = parseInt(urlParams.get('page'));
+	var pageResult = page + 1; 
+	console.log(pageResult);
+	$(document).ready(function(){
+		$('#page-item'+pageResult).addClass(' active');		
+	})
+	
+	function likeDelete(index){
+		var myuserid = $('#myuser'+index).val();
+		var userid = $('#user'+index).val();
+		
+		console.log("myuserid -> " + myuserid);
+		console.log("userid -> " + userid);
+		if(confirm("삭제하시겠습니까?")){
+			$.ajax({
+						url 	: "phoneLikeDelete",
+						data	: {myUserid : myuserid, userid : userid },
+						dataType: 'text',
+						success : function(data){
+							$('#deleteLine'+index).remove();
+						} 
+			});
+		}
+		
 	}
-
+	
+	
 </script>
-
-
+    <title>즐겨찾기 주소록</title>
+</head>
 
 <body class="" id="body-pd">
     <!-- header -->
@@ -163,44 +174,65 @@
                 <div class="row m-5">
                     <!-- card header -->
                     <div class="col-12 rounded-top text-white overflow-auto pt-2 fw-bold" style="background-color: rgb(39, 40, 70); height: 40px;"> 
-                        <i class="bi bi-bookmark-fill me-2"></i>교직원<i class="bi bi-chevron-right"></i>전체 주소록 조회
+                        <i class="bi bi-bookmark-fill me-2"></i>교직원관리 <i class="bi bi-chevron-right"></i>즐겨찾기 주소록
                     </div>
                     <!-- card content -->  
                     <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
-                    
-                    <!-- 오류 메세지 출력 -->
-                    <span id="msg" style="
-										    font-size: medium;
-										    font-style: italic;
-										    color: red;
-										    margin-left: 992px;
-										"></span>
-					<!-- ============================================== -->
-                    	<table class="table table-hover">
+                        <table class="table table-hover">
                     		 <thead>
-							    <tr><th>이름</th><th>직위</th><th>부서</th><th>연락처</th><th>즐겨찾기</th></tr>
+							    <tr><th>이름</th><th>직위</th><th>부서</th><th>연락처</th><th>삭제</th></tr>
 							  </thead>
-							  	<c:forEach var="address" items="${addressList}" varStatus="status">
-							  	<tr>
-							  		<td><input type="text" name ="userid" id = "user${status.index}" value="${address.userid}" hidden="true">
-							  			${address.name }</td>
+							  	<c:forEach var="like" items="${likeList}" varStatus="status">
+							  	<tr id="deleteLine${status.index}">
+							  		<td><input type="text" name ="userid" id = "user${status.index}" value="${like.userid}" hidden="true">
+							  			<input type="text" name ="myuserid" id = "myuser${status.index}" value="${like.myUserid}" hidden="true" >
+							  			${like.member.name }</td>
 							  		<c:if test="${like.member.dept.upDeptno == 100}">
 								  		<td>교직원</td>							  		
 							  		</c:if>
 							  		<c:if test="${like.member.dept.upDeptno == 200}">
-								  		<td>교수</td>
-								  	</c:if>
-							  		<td>${address.dept.dname}</td>
-							  		<td>${address.phone}</td>
+								  		<td>교수</td>							  		
+							  		</c:if>
+							  		<td>${like.member.dept.dname}</td>
+							  		<td>${like.member.phone}</td>
 							  		<td>
-							  			<button type="button" class="btn btn-outline-danger" onclick="phoneLikeSave(${status.index})">추가</button>
+							  			<button type="button" class="btn btn-outline-danger" onclick="likeDelete(${status.index})">삭제</button>
 							  		</td>
 							  	</tr>	
 							  	</c:forEach>
 							  <tbody>
 							  </tbody>
                     	</table>
-                    </div>
+                    	<!-- =============================================  -->
+                    	<!-- ================= 페이징 작업 ==================  -->
+                    	<!-- =============================================  -->
+                    <nav aria-label="...">
+					  <ul class="pagination" style="margin-left: 521px;">
+					  
+					    <li class="page-item">
+					      <c:if test="${page > 0}">
+						      <a class="page-link" href="myLikeAddress?page=${page-1}">Previous</a>				      
+					      </c:if>
+					      <c:if test= "${page == 0 }">
+					      	  <a class="page-link">Previous</a>
+					      </c:if>
+					    </li>					  
+					
+					  <c:forEach var="i" begin="1" end="${totalPage}">
+					    <li id="page-item${i}" class="page-item" onclick="active(${i})">
+					    <a class="page-link" href="myLikeAddress?page=${i-1 }" >${i }</a></li>
+					  </c:forEach>
+					    <li class="page-item">
+					    	<c:if test="${page < totalPage-1}">
+						      <a class="page-link" href="myLikeAddress?page=${page+1}">Next</a>
+					    	</c:if>
+					      	<c:if test= "${page > totalPage-2}">
+						      <a class="page-link">Next</a>
+					      	</c:if>
+					    </li>
+					  </ul>
+					</nav>
+					</div>
                     <!-- footer -->
                     <footer class="col-12" style="height: 60px;">
                         footer

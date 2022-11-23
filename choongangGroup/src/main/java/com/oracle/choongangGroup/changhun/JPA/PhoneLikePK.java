@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode
 public class PhoneLikePK implements Serializable {
 	
+	private String myUserid;
 	private String userid;
-	private String memFavorite;
 	
 }
