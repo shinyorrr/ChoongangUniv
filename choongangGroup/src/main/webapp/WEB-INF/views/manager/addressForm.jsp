@@ -234,7 +234,7 @@
 							  		<td>${address.dept.dname}</td>
 							  		<td>${address.phone}</td>
 							  		<td>
-							  			<button type="button" class="btn btn-outline-danger" onclick="phoneLikeSave(${status.index})">추가</button>
+							  			<button type="button" class="btn btn-outline-danger" onclick="phoneLikeSave(${status.index})">+</button>
 							  		</td>
 							  	</tr>	
 							  	</c:forEach>
