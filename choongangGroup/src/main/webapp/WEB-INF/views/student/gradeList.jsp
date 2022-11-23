@@ -264,11 +264,11 @@
 							<c:forEach var="grade" items="${grades }" >
 							<tr>
 							
-								<th >${grade.subjectGubun} </th>
+								<th >${grade.type} </th>
 								<th >${grade.name} </th>
 								<th >${grade.id}</th>
 								<th >${grade.unitScore}</th>
-								<th >${grade.unitScore}</th>
+								<th > </th>
 							<tr>
 						
 						 </c:forEach>

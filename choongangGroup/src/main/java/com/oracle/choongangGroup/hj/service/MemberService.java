@@ -14,10 +14,17 @@ public interface MemberService {
 
 	//학적수정
 	int updateMember(MemberVo member );
-
+ 
+	//성적조회페이지
 	GradeVo gradeList(String userid);
 
+	//성적조회 할 과목 조회 jpa 
+
 	List<Lecture> findgrades();
+
+	List<GradeVo> listScore(GradeVo grade);
+
+
 		
 	}
 
