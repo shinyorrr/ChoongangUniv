@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
 
 <configuration>
 	<typeAliases>
 	   
+	  	<typeAlias  alias="MemberVo"  type="com.oracle.choongangGroup.hj.model.MemberVo"/> 
+	  	<typeAlias  alias="GradeVo"  type="com.oracle.choongangGroup.hj.model.GradeVo"/> 
+
 	   
 	   
 	   <typeAlias alias="Approval" 	   type="com.oracle.choongangGroup.hs.approval.Approval"/>
 	   <typeAlias alias="ApprovalSort" type="com.oracle.choongangGroup.hs.approval.ApprovalSort"/>
+
 	</typeAliases>
 
 

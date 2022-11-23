@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 public class DeptController {
 	
 	private final DeptService deptService;
-	private final DeptRepository deptRepository;
+	private final DeptRepository deptRepository ;
 	
 	@RequestMapping(value = "deptForm")
 	public String DeptForm(Model model) {
