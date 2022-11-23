@@ -44,7 +44,7 @@ public class MemberServiceImpl implements MemberService {
 		return updateMember;
 	}
 
-	//아이디 받아와서 성적 조회
+	//아이디 받아와서 성적 조회 페이지
 	@Override
 	public GradeVo gradeList(String userid) {
 		System.out.println("MemberServiceImpl gradeList start. . . ");
@@ -55,11 +55,12 @@ public class MemberServiceImpl implements MemberService {
 		return grade;
 	}
 
+	//성적조회 할 과목 조회 jpa 
 	@Override
 	public List<Lecture> findgrades() {
 	
 		List<Lecture> findgradeList = gr.findAll();
-		System.out.println("OrderRepository findorderList.size()->"+findgradeList.size());
+		System.out.println("MemberServiceImpl findorderList.size()->"+findgradeList.size());
 
 		
 		
@@ -67,6 +68,19 @@ public class MemberServiceImpl implements MemberService {
 		
 	
 	}
+
+	@Override
+	public List<GradeVo> listScore(GradeVo grade) {
+		 List<GradeVo> ListScore =  null;
+		 System.out.println(" MemberServiceImpl listScore Start . . . ");
+		 ListScore = gd.listScore(grade);
+		 System.out.println("EmpServiceImpl listScore empList.size()->"+ListScore.size() );
+		
+		
+		return ListScore;
+	}
+
+	
 
 
 	
