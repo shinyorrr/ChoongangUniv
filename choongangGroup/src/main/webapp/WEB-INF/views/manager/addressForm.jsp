@@ -48,12 +48,46 @@
 			}
 		});
 	}
+	
+	function printClock() {
+	    
+	    var clock = document.getElementById("clock");            // 출력할 장소 선택
+	    var currentDate = new Date();                                     // 현재시간
+	    var calendar = currentDate.getFullYear() + "-" + (currentDate.getMonth()+1) + "-" + currentDate.getDate() // 현재 날짜
+	    var amPm = 'AM'; // 초기값 AM
+	    var currentHours = addZeros(currentDate.getHours(),2); 
+	    var currentMinute = addZeros(currentDate.getMinutes() ,2);
+	    var currentSeconds =  addZeros(currentDate.getSeconds(),2);
+	    
+	    if(currentHours >= 12){ // 시간이 12보다 클 때 PM으로 세팅, 12를 빼줌
+	    	amPm = 'PM';
+	    	currentHours = addZeros(currentHours - 12,2);
+	    }
+
+	    if(currentSeconds >= 50){// 50초 이상일 때 색을 변환해 준다.
+	       currentSeconds = '<span style="color:#de1951;">'+currentSeconds+'</span>'
+	    }
+	    clock.innerHTML = currentHours+":"+currentMinute+":"+currentSeconds +" <span style='font-size:50px;'>"+ amPm+"</span>"; //날짜를 출력해 줌
+	    
+	    setTimeout("printClock()",1000);         // 1초마다 printClock() 함수 호출
+	}
+
+	function addZeros(num, digit) { // 자릿수 맞춰주기
+		  var zero = '';
+		  num = num.toString();
+		  if (num.length < digit) {
+		    for (i = 0; i < digit - num.length; i++) {
+		      zero += '0';
+		    }
+		  }
+		  return zero + num;
+	}
 
 </script>
 
 
 
-<body class="" id="body-pd">
+<body class="" id="body-pd" onload="printClock()">
     <!-- header -->
     <!-- <nav class="navbar navbar-expand-lg navbar-dark bd-navbar bg-light sticky-top position-fixed fixed-top w-100" style="position : absolute">
         <a class="navbar-brand">
@@ -143,32 +177,41 @@
     <!-- main content -->
     <div class="container-fluid w-100" style=" background-color: rgb(214, 225, 237)">
         <div class="row">
+        
             
             
             <!-- content header -->
             <div class="col-12 pt-4" style="height: 150px; background-color: rgb(95, 142, 241)">
-                <div class="d-flex flex-row mb-3">
-                    <div>
-                        <span class="text-white h4">안녕하세요. <span class="fw-bold">김중앙</span>님!</span>
-                    </div>
-                    <div class="border border-1 border-white border-bottom rounded-pill text-white px-2 pt-1 ms-2 h6">교수</div>
-                    <div>
-                        <i class="text-white bi-gear-fill mx-2"></i>
-                    </div>
-                </div>
                 <div class="row">
-                    <div>
-                        <span class="text-white h6">이공대학 컴퓨터공학과 | 정교수</span>
-                    </div>
-                </div>
-                <div class="d-flex flex-low">
-                    <div>
-                        <i class="bi bi-envelope-fill text-white"></i>
-                    </div>
-                    <div>
-                        <span class="text-white ms-3">test123@naver.com</span>
-                    </div>
-                </div>
+                	<div class="col">
+		                <div class="d-flex flex-row mb-3">
+		                    <div>
+		                        <span class="text-white h4">안녕하세요. <span class="fw-bold">김중앙</span>님!</span>
+		                    </div>
+		                    <div class="border border-1 border-white border-bottom rounded-pill text-white px-2 pt-1 ms-2 h6">교수</div>
+		                    <div>
+		                        <i class="text-white bi-gear-fill mx-2"></i>
+		                    </div>
+		                </div>
+		                <div class="row">
+		                    <div>
+		                        <span class="text-white h6">이공대학 컴퓨터공학과 | 정교수</span>
+		                    </div>
+		                </div>
+		                <div class="d-flex flex-low">
+		                    <div>
+		                        <i class="bi bi-envelope-fill text-white"></i>
+		                    </div>
+		                    <div>
+		                        <span class="text-white ms-3">test123@naver.com</span>
+		                    </div>
+		                </div>
+		            </div>
+		            <div class="col">
+		            	<div style="width: 598px;line-height: 100px;color: wheat;font-size: 77px;text-align:center;" id="clock">
+						</div>
+		            </div>
+	           </div>
                 
             </div>
             <main class="col-9 h-100 w-100">
@@ -188,6 +231,15 @@
 										    margin-left: 992px;
 										"></span>
 					<!-- ============================================== -->
+					<!-- <form action="searchAddress" method="post">
+					<div class = "row">
+						<div class = "col-6"></div>
+						<div class = "col-1"></div>		 		
+						<div class = "col-4"  style="margin-bottom: 20px">
+							<input  type = "text"  name = "search" class="form-control" placeholder="search">
+						</div>
+					</div> -->
+					</form>
                     	<table class="table table-hover">
                     		 <thead>
 							    <tr><th>이름</th><th>직위</th><th>부서</th><th>연락처</th><th>즐겨찾기</th></tr>
@@ -197,10 +249,10 @@
 							  		<td><input type="text" name ="userid" id = "user${status.index}" value="${address.userid}" hidden="true">
 							  			${address.name }</td>
 							  		<c:if test="${address.dept.upDeptno == 100}">
-								  		<td>교직원</td>							  		
+								  		<td>교수</td>							  		
 							  		</c:if>
 							  		<c:if test="${address.dept.upDeptno == 200}">
-								  		<td>교수</td>
+								  		<td>교직원</td>
 								  	</c:if>
 							  		<td>${address.dept.dname}</td>
 							  		<td>${address.phone}</td>

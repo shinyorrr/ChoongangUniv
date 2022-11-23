@@ -264,7 +264,13 @@
 						<div class = "col-4"  style="margin-bottom: 20px">
 							<input  type = "text"  name = "search" class="form-control" placeholder="search">
 						</div>
-					<span id = error>${msg }</span>
+						<!-- 오류메시지 출력 -->
+					<span id = error 
+					 style="
+					    font-size: medium;
+					    font-style: italic;
+					    color: red;
+					    margin-left: 500px;">${msg }</span>
 					</div>
 						</form> 
 						<table class="table table-striped table-hover" style = "width : 700px">	
