@@ -1,6 +1,11 @@
 package com.oracle.choongangGroup.hj.controller;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
+
+
+
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,9 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.oracle.choongangGroup.hj.model.GradeVo;
 import com.oracle.choongangGroup.hj.model.MemberVo;
 import com.oracle.choongangGroup.hj.service.MemberService;
+import com.oracle.choongangGroup.sh.domain.Lecture;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
 
 @Slf4j
 @Controller
@@ -81,8 +88,20 @@ public class MemberController {
 		return "student/gradeListForm";
 	}
 	
-	//학기별 성적조회
-	
+	/*
+	 * //학기별 성적조회
+	 * 
+	 * @GetMapping(value = "/grades") public String gradeList(String userid, Model
+	 * model) { System.out.println("MemberController gradeList . . . ");
+	 * 
+	 * List<Lecture> grades = MemberService.findgrades();
+	 * model.addAttribute(attributeValue)
+	 * 
+	 * 
+	 * return "student/gradeList";
+	 * 
+	 * }
+	 */
 	
 	
 	
