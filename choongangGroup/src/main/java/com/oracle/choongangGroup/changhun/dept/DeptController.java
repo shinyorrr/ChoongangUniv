@@ -2,7 +2,10 @@ package com.oracle.choongangGroup.changhun.dept;
 
 import java.util.List;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,12 +22,14 @@ import lombok.extern.slf4j.Slf4j;
 public class DeptController {
 	
 	private final DeptService deptService;
-	private final DeptRepository deptRepository;
+	private final DeptRepository deptRepository ;
 	
 	@RequestMapping(value = "deptForm")
 	public String DeptForm(Model model) {
-		
 		List<Dept> deptList = deptRepository.findAll(Sort.by(Sort.Direction.ASC ,"deptno"));
+//		PageRequest pageRequest = PageRequest.of(0, 5);
+//		@SuppressWarnings("unchecked")
+//		List<Dept> deptList = deptRepository.findAll(pageable);
 		System.out.println("deptlist size -> " + deptList.size());
 		model.addAttribute("deptList",deptList);
 		return "/manager/deptForm";
@@ -58,6 +63,10 @@ public class DeptController {
 		
 		return "/manager/deptForm";
 	}
+	
+
+	
+	
 	
 	
 }

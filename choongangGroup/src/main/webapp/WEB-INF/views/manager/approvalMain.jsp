@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="header.jsp"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,69 +17,18 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <!-- CSS -->
 <link rel="stylesheet" href="/css/styles.css">
-
-    <title>SideBar sub menus</title>
-    <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
-	<script type="text/javascript">
-	function deptDelete(index){
-		console.log(index);
-		var vdeptno = $("#deptno"+index).text();
-		if(confirm("삭제하시겠습니까?") == true){
-			$.ajax({
-				url 	: "/deptDelete",
-				data	: {deptno : vdeptno},
-				dataType: 'text',
-				success	: function(data){
-						$('#deptNum'+index).remove();
-				}
-			});
-		} else{
-			return false;
-		}
+<title>전자결재홈</title>
+<style type="text/css">
+	#btnNewAppr {
+		background-color: #0c5df4;
+		border : 0;
 	}
 	
-	function updateForm(vIndex){
-		console.log(vIndex);
-		$("#deptnoSpan"+vIndex).text(" ");
-		$("#dnameSpan"+vIndex).text(" ");
-		$('#deptnoInput'+vIndex).show();
-		$('#dnameInput'+vIndex).show();
-		$('#afterUpdate'+vIndex).show();
-		$('#beforeUpdate'+vIndex).hide();
+	.btnProcess {
+		font-size: 12px;
+		color: #7F7F7F;
 	}
-	
-	function updateDept(vIndex){
-		var vdeptno  = $("#deptnoInput"+vIndex).val();
-		var vdname 	 = $("#dnameInput"+vIndex).val();
-		var vupDeptno= $('#upDeptno'+vIndex).val();
-	
-		console.log("vdeptno--> " + vdeptno);
-		
-		$.ajax({
-			url 	: "/deptUpdate",
-			data	: {deptno : vdeptno , dname : vdname , upDeptno : vupDeptno},
-			dataType: 'text',
-			success : function(data){
-				$('#deptnoSpan'+vIndex).text(vdeptno);
-				$('#dnameSpan'+vIndex).text(vdname);
-			},
-		});
-		$('#deptnoInput'+vIndex).hide();
-		$('#dnameInput'+vIndex).hide();
-		$('#afterUpdate'+vIndex).hide();
-		$('#beforeUpdate'+vIndex).show();
-	}
-	
-	
-		/* $(document).ready(function(){
-			$('#insert').on('click',function(){
-				$.ajax({
-					url : ""
-				})
-			})
-		}) */
-	</script>
-    
+</style>
 </head>
 
 <body class="" id="body-pd">
@@ -204,112 +153,159 @@
                 <div class="row m-5">
                     <!-- card header -->
                     <div class="col-12 rounded-top text-white overflow-auto pt-2 fw-bold" style="background-color: rgb(39, 40, 70); height: 40px;"> 
-                        <i class="bi bi-bookmark-fill me-2"></i>교수서비스 <i class="bi bi-chevron-right"></i>학사관리 <i class="bi bi-chevron-right"></i>강의 시간표 조회
+                        <i class="bi bi-bookmark-fill me-2"></i>전자결재 
                     </div>
                     <!-- card content -->  
                     <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
-                        <!---------------------------------------------------------------->
-									<!-- 부서등록 -->
-					<!---------------------------------------------------------------->
-					<div class="border border-2" style="padding: 20px;width: 900px;">
-						<span>부서 등록</span>
-						<div class="row">
-						  <div class="col-3">
-						  	부서코드
-						  </div>
-						  <div class="col-3">
-						  	부서명
-						  </div>
-						  <div class="col-3">
-						  	구분
-						  </div>
+                        <div id="titleInBox" style="font-weight: bold; font-size: 19px;">전자결재홈
+							 <a id="btnNewAppr" href="approvalForm?userid=${userid}" class="btn btn-danger pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light">새 결재 진행</a>
 						</div>
-						
-						<form action="deptInsert">
-						<div class="row">
-						  <div class="col-3" style="margin-bottom: 10px">
-						    <input type="number" name ="deptno" class="form-control" placeholder="부서코드" required="required">
-						  </div>
-						  <div class="col-3">
-						    <input type="text" name = "dname" class="form-control" placeholder="부서명" required="required">
-						  </div>
-						  <div class="col-3">
-						    <select name = "upDeptno" class="form-select" aria-label="Default select example" >
-							  <option value="100">교수</option>
-							  <option value="200" selected="selected">교직원</option>
-							</select>
-						  </div>
-						</div>
-						   <button type="submit" id = "insert" class="btn btn-primary mb-3">등록</button>
-						</form>
-					</div>
+						<div id="containerBox">
+							<div style="border-top: 1px dashed #c9c9c9; margin-top: 10px;"></div>
+							
+							<!-- =================================결재 대기중 문서================================= -->
+							<div class="#">결재 대기중 문서</div>
+							<div class="btnProcess">승인 해야할 문서가 ${waitTotal}건 있습니다.</div>
+							<table class="table table-hover" style="font-size: 14px; text-align: center;">
+								<thead>
+									<tr>
+										<th>문서번호</th>
+										<th>기안일</th>
+										<th>결재양식</th>
+										<th style="width: 57%;">제목</th>
+										<th>첨부</th>
+										<th>결재상태</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach var="wait" items="${waitList}">
+										<tr>
+											<td>${wait.approval_no}</td>
+											<td>${wait.writeday}</td>
+											<td>${wait.approval_sort_no}</td>
+											<td>${wait.title}</td>
+											<c:if test="${wait.file_path ne null }">
+												<td><i class="bi bi-file-earmark"></i></td>
+											</c:if>
+											<c:if test="${wait.file_path eq null }">
+												<td>&nbsp;</td>
+											</c:if>
+											<c:if test="${wait.approval_status eq 0}">
+												<td>대기중<td>
+											</c:if>
+											<c:if test="${wait.approval_status eq 1}">
+												<td>심사중<td>
+											</c:if>
+											<c:if test="${wait.approval_status eq 2}">
+												<td>반려<td>
+											</c:if>
+											<c:if test="${wait.approval_status eq 3}">
+												<td>승인<td>
+											</c:if>
+										</tr>
+									</c:forEach>
+								</tbody>
+							</table>
 					
-					<!---------------------------------------------------------------->
-									<!-- 부서목록 조회 -->
-					<!---------------------------------------------------------------->
-					<div class="border border-2" style="padding: 20px;margin-top: 20px;width: 900px;">
-					<form action="searchDept">
-					<div class = "row">
+							<div style="border-top: 1px dashed #c9c9c9; margin-top: 50px;"></div>
 						
-						<div class = "col-4">부서 목록</div>
-						<!---------------------------------------------------------------->
-									<!-- 부서검색  -->
-						<!---------------------------------------------------------------->
-						<div class = "col-2">
-							<select name = "searchGubun" class="form-select" aria-label="Default select example" style="width: 123px;font-size:12px">
-							  <option value="code"  selected="selected">코드조회</option>
-							  <option value="codeName">부서이름조회</option>
-							</select>		
-						</div>		 		
-						<div class = "col-4"  style="margin-bottom: 20px">
-							<input  type = "text"  name = "search" class="form-control" placeholder="search">
+							<!-- =================================기안 진행 문서================================= -->
+							<div class="#">기안 진행 문서</div>
+							<table class="table table-hover" style="font-size: 14px; text-align: center;">
+								<thead>
+									<tr>
+										<th>문서번호</th>
+										<th>기안일</th>
+										<th>결재양식</th>
+										<th style="width: 57%;">제목</th>
+										<th>첨부</th>
+										<th>결재상태</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach var="process" items="${processList}">
+										<tr>
+											<td>${process.approval_no}</td>
+											<td>${process.writeday}</td>
+											<td>${process.approval_sort_no}</td>
+											<td>${process.title}</td>
+											<c:if test="${process.file_path ne null }">
+												<td><i class="bi bi-file-earmark"></i></td>
+											</c:if>
+											<c:if test="${process.file_path eq null }">
+												<td>&nbsp;</td>
+											</c:if>
+											<c:if test="${process.approval_status eq 0}">
+												<td>대기중<td>
+											</c:if>
+											<c:if test="${process.approval_status eq 1}">
+												<td>심사중<td>
+											</c:if>
+											<c:if test="${process.approval_status eq 2}">
+												<td>반려<td>
+											</c:if>
+											<c:if test="${process.approval_status eq 3}">
+												<td>승인<td>
+											</c:if>
+										</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+					
+							<div style="border-top: 1px dashed #c9c9c9; margin-top: 50px;"></div>
+							
+							<!-- =================================기안 완료 문서================================= -->
+							<div class="#">기안 완료 문서</div>
+							<table class="table table-hover" style="font-size: 14px; text-align: center;">
+								<thead>
+									<tr>
+										<th>문서번호</th>
+										<th>기안일</th>
+										<th>결재양식</th>
+										<th style="width: 57%;">제목</th>
+										<th>첨부</th>
+										<th>결재상태</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach var="finish" items="${finishList}">
+										<tr>
+											<td>${finish.approval_no}</td>
+											<td>${finish.writeday}</td>
+											<td>${finish.approval_sort_no}</td>
+											<td>${finish.title}</td>
+											<c:if test="${finish.file_path ne null }">
+												<td><i class="bi bi-file-earmark"></i></td>
+											</c:if>
+											<c:if test="${finish.file_path eq null }">
+												<td>&nbsp;</td>
+											</c:if>
+											<c:if test="${finish.approval_status eq 0}">
+												<td>대기중<td>
+											</c:if>
+											<c:if test="${finish.approval_status eq 1}">
+												<td>심사중<td>
+											</c:if>
+											<c:if test="${finish.approval_status eq 2}">
+												<td>반려<td>
+											</c:if>
+											<c:if test="${finish.approval_status eq 3}">
+												<td>승인<td>
+											</c:if>
+										</tr>
+									</c:forEach>
+								</tbody>
+							</table>
 						</div>
-					<span id = error>${msg }</span>
-					</div>
-						</form> 
-						<table class="table table-striped table-hover" style = "width : 700px">	
-						<thead class = "table-dark">
-							<tr>
-								<th scope = "col">부서코드</th>
-								<th scope = "col">부서명</th>
-								<th scope = "col">수정/삭제</th>
-							<tr>
-						</tr>
-						</thead>
-						<tbody>
-						<!---------------------------------------------------------------->
-									<!-- 부서 수정 삭제 -->
-						<!---------------------------------------------------------------->
-							<c:forEach var="dept" items="${ deptList}" varStatus="status">
-								<c:if test="${dept.deptno != 200 && dept.deptno != 100}">
-								<tr id="deptNum${status.index }">
-									<td id="deptno${status.index}"><span id="deptnoSpan${status.index }">${dept.deptno}</span>
-										<input type="text" class="form-control" id = "deptnoInput${status.index}"name="deptno" value="${dept.deptno }" style="display: none;">
-									</td>
-									<td id="dname${status.index }"><span id="dnameSpan${status.index }">${dept.dname}</span>
-										<input type="text" class="form-control" id = "dnameInput${status.index }" name="dname" value="${dept.dname }" style="display: none;">									
-										<input type="text" id = "upDeptno${status.index }" name="upDeptno" value="${dept.upDeptno }" style="display: none;">									
-									</td>
-								<td><button type="button" id="beforeUpdate${status.index }" class="btn btn-primary" onclick="updateForm(${status.index})">수정</button>
-									<button type="button" id="afterUpdate${status.index }" class="btn btn-primary" onclick="updateDept(${status.index})" style="display: none;" >수정완료</button>
-									<button type="button" class="btn btn-dark" onclick="deptDelete(${status.index})">삭제</button>
-								</td>
-								</tr>
-								</c:if>
-							</c:forEach>
-						</tbody>
-						</table>
-					</div>
-					</div>
-                    </div>
-                    <!-- footer -->
-                    <footer class="col-12" style="height: 60px;">
-                        footer
-                    </footer>    
-                </div>
-            </main>
-        </div>
-    </div>
+					                    </div>
+					                    <!-- footer -->
+					                    <footer class="col-12" style="height: 60px;">
+					                        
+					                    </footer>    
+					                </div>
+					            </main>
+					        </div>
+					    </div>
     <!-- IONICONS -->
     <script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script>
     <!-- JS -->
