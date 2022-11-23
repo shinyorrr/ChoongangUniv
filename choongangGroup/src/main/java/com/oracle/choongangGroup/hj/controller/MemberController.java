@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.oracle.choongangGroup.hj.model.GradeVo;
 import com.oracle.choongangGroup.hj.model.MemberVo;
 import com.oracle.choongangGroup.hj.service.MemberService;
 
@@ -48,7 +49,7 @@ public class MemberController {
 		
 	}
 	
-	// 학적 수정
+	//아이디 받아와서 원하는 몇개만 학적 수정
 	
 	@PostMapping(value = "updateMember")
 	public String updateEmp(String phone ,String address ,String email ,String subphone , Model model ,String userid) {
@@ -68,9 +69,19 @@ public class MemberController {
 		
 	}
 	
-	//성적조회
-	// @GetMapping(value = "gradeList")
+	//성적조회페이지
+	@GetMapping(value = "gradeList")
+	public String gradeListForm(String userid, Model model ) {
+		System.out.println(" MemberController gradeListForm start . . . ");
+		
+		GradeVo grade =ms.gradeList(userid);
+		model.addAttribute("grade", grade);
+		model.addAttribute("userid" ,userid);
+		
+		return "student/gradeListForm";
+	}
 	
+	//학기별 성적조회
 	
 	
 	
