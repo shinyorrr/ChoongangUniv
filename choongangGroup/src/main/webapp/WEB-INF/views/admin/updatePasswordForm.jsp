@@ -21,6 +21,7 @@
 <script src="/js/prng4.js" type="text/javascript"></script>
 <script src="/js/rng.js" type="text/javascript"></script>
 <script type="text/javascript">
+	// 검사 후 ajax로 데이터 전송
 	function validateEncryptForm() {
 		var currentPw = document.getElementById("currentPw").value;
 		var password  = document.getElementById("password").value;
@@ -29,14 +30,14 @@
 			alert("입력란을 모두 입력해주세요");
 			return false;
 		}
-		pwChk();
-		pw12Chk();
+
 		if (pwChk() == false) {
 			alert("현재 비밀번호가 일치하지 않습니다.");
+			currentPw.className = 'form-control bg-light is-invalid mt-3'
 			return false;
 		}
-		if (pwChk() == false) {
-			alert("비밀번호 확인 불일치");
+		if (pw12Chk() == false) {
+			alert("새 비밀번호를 확인해주세요.");
 			return false;
 		}
 		
@@ -52,9 +53,7 @@
 	function submitEncryptedForm(password , rsaPulbicKeyModulus , rsaPulbicKeyExponent) {
 		var rsa = new RSAKey();
 		rsa.setPublic(rsaPulbicKeyModulus , rsaPulbicKeyExponent);
-	
 		var securedPassword = rsa.encrypt(password);
-		
 		// 모든 조건을 만족한다면 요청 실행.
 		// ajax 요청
 		let member = {};
@@ -74,68 +73,118 @@
 			}
 		});
 	}
-	
+	// 비밀번호 DB확인 ajax
 	function pwChk() {
-		var password = document.getElementById("password").value;
-		var result   = document.getElementById("idChkResult");
+		var currentPw = document.getElementById("currentPw");
+		var result    = document.getElementById("CchkResult");
 		var chkresult; 
-		if(!password) {
-			result.innerHTML='비밀번호를 입력해주세요';
+		if(!currentPw.value) {
+			result.innerHTML='현재 비밀번호를 입력해주세요';
+			currentPw.className = 'form-control bg-light mt-1 is-invalid';
 			return false;
+			} else {
+				$.ajax({
+					url: "/admin/pwCheck",
+					type: "post",
+					async: false,
+					data: {
+						password: currentPw.value
+					},
+					success: function(data) {
+						if(data == "0") {
+							result.innerHTML='현재 비밀번호가 일치하지 않습니다';
+							currentPw.className = 'form-control bg-light mt-1 is-invalid';
+							chkresult = false;
+						} else if(data == "1"){
+							result.innerHTML='현재 비밀번호가 일치합니다';
+							currentPw.className = 'form-control bg-light mt-1 is-valid';
+							chkresult = true;
+						}
+						
+					},
+					error: function() {
+						alert("서버요청실패 관리자에게 문의하세요");
+						chkresult = false;
+					}
+				});
 			}
 		
-		$.ajax({
-			url: "/admin/idCheck",
-			type: "post",
-			async: false,
-			data: {
-				userid: username
-			},
-			success: function(data) {
-				if(data == "0") {
-					result.innerHTML='사용할 수 없는 아이디입니다.';
-					chkresult = false;
-				} else if(data == "1"){
-					result.innerHTML='사용할 수 있는 아이디입니다.';
-					chkresult = true;
-				}
-				
-			},
-			error: function() {
-				alert("서버요청실패 관리자에게 문의하세요");
-				chkresult = false;
-			}
-		});
+		
 		return chkresult;
 	}
-
-
-
-function pw12Chk() {
-	var pw1 = document.getElementById("password").value;
-	var pw2 = document.getElementById("password2").value;
-	var result = document.getElementById("passwordChkDiv");
-	if(!pw1 || !pw2) {
-		result.innerHTML='비밀번호를 입력해주세요';
-		return false;
+	// 비밀번호1,2 확인 function
+	function pw12Chk() {
+		var pw1 = document.getElementById("password");
+		var pw2 = document.getElementById("password2");
+		var currentPw = document.getElementById("currentPw");
+		var result = document.getElementById("NchkResult");
+		var result2 = document.getElementById("NchkResult2");
+		if(!pw1.value || !pw2.value) {
+			result.innerHTML='새 비밀번호를 입력해주세요';
+			pw1.className = "form-control bg-light mt-3 is-invalid";
+			pw2.className = "form-control bg-light mt-1 is-invalid";
+			return false;
+		}
+		if(pw1.value == pw2.value && pw1.value == currentPw.value) {
+			result2.innerHTML='현재 비밀번호와 새 비밀번호가 같을 수 없습니다.';
+			pw1.className = "form-control bg-light mt-3 is-invalid";
+			pw2.className = "form-control bg-light mt-1 is-invalid";
+			return false;
+		} 
+		if(pw1.value == pw2.value && pw1.value != currentPw.value) {
+			result2.innerHTML='';
+			pw1.className       = "form-control bg-light mt-3 is-valid";
+			pw2.className       = "form-control bg-light mt-1 is-valid";
+			currentPw.className = "form-control bg-light mt-1 is-valid";
+		}
+		if(pw1.value != null && pw2.value != null && pw1.value == pw2.value) {
+			result.innerHTML='새 비밀번호가 일치합니다';
+			pw1.className       = "form-control bg-light mt-3 is-valid";
+			pw2.className       = "form-control bg-light mt-1 is-valid";
+			return true;
+		}
+		if(pw1.value != null && pw1.value != pw2.value) {
+			result.innerHTML='새 비밀번호가 일치하지 않습니다';
+			pw1.className = "form-control bg-light mt-3 is-invalid";
+			pw2.className = "form-control bg-light mt-1 is-invalid";
+			return false;
+		}
 	}
-	if(pw1 != null && pw1 != pw2) {
-		result.innerHTML='비밀번호가 일치하지 않습니다';
-		return false;
-	} 
-	if(pw1 != null && pw2 != null && pw1 == pw2) {
-		result.innerHTML='비밀번호가 일치합니다';
-		return true;
-	}
-}
 </script>
+<style type="text/css">
+	html, body {
+		height: 100%;
+	}
+	body {
+		background-color: rgb(214, 225, 237);
+	}
+	.container {
+		max-width: 420px;
+	}
+</style>
 </head>
 <body>
-현재비밀번호    <input type="password" id="currentPw" name="currentPw" required="required">
-<div id="CchkResult"></div>
-새 비밀번호     <input type="password" id="password"  name="password"  required="required">
-새 비밀번호 확인<input type="password" id="password2" name="password2" required="required" onfocusout="pw12Chk()">
-<div id="NchkResult"></div>
-<button class="w-100 btn btn-lg btn-primary mb-3" type="button" onclick="validateEncryptForm();">변경</button>
+	<main class="container position-absolute top-50 start-50 translate-middle form-signin w-100 m-auto text-center">
+		<h1 class="mb-5 fw-bold">비밀번호 변경</h1>
+		<div class="form-floating">
+			<input type="password" class="form-control bg-light mt-1" id="currentPw" aria-describedby="passwordChkDiv" onfocusout="pwChk()">
+			<label for="floatingPassword">현재 비밀번호</label>
+			<small id="CchkResult" class="text-muted"></small>
+		</div>
+		<div class="form-floating">
+			<input type="password" class="form-control bg-light mt-3" id="password">
+			<label for="floatingPassword">새 비밀번호</label>
+		</div>
+		<div class="form-floating d-flex flex-column">
+			<input type="password" class="form-control bg-light mt-1" id="password2" aria-describedby="passwordChkDiv" onfocusout="pw12Chk()">
+			<label for="floatingPassword">새 비밀번호 확인</label>
+			<small id="NchkResult" class="text-muted"></small>
+			<small id="NchkResult2" class="text-muted"></small>
+		</div>
+		<button class="w-100 btn btn-lg btn-primary mb-3 mt-3" type="button" onclick="validateEncryptForm();">비밀번호 변경</button>
+	</main>
+<!-- hidden values -->
+<input type="hidden" id="rsaPulbicKeyModulus" value="${publicKeyModulus}">
+<input type="hidden" id="rsaPulbicKeyExponent" value="${publicKeyExponent}">
 </body>
 </html>

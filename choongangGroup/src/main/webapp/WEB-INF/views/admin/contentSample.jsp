@@ -147,6 +147,7 @@
                     <!-- card content -->  
                     <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
                         content
+                        <a href="/admin/createMemberForm">createMember
                     </div>
                     <!-- footer -->
                     <footer class="col-12" style="height: 60px;">
