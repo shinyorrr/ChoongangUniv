@@ -61,7 +61,7 @@
 				
 			},
 			error: function(e) {
-				$('#errMsg').html('아이디가 존재하지 않거나 비밀번호가 틀렸스빈다.');
+				$('#errMsg').html('아이디가 존재하지 않거나 비밀번호가 틀렸습니다.');
 			}
 		})
 	}
@@ -103,9 +103,9 @@
 	    <a href="/loginFailure" onclick="validateEncryptForm(); return false;"><button class="w-100 btn btn-lg btn-primary mb-3" type="button">로그인</button></a>
 	    <div class="d-flex justify-content-center" style="font-size: small;">
 		    <div class="d-flex justify-content-between">
-		    	<a class="text-decoration-none text-muted" style="padding-left: 30px;" href="/findId">아이디찾기</a>
+		    	<a class="text-decoration-none text-muted" style="padding-left: 30px;" href="/anonymous/findIdForm">아이디 찾기</a>
 		    	<div class="text-muted mx-3 pb-3">|</div>
-		    	<a class="text-decoration-none text-muted" href="/rePassword">비밀번호 재설정</a>
+		    	<a class="text-decoration-none text-muted" href="/anonymous/requestResetPwForm">비밀번호 찾기</a>
 		    </div>
 	    </div>
 	    <p class="mt-3 mb-3 text-muted text-center" style="font-size: small;">&copy; 서울 마포구 신촌로 176<br>

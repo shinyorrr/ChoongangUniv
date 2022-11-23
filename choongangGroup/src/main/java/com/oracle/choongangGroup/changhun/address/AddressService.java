@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 public class AddressService {
-
+	
 	private final AddCustomRepository addCustomRepository;
 	
 	public List<Member> findByAddress() {
@@ -28,17 +28,35 @@ public class AddressService {
 	}
 
   
-	public void phoneLikeSave(String myuserid, String userid) {
+	public void phoneLikeSave(String userid, String myuserid) {
 
+		log.info("userid -> {} ",userid);
+		
 		Member member = addCustomRepository.findByOne(userid);
 		
-//		log.info("phoneLikeSave member --> {}", member.getDept());
+		log.info("member--> {}", member.getUserid());
 		
-		PhoneLike like = PhoneLike.createLike(userid, member);
+		log.info("phoneLikeSave myuserid --> {}", myuserid);
+		
+		PhoneLike like = PhoneLike.createLike(myuserid, member);
 		
 //		log.info("like ==> {}",like);
 		
 		addCustomRepository.phoneLikeSave(like);
+	}
+
+
+	public List<PhoneLike> likeAddress(String userid) {
+		
+		List<PhoneLike> likeAddressList = addCustomRepository.likeAddress(userid);
+		
+		return likeAddressList;
+	}
+
+
+	public void phoneLikeDelete(String myuserid, String userid) {
+		
+		addCustomRepository.phoneLikeDelete(myuserid, userid);
 	}
 
 }

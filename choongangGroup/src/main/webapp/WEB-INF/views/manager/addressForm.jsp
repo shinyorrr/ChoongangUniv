@@ -22,6 +22,18 @@
 </head>
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
+
+	/* 현재 페이지 표시하기 */
+	const urlParams = new URL(location.href).searchParams;
+	var page = parseInt(urlParams.get('page'));
+	var pageResult = page + 1; 
+	console.log(pageResult);
+	$(document).ready(function(){
+		$('#page-item'+pageResult).addClass(' active');		
+	})
+
+
+	/* 즐겨찾기 추가기능 */
 	function phoneLikeSave(vIndex){
 		var user= $('#user'+vIndex).val();
 		console.log(user);
@@ -41,7 +53,7 @@
 
 
 
-<body class="" id="body-pd">
+<body class="" id="body-pd" onload="printClock()">
     <!-- header -->
     <!-- <nav class="navbar navbar-expand-lg navbar-dark bd-navbar bg-light sticky-top position-fixed fixed-top w-100" style="position : absolute">
         <a class="navbar-brand">
@@ -131,32 +143,45 @@
     <!-- main content -->
     <div class="container-fluid w-100" style=" background-color: rgb(214, 225, 237)">
         <div class="row">
+        
             
             
             <!-- content header -->
             <div class="col-12 pt-4" style="height: 150px; background-color: rgb(95, 142, 241)">
-                <div class="d-flex flex-row mb-3">
-                    <div>
-                        <span class="text-white h4">안녕하세요. <span class="fw-bold">김중앙</span>님!</span>
-                    </div>
-                    <div class="border border-1 border-white border-bottom rounded-pill text-white px-2 pt-1 ms-2 h6">교수</div>
-                    <div>
-                        <i class="text-white bi-gear-fill mx-2"></i>
-                    </div>
-                </div>
                 <div class="row">
-                    <div>
-                        <span class="text-white h6">이공대학 컴퓨터공학과 | 정교수</span>
-                    </div>
-                </div>
-                <div class="d-flex flex-low">
-                    <div>
-                        <i class="bi bi-envelope-fill text-white"></i>
-                    </div>
-                    <div>
-                        <span class="text-white ms-3">test123@naver.com</span>
-                    </div>
-                </div>
+                	<div class="col-5">
+		                <div class="d-flex flex-row mb-3">
+		                    <div>
+		                        <span class="text-white h4">안녕하세요. <span class="fw-bold">김중앙</span>님!</span>
+		                    </div>
+		                    <div class="border border-1 border-white border-bottom rounded-pill text-white px-2 pt-1 ms-2 h6">교수</div>
+		                    <div>
+		                        <i class="text-white bi-gear-fill mx-2"></i>
+		                    </div>
+		                </div>
+		                <div class="row">
+		                    <div>
+		                        <span class="text-white h6">이공대학 컴퓨터공학과 | 정교수</span>
+		                    </div>
+		                </div>
+		                <div class="d-flex flex-low">
+		                    <div>
+		                        <i class="bi bi-envelope-fill text-white"></i>
+		                    </div>
+		                    <div>
+		                        <span class="text-white ms-3">test123@naver.com</span>
+		                    </div>
+		                </div>
+		            </div>
+		            <div class="col-4">
+		            	<div style="width: 598px;line-height: 100px;color: wheat;font-size: 77px;text-align:center;" id="clock">
+						</div>
+		            </div>
+		            <div class="col-1">
+		            	<button type="button" class="btn btn-secondary" style="width: 100px;height: 43px;margin: 5px;">출근</button>
+		            	<button type="button" class="btn btn-secondary" style="width: 100px;height: 43px;margin: 5px;">퇴근</button>
+		            </div>
+	           </div>
                 
             </div>
             <main class="col-9 h-100 w-100">
@@ -176,14 +201,29 @@
 										    margin-left: 992px;
 										"></span>
 					<!-- ============================================== -->
+					<!-- <form action="searchAddress" method="post">
+					<div class = "row">
+						<div class = "col-6"></div>
+						<div class = "col-1"></div>		 		
+						<div class = "col-4"  style="margin-bottom: 20px">
+							<input  type = "text"  name = "search" class="form-control" placeholder="search">
+						</div>
+					</div> -->
+					</form>
                     	<table class="table table-hover">
                     		 <thead>
-							    <tr><th>이름</th><th>부서</th><th>연락처</th><th>즐겨찾기</th></tr>
+							    <tr><th>이름</th><th>직위</th><th>부서</th><th>연락처</th><th>즐겨찾기</th></tr>
 							  </thead>
 							  	<c:forEach var="address" items="${addressList}" varStatus="status">
 							  	<tr>
 							  		<td><input type="text" name ="userid" id = "user${status.index}" value="${address.userid}" hidden="true">
 							  			${address.name }</td>
+							  		<c:if test="${address.dept.upDeptno == 100}">
+								  		<td>교수</td>							  		
+							  		</c:if>
+							  		<c:if test="${address.dept.upDeptno == 200}">
+								  		<td>교직원</td>
+								  	</c:if>
 							  		<td>${address.dept.dname}</td>
 							  		<td>${address.phone}</td>
 							  		<td>
@@ -194,6 +234,32 @@
 							  <tbody>
 							  </tbody>
                     	</table>
+                    	<nav aria-label="...">
+					  <ul class="pagination" style="margin-left: 40%;">
+					  
+					    <li class="page-item">
+					      <c:if test="${page > 0}">
+						      <a class="page-link" href="addressForm?page=${page-1}">Previous</a>				      
+					      </c:if>
+					      <c:if test= "${page == 0 }">
+					      	  <a class="page-link">Previous</a>
+					      </c:if>
+					    </li>					  
+					
+					  <c:forEach var="i" begin="1" end="${totalPage}">
+					    <li id="page-item${i}" class="page-item" onclick="active(${i})">
+					    <a class="page-link" href="addressForm?page=${i-1 }" >${i }</a></li>
+					  </c:forEach>
+					    <li class="page-item">
+					    	<c:if test="${page < totalPage-1}">
+						      <a class="page-link" href="addressForm?page=${page+1}">Next</a>
+					    	</c:if>
+					      	<c:if test= "${page > totalPage-2}">
+						      <a class="page-link">Next</a>
+					      	</c:if>
+					    </li>
+					  </ul>
+					</nav>
                     </div>
                     <!-- footer -->
                     <footer class="col-12" style="height: 60px;">

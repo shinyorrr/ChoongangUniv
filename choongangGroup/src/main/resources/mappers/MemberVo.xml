@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.oracle.choongangGroup.hj.model.MemberVoMapper">
+ 
+<!--  //아이디 받아와서 학적 조회  -->
+	<select id="hjMemberSelOne"  parameterType="String" resultType="MemberVo">
+	 SELECT * from member
+	 WHERE userid = #{userid}
+	
+	</select>
+
+	<update id="hjMemberUpdate" parameterType="MemberVo" >
+		UPDATE member SET                       phone 		   = #{phone},
+   		                                        address        = #{address},
+   		                                        email          = #{email},
+   		                                        subphone       = #{subphone}
+   		                                     
+   		                                        
+		where userid = #{userid}
+						
+</update>
+
+
+</mapper>

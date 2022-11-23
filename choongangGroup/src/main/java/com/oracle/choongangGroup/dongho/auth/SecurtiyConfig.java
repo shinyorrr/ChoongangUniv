@@ -51,6 +51,7 @@ public class SecurtiyConfig {
 			.antMatchers("/manager/**").hasRole("MANAGER")
 			.antMatchers("/professor/**").hasRole("PROFESSOR")
 			.antMatchers("/admin/**").permitAll()//.hasRole("ADMIN")
+			.antMatchers("/anonymous/**").permitAll()
 			.antMatchers("/repoTest", "/loginForm").permitAll()
 			.antMatchers("/main").authenticated()
 
