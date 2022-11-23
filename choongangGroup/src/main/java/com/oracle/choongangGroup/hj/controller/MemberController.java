@@ -88,20 +88,19 @@ public class MemberController {
 		return "student/gradeListForm";
 	}
 	
-	/*
-	 * //학기별 성적조회
-	 * 
-	 * @GetMapping(value = "/grades") public String gradeList(String userid, Model
-	 * model) { System.out.println("MemberController gradeList . . . ");
-	 * 
-	 * List<Lecture> grades = MemberService.findgrades();
-	 * model.addAttribute(attributeValue)
-	 * 
-	 * 
-	 * return "student/gradeList";
-	 * 
-	 * }
-	 */
+	//학기별 성적조회
+	@GetMapping(value = "/grades")
+	public String gradeList(String userid, Model model) {
+		System.out.println("MemberController gradeList . . . ");
+	
+		List<Lecture> grades = ms.findgrades();
+		model.addAttribute("grades",grades);
+		
+		
+		return "student/gradeList";
+		
+	}
+	
 	
 	
 	
