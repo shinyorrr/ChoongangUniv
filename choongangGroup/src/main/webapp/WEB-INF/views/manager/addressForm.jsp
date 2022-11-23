@@ -48,40 +48,6 @@
 			}
 		});
 	}
-	
-	function printClock() {
-	    
-	    var clock = document.getElementById("clock");            // 출력할 장소 선택
-	    var currentDate = new Date();                                     // 현재시간
-	    var calendar = currentDate.getFullYear() + "-" + (currentDate.getMonth()+1) + "-" + currentDate.getDate() // 현재 날짜
-	    var amPm = 'AM'; // 초기값 AM
-	    var currentHours = addZeros(currentDate.getHours(),2); 
-	    var currentMinute = addZeros(currentDate.getMinutes() ,2);
-	    var currentSeconds =  addZeros(currentDate.getSeconds(),2);
-	    
-	    if(currentHours >= 12){ // 시간이 12보다 클 때 PM으로 세팅, 12를 빼줌
-	    	amPm = 'PM';
-	    	currentHours = addZeros(currentHours - 12,2);
-	    }
-
-	    if(currentSeconds >= 50){// 50초 이상일 때 색을 변환해 준다.
-	       currentSeconds = '<span style="color:#de1951;">'+currentSeconds+'</span>'
-	    }
-	    clock.innerHTML = currentHours+":"+currentMinute+":"+currentSeconds +" <span style='font-size:50px;'>"+ amPm+"</span>"; //날짜를 출력해 줌
-	    
-	    setTimeout("printClock()",1000);         // 1초마다 printClock() 함수 호출
-	}
-
-	function addZeros(num, digit) { // 자릿수 맞춰주기
-		  var zero = '';
-		  num = num.toString();
-		  if (num.length < digit) {
-		    for (i = 0; i < digit - num.length; i++) {
-		      zero += '0';
-		    }
-		  }
-		  return zero + num;
-	}
 
 </script>
 
@@ -183,7 +149,7 @@
             <!-- content header -->
             <div class="col-12 pt-4" style="height: 150px; background-color: rgb(95, 142, 241)">
                 <div class="row">
-                	<div class="col">
+                	<div class="col-5">
 		                <div class="d-flex flex-row mb-3">
 		                    <div>
 		                        <span class="text-white h4">안녕하세요. <span class="fw-bold">김중앙</span>님!</span>
@@ -207,9 +173,13 @@
 		                    </div>
 		                </div>
 		            </div>
-		            <div class="col">
+		            <div class="col-4">
 		            	<div style="width: 598px;line-height: 100px;color: wheat;font-size: 77px;text-align:center;" id="clock">
 						</div>
+		            </div>
+		            <div class="col-1">
+		            	<button type="button" class="btn btn-secondary" style="width: 100px;height: 43px;margin: 5px;">출근</button>
+		            	<button type="button" class="btn btn-secondary" style="width: 100px;height: 43px;margin: 5px;">퇴근</button>
 		            </div>
 	           </div>
                 
