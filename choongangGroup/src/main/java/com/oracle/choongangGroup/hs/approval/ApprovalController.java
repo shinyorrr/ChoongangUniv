@@ -15,7 +15,6 @@ import lombok.extern.slf4j.Slf4j;
 public class ApprovalController {
 	
 	private final ApprovalService as;
-	private final ApprovalSortService ass;
 	
 	
 	@RequestMapping("/approvalMain")
@@ -28,8 +27,8 @@ public class ApprovalController {
 		
 		// 결재 페이징
 		int waitTotal	 = as.waitTotal(userid);	  // 승인 대기중
-		int processTotal = as.processTotal(userid);	  // 승인 진행중
-		int finishTotal  = as.finishTotal(userid);	  // 승인 완료
+		// int processTotal = as.processTotal(userid);	  // 승인 진행중
+		// int finishTotal  = as.finishTotal(userid);	  // 승인 완료
 		
 		approvalWaitingList    = as.waitingListAll(userid); // 승인 대기중
 		approvalProcessingList = as.processListAll(userid); // 승인 진행중
@@ -39,7 +38,6 @@ public class ApprovalController {
 		model.addAttribute("processList", approvalProcessingList);
 		model.addAttribute("finishList", approvalFinishedList);
 		model.addAttribute("waitTotal", waitTotal);
-		model.addAttribute("processTotal", processTotal);
 		model.addAttribute("userid", userid);
 		
 		return "manager/approvalMain";
@@ -47,7 +45,19 @@ public class ApprovalController {
 	}
 	
 	@RequestMapping("approvalForm")
-	public String form() {
+	public String form(String userid, Model model) {
+		log.info("getApprInfo start...");
+		// 결재하는 사용자의 이름 출력
+		MemDept memDept = new MemDept();
+		memDept.setUserid(userid);
+		
+		MemDept infoAppr = as.getApprInfo(memDept);
+		
+		String mem_name = infoAppr.getName();
+		String dname = infoAppr.getDname();
+		
+		model.addAttribute("mem_name", mem_name);
+		model.addAttribute("dname", dname);
 		return "/manager/approvalForm";
 	}
 }
