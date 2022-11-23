@@ -210,7 +210,7 @@
 
 <div>
 
-<select class="select"  aria-label="Default select example">
+<select   onclick="location.href='grades'"     class="select"  aria-label="Default select example">
   <option selected>학기선택</option>
   <option value="1">2022년1학기</option>
   <option value="2">2021년2학기</option>

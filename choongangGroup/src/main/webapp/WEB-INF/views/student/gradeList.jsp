@@ -1,15 +1,6 @@
-
-<!-- bottSTrap CSS only -->
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous"/>
-	<!-- bootStrap Icons -->
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
-</head>
-
-
-
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,12 +19,8 @@
 <link rel="stylesheet" href="/css/styles.css">
 
     <title>SideBar sub menus</title>
-    <script  src="http://code.jquery.com/jquery-latest.min.js"></script><!--  최신버전 -->
-<script type="text/javascript">
-    
-    
-    
 </head>
+
 
 <body class="" id="body-pd">
     <!-- header -->
@@ -249,7 +236,7 @@
 								<th ></th>
 		
 						</tr>
-						</c:forEach>
+				
 						</tbody>
 						
 						
@@ -273,17 +260,19 @@
 								<th>성적</th>
 							<tr>
 							
+						
+							<c:forEach var="grade" items="${grades }" >
 							<tr>
 							
-								<th ></th>
-								<th ></th>
-								<th ></th>
-								<th ></th>
-								<th ></th>
+								<th >${grade.subjectGubun} </th>
+								<th >${grade.name} </th>
+								<th >${grade.id}</th>
+								<th >${grade.unitScore}</th>
+								<th >${grade.unitScore}</th>
 							<tr>
 						
-						
-						
+						 </c:forEach>
+							
 						
 						</thead>
 

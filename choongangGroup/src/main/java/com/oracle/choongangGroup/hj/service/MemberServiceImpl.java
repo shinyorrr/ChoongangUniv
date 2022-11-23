@@ -1,5 +1,7 @@
 package com.oracle.choongangGroup.hj.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -7,6 +9,8 @@ import com.oracle.choongangGroup.hj.dao.GraderDao;
 import com.oracle.choongangGroup.hj.dao.MemberDao;
 import com.oracle.choongangGroup.hj.model.GradeVo;
 import com.oracle.choongangGroup.hj.model.MemberVo;
+import com.oracle.choongangGroup.hj.repository.GraderRepository;
+import com.oracle.choongangGroup.sh.domain.Lecture;
 
 import lombok.RequiredArgsConstructor;
 
@@ -17,6 +21,7 @@ public class MemberServiceImpl implements MemberService {
 
 	private final MemberDao md ;
 	private final GraderDao gd ;
+	private final GraderRepository gr;
 
 	//아이디 받아와서 학적 조회 
 	@Override
@@ -48,6 +53,19 @@ public class MemberServiceImpl implements MemberService {
 		
 		
 		return grade;
+	}
+
+	@Override
+	public List<Lecture> findgrades() {
+	
+		List<Lecture> findgradeList = gr.findAll();
+		System.out.println("OrderRepository findorderList.size()->"+findgradeList.size());
+
+		
+		
+		return findgradeList;
+		
+	
 	}
 
 
