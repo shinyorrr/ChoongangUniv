@@ -10,6 +10,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+<a href="/notice/noticeList">공지사항 조회</a>
 </body>
 </html>
