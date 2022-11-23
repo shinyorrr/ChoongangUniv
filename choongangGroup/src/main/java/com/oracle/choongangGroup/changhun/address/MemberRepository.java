@@ -7,4 +7,6 @@ import com.oracle.choongangGroup.changhun.JPA.Member;
 
 public interface MemberRepository extends JpaRepository<Member, String>{
 
+	Member findByUserid(String userid);
+
 }
