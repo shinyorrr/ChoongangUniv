@@ -4,6 +4,10 @@
 <configuration>
 	<typeAliases>
 	   
+	   
+	   
+	   <typeAlias alias="Approval" 	   type="com.oracle.choongangGroup.hs.approval.Approval"/>
+	   <typeAlias alias="ApprovalSort" type="com.oracle.choongangGroup.hs.approval.ApprovalSort"/>
 	</typeAliases>
 
 
