@@ -182,7 +182,7 @@
 										<tr>
 											<td>${wait.approval_no}</td>
 											<td>${wait.writeday}</td>
-											<td>${wait.approval_sort_no}</td>
+											<td>${wait.approval_sort_name}</td>
 											<td>${wait.title}</td>
 											<c:if test="${wait.file_path ne null }">
 												<td><i class="bi bi-file-earmark"></i></td>
@@ -227,7 +227,7 @@
 										<tr>
 											<td>${process.approval_no}</td>
 											<td>${process.writeday}</td>
-											<td>${process.approval_sort_no}</td>
+											<td>${process.approval_sort_name}</td>
 											<td>${process.title}</td>
 											<c:if test="${process.file_path ne null }">
 												<td><i class="bi bi-file-earmark"></i></td>
@@ -272,7 +272,7 @@
 										<tr>
 											<td>${finish.approval_no}</td>
 											<td>${finish.writeday}</td>
-											<td>${finish.approval_sort_no}</td>
+											<td>${finish.approval_sort_name}</td>
 											<td>${finish.title}</td>
 											<c:if test="${finish.file_path ne null }">
 												<td><i class="bi bi-file-earmark"></i></td>

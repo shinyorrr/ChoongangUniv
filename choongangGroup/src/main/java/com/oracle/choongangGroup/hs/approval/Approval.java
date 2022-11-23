@@ -8,8 +8,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Approval {
-	private int approval_no;
-	private int approval_sort_no;
+	private Long approval_no;
+	private Long approval_sort_no;
 	private String mid_approver;
 	private String fin_approver;
 	private String title;
@@ -32,10 +32,12 @@ public class Approval {
 	
 	// 조회용
 	private String search; 	private String keyword;
-	private String mem_name;
+	private String name;
 	private Member member;
 	private Member midapprvo;
 	private Member finapprvo;
+	private ApprovalSort sort;
+	private String approval_sort_name;
 	
 	// 페이징
 	private int currentPage = 1;
@@ -67,6 +69,5 @@ public class Approval {
 //			endPage = totalPage;
 //		}
 //	}
-	
 	
 }

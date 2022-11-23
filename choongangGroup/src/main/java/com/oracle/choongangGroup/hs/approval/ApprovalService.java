@@ -16,4 +16,10 @@ public interface ApprovalService {
 
 	int finishTotal(String userid);
 
+	List<ApprovalSort> sortSelect();
+
+	MemDept getApprInfo(MemDept memDept);
+
+	List<MemDept> apprList();
+
 }
