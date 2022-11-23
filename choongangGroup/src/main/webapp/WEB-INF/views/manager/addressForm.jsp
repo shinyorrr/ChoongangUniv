@@ -48,7 +48,12 @@
 			}
 		});
 	}
+	
+	/* 출근버튼 구현 */
+	
 
+	
+	
 </script>
 
 
@@ -147,9 +152,9 @@
             
             
             <!-- content header -->
-            <div class="col-12 pt-4" style="height: 150px; background-color: rgb(95, 142, 241)">
+              <div class="col-12 pt-4" style="height: 150px; background-color: rgb(95, 142, 241)">
                 <div class="row">
-                	<div class="col-5">
+                	<div class="col-6">
 		                <div class="d-flex flex-row mb-3">
 		                    <div>
 		                        <span class="text-white h4">안녕하세요. <span class="fw-bold">김중앙</span>님!</span>
@@ -174,12 +179,12 @@
 		                </div>
 		            </div>
 		            <div class="col-4">
-		            	<div style="width: 598px;line-height: 100px;color: wheat;font-size: 77px;text-align:center;" id="clock">
+		            	<div style="width: 598px;line-height: 100px;color: white;font-size: 77px;text-align:center;" id="clock">
 						</div>
 		            </div>
 		            <div class="col-1">
-		            	<button type="button" class="btn btn-secondary" style="width: 100px;height: 43px;margin: 5px;">출근</button>
-		            	<button type="button" class="btn btn-secondary" style="width: 100px;height: 43px;margin: 5px;">퇴근</button>
+		            	<button type="button" class="btn btn-secondary" style="width: 100px;height: 43px;margin: 5px;" onclick="attInsert()">출근</button>
+		            	<button type="button" class="btn btn-secondary" style="width: 100px;height: 43px;margin: 5px;" onclick="attOff()">퇴근</button>
 		            </div>
 	           </div>
                 
@@ -188,7 +193,9 @@
                 <div class="row m-5">
                     <!-- card header -->
                     <div class="col-12 rounded-top text-white overflow-auto pt-2 fw-bold" style="background-color: rgb(39, 40, 70); height: 40px;"> 
-                        <i class="bi bi-bookmark-fill me-2"></i>교직원<i class="bi bi-chevron-right"></i>전체 주소록 조회
+                        <i class="bi bi-bookmark-fill me-2"></i>교직원<i class="bi bi-chevron-right"></i>전체 주소록 조회 
+                        <button class="btn btn-danger" onclick="location.href='${pageContext.request.contextPath}/myLikeAddress'"
+                        	style="margin-left: 64%;line-height: 11px;">내 즐겨찾기</button>
                     </div>
                     <!-- card content -->  
                     <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
@@ -227,7 +234,7 @@
 							  		<td>${address.dept.dname}</td>
 							  		<td>${address.phone}</td>
 							  		<td>
-							  			<button type="button" class="btn btn-outline-danger" onclick="phoneLikeSave(${status.index})">추가</button>
+							  			<button type="button" class="btn btn-outline-danger" onclick="phoneLikeSave(${status.index})">+</button>
 							  		</td>
 							  	</tr>	
 							  	</c:forEach>
