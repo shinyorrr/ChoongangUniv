@@ -11,9 +11,12 @@ import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 import lombok.Data;
 
 @Entity
+@DynamicUpdate
 @Data
 @IdClass(WorkPK.class)
 public class Work {
@@ -30,7 +33,7 @@ public class Work {
 	@JoinColumn(name = "userid", insertable = false, updatable = false)
 	private Member member;
 	private String attOnTime;
-	private String sttOffTime;
+	private String attOffTime;
 	private Long vacation;
 	
 	@Enumerated(EnumType.STRING)

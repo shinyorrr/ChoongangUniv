@@ -20,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AttManagementService {
 
+	private final AttCustomRepository attCustomRepository;
 	private final AttManagementRepository repository;
 	private final MemberRepository memRepository;
 	
@@ -41,7 +42,7 @@ public class AttManagementService {
 		Work work =  new Work();
 		work.setUserid(userid);
 		work.setMember(member);
-		work.setAttOnTime(nowTime);
+		work.setAttOnTime(nowTime);			
 		work.setWorkDate(nowDate);
 		
 		int result = timeCompare(nowTime);
@@ -58,16 +59,27 @@ public class AttManagementService {
 	
 	public int timeCompare(String nowTime) {		
 		int result = 0;
-			
 		String nowtimeReplace = nowTime.replaceAll(":", "");
-		
 		int nowtimeInt = Integer.parseInt(nowtimeReplace);
-		
 		if(nowtimeInt > 90000) {
 			result = 1;
 		}
 		
 		return result;
+	}
+
+	public void attOff() {
+		String userid = "18301001";
+		
+		SimpleDateFormat sdf1 = new SimpleDateFormat("HH:mm:ss");
+		SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
+		
+		Date now = new Date();
+		
+		String nowTime = sdf1.format(now);
+		String nowDate = sdf2.format(now);
+		
+		attCustomRepository.attOff(userid,nowDate,nowTime);
 	}
 
 }
