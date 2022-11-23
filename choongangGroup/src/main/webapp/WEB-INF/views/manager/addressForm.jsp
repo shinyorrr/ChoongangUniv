@@ -178,12 +178,18 @@
 					<!-- ============================================== -->
                     	<table class="table table-hover">
                     		 <thead>
-							    <tr><th>이름</th><th>부서</th><th>연락처</th><th>즐겨찾기</th></tr>
+							    <tr><th>이름</th><th>직위</th><th>부서</th><th>연락처</th><th>즐겨찾기</th></tr>
 							  </thead>
 							  	<c:forEach var="address" items="${addressList}" varStatus="status">
 							  	<tr>
 							  		<td><input type="text" name ="userid" id = "user${status.index}" value="${address.userid}" hidden="true">
 							  			${address.name }</td>
+							  		<c:if test="${like.member.dept.upDeptno == 100}">
+								  		<td>교직원</td>							  		
+							  		</c:if>
+							  		<c:if test="${like.member.dept.upDeptno == 200}">
+								  		<td>교수</td>
+								  	</c:if>
 							  		<td>${address.dept.dname}</td>
 							  		<td>${address.phone}</td>
 							  		<td>

@@ -5,9 +5,14 @@ import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.oracle.choongangGroup.changhun.JPA.Member;
 import com.oracle.choongangGroup.changhun.JPA.PhoneLike;
@@ -20,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class AddressController {
 	
+	public final AddressRepository addressRepository;
 	public final AddressService addressService;
 	
 	@RequestMapping(value = "/addressForm")
@@ -35,14 +41,33 @@ public class AddressController {
 		return "manager/addressForm";
 	}
 	
+//	@RequestMapping(value = "/myLikeAddress")
+//	public String likeAddress(HttpSession session,Model model) {
+//		
+//		String userid = "18301001";
+//		
+//		List<PhoneLike> likeList = addressService.likeAddress(userid);
+//		
+//		model.addAttribute("likeList",likeList);
+//		
+//		return "manager/addressLike";
+//	}
 	@RequestMapping(value = "/myLikeAddress")
-	public String likeAddress(HttpSession session,Model model) {
+	public String likeAddress(HttpSession session,Model model,
+							  @RequestParam(required = false, defaultValue = "0", value="page") int page) {
 		
 		String userid = "18301001";
 		
-		List<PhoneLike> likeList = addressService.likeAddress(userid);
+		Page<PhoneLike> like = addressRepository.findByMyUserid(userid, PageRequest.of(page, 1, Sort.by(Sort.Direction.ASC,"member.name")));
 		
-		model.addAttribute("likeList",likeList);
+		int totalPage = like.getTotalPages();
+		
+		System.out.println("totalpage -> " + totalPage);
+		
+		
+		model.addAttribute("page", page);
+		model.addAttribute("totalPage", totalPage);
+		model.addAttribute("likeList",like.getContent());
 		
 		return "manager/addressLike";
 	}

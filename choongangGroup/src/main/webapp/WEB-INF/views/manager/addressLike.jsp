@@ -17,8 +17,19 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <!-- CSS -->
 <link rel="stylesheet" href="/css/styles.css">
-
-    <title>SideBar sub menus</title>
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script type="text/javascript">
+	/* 현재 페이지 표시하기 */
+	const urlParams = new URL(location.href).searchParams;
+	var page = parseInt(urlParams.get('page'));
+	var pageResult = page + 1; 
+	console.log(pageResult);
+	$(document).ready(function(){
+		$('#page-item'+pageResult).addClass(' active');		
+	})
+	
+</script>
+    <title>즐겨찾기 주소록</title>
 </head>
 
 <body class="" id="body-pd">
@@ -149,12 +160,18 @@
                     <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
                         <table class="table table-hover">
                     		 <thead>
-							    <tr><th>이름</th><th>부서</th><th>연락처</th><th>삭제</th></tr>
+							    <tr><th>이름</th><th>직위</th><th>부서</th><th>연락처</th><th>삭제</th></tr>
 							  </thead>
 							  	<c:forEach var="like" items="${likeList}" varStatus="status">
 							  	<tr>
 							  		<td><input type="text" name ="userid" id = "user${status.index}" value="${like.userid}" hidden="true">
 							  			${like.member.name }</td>
+							  		<c:if test="${like.member.dept.upDeptno == 100}">
+								  		<td>교직원</td>							  		
+							  		</c:if>
+							  		<c:if test="${like.member.dept.upDeptno == 200}">
+								  		<td>교수</td>							  		
+							  		</c:if>
 							  		<td>${like.member.dept.dname}</td>
 							  		<td>${like.member.phone}</td>
 							  		<td>
@@ -165,7 +182,36 @@
 							  <tbody>
 							  </tbody>
                     	</table>
-                    </div>
+                    	<!-- =============================================  -->
+                    	<!-- ================= 페이징 작업 ==================  -->
+                    	<!-- =============================================  -->
+                    <nav aria-label="...">
+					  <ul class="pagination" style="margin-left: 521px;">
+					  
+					    <li class="page-item">
+					      <c:if test="${page > 0}">
+						      <a class="page-link" href="myLikeAddress?page=${page-1}">Previous</a>				      
+					      </c:if>
+					      <c:if test= "${page == 0 }">
+					      	  <a class="page-link">Previous</a>
+					      </c:if>
+					    </li>					  
+					
+					  <c:forEach var="i" begin="1" end="${totalPage}">
+					    <li id="page-item${i}" class="page-item" onclick="active(${i})">
+					    <a class="page-link" href="myLikeAddress?page=${i-1 }" >${i }</a></li>
+					  </c:forEach>
+					    <li class="page-item">
+					    	<c:if test="${page < totalPage-1}">
+						      <a class="page-link" href="myLikeAddress?page=${page+1}">Next</a>
+					    	</c:if>
+					      	<c:if test= "${page > totalPage-2}">
+						      <a class="page-link">Next</a>
+					      	</c:if>
+					    </li>
+					  </ul>
+					</nav>
+					</div>
                     <!-- footer -->
                     <footer class="col-12" style="height: 60px;">
                         footer
