@@ -1,13 +1,17 @@
 package com.oracle.choongangGroup.changhun.JPA;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
-import com.sun.istack.NotNull;
+import com.oracle.choongangGroup.taewoo.domain.Notice;
 
 import lombok.Data;
 import lombok.ToString;
@@ -40,6 +44,10 @@ public class Member {
 	private String bank;
 	private String extention;
 	private String lab;
+	private Long vacation; //연차
+	private String subMajor; //부전공
+	private String studStatus; //학적상태
+	private String mainProf; //지도교수
 	
 	@JoinColumn(name = "deptno")
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -50,4 +58,8 @@ public class Member {
 	
 	@Column(name = "mem_right")
 	private String memRight;
-}
+
+	@OneToMany(mappedBy = "writer", fetch = FetchType.LAZY)
+	private List<Notice> notices = new ArrayList<>();
+	
+	}

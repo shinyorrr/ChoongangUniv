@@ -28,15 +28,28 @@ public class ApplyServiceImpl implements ApplyService {
 		return list;
 	}
 
-	//수강신청
+
+	//장바구니신청, 수강신청
 	@Override
-	public void apply(String lecId, String userid) {
-		System.out.println("ApplyService apply start...");
+	public int apply(Long lecId, String userid, int gubun) {
 		Member member = ar.memberFindOne(userid);
 		Lecture lecture = ar.lectureFindOne(lecId);
-		
-		ApplicationLec applyLec = ApplicationLec.createLec(member, lecture);
-		ar.apply(applyLec);
+		ApplicationLec applyLec = ApplicationLec.apply(member, lecture, gubun);
+		int result = ar.apply(applyLec);
+		return result;
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }
