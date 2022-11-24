@@ -1,5 +1,7 @@
 package com.oracle.choongangGroup.dongho.auth;
 
+import java.util.Optional;
+
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
@@ -21,8 +23,18 @@ public class SecurityServiceImpl implements SecurityService {
 	}
 
 	@Override
-	public Object findByUserid(String userid) {
+	public Member findByUserid(String userid) {
 		return securityRepository.findByUserid(userid);
+	}
+
+	@Override
+	public Member findByNameAndEmail(String searchId, String searchEmail) {
+		return securityRepository.findByNameAndEmail(searchId , searchEmail);
+	}
+
+	@Override
+	public Optional<Member> findByUseridAndEmail(String userid, String email) {
+		return securityRepository.findByUseridAndEmail(userid, email);
 	}
 
 

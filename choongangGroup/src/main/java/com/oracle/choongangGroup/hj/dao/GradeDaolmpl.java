@@ -1,5 +1,7 @@
 package com.oracle.choongangGroup.hj.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
@@ -29,6 +31,24 @@ public class GradeDaolmpl implements GraderDao {
 			}
 			
 			return null;
+		}
+
+		@Override
+		public List<GradeVo> listScore(GradeVo grade) {
+			 List<GradeVo> ListScore =  null;
+			 System.out.println("GradeDaolmpl listScore Start . . .."); 
+			try {
+				
+				 ListScore= session.selectList("hjListScoreAll", grade);
+				 System.out.println("GradeDaolmpl listScore empList.size()->  "+ListScore.size()  );
+				
+			} catch (Exception e) {
+				System.out.println("GradeDaolmpl listScore e.getMessage()->  "+e.getMessage()  );
+			}
+			 
+		
+			
+			return ListScore;
 		}
 	
 }

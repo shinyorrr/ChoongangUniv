@@ -21,7 +21,7 @@ spring:
    # Jpa Setting  
   jpa: 
     hibernate:
-      ddl-auto: update  # none   update
+      ddl-auto: update  # none   update    create
     properties:
       hibernate: 
         default_batch_fetch_size : 500 
@@ -45,8 +45,8 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: ttaekwang3@gmail.com
-    password: toinacq 
+    username: leoteemo82@gmail.com
+    password: hrwavzoccvtkuydd 
     properties:
       mail:
         smtp:

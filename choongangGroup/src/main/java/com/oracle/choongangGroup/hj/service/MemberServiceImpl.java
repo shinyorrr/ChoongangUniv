@@ -1,5 +1,7 @@
 package com.oracle.choongangGroup.hj.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -7,6 +9,8 @@ import com.oracle.choongangGroup.hj.dao.GraderDao;
 import com.oracle.choongangGroup.hj.dao.MemberDao;
 import com.oracle.choongangGroup.hj.model.GradeVo;
 import com.oracle.choongangGroup.hj.model.MemberVo;
+import com.oracle.choongangGroup.hj.repository.GraderRepository;
+import com.oracle.choongangGroup.sh.domain.Lecture;
 
 import lombok.RequiredArgsConstructor;
 
@@ -17,6 +21,7 @@ public class MemberServiceImpl implements MemberService {
 
 	private final MemberDao md ;
 	private final GraderDao gd ;
+	private final GraderRepository gr;
 
 	//아이디 받아와서 학적 조회 
 	@Override
@@ -38,7 +43,7 @@ public class MemberServiceImpl implements MemberService {
 		return updateMember;
 	}
 
-	//아이디 받아와서 성적 조회
+	//아이디 받아와서 성적 조회 페이지
 	@Override
 	public GradeVo gradeList(String userid) {
 		System.out.println("MemberServiceImpl gradeList start. . . ");
@@ -48,6 +53,33 @@ public class MemberServiceImpl implements MemberService {
 		
 		return grade;
 	}
+
+	//성적조회 할 과목 조회 jpa 
+	@Override
+	public List<Lecture> findgrades() {
+	
+		List<Lecture> findgradeList = gr.findAll();
+		System.out.println("MemberServiceImpl findorderList.size()->"+findgradeList.size());
+
+		
+		
+		return findgradeList;
+		
+	
+	}
+
+	@Override
+	public List<GradeVo> listScore(GradeVo grade) {
+		 List<GradeVo> ListScore =  null;
+		 System.out.println(" MemberServiceImpl listScore Start . . . ");
+		 ListScore = gd.listScore(grade);
+		 System.out.println("EmpServiceImpl listScore empList.size()->"+ListScore.size() );
+		
+		
+		return ListScore;
+	}
+
+	
 
 
 	
