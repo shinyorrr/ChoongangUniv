@@ -44,6 +44,10 @@ public class Member {
 	private String bank;
 	private String extention;
 	private String lab;
+	private Long vacation; //연차
+	private String subMajor; //부전공
+	private String studStatus; //학적상태
+	private String mainProf; //지도교수
 	
 	@JoinColumn(name = "deptno")
 	@ManyToOne(fetch = FetchType.LAZY)
