@@ -42,7 +42,7 @@ public class Member {
 	private String lab;
 	
 	@JoinColumn(name = "deptno")
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Dept dept;
 	
 	@Column(name = "mem_role")
