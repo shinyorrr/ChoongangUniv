@@ -19,8 +19,67 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <!-- CSS -->
 <link rel="stylesheet" href="/css/styles.css">
-<link href="css/taewooCss.css" rel="stylesheet" type="text/css">
     <title>SideBar sub menus</title>
+<!-- Ajax  -->
+<script type="text/javascript">
+
+	/**=== 게시판 수정 ===*/
+	function updateFormNotice(){
+		alert("수정폼");
+		$("#noticeTitle1").hide();
+		$("#noticeContent1").hide();
+		$("#beforeButton").hide();
+		$("#noticeTitle2").show();
+		$("#noticeContent2").show();
+		$("#afterButton").show();
+	}
+	
+	function updateNotice(){
+		var vnoticeNum = $("#noticeNum").val();
+		var vnoticeTitle = $("#noticeTitle2").val();
+		var vnoticeContent = $("#noticeContent2").val();
+		
+		console.log("vnoticeTitle -> " + vnoticeTitle);
+		console.log("vnoticeNum -> " + vnoticeNum);
+		
+		$.ajax({
+			url		 : "/updateNotice",
+			data	 : { noticeNum : vnoticeNum , noticeTitle : vnoticeTitle, noticeContent : vnoticeContent},
+			dataType : 'text',
+			success	 : function(data){
+				$("#noticeTitle1").val(vnoticeTitle);
+				$("#noticeContent1").val(vnoticeContent);
+			}
+		});
+		$("#noticeTitle1").show();
+		$("#noticeContent1").show();
+		$("#noticeTitle2").hide();
+		$("#noticeContent2").hide();
+		$("#beforeButton").show();
+		$("#afterButton").hide();
+
+	}
+	
+	/* 게시물 삭제 */
+	function deleteNotice(){
+		console.log("삭제 시작");
+		var dnoticeNum = $("#noticeNum").val();
+		console.log("dnoticeNum -> " + dnoticeNum);
+		
+		$.ajax({
+			url 	: "/deleteNotice",
+			data	: {noticeNum : dnoticeNum},
+			success : function(data){
+				alert("삭제 되었습니다.");
+				location.href = "/notice/noticeList";
+			}
+		});
+	}
+	
+	
+	
+
+</script>
 </head>
 
 <body class="" id="body-pd">
@@ -149,25 +208,28 @@
                     </div>
                     <!-- card content -->  
                     <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
-	                	<form action="/updateNotice" method="post">
 		                	<div class="container">
 		                      	<div class="mb-3">                  		
-			                      	<label class="form-label"> 글 번호 ${notice.noticeNum}</label> 
-			                      	<input id="num" type="hidden" value="${notice.noticeNum}">    
+			                      	<label id="noticeNum1" class="form-label" > 글 번호 ${notice.noticeNum}</label> 
+			                      	<input id="noticeNum" type="hidden" value="${notice.noticeNum}">    
 			                   </div>                 	
 		                       <div class="mb-3">
 		                     		<label class="form-label">제목</label>
-		                     		<input type="text" class="form-control" value="${notice.noticeTitle}" readonly>
+		                     		<input id="noticeTitle1" name="noticeTitle" type="text" class="form-control" value="${notice.noticeTitle}" readonly>
+		                     		<input id="noticeTitle2" type="text" class="form-control" value="${notice.noticeTitle}" style="display: none;">
 		                     	</div>
 		                     	<div>
 		                     		<label class="form-label">내용</label>
-		                     		<textarea class="form-control" rows="3" style="height: 300px;" readonly>${notice.noticeContent}</textarea>            	
+		                     		<textarea id="noticeContent1" name="noticeContent" class="form-control" rows="3" style="height: 300px;" readonly="readonly" >${notice.noticeContent}</textarea>
+		                     		
+		                     		<textarea id="noticeContent2" class="form-control" rows="3" style="height: 300px; display: none;">${notice.noticeContent}</textarea>            	
 		                      	</div>
 		                      	<div style="margin: 10px;">
-			                        	<button type="submit" class="btn btn-outline-primary" >수정</button>
+			                        	<button id="beforeButton" type="button" class="btn btn-outline-primary"  onclick="updateFormNotice()">수정</button>
+			                        	<button id="afterButton" type="button" class="btn btn-outline-primary"  onclick="updateNotice()" style="display: none;">수정완료</button>
+			                        	<button id="deleteButton" type="button" class="btn btn-outline-danger" onclick="deleteNotice()">삭제</button>
 			                    </div>
 		                  	 </div>
-	                  	</form>
                   	</div>
 
                     <!-- footer -->
@@ -183,5 +245,4 @@
     <!-- JS -->
     <script src="/js/main.js"></script>
 </body>
-<script type="text/javascript"></script>
 </html>
