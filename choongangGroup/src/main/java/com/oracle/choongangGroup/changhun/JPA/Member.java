@@ -44,6 +44,7 @@ public class Member {
 	private String bank;
 	private String extention;
 	private String lab;
+	private Long vacation;
 	
 	@JoinColumn(name = "deptno")
 	@ManyToOne(fetch = FetchType.LAZY)

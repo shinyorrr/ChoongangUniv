@@ -34,7 +34,7 @@ public class Work {
 	private Member member;
 	private String attOnTime;
 	private String attOffTime;
-	private Long vacation;
+	private String totalTime;
 	
 	@Enumerated(EnumType.STRING)
 	private WorkStatus attStatus;

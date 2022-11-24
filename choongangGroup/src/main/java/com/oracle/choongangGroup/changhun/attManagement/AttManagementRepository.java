@@ -6,4 +6,6 @@ import com.oracle.choongangGroup.changhun.JPA.Work;
 
 public interface AttManagementRepository extends JpaRepository<Work, String>{
 
+	Work findAllBy();
+
 }
