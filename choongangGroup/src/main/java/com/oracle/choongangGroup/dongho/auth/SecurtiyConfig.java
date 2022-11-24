@@ -1,5 +1,6 @@
 package com.oracle.choongangGroup.dongho.auth;
 
+import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,6 +13,7 @@ import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.session.HttpSessionEventPublisher;
 
 import com.oracle.choongangGroup.dongho.auth.CustomAuthenticationProvider;
 import com.oracle.choongangGroup.dongho.auth.CustomSuccessHandler;
@@ -25,6 +27,7 @@ import lombok.RequiredArgsConstructor;
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SecurtiyConfig {
 	private final PrincipalDetailsService principalDetailsService;
+	private final SecurityService securityService;
 	
 	@Bean
 	public BCryptPasswordEncoder passwordEncoder() {
@@ -57,13 +60,13 @@ public class SecurtiyConfig {
 
 			.and()
 			.formLogin()
-			.loginPage("/loginForm").permitAll()
+			.loginPage("/").permitAll()
 			.loginProcessingUrl("/login")
 			.failureUrl("/loginFail")
 			//.defaultSuccessUrl("/main").permitAll()
 			.usernameParameter("securedUsername")
 			.passwordParameter("securedPassword")
-			.successHandler(new CustomSuccessHandler())
+			.successHandler(new CustomSuccessHandler(securityService))
 			//.failureHandler(new CustomFailureHandler())
 			
 			.and()
@@ -71,7 +74,7 @@ public class SecurtiyConfig {
 			.logoutSuccessUrl("/")
 			.invalidateHttpSession(true)
 			.deleteCookies("JSESSIONID")
-			.clearAuthentication(true)
+			.clearAuthentication(false)
 			
 			.and()
 			.sessionManagement()
@@ -96,6 +99,9 @@ public class SecurtiyConfig {
                     );
         };
     }
-	 
+	@Bean
+	public ServletListenerRegistrationBean<HttpSessionEventPublisher> httpSessionEventPublisher() {
+		return new ServletListenerRegistrationBean<HttpSessionEventPublisher>(new HttpSessionEventPublisher());
+	}
 
 }

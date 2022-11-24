@@ -17,18 +17,11 @@
 <!-- CSS -->
 <link rel="stylesheet" href="/css/styles.css">
 
-    <title>SideBar sub menus</title>
+    <title>과제관리</title>
 </head>
 
 <body class="" id="body-pd">
-    <!-- header -->
-    <!-- <nav class="navbar navbar-expand-lg navbar-dark bd-navbar bg-light sticky-top position-fixed fixed-top w-100" style="position : absolute">
-        <a class="navbar-brand">
-            <button class="btn ms-2" type="button">
-                <img class="img-fluid" src="/images/logo2.png" alt="logo2" style="height: 40px;">
-            </button>
-        </a>
-    </nav> -->
+
     <nav class="navbar navbar-expand-lg navbar-dark bd-navbar bg-light sticky-top position-fixed fixed-top w-100" style="position : absolute">
         <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between">
           <a href="/" class="navbar-brand">
@@ -142,15 +135,49 @@
                 <div class="row m-5">
                     <!-- card header -->
                     <div class="col-12 rounded-top text-white overflow-auto pt-2 fw-bold" style="background-color: rgb(39, 40, 70); height: 40px;"> 
-                        <i class="bi bi-bookmark-fill me-2"></i>교수서비스 <i class="bi bi-chevron-right"></i>학사관리 <i class="bi bi-chevron-right"></i>강의 시간표 조회
+                        <i class="bi bi-bookmark-fill me-2"></i>교수서비스 <i class="bi bi-chevron-right"></i>학사관리 <i class="bi bi-chevron-right"></i>강의관리 <i class="bi bi-chevron-right"></i>과제관리
                     </div>
                     <!-- card content -->  
-                        <form action="/logout" method="post">
-	                        <input type="submit">
-                        </form>
                     <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
-                        content
-                        <a href="/admin/createMemberForm">createMember
+                        <h2>과제관리</h2>
+                        <select class="form-select w-50" aria-label="Default select example">
+							<option selected>Open this select menu</option>
+							<option value="1">One</option>
+							<option value="2">Two</option>
+							<option value="3">Three</option>
+						</select>
+						<div>total : <span class="text-danger">999</span></div>
+						<div class="btn btn-danger">점수등록</div>
+						<div class="btn btn-primary">전체내려받기</div>
+						<div class="btn btn-secondary">선택내려받기</div>
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th>No</th>
+									<th>선택</th>
+									<th>학번</th>
+									<th>제출자</th>
+									<th>제출여부</th>
+									<th>파일명</th>
+									<th>제출일</th>
+									<th>점수</th>
+									<th>평가</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+								</tr>
+							</tbody>
+						</table>
                     </div>
                     <!-- footer -->
                     <footer class="col-12" style="height: 60px;">

@@ -50,7 +50,7 @@ public class Member {
 	private String mainProf; //지도교수
 	
 	@JoinColumn(name = "deptno")
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Dept dept;
 	
 	@Column(name = "mem_role")

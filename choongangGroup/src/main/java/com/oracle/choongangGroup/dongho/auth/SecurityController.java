@@ -62,7 +62,7 @@ public class SecurityController {
 	}
 	@GetMapping("/professor/main")
 	public String professorMain() {
-		return "/professor";
+		return "/professor/lecMgMain";
 	}
 	@GetMapping("/admin/main")
 	public String adminMain() {
@@ -250,6 +250,7 @@ public class SecurityController {
 			
 			Member memberToUpdate = securityService.findByUserid(userid);
 			String encodedPassword = passwordEncoder.encode(tempPassword);
+			System.out.println("sendMail encodedPassword : " + encodedPassword);
 			memberToUpdate.setPassword(encodedPassword);
 			securityService.save(memberToUpdate);
 			
