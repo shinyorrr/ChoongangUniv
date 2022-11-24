@@ -163,10 +163,18 @@
 					    <c:forEach items="${noticeList}" var="notice">				   
 					    <tr>
 					        <td>${notice.noticeNum}</td>
-					        <td><a href="/noticeDetail?num=${notice.noticeNum}">${notice.noticeTitle }</a></td>
+					        <td><a href="/noticeDetail?noticeNum=${notice.noticeNum}">${notice.noticeTitle }</a></td>
 					        <td>${notice.noticeContent }</td>
-					        <c:set var="DateValue" value="${notice.createdDate}"/>
-					        <td>${fn:substring(DateValue,0,10)}</td>
+					        <c:choose>
+						        <c:when test="${notice.createdDate != null}">
+							        <c:set var="DateValue" value="${notice.createdDate}"/>
+							        <td>${fn:substring(DateValue,0,10)}</td>
+						        </c:when>
+						        <c:when test="${notice.modifiedDate != null}">
+							        <c:set var="DateValue" value="${notice.modifiedDate}"/>
+							        <td>${fn:substring(DateValue,0,10)}</td>
+						        </c:when>
+					        </c:choose>
 					        <td>${notice.noticeHit}</td>
 					    </tr>
 					    </c:forEach>
