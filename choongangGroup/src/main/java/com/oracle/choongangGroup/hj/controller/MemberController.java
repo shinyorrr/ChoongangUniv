@@ -88,20 +88,22 @@ public class MemberController {
 		return "student/gradeListForm";
 	}
 	
-	/*
-	 * //학기별 성적조회
-	 * 
-	 * @GetMapping(value = "/grades") public String gradeList(String userid, Model
-	 * model) { System.out.println("MemberController gradeList . . . ");
-	 * 
-	 * List<Lecture> grades = MemberService.findgrades();
-	 * model.addAttribute(attributeValue)
-	 * 
-	 * 
-	 * return "student/gradeList";
-	 * 
-	 * }
-	 */
+	//성적조회 할 과목 조회 jpa 
+	@GetMapping(value = "/grades")
+	public String gradeList(String userid, Model model ,GradeVo grade ) {
+		System.out.println("MemberController gradeList . . . ");
+	
+         List<GradeVo> ListScore = ms.listScore(grade);
+         
+		
+		List<Lecture> grades = ms.findgrades();
+		model.addAttribute("grades",grades);
+		
+		
+		return "student/gradeList";
+		
+	}
+	
 	
 	
 	

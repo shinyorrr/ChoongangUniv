@@ -68,21 +68,75 @@
 		
 	}
 	
-	// 새문서 열람시
-	$(document).ready(function(){
-		// 체크박스 그룹 셀렉터
-		$('input[name=chkbox]').click(function(){
-			// 체크 상태인 경우
-			if($(this).prop('checked')) {
-				// 체크박스 그룹의 요소 전체 체크 후 클릭한 요소 체크 상태 지정
-				$('input[name=chkbox]').prop('checked', false);
-				$(this).prop('checked', true);
-			}
-		});
-		
-		getDate();
-	});
 	
+	
+	// 문서 종류 선택
+	function sortSelect() {
+		var str = "";
+		var str2 = "";
+		$.ajax(
+				{
+					url:"sortList",
+					dataType:'json',
+					success:function(data){
+						$(data).each(
+							function(){
+								str2 = "<option value='"+this.approval_sort_no+"'>"+this.approval_sort_name+"</option>";
+								str += str2;
+							}
+						)
+						$('#approvalSort').append(str);
+					}
+				}	
+		);
+	}
+	
+	$(document).ready(function() {
+		// 문서양식 텍스트로 전달
+		$("#approvalSort").change(function(){
+			var option = "";
+			option = $("#approvalSort option:selected").text();
+			$("#selectSort").attr('value',option);
+			}
+				
+		);
+		
+		// 중간 결재자
+		$("#exampleModal").ready(function()	{
+			$.ajax(
+					{
+						url:"apprList",
+						dataType:'json',
+						success:function(data){
+							var html = "";
+							if(data.length > 0){
+								$.each(data, function(index, item){
+								   html += "<tr>";
+								   html += "<td style='width: 40px; height: 10px; padding-left:2px;'> ";
+								   html += "<input type='checkbox' name='chkbox' class='"+ index + "'>";
+		                           html += "</td>";
+		                           html += "<td style='width: 80px; height: 10px; padding-left:2px;' class='emp_name'>";
+		                           html += item.userid;
+		                           html += "</td>";
+		                           html += "<td style='width: 80px; height: 10px; padding-left:2px;' class='position_name'>";
+		                           html += item.name;
+		                           html += "</td>"; 
+		                           html += "</tr>";  
+								});
+								
+								$("tbody#ApprList").html(html);
+							}
+						}
+					}
+			
+			);
+			
+			}
+				
+		
+		);
+
+	});
 	
 </script>
 </head>
@@ -220,7 +274,7 @@
 								<form action="approvalWrite" name="addFrm" enctype="multipart/form-data" method="post">
 								<!--===================================== 문서선택  ======================================-->
 								<!-- 사용자 아이디값 가져오기 -->
-								<input type="hidden" name="userid" value="${userid}">
+								<input type="hidden" name="userid" id="userid" value="${userid}">
 								<div class="ApprListTitle">기본설정</div>
 								<div style="display: inline-block; width: 100%">
 								<div style="float: left; width: 45%">
@@ -229,14 +283,11 @@
 											<th style="width: 10%; font-size: 14px; display: table-cell; vertical-align: middle; background-color: #dddddd">문서종류</th>
 											<td style="width: 40%;">
 												<div>
-													<select name="approval_sort_no" id="approvalSort" class="form-select" aria-label="Default select example" style="width: 100%;">
-													  <option selected value="">문서 선택</option>
-													  <option value="1">출장보고서</option>
-													  <option value="2">연차신청서</option>
-													  <option value="3">비품신청서</option>
-													  <option value="4">사직서</option>
+													<!-- onclick 시 무한 생성 방지 -> this.onlcick='' -->
+													<select name="approval_sort_no" id="approvalSort" onclick="sortSelect(); this.onclick='';" class="form-select" aria-label="Default select example" style="width: 100%;">
+														<option value="" selected>문서선택</option>
 													</select>
-													<input type="hidden" id="selectedSort" name="selectedSort" />
+													<!-- <input type="hidden" id="approvalSort" name="approvalSort" /> -->
 												</div>
 											</td>
 										</tr>
@@ -249,7 +300,7 @@
 										<tr>
 											<th style="width: 10%; font-size: 14px; display: table-cell; vertical-align: middle; background-color: #dddddd">기안자</th>
 											<td style="width: 40%;">
-												최혜선
+												${mem_name}
 											</td>
 										</tr>
 									</table>
@@ -309,13 +360,13 @@
 									    <tbody>
 									    	<tr>
 												<td>
-													연차신청서
+													<input type="text" id="selectSort" name="selectSort" value="" style="border: none;">
 												</td>
 											</tr>
 									    	<tr>
 												<th style="width: 10%; font-size: 14px; display: table-cell; vertical-align: middle; background-color: #dddddd">부서</th>
 												<td>
-													교직원
+													${dname}
 												</td>
 												<th style="width: 10%; font-size: 14px; display: table-cell; vertical-align: middle; background-color: #dddddd">기안일</th>
 												<td>
@@ -383,7 +434,7 @@
 						        <div>
 						        	<!-- 사원검색 -->
 						        	<div>
-						        		<form class="emp_search" action="midListSearch">
+						        		<form class="emp_search" action="midListSearch" method="post">
 						        			<select class="form-select" aria-label="Default select example" name="search" style="width: 20%; display: inline-block;">
 											  <option selected>선택하세요</option>
 											  <option value="s_dname">부서조회</option>
@@ -406,23 +457,8 @@
 					                                 <th style="padding-left:2px;">부서</th>
 						        				</tr>
 						        			</thead>
-						        			<tbody>
-						        				<c:forEach var="member" items="${members}" varStatus="status">
-						        					<tr style="height: 20px;" id="memRow" class="${status.index}">
-							        					<td style="width: 40px; height: 10px; padding-left:2px;"> 
-					                                       <input type="checkbox" name="chkbox" class="check${status.index}">
-					                                    </td>
-							        					<td style="width: 60px; height: 10px; padding-left:2px;" id="member_name">
-								        					${member.name}
-								        				</td>
-							        					<td style="width: 60px; height: 10px; padding-left:2px;" id="member_userid">
-								        					${member.userid}
-								        				</td>
-								        				<td style="width: 60px; height: 10px; padding-left:2px;" id="member_deptno_dname">
-								        					${member.dept.dname}
-								        				</td>
-							        				</tr>
-						        				</c:forEach>
+						        			<tbody id="ApprList">
+						        				
 						        			</tbody>
 						        		</table>
 						        	</div>
@@ -430,7 +466,7 @@
 						      </div>
 						      <div class="modal-footer">
 						        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="window.location.reload()">취소</button>
-						        <button type="button" class="btn btn-primary">저장</button>
+						        <button type="submit" class="btn btn-primary">저장</button>
 						      </div>
 						    </div>
 						  </div>
@@ -470,28 +506,22 @@
 						        				</tr>
 						        			</thead>
 						        			<tbody>
-						        				<tr style="height: 20px;" id="empRow" class="#">
-						        					<td style="width: 40px; height: 10px; padding-left:2px;"> 
-				                                       <input type="checkbox" name="chkbox" class="#">
-				                                    </td>
-						        					<td style="width: 60px; height: 10px; padding-left:2px;">
-							        					양요섭
-							        				</td>
-						        					<td style="width: 60px; height: 10px; padding-left:2px;">
-							        					사번
-							        				</td>
-						        				</tr>
-						        				<tr style="height: 20px;" id="empRow" class="#">
-						        					<td style="width: 40px; height: 10px; padding-left:2px;"> 
-				                                       <input type="checkbox" name="chkbox" class="#">
-				                                    </td>
-						        					<td style="width: 60px; height: 10px; padding-left:2px;">
-							        					양요섭
-							        				</td>
-						        					<td style="width: 60px; height: 10px; padding-left:2px;">
-							        					사번
-							        				</td>
-						        				</tr>
+						        				<c:forEach var="member" items="${members}" varStatus="status">
+						        					<tr style="height: 20px;" id="memRow" class="${status.index}">
+							        					<td style="width: 40px; height: 10px; padding-left:2px;"> 
+					                                       <input type="checkbox" name="chkbox" class="check${status.index}">
+					                                    </td>
+							        					<td style="width: 60px; height: 10px; padding-left:2px;" id="member_name">
+								        					${member.name}
+								        				</td>
+							        					<td style="width: 60px; height: 10px; padding-left:2px;" id="member_userid">
+								        					${member.userid}
+								        				</td>
+								        				<td style="width: 60px; height: 10px; padding-left:2px;" id="member_deptno_dname">
+								        					${member.dept.dname}
+								        				</td>
+							        				</tr>
+						        				</c:forEach>
 						        			</tbody>
 						        		</table>
 						        	</div>
@@ -504,16 +534,14 @@
 						    </div>
 						  </div>
 						</div>
-				                        
-					                    </div>
-					                    <!-- footer -->
-					                    <footer class="col-12" style="height: 60px;">
-					                        
-					                    </footer>    
-					                </div>
-					            </main>
-					        </div>
-					    </div>
+						            <!-- footer -->
+		                    <footer class="col-12" style="height: 60px;">
+		                        
+		                    </footer>    
+		                </div>
+		            </main>             
+                </div>   
+        </div>
     <!-- IONICONS -->
     <script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script>
     <!-- JS -->

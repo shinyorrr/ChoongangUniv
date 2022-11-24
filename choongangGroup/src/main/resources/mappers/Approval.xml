@@ -16,8 +16,10 @@
 			SELECT rownum rn, a.*
 			FROM
 			(
-				select * from approval
-				where #{userid} = any(mid_approver, fin_approver)
+				select a.*, s.approval_sort_name 
+				from approval a, approval_sort s
+				where a.approval_sort_no  = s.approval_sort_no
+                and #{userid} = any(mid_approver, fin_approver)
 				and approval_status <= 1 
 				order by approval_no desc
 			) a
@@ -34,8 +36,10 @@
 			SELECT rownum rn, a.*
 			FROM
 			(
-				select * from approval
-				where userid = #{userid}
+				select a.*, s.approval_sort_name 
+                from approval a, approval_sort s
+				where a.approval_sort_no  = s.approval_sort_no
+                and userid = #{userid}
 				and approval_status <= 1
 				order by approval_no desc
 			) a
@@ -52,8 +56,10 @@
 			SELECT rownum rn, a.*
 			FROM
 			(
-				select * from approval
-				where #{userid} = any(mid_approver, fin_approver, userid)
+				select a.*, s.approval_sort_name
+                from approval a, approval_sort s
+				where a.approval_sort_no  = s.approval_sort_no
+                and #{userid} = any(mid_approver, fin_approver, userid)
 				and approval_status >= 2
 				order by approval_no desc
 			) a

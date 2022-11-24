@@ -12,7 +12,7 @@
 	   
 	   <typeAlias alias="Approval" 	   type="com.oracle.choongangGroup.hs.approval.Approval"/>
 	   <typeAlias alias="ApprovalSort" type="com.oracle.choongangGroup.hs.approval.ApprovalSort"/>
-
+	   <typeAlias alias="MemDept" 	   type="com.oracle.choongangGroup.hs.approval.MemDept"/>
 	</typeAliases>
 
 

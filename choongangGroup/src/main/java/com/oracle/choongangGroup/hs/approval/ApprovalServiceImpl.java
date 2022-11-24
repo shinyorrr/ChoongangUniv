@@ -15,6 +15,8 @@ import lombok.extern.slf4j.Slf4j;
 public class ApprovalServiceImpl implements ApprovalService {
 
 	private final ApprovalDao ad;
+	private final ApprovalSortDao asd;
+	private final MemDeptDao mdd;
 	
 	// ---------------- 결재 리스트 ----------------------
 	// 승인 대기중
@@ -62,4 +64,30 @@ public class ApprovalServiceImpl implements ApprovalService {
 		int totFinishCnt = ad.finishTotal(userid);
 		return totFinishCnt;
 	}
+	
+	
+	// ---------------- 결재양식리스트 ----------------------
+	@Override
+	public List<ApprovalSort> sortSelect() {
+		log.info("sortSelect start...");
+		List<ApprovalSort> sortList = asd.sortSelect();
+		return sortList;
+	}
+
+	// ---------------- 기안자 정보 ----------------------
+	@Override
+	public MemDept getApprInfo(MemDept memDept) {
+		log.info("getApprInfo start...");
+		MemDept infoAppr = mdd.getApprInfo(memDept);
+		return infoAppr;
+	}
+	
+	// ---------------- 결재자 리스트 ---------------------- 
+	@Override
+	public List<MemDept> apprList() {
+		log.info("apprList start...");
+		List<MemDept> listAppr = mdd.getApprList();
+		return listAppr;
+	}
+
 }

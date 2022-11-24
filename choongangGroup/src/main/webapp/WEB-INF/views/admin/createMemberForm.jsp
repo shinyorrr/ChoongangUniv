@@ -30,8 +30,7 @@
 			alert("아이디, 비밀번호, 성명을 모두 입력해주세요");
 			return false;
 		}
-		idChk();
-		pwChk();
+
 		if (idChk() == false) {
 			alert("아이디 중복");
 			return false;
@@ -79,13 +78,15 @@
 			}
 		});
 	}
-		
+	
+	//아이디 check ajax
 	function idChk() {
 		var username = document.getElementById("username").value;
 		var result   = document.getElementById("idChkResult");
 		var chkresult; 
 		if(!username) {
 			result.innerHTML='아이디를 입력해주세요';
+			document.getElementById("username").className = 'form-control bg-light is-invalid mt-3'
 			return false;
 			}
 		
@@ -99,9 +100,11 @@
 			success: function(data) {
 				if(data == "0") {
 					result.innerHTML='사용할 수 없는 아이디입니다.';
+					document.getElementById("username").className = 'form-control bg-light is-invalid mt-3'
 					chkresult = false;
 				} else if(data == "1"){
 					result.innerHTML='사용할 수 있는 아이디입니다.';
+					document.getElementById("username").className = 'form-control bg-light is-valid mt-3'
 					chkresult = true;
 				}
 				
@@ -114,24 +117,46 @@
 		return chkresult;
 	}
 	
+	// 비밀번호 check
 	function pwChk() {
 		var pw1 = document.getElementById("password").value;
 		var pw2 = document.getElementById("password2").value;
 		var result = document.getElementById("passwordChkDiv");
 		if(!pw1 || !pw2) {
 			result.innerHTML='비밀번호를 입력해주세요';
+			document.getElementById("password").className = 'form-control bg-light is-invalid mt-3';
+			document.getElementById("password2").className = 'form-control bg-light is-invalid mt-1';
 			return false;
 		}
 		if(pw1 != null && pw1 != pw2) {
 			result.innerHTML='비밀번호가 일치하지 않습니다';
+			document.getElementById("password").className = 'form-control bg-light is-invalid mt-3';
+			document.getElementById("password2").className = 'form-control bg-light is-invalid mt-1';
 			return false;
 		} 
 		if(pw1 != null && pw2 != null && pw1 == pw2) {
 			result.innerHTML='비밀번호가 일치합니다';
+			document.getElementById("password").className = 'form-control bg-light is-valid mt-3';
+			document.getElementById("password2").className = 'form-control bg-light is-valid mt-1';
 			return true;
 		}
 	}
 	
+	function nameChk() {
+		var name = document.getElementById("name").value;
+		var result = document.getElementById("nameChkDiv");
+		if(!name) {
+			result.innerHTML='성명을 입력해주세요';
+			document.getElementById("name").className = 'form-control bg-light is-invalid';
+			return false;
+		} else {
+			result.innerHTML='';
+			document.getElementById("name").className = 'form-control bg-light is-valid';
+			return true;
+		}
+	}
+	
+	// 유저별 추가정보 div 추가
 	function changeRole() {
 		var roleSelect = $('#role option:selected').val();
 		var roleAdd = $('#roleAdd')
@@ -150,36 +175,72 @@
 	}
 
 </script>
+<style type="text/css">
+	html, body {
+		height: 100%;
+	}
+	body {
+		background-color: rgb(214, 225, 237);
+	}
+	.container {
+		max-width: 420px;
+	}
+</style>
 <body>
-    <form>
-        <select id="role" name="role" onchange="changeRole()">
-            <option value="ROLE_STUDENT">학생</option>
-            <option value="ROLE_MANAGER">교직원</option>
-            <option value="ROLE_PROFESSOR">교수</option>
-            <option value="ROLE_ADMIN">관리자</option>
-        </select>
-        
-        <!-- 계정 공통 기본 정보 -->
-        <div>
-        	아이디<input type="text"     id="username" name="username" onfocusout="idChk()" required><p>
-        	<div id="idChkResult"></div><p>
-        	비밀번호<input type="password"     id="password"  name="password" required><p>
-        	비밀번호확인<input type="password" id="password2" name="password2" onfocusout="pwChk()" required><p>
-        	<div id="passwordChkDiv"></div><p>
-        	성명<input type="text"     id="name"     name="name"     required>
-        </div>
+
 
         <!-- Role별 추가 정보 -->
         <div id="roleAdd">
         	<div>학생정보</div>
         </div>
-        
-        <!-- errMsg -->
-        <div id="errMsg">
-        </div>
-    </form>
-    <!-- login button -->
-	<button class="w-100 btn btn-lg btn-primary mb-3" type="button" onclick="validateEncryptForm();">생성</button>
+
+    
+ 
+    
+
+	<main class="container position-absolute top-50 start-50 translate-middle form-signin w-100 m-auto text-center">
+		<h1 class="mb-5 fw-bold">계정생성</h1>
+		<div class="form-floating">
+   			<select class="form-select" id="role" onchange="changeRole()" aria-label="Floating label select example">
+				<option value="ROLE_STUDENT">학생</option>
+            	<option value="ROLE_MANAGER">교직원</option>
+	            <option value="ROLE_PROFESSOR">교수</option>
+	            <option value="ROLE_ADMIN">관리자</option>
+			</select>
+    		<label for="role">회원구분</label>
+		</div>
+	    <div class="form-floating">
+	    	<input type="text" class="form-control bg-light mt-3" id="username" aria-describedby="idChkResult" onfocusout="idChk()">
+	    	<label for="floatingInput">아이디</label>
+	    	<small id="idChkResult" class="text-muted">
+     			
+    		</small>
+	    </div>
+	    <div class="form-floating">
+	    	<input type="password" class="form-control bg-light mt-3" id="password">
+	    	<label for="floatingPassword">비밀번호</label>
+	    </div>
+	    <div class="form-floating">
+	    	<input type="password" class="form-control bg-light mt-1" id="password2" aria-describedby="passwordChkDiv" onfocusout="pwChk()">
+	    	<label for="floatingPassword">비밀번호확인</label>
+	    	<small id="passwordChkDiv" class="text-muted">
+     			
+    		</small>
+	    	
+	    </div>
+	    <div class="form-floating">
+	    	<input type="text" class="form-control bg-light mt-3" id="name" onfocusout="nameChk()">
+	    	<label for="floatingInput">성명</label>
+	    	<small id="nameChkDiv" class="text-muted">
+     			
+    		</small>
+	    </div>
+	    <!-- errMsg -->
+	    <div class="h6 mb-3 fw-normal" id="errMsg"></div>
+		<!-- login button -->
+	    <button class="w-100 btn btn-lg btn-primary mb-3" type="button" onclick="validateEncryptForm();">계정생성</button>
+	    
+	</main>
     <!-- hidden values -->
     <input type="hidden" id="rsaPulbicKeyModulus" value="${publicKeyModulus}">
 	<input type="hidden" id="rsaPulbicKeyExponent" value="${publicKeyExponent}">
