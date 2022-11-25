@@ -36,4 +36,14 @@ public class ApprovalRestController {
 		log.info("listAppr.size()->{}",listAppr.size());
 		return listAppr;
 	}
+	
+	// 상신 취소
+	@RequestMapping("apprDelete")
+	public int delete(Long approval_no) {
+		log.info("approval_no->{}",approval_no);
+		log.info("Delete Start...");
+		int result = 0;
+		result = as.delete(approval_no);
+		return result;
+	}
 }

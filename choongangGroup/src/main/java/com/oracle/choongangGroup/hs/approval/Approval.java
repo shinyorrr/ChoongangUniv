@@ -34,42 +34,21 @@ public class Approval {
 	
 	// 조회용
 	private String search; 	private String keyword;
-	private String name;
-	private Member member;
-	private Member midapprvo;
-	private Member finapprvo;
+	private String mem_name;
+	private MemDept memDept;
+	private MemDept midapprvo;
+	private MemDept finapprvo;
 	private ApprovalSort sort;
 	private String approval_sort_name;
 	
 	// 페이징
-	private int currentPage = 1;
-	private int rowPage = 10;
-	private int pageBlock= 10;
-	private String pageNum;
 	private int start;
 	private int end;
-	private int startPage;			
-	private int endPage;
-	private int total;				
-	private int totalPage;
 	
-//	public Approval(int total, String currentPage1) {
-//		this.total = total;	// 140
-//		if (currentPage1 != null) {
-//			this.currentPage = Integer.parseInt(currentPage1); // 2
-//		}
-//		//			1				10
-//		start = (currentPage - 1) * rowPage + 1; // 시작시1	11
-//		end	  = start + rowPage - 1;			 // 시작시10	20
-//		//									25		/	10
-//		totalPage = (int) Math.ceil((double)total / rowPage);	// 시작시 3 5 14
-//					//		2			2
-//		startPage = currentPage - (currentPage - 1) % pageBlock; // 시작시 1
-//		endPage = startPage + pageBlock - 1; // 10
-//		//	10		14
-//		if(endPage > totalPage) {
-//			endPage = totalPage;
-//		}
-//	}
+	
+	@Override
+	public String toString() {
+		return "사번:" +userid+" / 첫번째 결재자:"+mid_approver+" / 두번째 결재자:"+fin_approver;
+	}
 	
 }
