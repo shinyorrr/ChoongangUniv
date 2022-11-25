@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 public class DeptController {
 	
 	private final DeptService deptService;
-	private final DeptRepository deptRepository;
+	private final DeptRepository deptRepository ;
 	
 	@RequestMapping(value = "deptForm")
 	public String DeptForm(Model model) {
@@ -52,6 +52,7 @@ public class DeptController {
 		log.info("searchDept param searchGubun -> {}" , searchGubun);
 		
 		List<Dept> searchDeptList = deptService.searchDept(search, searchGubun);
+		
 		
 		String msg = "";
 		if(searchDeptList == null) {
