@@ -20,6 +20,7 @@ public class AttRestController {
 	@RequestMapping(value = "attInsert")
 	public String attInsert() {
 		String msg = null;
+		
 		try {
 			service.attInsert();
 		} catch (Exception e) {
@@ -29,6 +30,21 @@ public class AttRestController {
 		System.out.println(msg);
 		
 		return msg;
-				
+	}
+	
+	@RequestMapping(value = "attOff")
+	public String attOff() {
+		String msg = null;
+		
+		try {
+			service.attOff();
+		} catch (Exception e) {
+			System.out.println("attOff 오류-->" + e.getMessage());
+			msg = "이미 출근 등록이 되었습니다!";
+		}
+		
+		System.out.println(msg);
+		
+		return msg;
 	}
 }

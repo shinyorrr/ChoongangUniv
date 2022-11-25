@@ -40,4 +40,37 @@
 		  }
 		  return zero + num;
 	}
+	
+	/* 출근버튼 구현 */
+	function attInsert(){
+		var attOn = 1;
+		if(confirm("출근하시겠습니까?")){
+			$.ajax({
+				url 	: '/attInsert',
+				data	: {att : attOn},
+				dataType: 'text',
+				success : function(data){
+					console.log("성공");
+					alert("출근 등록 완료되었습니다");
+				}
+			});
+		}
+	
+	}
+	
+	/* 퇴근 버튼 구현 */
+	function attOff(){
+		var attOn = 2;
+		if(confirm("퇴근하시겠습니까?")){
+			$.ajax({
+				url 	: '/attOff',
+				data	: {att : attOn},
+				dataType: 'text',
+				success : function(data){
+					console.log("성공");
+					alert("퇴근 등록 완료되었습니다");
+				}
+			});
+		}
+	}
 </script>

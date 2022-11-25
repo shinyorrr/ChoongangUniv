@@ -145,6 +145,9 @@
                         <i class="bi bi-bookmark-fill me-2"></i>교수서비스 <i class="bi bi-chevron-right"></i>학사관리 <i class="bi bi-chevron-right"></i>강의 시간표 조회
                     </div>
                     <!-- card content -->  
+                        <form action="/logout" method="post">
+	                        <input type="submit">
+                        </form>
                     <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
                         content
                         <a href="/admin/createMemberForm">createMember
