@@ -2,6 +2,8 @@ package com.oracle.choongangGroup.hs.approval;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,8 +28,11 @@ public class ApprovalRestController {
 	// 회원 전체 조회
 	@RequestMapping("apprList")
 	public List<MemDept> apprList() {
+		// HttpSession session;
+		// String userid = (String) session.getAttribute("userid");
+		String userid = "12301001";
 		log.info("apprList start...");
-		List<MemDept> listAppr = as.apprList();
+		List<MemDept> listAppr = as.apprList(userid);
 		log.info("listAppr.size()->{}",listAppr.size());
 		return listAppr;
 	}

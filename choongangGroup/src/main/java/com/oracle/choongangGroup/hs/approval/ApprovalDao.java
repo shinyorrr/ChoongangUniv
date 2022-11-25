@@ -16,5 +16,7 @@ public interface ApprovalDao {
 
 	int finishTotal(String userid);
 
+	int saveAppr(Approval approval);
+
 
 }

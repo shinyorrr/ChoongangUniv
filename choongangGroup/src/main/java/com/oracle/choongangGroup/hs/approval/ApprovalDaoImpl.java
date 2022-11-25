@@ -99,4 +99,19 @@ public class ApprovalDaoImpl implements ApprovalDao {
 		}
 		return totFinishCnt;
 	}
+	
+	// ---------------- 새결재저장 ----------------------
+	@Override
+	public int saveAppr(Approval approval) {
+		int result = 0;
+		log.info("saveAppr Start...");
+		try {
+			// approval.setItem_need("아이템");
+			result = session.insert("hsApprSave", approval);
+			log.info("saveAppr result->{}", result);
+		} catch (Exception e) {
+			log.info("saveAppr Exception->{}",e.getMessage());
+		}
+		return result;
+	}
 }

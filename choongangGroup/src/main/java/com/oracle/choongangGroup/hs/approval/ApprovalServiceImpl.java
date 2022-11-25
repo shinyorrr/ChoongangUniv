@@ -84,10 +84,18 @@ public class ApprovalServiceImpl implements ApprovalService {
 	
 	// ---------------- 결재자 리스트 ---------------------- 
 	@Override
-	public List<MemDept> apprList() {
+	public List<MemDept> apprList(String userid) {
 		log.info("apprList start...");
-		List<MemDept> listAppr = mdd.getApprList();
+		List<MemDept> listAppr = mdd.getApprList(userid);
 		return listAppr;
+	}
+	
+	// ---------------- 새결재저장 ----------------------
+	@Override
+	public int saveAppr(Approval approval) {
+		log.info("saveAppr start...");
+		int result = ad.saveAppr(approval);
+		return result;
 	}
 
 }

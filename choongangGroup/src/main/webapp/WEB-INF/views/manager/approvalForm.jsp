@@ -92,6 +92,7 @@
 	}
 	
 	$(document).ready(function() {
+		
 		// 문서양식 텍스트로 전달
 		$("#approvalSort").change(function(){
 			var option = "";
@@ -113,30 +114,148 @@
 								$.each(data, function(index, item){
 								   html += "<tr>";
 								   html += "<td style='width: 40px; height: 10px; padding-left:2px;'> ";
-								   html += "<input type='checkbox' name='chkbox' class='"+ index + "'>";
+								   html += "<input type='radio' name='radioBox' class='"+ index + "' value='"+item.userid+','+item.name+','+item.dname+"'>";
 		                           html += "</td>";
-		                           html += "<td style='width: 80px; height: 10px; padding-left:2px;' class='emp_name'>";
+		                           html += "<td style='width: 80px; height: 10px; padding-left:2px;' class='mem_userid'>";
 		                           html += item.userid;
 		                           html += "</td>";
-		                           html += "<td style='width: 80px; height: 10px; padding-left:2px;' class='position_name'>";
+		                           html += "<td style='width: 80px; height: 10px; padding-left:2px;' class='mem_name'>";
 		                           html += item.name;
-		                           html += "</td>"; 
+		                           html += "</td>";
+		                           html += "<td style='width: 80px; height: 10px; padding-left:2px;' class='mem_dname'>";
+		                           html += item.dname;
+		                           html += "</td>";
 		                           html += "</tr>";  
 								});
 								
-								$("tbody#ApprList").html(html);
+								$("tbody#MidApprList").html(html);
 							}
+							
+							
 						}
+					
+					
 					}
 			
-			);
+				);
+			
 			
 			}
 				
 		
 		);
+		
+		// 최종결재자
+		$("#exampleModal2").ready(function()	{
+			$.ajax(
+					{
+						url:"apprList",
+						dataType:'json',
+						success:function(data){
+							var html = "";
+							if(data.length > 0){
+								$.each(data, function(index, item){
+								   html += "<tr>";
+								   html += "<td style='width: 40px; height: 10px; padding-left:2px;'> ";
+								   html += "<input type='radio' name='radioBox2' class='"+ index + "' value='"+item.userid+','+item.name+','+item.dname+"'>";
+		                           html += "</td>";
+		                           html += "<td style='width: 80px; height: 10px; padding-left:2px;' class='mem_userid'>";
+		                           html += item.userid;
+		                           html += "</td>";
+		                           html += "<td style='width: 80px; height: 10px; padding-left:2px;' class='mem_name'>";
+		                           html += item.name;
+		                           html += "</td>";
+		                           html += "<td style='width: 80px; height: 10px; padding-left:2px;' class='mem_dname'>";
+		                           html += item.dname;
+		                           html += "</td>";
+		                           html += "</tr>";  
+								});
+								
+								$("tbody#FinApprList").html(html);
+							}
+							
+							
+						}
+					
+					
+					}
+			
+				);
+			
+			
+			}
+				
+		
+		);
+		
 
 	});
+	
+	// 중간 결재자 정보 넣기
+	function findMidOk() {
+		var midInfo = $('input:radio[name="radioBox"]:checked').val();
+		var finInfo = $('input:radio[name="radioBox2"]:checked').val();
+		
+		if(finInfo == null) {
+			var userid = midInfo.split(',')[0];
+			var name   = midInfo.split(',')[1];
+			var dname  = midInfo.split(',')[2];
+			
+			console.log("사번 : "+userid);
+			console.log("이름 : "+name);
+			console.log("부서 : "+dname);
+			
+			$('input[name=mid_approver]').attr('value', userid);
+			$('input[name=mid_approver_name]').attr('value', name);
+			$('input[name=mid_approver_dname]').attr('value', dname);
+			
+			$('#exampleModal').modal('hide');
+		} else if(midInfo != null && finInfo != null) {
+			if(midInfo == finInfo) {
+				alert("이미 선택된 결재자입니다.");
+				return false;
+			}
+		}
+	}
+	
+	// 최종 결재자 정보 넣기
+	function findFinOk() {
+		var midInfo = $('input:radio[name="radioBox"]:checked').val();		
+		var finInfo = $('input:radio[name="radioBox2"]:checked').val();
+		
+		if(midInfo == finInfo){
+			alert("이미 선택된 결재자입니다.");
+			$('input:radio[name="radioBox2"]').prop('checked',false);
+			return false;
+		} else if(midInfo == null) {
+			alert("중간 결재자를 먼저 선택해주세요");
+			$('input:radio[name="radioBox2"]').prop('checked',false);
+			return false;
+		} else {
+			var userid = finInfo.split(',')[0];
+			var name   = finInfo.split(',')[1];
+			var dname  = finInfo.split(',')[2];
+			
+			console.log("사번 : "+userid);
+			console.log("이름 : "+name);
+			console.log("부서 : "+dname);
+			
+			$('input[name=fin_approver]').attr('value', userid);
+			$('input[name=fin_approver_name]').attr('value', name);
+			$('input[name=fin_approver_dname]').attr('value', dname);
+			
+			$('#exampleModal2').modal('hide');
+		}
+		
+		
+	}
+	
+	// 결재 시작일 종료일 지정
+	function getStartDate()  {
+		const approval_start = document.getElementById('approval_start').value;
+	 	document.getElementById('approval_end').setAttribute("min", approval_start);
+	}
+	
 	
 </script>
 </head>
@@ -271,7 +390,7 @@
 							<div style="border-top: 1px dashed #c9c9c9; margin-top: 10px;"></div>
 							<div id="containerBox">
 							
-								<form action="approvalWrite" name="addFrm" enctype="multipart/form-data" method="post">
+								<form action="approvalSave" name="addFrm" enctype="multipart/form-data" method="post">
 								<!--===================================== 문서선택  ======================================-->
 								<!-- 사용자 아이디값 가져오기 -->
 								<input type="hidden" name="userid" id="userid" value="${userid}">
@@ -329,19 +448,28 @@
 								  		<tr class="tblElecApprLine">
 								  			<th style="width: 22%">이름</th>
 								  			<td>
-								  				<input type="text" name="#" id="#" style="width: 50%; margin-left:10px; margin-right: 1%; border-radius:3px; border: 1px solid #adb5bd;">
+								  				<input type="text" name="mid_approver_name" id="mid_approver_name" style="width: 50%; margin-left:10px; margin-right: 1%; border-radius:3px; border: 1px solid #adb5bd;" readonly="readonly">
 								  			</td>
 								  			<td>
-								  				<input type="text" name="#" id="#" style="width: 50%; margin-left:10px; margin-right: 1%; border-radius:3px; border: 1px solid #adb5bd;">
+								  				<input type="text" name="fin_approver_name" id="fin_approver_name" style="width: 50%; margin-left:10px; margin-right: 1%; border-radius:3px; border: 1px solid #adb5bd;" readonly="readonly">
 								  			</td>
 								  		</tr>
 								  		<tr class="tblElecApprLine">
 								  			<th style="width: 22%">사번</th>
 								  			<td>
-								  				<input type="text" name="#" id="#" style="width: 50%; margin-left:10px; margin-right: 1%; border-radius:3px; border: 1px solid #adb5bd;">
+								  				<input type="text" name="mid_approver" id="mid_approver" style="width: 50%; margin-left:10px; margin-right: 1%; border-radius:3px; border: 1px solid #adb5bd;" readonly="readonly">
 								  			</td>
 								  			<td>
-								  				<input type="text" name="#" id="#" style="width: 50%; margin-left:10px; margin-right: 1%; border-radius:3px; border: 1px solid #adb5bd;">
+								  				<input type="text" name="fin_approver" id="fin_approver" style="width: 50%; margin-left:10px; margin-right: 1%; border-radius:3px; border: 1px solid #adb5bd;" readonly="readonly">
+								  			</td>
+								  		</tr>
+								  		<tr class="tblElecApprLine">
+								  			<th style="width: 22%">직급</th>
+								  			<td>
+								  				<input type="text" name="mid_approver_dname" id="mid_approver" style="width: 50%; margin-left:10px; margin-right: 1%; border-radius:3px; border: 1px solid #adb5bd;" readonly="readonly">
+								  			</td>
+								  			<td>
+								  				<input type="text" name="fin_approver_dname" id="fin_approver_dname" style="width: 50%; margin-left:10px; margin-right: 1%; border-radius:3px; border: 1px solid #adb5bd;" readonly="readonly">
 								  			</td>
 								  		</tr>
 								  	</tbody>
@@ -360,7 +488,7 @@
 									    <tbody>
 									    	<tr>
 												<td>
-													<input type="text" id="selectSort" name="selectSort" value="" style="border: none;">
+													<input type="text" id="selectSort" name="selectSort" value="" style="border: none;" readonly="readonly">
 												</td>
 											</tr>
 									    	<tr>
@@ -380,28 +508,28 @@
 									    	<tr>
 												<th style="width: 10%; font-size: 14px; display: table-cell; vertical-align: middle; background-color: #dddddd">제목</th>
 												<td colspan="5">
-													<input type="text" name="#" id="#" style="width: 50%; margin-left:10px; margin-right: 1%; border-radius:3px; border: none;">
+													<input type="text" name="title" id="title" style="width: 50%; margin-left:10px; margin-right: 1%; border-radius:3px; border: none;" required="required">
 												</td>
 											</tr>
 											<tr>
 												<th style="width: 10%; font-size: 14px; display: table-cell; vertical-align: middle; background-color: #dddddd">연차신청기간</th>
 												<td colspan="5">
-													<input type="date" name="#" id="#" style="width: 20%; margin-left:10px; margin-right: 1%; border-radius:3px; border: none; float: left">
+													<input type="date" name="approval_start" id="approval_start" style="width: 20%; margin-left:10px; margin-right: 1%; border-radius:3px; border: none; float: left" oninput="getStartDate()">
 													<i class="bi bi-dash" style="float: left"></i>
-													<input type="date" name="#" id="#" style="width: 20%; margin-left:10px; margin-right: 1%; border-radius:3px; border: none; float: left">
+													<input type="date" name="approval_end" id="approval_end" style="width: 20%; margin-left:10px; margin-right: 1%; border-radius:3px; border: none; float: left">
 												</td>
 											</tr>
 											<tr>
 												<td colspan="6">
 													<div class="mb-3">
-														<textarea class="form-control" id="exampleFormControlTextarea1" maxlength="200" placeholder="상세 내용을 입력하세요" rows="3"></textarea>
+														<textarea name="approval_content" class="form-control" id="exampleFormControlTextarea1" maxlength="200" placeholder="상세 내용을 입력하세요" rows="3"></textarea>
 													</div>
 												</td>
 											</tr>
 											<tr>
 												<th style="width: 10%; font-size: 14px; display: table-cell; vertical-align: middle; background-color: #dddddd">파일선택</th>
 												<td colspan="5">
-													<input type="file" name="#" id="#" style="width: 50%; margin-left:10px; margin-right: 1%; border-radius:3px; border: none;">
+													<input type="text" name="file_path" id="file_path" style="width: 50%; margin-left:10px; margin-right: 1%; border-radius:3px; border: none;">
 												</td>
 											</tr>
 									    </tbody>
@@ -412,7 +540,7 @@
 								<!--======================== 결재완료/취소 =======================-->
 								<div>
 									<button type="submit" class="btn btn-primary btn-sm">상신</button>
-									<button type="reset" class="btn btn-secondary btn-sm">취소</button>				
+									<button type="button" class="btn btn-secondary btn-sm" onclick="javascript:history.back()">취소</button>				
 								</div>
 								</form>
 							</div>
@@ -423,7 +551,7 @@
 						<!-- Vertically centered modal -->
 						<!-- Modal -->
 						<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-						  <div class="modal-dialog modal-lg">
+						  <div class="modal-dialog">
 						    <div class="modal-content">
 						      <div class="modal-header">
 						        <h1 class="modal-title fs-5" id="exampleModalLabel">중간결재자 선택</h1>
@@ -434,9 +562,9 @@
 						        <div>
 						        	<!-- 사원검색 -->
 						        	<div>
-						        		<form class="emp_search" action="midListSearch" method="post">
+						        		<form class="mid_search" action="midApprSearch" method="get">
 						        			<select class="form-select" aria-label="Default select example" name="search" style="width: 20%; display: inline-block;">
-											  <option selected>선택하세요</option>
+											  <option selected>선택</option>
 											  <option value="s_dname">부서조회</option>
 											  <option value="s_name">이름조회</option>
 											</select>
@@ -450,14 +578,14 @@
 						        			<thead style="padding: 0;">
 						        				<tr style="text-align: left; font-weight: normal;">
 						        					<th style="padding-left: 2px">
-						        						<input type="checkbox" name="checkAll" id="checkAll">
+						        						&nbsp;
 						        					</th>
 						        					 <th style="padding-left:2px;">이름</th>
 						        					 <th style="padding-left:2px;">사번</th>
 					                                 <th style="padding-left:2px;">부서</th>
 						        				</tr>
 						        			</thead>
-						        			<tbody id="ApprList">
+						        			<tbody id="MidApprList">
 						        				
 						        			</tbody>
 						        		</table>
@@ -465,8 +593,8 @@
 						        </div>
 						      </div>
 						      <div class="modal-footer">
-						        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="window.location.reload()">취소</button>
-						        <button type="submit" class="btn btn-primary">저장</button>
+						        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="$('#exampleModal').modal('hide');">취소</button>
+						        <button type="button" class="btn btn-primary" onclick="findMidOk()">저장</button>
 						      </div>
 						    </div>
 						  </div>
@@ -476,10 +604,10 @@
 						<!-- Vertically centered modal -->
 						<!-- Modal -->
 						<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-						  <div class="modal-dialog modal-lg">
+						  <div class="modal-dialog">
 						    <div class="modal-content">
 						      <div class="modal-header">
-						        <h1 class="modal-title fs-5" id="exampleModalLabel">중간결재자 선택</h1>
+						        <h1 class="modal-title fs-5" id="exampleModalLabel">최종결재자 선택</h1>
 						        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 						      </div>
 						      <div class="modal-body">
@@ -487,49 +615,39 @@
 						        <div>
 						        	<!-- 사원검색 -->
 						        	<div>
-						        		<form class="emp_search" action="">
-						        			<input id="searchWord" class="search" type="text" placeholder="이름, 부서">
-						        			<button type="button" class="btn btn-info btnSearch" style="border-radius: 3px; color: white;">검색</button>   
+						        		<form class="mid_search" action="midApprSearch" method="get">
+						        			<select class="form-select" aria-label="Default select example" name="search" style="width: 20%; display: inline-block;">
+											  <option selected>선택</option>
+											  <option value="s_dname">부서조회</option>
+											  <option value="s_name">이름조회</option>
+											</select>
+						        			<input id="searchWord" class="search" type="text" placeholder="이름, 부서" name="keyWord" style="height: 30px;">
+						        			<button type="button" onclick="getFinList();" class="btn btn-info btnSearch" style="border-radius: 3px; color: white; margin: 0px;">검색</button>   
 						        		</form>
 						        	</div>
 						        	
 						        	<div class="scroll_wrap" style="height: 360px;">
-						        		<table style="width: 400px; height: 366px; border: 0px; overflow-y: auto;">
+						        		<table class="table table-striped" style="width: 400px; height: 366px; border: 0px; overflow-y: auto;">
 						        			<thead style="padding: 0;">
 						        				<tr style="text-align: left; font-weight: normal;">
 						        					<th style="padding-left: 2px">
-						        						<input type="checkbox" name="check1" id="check1">
+						        						&nbsp;
 						        					</th>
 						        					 <th style="padding-left:2px;">이름</th>
 						        					 <th style="padding-left:2px;">사번</th>
 					                                 <th style="padding-left:2px;">부서</th>
 						        				</tr>
 						        			</thead>
-						        			<tbody>
-						        				<c:forEach var="member" items="${members}" varStatus="status">
-						        					<tr style="height: 20px;" id="memRow" class="${status.index}">
-							        					<td style="width: 40px; height: 10px; padding-left:2px;"> 
-					                                       <input type="checkbox" name="chkbox" class="check${status.index}">
-					                                    </td>
-							        					<td style="width: 60px; height: 10px; padding-left:2px;" id="member_name">
-								        					${member.name}
-								        				</td>
-							        					<td style="width: 60px; height: 10px; padding-left:2px;" id="member_userid">
-								        					${member.userid}
-								        				</td>
-								        				<td style="width: 60px; height: 10px; padding-left:2px;" id="member_deptno_dname">
-								        					${member.dept.dname}
-								        				</td>
-							        				</tr>
-						        				</c:forEach>
+						        			<tbody id="FinApprList">
+						        				
 						        			</tbody>
 						        		</table>
 						        	</div>
 						        </div>
 						      </div>
 						      <div class="modal-footer">
-						        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="window.location.reload()">취소</button>
-						        <button type="button" class="btn btn-primary">저장</button>
+						        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="$('#exampleModal2').modal('hide');">취소</button>
+						        <button type="button" class="btn btn-primary"  onclick="findFinOk()">저장</button>
 						      </div>
 						    </div>
 						  </div>
