@@ -8,4 +8,6 @@ public interface MemDeptDao {
 
 	List<MemDept> getApprList(String userid);
 
+	MemDept findMem(String userid);
+
 }

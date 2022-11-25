@@ -43,4 +43,16 @@ public class MemDeptDaoImpl implements MemDeptDao {
 		}
 		return listAppr;
 	}
+
+	// ---------------- 직원 상세 정보 ----------------------
+	@Override
+	public MemDept findMem(String userid) {
+		MemDept memDept = null;
+		try {
+			memDept = session.selectOne("hsMemDetail", userid);
+		} catch (Exception e) {
+			log.info("findMem Exception->{}",e.getMessage());
+		}
+		return memDept;
+	}
 }

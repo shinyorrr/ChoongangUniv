@@ -8,7 +8,7 @@
 <mapper namespace="com.oracle.choongangGroup.hs.approval.ApprovalMapper">
 
 	<!-- =====================결재 리스트 불러오기===================== -->
-	<select id="hsApprWaitList" parameterType="String" resultType="Approval">
+	<select id="hsApprWaitList" parameterType="Approval" resultType="Approval">
 		<![CDATA[
 		SELECT *
 		FROM
@@ -20,15 +20,15 @@
 				from approval a, approval_sort s
 				where a.approval_sort_no  = s.approval_sort_no
                 and #{userid} = any(mid_approver, fin_approver)
-				and approval_status <= 1 
+				and approval_status = 0
 				order by approval_no desc
 			) a
 		)
-		where rn between 1 and 3
+		where rn between #{start} and #{end}
 		]]>
 	</select>
 	
-	<select id="hsApprProcessList" parameterType="String" resultType="Approval">
+	<select id="hsApprProcessList" parameterType="Approval" resultType="Approval">
 		<![CDATA[
 		SELECT *
 		FROM
@@ -40,15 +40,15 @@
                 from approval a, approval_sort s
 				where a.approval_sort_no  = s.approval_sort_no
                 and userid = #{userid}
-				and approval_status <= 1
+				and approval_status = 0
 				order by approval_no desc
 			) a
 		)
-		where rn between 1 and 3
+		where rn between #{start} and #{end}
 		]]>
 	</select>
 	
-	<select id="hsApprfinishList" parameterType="String" resultType="Approval">
+	<select id="hsApprfinishList" parameterType="Approval" resultType="Approval">
 		<![CDATA[
 		SELECT *
 		FROM
@@ -60,11 +60,11 @@
                 from approval a, approval_sort s
 				where a.approval_sort_no  = s.approval_sort_no
                 and #{userid} = any(mid_approver, fin_approver, userid)
-				and approval_status >= 2
+				and approval_status in (1, 2)
 				order by approval_no desc
 			) a
 		)
-		where rn between 1 and 3
+		where rn between #{start} and #{end}
 		]]> 
 	</select>
 	
@@ -73,7 +73,7 @@
 			<![CDATA[
 			select count(*) from approval
 			where #{userid} = any(mid_approver, fin_approver)
-			and approval_status <= 1  
+			and approval_status = 0 
 			]]>
 	</select>
 	
@@ -81,7 +81,7 @@
 			<![CDATA[
 			select count(*) from approval
 			where userid = #{userid}
-			and approval_status <= 1 
+			and approval_status = 0
 			]]>
 	</select>
 	
@@ -89,7 +89,7 @@
 			<![CDATA[
 			select count(*) from approval
 			where #{userid} = any(mid_approver, fin_approver, userid)
-			and approval_status >= 2
+			and approval_status in (1, 2)
 			]]>
 	</select>
 	
@@ -122,5 +122,54 @@
 								)
 								
 	</insert>
+	
+	<!-- =====================기안 진행 상세페이지===================== -->
+	<select id="hsApprDetail" parameterType="Approval" resultType="Approval">
+		select a.*, s.approval_sort_name
+           from approval a, approval_sort s
+		where a.approval_sort_no  = s.approval_sort_no
+           and userid = #{userid}
+           and approval_no = #{approval_no}
+	</select>
+	
+	<!-- =====================상신 취소===================== -->
+	<delete id="hsApprDelete" parameterType="Long">
+		delete from approval where approval_no = #{approval_no}
+	</delete>
+	
+	<!-- =====================중간결재자 / 최종결재자 승인===================== -->
+	
+	<update id="confirmMidApproval" parameterType="Approval">
+		update approval
+		set mid_approver_ok = 1,
+		    mid_approver_opinion = #{mid_approval_opinion}
+		where approval_no = #{aproval_no}
+	</update>
+	
+	<update id="confirmFinApproval" parameterType="Approval">
+		update approval
+		set fin_approver_ok = 1,
+			approval_status = 2,
+		    fin_approver_opinion = #{fin_approval_opinion}
+		where approval_no = #{aproval_no}
+	</update>
+	
+	<!-- =====================중간결재자 / 최종결재자 반려===================== -->
+	
+	<update id="rejectMidApproval"  parameterType="Approval">
+		update approval
+		set mid_approvar_ok = 2,
+			approval_status = 2,
+			mid_approval_opinion = #{mid_approval_opinion},
+		where approval_no = #{approval_no}
+	</update>
+	
+	<update id="rejectFinApproval"  parameterType="Approval">
+		update approval
+		set fin_approver_ok = 2,
+			approval_status = 2,
+			fin_approval_opinion = #{fin_approval_opinion},
+		where approval_no = #{approval_no}
+	</update>
 	
 </mapper>

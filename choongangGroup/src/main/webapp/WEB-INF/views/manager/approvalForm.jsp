@@ -114,7 +114,7 @@
 								$.each(data, function(index, item){
 								   html += "<tr>";
 								   html += "<td style='width: 40px; height: 10px; padding-left:2px;'> ";
-								   html += "<input type='radio' name='radioBox' class='"+ index + "' value='"+item.userid+','+item.name+','+item.dname+"'>";
+								   html += "<input type='radio' name='radioBox' class='"+ index + "' value='"+item.userid+','+item.name+','+item.dname+"' required='required'>";
 		                           html += "</td>";
 		                           html += "<td style='width: 80px; height: 10px; padding-left:2px;' class='mem_userid'>";
 		                           html += item.userid;
@@ -403,7 +403,7 @@
 											<td style="width: 40%;">
 												<div>
 													<!-- onclick 시 무한 생성 방지 -> this.onlcick='' -->
-													<select name="approval_sort_no" id="approvalSort" onclick="sortSelect(); this.onclick='';" class="form-select" aria-label="Default select example" style="width: 100%;">
+													<select name="approval_sort_no" id="approvalSort" onclick="sortSelect(); this.onclick='';" class="form-select" aria-label="Default select example" style="width: 100%;" required="required">
 														<option value="" selected>문서선택</option>
 													</select>
 													<!-- <input type="hidden" id="approvalSort" name="approvalSort" /> -->
@@ -514,22 +514,22 @@
 											<tr>
 												<th style="width: 10%; font-size: 14px; display: table-cell; vertical-align: middle; background-color: #dddddd">연차신청기간</th>
 												<td colspan="5">
-													<input type="date" name="approval_start" id="approval_start" style="width: 20%; margin-left:10px; margin-right: 1%; border-radius:3px; border: none; float: left" oninput="getStartDate()">
+													<input type="date" name="approval_start" id="approval_start" style="width: 20%; margin-left:10px; margin-right: 1%; border-radius:3px; border: none; float: left" oninput="getStartDate()" required="required">
 													<i class="bi bi-dash" style="float: left"></i>
-													<input type="date" name="approval_end" id="approval_end" style="width: 20%; margin-left:10px; margin-right: 1%; border-radius:3px; border: none; float: left">
+													<input type="date" name="approval_end" id="approval_end" style="width: 20%; margin-left:10px; margin-right: 1%; border-radius:3px; border: none; float: left" required="required">
 												</td>
 											</tr>
 											<tr>
 												<td colspan="6">
 													<div class="mb-3">
-														<textarea name="approval_content" class="form-control" id="exampleFormControlTextarea1" maxlength="200" placeholder="상세 내용을 입력하세요" rows="3"></textarea>
+														<textarea name="approval_content" class="form-control" id="exampleFormControlTextarea1" maxlength="200" placeholder="상세 내용을 입력하세요" rows="3" required="required"></textarea>
 													</div>
 												</td>
 											</tr>
 											<tr>
 												<th style="width: 10%; font-size: 14px; display: table-cell; vertical-align: middle; background-color: #dddddd">파일선택</th>
 												<td colspan="5">
-													<input type="text" name="file_path" id="file_path" style="width: 50%; margin-left:10px; margin-right: 1%; border-radius:3px; border: none;">
+													<input type="text" name="file_path" id="file_path" style="width: 50%; margin-left:10px; margin-right: 1%; border-radius:3px; border: none;" required="required">
 												</td>
 											</tr>
 									    </tbody>

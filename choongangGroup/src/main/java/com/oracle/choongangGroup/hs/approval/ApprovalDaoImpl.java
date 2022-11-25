@@ -15,13 +15,14 @@ public class ApprovalDaoImpl implements ApprovalDao {
 	
 	private final SqlSession session;
 	
+	// ---------------- 결재메인 ----------------------
 	// 승인 대기중
 	@Override
-	public List<Approval> waitingListAll(String userid) {
+	public List<Approval> waitingListAll(Approval approval) {
 		log.info("waitingListAll start...");
 		List<Approval> list = null;
 		try {
-			list = session.selectList("hsApprWaitList", userid);
+			list = session.selectList("hsApprWaitList", approval);
 			log.info("waitingListAll list.size()->{}",list.size());
 		} catch (Exception e) {
 			log.info("waitingListAll Exception->{}",e.getMessage());
@@ -32,11 +33,11 @@ public class ApprovalDaoImpl implements ApprovalDao {
 	
 	// 승인 진행중
 	@Override
-	public List<Approval> processListAll(String userid) {
+	public List<Approval> processListAll(Approval approval) {
 		log.info("processListAll start...");
 		List<Approval> list = null;
 		try {
-			list = session.selectList("hsApprProcessList", userid);
+			list = session.selectList("hsApprProcessList", approval);
 			log.info("processListAll list.size()->{}",list.size());
 		} catch (Exception e) {
 			log.info("processListAll Exception->{}",e.getMessage());
@@ -47,11 +48,11 @@ public class ApprovalDaoImpl implements ApprovalDao {
 	
 	// 승인 완료
 	@Override
-	public List<Approval> finishListAll(String userid) {
+	public List<Approval> finishListAll(Approval approval) {
 		log.info("finishListAll start...");
 		List<Approval> list = null;
 		try {
-			list = session.selectList("hsApprfinishList", userid);
+			list = session.selectList("hsApprfinishList", approval);
 			log.info("finishListAll list.size()->{}",list.size());
 		} catch (Exception e) {
 			log.info("finishListAll Exception->{}",e.getMessage());
@@ -114,4 +115,31 @@ public class ApprovalDaoImpl implements ApprovalDao {
 		}
 		return result;
 	}
+	
+	// ---------------- 기안 진행 상세페이지 ----------------------
+	@Override
+	public Approval processDetail(Approval dapproval) {
+		Approval approval = null;
+		log.info("processDetail Start...");
+		try {
+			approval = session.selectOne("hsApprDetail", dapproval);
+		} catch (Exception e) {
+			log.info("processDetail Exception->{}",e.getMessage());
+		}
+		return approval;
+	}
+	
+	// ---------------- 기안 상신 취소 ----------------------
+	@Override
+	public int delete(Long approval_no) {
+		int result = 0;
+		log.info("delete Start...");
+		try {
+			result = session.delete("hsApprDelete", approval_no);
+		} catch (Exception e) {
+			log.info("delete Exception->{}",e.getMessage());
+		}
+		return result;
+	}
+	
 }
