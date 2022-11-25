@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import lombok.RequiredArgsConstructor;
@@ -16,7 +17,7 @@ public class ApprovalController {
 	
 	private final ApprovalService as;
 	
-	
+	// --------------결재메인 -----------------------
 	@RequestMapping("/approvalMain")
 	public String content(String userid, Model model) {
 		log.info("approvalMain start...");
@@ -44,6 +45,7 @@ public class ApprovalController {
 		
 	}
 	
+	// --------------새결재폼 -----------------------
 	@RequestMapping("approvalForm")
 	public String form(String userid, Model model) {
 		log.info("getApprInfo start...");
@@ -59,5 +61,22 @@ public class ApprovalController {
 		model.addAttribute("mem_name", mem_name);
 		model.addAttribute("dname", dname);
 		return "/manager/approvalForm";
+	}
+	
+	// --------------결재저장 -----------------------
+	@PostMapping("approvalSave")
+	public String save(String userid, Approval approval, Model model) {
+		log.info("approvalSave start...");
+		userid = "12301001";
+		approval.setUserid(userid);
+		
+		int result = as.saveAppr(approval);
+		
+		if(result > 0) {
+			return "manager/approvalMain";
+		} else {
+			
+			return "forward:approvalForm";
+		}
 	}
 }

@@ -14,21 +14,23 @@ public class Approval {
 	private String fin_approver;
 	private String title;
 	private String item_need;
-	private String item_quantity;
+	private Long   item_quantity;
 	private String approval_content;
+	private String item_purpose;
 	private String item_price;
 	private String server_file_name;
 	private String org_file_name;
 	private String file_path;
-	private String mid_approval_ok;
-	private String fin_approval_ok;
+	private String mid_approver_ok;
+	private String fin_approver_ok;
 	private String approval_status;
+	private String writeday;
 	private String approval_start;
 	private String approval_end;
-	private String mid_approval_opinion;
-	private String fin_approval_opinion;
+	private String mid_approver_opinion;
+	private String fin_approver_opinion;
 	private String userid;
-	private String writeday;
+	
 	
 	// 조회용
 	private String search; 	private String keyword;
