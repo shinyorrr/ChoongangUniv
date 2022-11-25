@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import com.oracle.choongangGroup.changhun.JPA.Dept;
 import com.oracle.choongangGroup.changhun.JPA.Member;
 
 @Repository
@@ -15,5 +16,6 @@ public interface SecurityRepository extends JpaRepository<Member, String> {
 	Member findByNameAndEmail(String searchId, String searchEmail);
 
 	Optional<Member> findByUseridAndEmail(String userid, String email);
+
 
 }

@@ -20,6 +20,8 @@ public interface ApprovalService {
 
 	MemDept getApprInfo(MemDept memDept);
 
-	List<MemDept> apprList();
+	List<MemDept> apprList(String userid);
+
+	int saveAppr(Approval approval);
 
 }
