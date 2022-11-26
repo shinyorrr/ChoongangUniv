@@ -155,7 +155,10 @@
         
 <h1>성적조회(누적)</h1>
 <div>
-김중앙 (1925051)  4학년 재학
+<th>${member.name }</th>
+<th> (${member.userid })</th>
+<th>${member.grade } 학년</th>   
+<th>${member.studStatus } 학적상태</th>   
 
 </div>
 
@@ -198,20 +201,6 @@
 
 </div>
 
-
-
-<div>
-
-<select class="select"  aria-label="Default select example">
-  <option selected>학기선택</option>
-  <option value="1">2022년1학기</option>
-  <option value="2">2021년2학기</option>
-  <option value="3">2021년1학기</option>
-</select>
-
-
-
-</div>
 
 
 <div>
@@ -268,8 +257,12 @@
 								<th >${grade.name} </th>
 								<th >${grade.id}</th>
 								<th >${grade.unitScore}</th>
-								<th > </th>
+									<th >   </th>
 							<tr>
+							
+							
+						
+							
 						
 						 </c:forEach>
 							

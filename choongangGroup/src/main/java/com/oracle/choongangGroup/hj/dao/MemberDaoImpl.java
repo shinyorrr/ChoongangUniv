@@ -4,6 +4,7 @@ package com.oracle.choongangGroup.hj.dao;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.oracle.choongangGroup.changhun.JPA.Member;
 import com.oracle.choongangGroup.hj.model.GradeVo;
 import com.oracle.choongangGroup.hj.model.MemberVo;
 
@@ -64,6 +65,45 @@ public class MemberDaoImpl implements MemberDao {
 		
 		
 		return updateCount;
+	}
+
+		//이름가져오기
+	@Override
+	public MemberVo infoList(String userid) {
+		
+		MemberVo memberinfo = new MemberVo();
+		
+		try {
+			memberinfo = session.selectOne("hjMemberinfoSelOne", userid);
+			System.out.println("EmpDaoImpl MemberDaoImpl name-> "+memberinfo.getName());
+			
+			
+		} catch (Exception e) {
+			System.out.println("MemberDaoImpl detailList Exception-> "+e.getMessage());
+		}
+		
+		
+		
+		return memberinfo;
+	}
+
+	//이름가져오기
+	@Override
+	public MemberVo infoList2(String userid) {
+	MemberVo memberinfo2 = new MemberVo();
+		
+		try {
+			memberinfo2 = session.selectOne("hjMemberinfo2SelOne", userid);
+			System.out.println("EmpDaoImpl MemberDaoImpl name-> "+memberinfo2.getName());
+			
+			
+		} catch (Exception e) {
+			System.out.println("MemberDaoImpl detailList Exception-> "+e.getMessage());
+		}
+		
+		
+		
+		return memberinfo2;
 	}
 
 	

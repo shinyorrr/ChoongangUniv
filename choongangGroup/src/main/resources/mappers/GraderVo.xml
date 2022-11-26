@@ -12,13 +12,7 @@
 	
 	</select>
 	
-	<select id="hjListScoreAll" parameterType="GradeVo"  resultType="GradeVo">
-	
-	SELECT Count(*) FROM grade;
-	
-	
-	
-	</select>
+
 	
 	
 	

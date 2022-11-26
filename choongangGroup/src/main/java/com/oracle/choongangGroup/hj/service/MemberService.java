@@ -1,10 +1,11 @@
 package com.oracle.choongangGroup.hj.service;
 
 import java.util.List;
+import java.util.Set;
 
 import com.oracle.choongangGroup.hj.model.GradeVo;
 import com.oracle.choongangGroup.hj.model.MemberVo;
-import com.oracle.choongangGroup.hj.repository.GraderRepository;
+import com.oracle.choongangGroup.sh.domain.Grade;
 import com.oracle.choongangGroup.sh.domain.Lecture;
 
 public interface MemberService {
@@ -22,7 +23,17 @@ public interface MemberService {
 
 	List<Lecture> findgrades();
 
-	List<GradeVo> listScore(GradeVo grade);
+	MemberVo infoList(String userid);
+
+
+	List<String> findYear();
+
+	List<String> findsemester();
+
+	MemberVo infoList2(String userid);
+
+
+
 
 
 		

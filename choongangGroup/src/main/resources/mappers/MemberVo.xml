@@ -23,5 +23,22 @@
 						
 </update>
 
+	<select id="hjMemberinfoSelOne" parameterType="String" resultType="MemberVo">
+		 SELECT * from member
+		 WHERE userid = #{userid}
+	  
+	
+	</select>
+
+
+    <select id="hjMemberinfo2SelOne" parameterType="String" resultType="MemberVo">
+		 SELECT * from member
+		 WHERE userid = #{userid}
+	  
+	
+	</select>
+
+
+
 
 </mapper>

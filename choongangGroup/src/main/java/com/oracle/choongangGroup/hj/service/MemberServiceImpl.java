@@ -1,15 +1,18 @@
 package com.oracle.choongangGroup.hj.service;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.oracle.choongangGroup.changhun.JPA.Member;
 import com.oracle.choongangGroup.hj.dao.GraderDao;
 import com.oracle.choongangGroup.hj.dao.MemberDao;
 import com.oracle.choongangGroup.hj.model.GradeVo;
 import com.oracle.choongangGroup.hj.model.MemberVo;
 import com.oracle.choongangGroup.hj.repository.GraderRepository;
+import com.oracle.choongangGroup.sh.domain.Grade;
 import com.oracle.choongangGroup.sh.domain.Lecture;
 
 import lombok.RequiredArgsConstructor;
@@ -61,24 +64,49 @@ public class MemberServiceImpl implements MemberService {
 	
 		List<Lecture> findgradeList = gr.findAll();
 		System.out.println("MemberServiceImpl findorderList.size()->"+findgradeList.size());
-
+       
 		
 		
 		return findgradeList;
 		
 	
 	}
+	//이름가져오기 
+	@Override
+	public MemberVo infoList(String userid) {
+		System.out.println("MemberServiceImpl infoList start. . . ");
+		MemberVo memberinfo = null;
+		memberinfo = md.infoList(userid);
+		
+		return memberinfo;
+	}
+	//셀렉트바 년도
+	@Override
+	public List<String> findYear() {
+		System.out.println("MemberServiceImpl findYear start. . . ");
+		List<String> yearList = gr.findYear();
+		return yearList;
+	}
+	//셀렉트바 학기
+	@Override
+	public List<String> findsemester() {
+		System.out.println("MemberServiceImpl findsemester start. . . ");
+		List<String> semesterList = gr.findsemester();
+		return semesterList;
+	}
 
 	@Override
-	public List<GradeVo> listScore(GradeVo grade) {
-		 List<GradeVo> ListScore =  null;
-		 System.out.println(" MemberServiceImpl listScore Start . . . ");
-		 ListScore = gd.listScore(grade);
-		 System.out.println("EmpServiceImpl listScore empList.size()->"+ListScore.size() );
-		
-		
-		return ListScore;
+	public MemberVo infoList2(String userid) {
+		System.out.println("MemberServiceImpl infoList start. . . ");
+		MemberVo memberinfo2 = null;
+		memberinfo2 = md.infoList2(userid);
+		return memberinfo2;
 	}
+
+
+
+
+
 
 	
 

@@ -2,6 +2,8 @@ package com.oracle.choongangGroup.hj.controller;
 
 import java.util.List;
 
+
+
 import org.springframework.stereotype.Controller;
 
 
@@ -10,13 +12,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.oracle.choongangGroup.hj.model.GradeVo;
 import com.oracle.choongangGroup.hj.model.MemberVo;
+import com.oracle.choongangGroup.hj.repository.GraderRepository;
 import com.oracle.choongangGroup.hj.service.MemberService;
+import com.oracle.choongangGroup.sh.domain.Grade;
 import com.oracle.choongangGroup.sh.domain.Lecture;
 
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 import lombok.extern.slf4j.Slf4j;
 
 
@@ -81,28 +87,57 @@ public class MemberController {
 	public String gradeListForm(String userid, Model model ) {
 		System.out.println(" MemberController gradeListForm start . . . ");
 		
-		GradeVo grade =ms.gradeList(userid);
-		model.addAttribute("grade", grade);
-		model.addAttribute("userid" ,userid);
+
+	    ////아이디 임시로 받아오기//
+	    userid = "22100001";
+		
+	    //이름 가져오기위해서 해줌 
+		MemberVo memberinfo = ms.infoList(userid);
+		
+		//셀렉트바 년도
+		List<String> yearList = ms.findYear();
+		//셀렉트바 학년
+		System.out.println("yearList.size() " +yearList.size());
+		System.out.println("yearList()->"+yearList);
+		List<String> semesterList = ms.findsemester();
+
+		System.out.println("semesterList()->"+semesterList);
+		
+		model.addAttribute("yearList",yearList);
+		model.addAttribute("member", memberinfo);
+		model.addAttribute("size", yearList.size());
+		model.addAttribute("semesterList",semesterList);
+		model.addAttribute("ssize",semesterList.size());
+		
+		
 		
 		return "student/gradeListForm";
 	}
 	
+
+	
 	//성적조회 할 과목 조회 jpa 
 	@GetMapping(value = "/grades")
-	public String gradeList(String userid, Model model ,GradeVo grade ) {
+	public String gradeList(String userid, Model model  ) {
 		System.out.println("MemberController gradeList . . . ");
-	
-         List<GradeVo> ListScore = ms.listScore(grade);
-         
+		//이름
+		MemberVo memberinfo2 = ms.infoList2(userid);
+	     
 		
+		 //과목조회 
 		List<Lecture> grades = ms.findgrades();
+	
+
+		
 		model.addAttribute("grades",grades);
+		
+		model.addAttribute("member", memberinfo2);
 		
 		
 		return "student/gradeList";
 		
 	}
+	
 	
 	
 	

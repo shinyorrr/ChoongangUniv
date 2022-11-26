@@ -5,7 +5,7 @@
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
 </head>
 
-
+    <%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core"%>
 
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -152,7 +152,7 @@
                 <div class="row m-5">
                     <!-- card header -->
                     <div class="col-12 rounded-top text-white overflow-auto pt-2 fw-bold" style="background-color: rgb(39, 40, 70); height: 40px;"> 
-                        <i class="bi bi-bookmark-fill me-2"></i>교수서비스 <i class="bi bi-chevron-right"></i>학사관리 <i class="bi bi-chevron-right"></i>강의 시간표 조회
+                        <i class="bi bi-bookmark-fill me-2"></i>학생서비스 <i class="bi bi-chevron-right"></i>성적관리 <i class="bi bi-chevron-right"></i>성적조회
                     </div>
                     <!-- card content -->  
                     <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
@@ -163,12 +163,15 @@
         
 <h1>성적조회(누적)</h1>
 <div>
-김중앙 (1925051)  4학년 재학
+<th>${member.name }</th>
+<th> (${member.userid })</th>
+<th>${member.grade } 학년</th>   
+<th>${member.studStatus } 학적상태</th>   
 
 </div>
 
 <div>
-<h4>총 성적 내역 </h4>
+<h3>총 성적 내역 </h3>
 
 <table class="table table-striped table-hover" style = "width : 700px">	
 						<thead >
@@ -207,20 +210,32 @@
 </div>
 
 
+<form action="grades"  method="get">
 
 <div>
 
-<select   onclick="location.href='grades'"     class="select"  aria-label="Default select example">
-  <option selected>학기선택</option>
-  <option value="1">2022년1학기</option>
-  <option value="2">2021년2학기</option>
-  <option value="3">2021년1학기</option>
+<!-- onclick="location.href='grades'"      -->
+ <select class="select"  aria-label="Default select example"> 
+  <option selected>년도선택</option>
+  <c:set var="ysize" value="${size}" />
+   <c:forEach var="i" begin="1" end="${ysize}">
+                  <option><c:out value="${yearList[ysize-i]}년도"></c:out> </option>
+               </c:forEach>
 </select>
 
-
+<select   name="select"  aria-label="Default select example"> 
+  <option selected>학기선택</option>
+  <c:set var="gsize" value="${ssize}" />
+   <c:forEach var="i" begin="1" end="${gsize}">
+                  <option><c:out value="${semesterList[gsize-i]}학기"></c:out> </option>
+               </c:forEach>
+</select>
+ 
+ <button type="submit">조회</button>
 
 </div>
-
+ 
+</form>
 
 <div>
 <table class="table table-striped table-hover" style = "width : 700px">	
