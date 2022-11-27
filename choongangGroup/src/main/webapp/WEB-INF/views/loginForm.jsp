@@ -54,6 +54,7 @@
 			type: "post",
 			url: "/login",
 			data: userInfo,
+			 contentType: "application/json; charset=UTF-8",
 			success: function(data) {
 				alert('성공');
 				console.log(data);
