@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="core" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%-- <%@ include file="header.jsp"%> --%>
 <!DOCTYPE html>
 <html>
@@ -123,7 +123,7 @@ $(document).on('focus',".date", function(){
 
 			<ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
 				<li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>
-				<li><a href="#" class="nav-link px-2 link-dark">Features</a></li>
+				<li><a href="#" class="nav-link px-2 link-dark">Features</a></rotli>
 				<li><a href="#" class="nav-link px-2 link-dark">Pricing</a></li>
 				<li><a href="#" class="nav-link px-2 link-dark">FAQs</a></li>
 				<li><a href="#" class="nav-link px-2 link-dark">About</a></li>
@@ -204,14 +204,14 @@ $(document).on('focus',".date", function(){
 		<!-- content header -->
 		<div class="col-12 p-4" style="height: 150px; background-color: rgb(95, 142, 241); vertical-align: middle;">
 			<div class="d-flex flex-row" >
-				<div class="text-white h4">안녕하세요. <b>김중앙</b>님!</div>
+				<div class="text-white h4">안녕하세요. <b>${name }</b>님!</div>
 					<span class="border border-1 border-white border-bottom rounded-pill text-white px-2 pt-1 pb-0 ms-2 me-3"
-								style="font-size: 12px; height: 24px;">교수</span>
+								style="font-size: 12px; height: 24px;">${position }</span>
 					<i class="text-white bi-gear-fill mx-2" style="height: 18px;"></i>
 			</div>
-				<div class="d-flex text-white" style="font-size: 14px;">이공대학 컴퓨터공학과 | 정교수</div>
+				<div class="d-flex text-white" style="font-size: 14px;">${major} | ${position}</div>
 				<div class="d-flex flex-low text-white" style="font-size: 14px;">
-					<i class="bi bi-envelope-fill me-3 ml-0 "></i>test123@naver.com
+					<i class="bi bi-envelope-fill me-3 ml-0 "></i>${email }
 				</div>
 		</div>
 
@@ -260,7 +260,8 @@ $(document).on('focus',".date", function(){
 	
 	
 					<div class="col-2 ms-3   col-md-4 themed-grid-col text-right px-0 text-end" style="float: right;">
-						<button type="button" style="width: 20%;" class="btn btn-primary btn-sm me-1">신규</button>
+						<button type="submit" style="width: 20%;" class="btn btn-primary btn-sm me-1"
+								form="lecSave">신규</button>
 						<button type="button" style="width: 20%;" class="btn btn-dark btn-sm me-1">저장</button>
 						<button type="button" style="width: 20%;" class="btn btn-danger btn-sm">삭제&nbsp;</button>
 					</div>
@@ -287,16 +288,17 @@ $(document).on('focus',".date", function(){
 					</div>
 				</div>
 	
-	<form action="lecCreateList" method="post">
+ 				<div style="width:100%;height:140px;overflow-y:auto;overflow-x:hidden; border: solid 1px gray;">
 				<table class="table table-bordered table-sm mt-2 " style="font-size: 0.8em;">
 					<thead class="table-light">
 						<tr style="text-align: center;">
 							<th scope="col" style="vertical-align: middle; width: 4%;">순번</th>
-							<th scope="col" style="vertical-align: middle;">강의번호</th>
+							<th scope="col" style="vertical-align: middle; width: 15%;">강의번호</th>
+							<th scope="col" style="vertical-align: middle; width: 10%;">교수명</th>
 							<th scope="col" style="vertical-align: middle;">강의명</th>
 							<th scope="col" style="vertical-align: middle; width: 7%;">개설년도</th>
 							<th scope="col" style="vertical-align: middle; width: 7%;">학기</th>
-							<th scope="col" style="vertical-align: middle;">전공</th>
+							<th scope="col" style="vertical-align: middle; width: 15%;">전공</th>
 							<th scope="col" style="vertical-align: middle; width: 7%;" >이수구분</th>
 							<th scope="col" style="vertical-align: middle; width: 7%;">학점</th>
 							<th scope="col" style="vertical-align: middle; width: 7%;">승인여부</th>
@@ -305,38 +307,41 @@ $(document).on('focus',".date", function(){
 	
 					
 					<tbody>
+					<c:forEach var="lec" items="${lecList}">
+						<c:set var="i" value="${i+1}"></c:set>
 						<tr>
-							<td class="text-center"><input type="text" name="createCnt" value="${Lec.createCnt}"></td>
-							<td class="text-center"><input type="text" name="createCnt" value="${Lec.subjectGubun}${Lec.id}"></td>
-							<td class="text-center"><input type="text" name="createCnt" value="${Lec.name}"></td>
-							<td class="text-center"><input type="text" name="createCnt" value="${Lec.year}"></td>
-							<td class="text-center"><input type="text" name="createCnt" value="${Lec.semester}"></td>
-							<td class="text-center"><input type="text" name="createCnt" value="${Lec.subjectGubun}"></td>
-							<td class="text-center"><input type="text" name="createCnt" value="${Lec.type}"></td>
-							<td class="text-center"><input type="text" name="createCnt" value="${Lec.unitScore}"></td>
-							<td class="text-center text-danger fw-bold"><input type="text" name="createCnt" value="${Lec.status}"></td>
+							<td class="text-center">${i }</td>
+							<td class="text-center">${lec.typeCode}${lec.id}</td>
+							<td class="text-center">${lec.prof}</td>
+							<td class="text-center">${lec.name}</td>
+							<td class="text-center">${lec.year}</td>
+							<td class="text-center">${lec.semester}</td>
+							<td class="text-center">${lec.major}</td>
+							<td class="text-center">${lec.type}</td>
+							<td class="text-center">${lec.unitScore}</td>
+							<c:choose>
+							<c:when test="${lec.status == null || ''}">
+								<td class="text-center text-danger fw-bold">미승인</td>
+							</c:when>
+							<c:otherwise>
+								<td class="text-center text-primary fw-bold">승인</td>
+							</c:otherwise>
+							</c:choose>
 						</tr>
-					
-					<!-- 	<tr>
-							<td style="height: 50px; border-right: none;"></td>
-							<td style="height: 50px; border: none;"></td>
-							<td style="height: 50px; border: none;"></td>
-							<td style="height: 50px; border: none;"></td>
-							<td style="height: 50px; border: none;"></td>
-							<td style="height: 50px; border: none;"></td>
-							<td style="height: 50px; border: none;"></td>
-							<td style="height: 50px; border: none;"></td>
-							<td style="height: 50px; border-left: none;"></td>
-						</tr> -->
+					</c:forEach>
 					</tbody>
 				</table>
-					</form>
+				</div>
 	
 				<br>
 				<div class="mt-2 fw-bold ">개설강좌 상세정보</div>
 				<br>
 	<!--          <table class="table table-bordered table-sm mt-2 " style="font-size: 0.8em; text-align: center;">-->
 	<!--            <tr>-->
+	<!------------------------------------------------------------------------------------->
+				<form id="lecSave" action="/lecSave" method="post">
+				<%-- <input type="hidden" name="prof" value="${name}"> --%>
+				
 				<div class="container font08">
 				
 					<div class="row row-cols-4 ps-0" style="float:left;">
@@ -344,9 +349,7 @@ $(document).on('focus',".date", function(){
 							년도/학기
 							<input class="form-control ms-2 form-inline form-control-sm text-start font09" type="text" name="year" placeholder="년도" 
 									style= "margin:0 !important; width:40%;">
-							<!-- <input class="form-control form-control-sm" type="text" name="semester" placeholder="학기" style="width:20%;  disply:inline; margin-right:0;"> -->
 							<select class="form-select ms-1 form-inline form-select-sm me-0 font09"  name="semester" style="margin: 0 !important;  width:40%;">
-								<!-- <option selected>선택</option> -->
 								<option value="1" selected>1</option>
 								<option value="2">2</option>
 							</select>
@@ -357,7 +360,8 @@ $(document).on('focus',".date", function(){
 							<label class="col-form-label me-2">이수구분</label>
 							<select class="form-select form-select-sm me-0 font09"  name="type" style="width: 40%; margin-left: 0;">
 								<option selected>선택</option>
-								<option value="전공">전공</option>
+								<option value="전공">전필</option>
+								<option value="전필">전선</option>
 								<option value="교양">교양</option>
 							</select>
 						</div>
@@ -371,7 +375,6 @@ $(document).on('focus',".date", function(){
 								<option value="소프트웨어과">소프트웨어과</option>
 								<option value="전산과">전산과</option>
 								<option value="경영학과">경영학과</option>
-								<option value="기계공학과">기계공학과</option>
 							</select>
 						</div>
 						
@@ -394,18 +397,15 @@ $(document).on('focus',".date", function(){
 						
 						<div class="col">
 							<label class="col-form-label me-2">강의번호</label>
-							<input class="form-control form-control-sm text-start font09" type="text" name="subjectGubun"style="width:50%;">
-							<%-- <form class="form-inline d-flex justify-content-center md-form form-sm my-0 mx-0" style=" float: left;">
-								<i class="fas fa-search active" aria-hidden="true"></i>
-								<input class="form-control  py-0" type="text" placeholder="코드조회" name="" style="width:50% ">
-							</form> --%>
+							<input class="form-control form-control-sm text-start font09" type="text" name="subjectGubun"style="width:50%;" readonly>
+							
 						</div>
 						
 						<div class="col py-0 ">
 							<label class="col-form-label me-2">강의시작일</label>
-							<input type="date" name="register_start" class="form-control font09" value="2023-03-02">
+							<input type="date" name="register_start" class="form-control font09" >
 							 <!-- <input type="text" name="register_start" id="datePicker" class="form-control font09" value="2023-03-02" /> -->
-							<!-- <div class="input-group date">
+							 <!-- <div class="input-group date">
 								<input type="text" class="form-control">
 								<span class="input-group-addon">
 									<i class="glyphicon glyphicon-calendar"></i>
@@ -421,7 +421,6 @@ $(document).on('focus',".date", function(){
 								</select>
 						</div>
 						
-						<br>
 					<!--------------------------------------------------------------------------->
 						<div class="col text-start ps-0" style="display: inline">
 							<label class="col-form-label">학점</label>
@@ -456,7 +455,6 @@ $(document).on('focus',".date", function(){
 							</select>
 						</div>
 						
-						<br></br
 					<!--------------------------------------------------------------------------->
 					<!-- <div class="row font08" style="float:left;"> -->
 						<div class="col col-6 text-start ps-0" style="display: inline; ">
@@ -511,6 +509,7 @@ $(document).on('focus',".date", function(){
 						
 					</div>
 				</div>
+				</form>
 			</div>
 		</main>
 					
