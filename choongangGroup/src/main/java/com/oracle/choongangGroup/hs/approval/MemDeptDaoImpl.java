@@ -16,20 +16,6 @@ public class MemDeptDaoImpl implements MemDeptDao {
 	
 	private final SqlSession session;
 	
-	// ------------------ 기안자 ------------------------
-	@Override
-	public MemDept getApprInfo(MemDept memDept) {
-		log.info("getApprInfo Start...");
-		MemDept infoAppr = new MemDept();
-		try {
-			infoAppr = session.selectOne("hsApprInfo", memDept);
-			log.info("memDept.name / memDept.dname->{},{}",infoAppr.getName(), infoAppr.getDname());
-		} catch (Exception e) {
-			log.info("getApprName Exception->{}",e.getMessage());
-		}
-		return infoAppr;
-	}
-	
 	// ------------------ 결재자리스트 ------------------------
 	
 	@Override

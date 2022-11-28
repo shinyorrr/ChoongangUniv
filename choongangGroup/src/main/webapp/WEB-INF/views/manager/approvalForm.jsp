@@ -196,6 +196,7 @@
 		var midInfo = $('input:radio[name="radioBox"]:checked').val();
 		var finInfo = $('input:radio[name="radioBox2"]:checked').val();
 		
+		// 최종 결재자가 널일때
 		if(finInfo == null) {
 			var userid = midInfo.split(',')[0];
 			var name   = midInfo.split(',')[1];
@@ -213,7 +214,21 @@
 		} else if(midInfo != null && finInfo != null) {
 			if(midInfo == finInfo) {
 				alert("이미 선택된 결재자입니다.");
+				$('input:radio[name="radioBox"]').prop('checked',false);
 				return false;
+			} else {
+				var userid = midInfo.split(',')[0];
+				var name   = midInfo.split(',')[1];
+				var dname  = midInfo.split(',')[2];
+				
+				console.log("사번 : "+userid);
+				console.log("이름 : "+name);
+				console.log("부서 : "+dname);
+				
+				$('input[name=mid_approver]').attr('value', userid);
+				$('input[name=mid_approver_name]').attr('value', name);
+				$('input[name=mid_approver_dname]').attr('value', dname);
+				$('#exampleModal').modal('hide');
 			}
 		}
 	}
@@ -250,12 +265,19 @@
 		
 	}
 	
-	// 결재 시작일 종료일 지정
+	// 결재  종료일 지정
 	function getStartDate()  {
 		const approval_start = document.getElementById('approval_start').value;
 	 	document.getElementById('approval_end').setAttribute("min", approval_start);
+	 	
+	 	
 	}
 	
+	// 결재 시작일 지정
+	function getEndDate() {
+		const approval_end = document.getElementById('approval_end').value;
+	 	document.getElementById('approval_start').setAttribute("max", approval_end);
+	}
 	
 </script>
 </head>
@@ -516,7 +538,7 @@
 												<td colspan="5">
 													<input type="date" name="approval_start" id="approval_start" style="width: 20%; margin-left:10px; margin-right: 1%; border-radius:3px; border: none; float: left" oninput="getStartDate()" required="required">
 													<i class="bi bi-dash" style="float: left"></i>
-													<input type="date" name="approval_end" id="approval_end" style="width: 20%; margin-left:10px; margin-right: 1%; border-radius:3px; border: none; float: left" required="required">
+													<input type="date" name="approval_end" id="approval_end" style="width: 20%; margin-left:10px; margin-right: 1%; border-radius:3px; border: none; float: left" oninput="getEndDate()" required="required">
 												</td>
 											</tr>
 											<tr>
@@ -529,7 +551,7 @@
 											<tr>
 												<th style="width: 10%; font-size: 14px; display: table-cell; vertical-align: middle; background-color: #dddddd">파일선택</th>
 												<td colspan="5">
-													<input type="text" name="file_path" id="file_path" style="width: 50%; margin-left:10px; margin-right: 1%; border-radius:3px; border: none;" required="required">
+													<input type="file" name="file1" id="file1" style="width: 50%; margin-left:10px; margin-right: 1%; border-radius:3px; border: none;">
 												</td>
 											</tr>
 									    </tbody>
@@ -626,7 +648,7 @@
 						        		</form>
 						        	</div>
 						        	
-						        	<div class="scroll_wrap" style="height: 360px;">
+						        	<div class="scroll_wrap" style="height: 360px; overflow: scroll">
 						        		<table class="table table-striped" style="width: 400px; height: 366px; border: 0px; overflow-y: auto;">
 						        			<thead style="padding: 0;">
 						        				<tr style="text-align: left; font-weight: normal;">

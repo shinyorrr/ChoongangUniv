@@ -101,7 +101,7 @@ public class ApprovalDaoImpl implements ApprovalDao {
 		return totFinishCnt;
 	}
 	
-	// ---------------- 새결재저장 ----------------------
+	// ---------------- 새결재저장(파일 있음) ----------------------
 	@Override
 	public int saveAppr(Approval approval) {
 		int result = 0;
@@ -112,6 +112,20 @@ public class ApprovalDaoImpl implements ApprovalDao {
 			log.info("saveAppr result->{}", result);
 		} catch (Exception e) {
 			log.info("saveAppr Exception->{}",e.getMessage());
+		}
+		return result;
+	}
+	
+	// ---------------- 새결재저장(파일 없음) ----------------------
+	@Override
+	public int save(Approval approval) {
+		int result = 0;
+		log.info("save Start...");
+		try {
+			result = session.insert("hsSave", approval);
+			log.info("save result->{}", result);
+		} catch (Exception e) {
+			log.info("save Exception->{}",e.getMessage());
 		}
 		return result;
 	}
@@ -141,5 +155,7 @@ public class ApprovalDaoImpl implements ApprovalDao {
 		}
 		return result;
 	}
+
+	
 	
 }

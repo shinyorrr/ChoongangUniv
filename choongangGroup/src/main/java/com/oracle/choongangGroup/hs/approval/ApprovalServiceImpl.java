@@ -73,14 +73,6 @@ public class ApprovalServiceImpl implements ApprovalService {
 		List<ApprovalSort> sortList = asd.sortSelect();
 		return sortList;
 	}
-
-	// ---------------- 기안자 정보 ----------------------
-	@Override
-	public MemDept getApprInfo(MemDept memDept) {
-		log.info("getApprInfo start...");
-		MemDept infoAppr = mdd.getApprInfo(memDept);
-		return infoAppr;
-	}
 	
 	// ---------------- 결재자 리스트 ---------------------- 
 	@Override
@@ -90,11 +82,19 @@ public class ApprovalServiceImpl implements ApprovalService {
 		return listAppr;
 	}
 	
-	// ---------------- 새결재저장 ----------------------
+	// ---------------- 새결재저장(파일 있음) ----------------------
 	@Override
 	public int saveAppr(Approval approval) {
 		log.info("saveAppr start...");
 		int result = ad.saveAppr(approval);
+		return result;
+	}
+	
+	// ---------------- 새결재저장(파일 없음) ----------------------
+	@Override
+	public int save(Approval approval) {
+		log.info("save start...");
+		int result = ad.save(approval);
 		return result;
 	}
 	
@@ -120,5 +120,7 @@ public class ApprovalServiceImpl implements ApprovalService {
 		int result = ad.delete(approval_no);
 		return result;
 	}
+
+	
 
 }

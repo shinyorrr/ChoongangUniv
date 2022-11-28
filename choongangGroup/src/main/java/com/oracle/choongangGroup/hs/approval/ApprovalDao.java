@@ -22,4 +22,6 @@ public interface ApprovalDao {
 
 	int delete(Long approval_no);
 
+	int save(Approval approval);
+
 }
