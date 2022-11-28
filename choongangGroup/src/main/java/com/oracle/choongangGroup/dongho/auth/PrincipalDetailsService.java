@@ -2,6 +2,7 @@ package com.oracle.choongangGroup.dongho.auth;
 
 import javax.transaction.Transactional;
 
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -26,4 +27,12 @@ public class PrincipalDetailsService implements UserDetailsService {
 		else                {return new PrincipalDetails(member);}
 	}
 	
+//	// 해당하는 User 의 데이터가 존재한다면 UserDetails 객체로 만들어서 리턴
+//    private UserDetails createUserDetails(Member member) {
+//        return User.builder()
+//                .username(member.getUserid())
+//                .password(passwordEncoder.encode(member.getPassword()))
+//                .roles(member.getRoles().toArray(new String[0]))
+//                .build();
+//    }
 }

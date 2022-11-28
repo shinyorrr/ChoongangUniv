@@ -46,15 +46,15 @@
 		var securedPassword = rsa.encrypt(password);
 
 		// ajax 로그인 요청
-		let userInfo = {};
-		userInfo.securedUsername = securedUsername;
-		userInfo.securedPassword = securedPassword;
+		//let securedLoginDto = JSON.stringify({});
+		//securedLoginDto.securedUsername = securedUsername;
+		//securedLoginDto.securedPassword = securedPassword;
 		
 		$.ajax({
 			type: "post",
 			url: "/login",
-			data: userInfo,
-			 contentType: "application/json; charset=UTF-8",
+			data: {securedUsername:securedUsername , securedPassword:securedPassword},
+			//contentType: "json",
 			success: function(data) {
 				alert('성공');
 				console.log(data);

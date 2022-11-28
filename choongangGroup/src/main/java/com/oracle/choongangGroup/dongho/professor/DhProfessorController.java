@@ -55,7 +55,7 @@ public class DhProfessorController {
 		int totalPage = lecReportList.getTotalPages();
 		System.out.println(totalPage);
 		
-		map.put("totalPage", value)
+		//map.put("totalPage", value)
 		
 		return lecReportList.getContent();
 	}
