@@ -1,14 +1,19 @@
 package com.oracle.choongangGroup.hs.approval;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import com.oracle.choongangGroup.changhun.JPA.Member;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +39,7 @@ public class ApprovalController {
 		// int processTotal = as.processTotal(userid);	  // 승인 진행중
 		// int finishTotal  = as.finishTotal(userid);	  // 승인 완료
 		
+		// 3개 까지 보여줌
 		Approval approval = new Approval();
 		approval.setUserid(userid);
 		approval.setStart(1);
@@ -56,12 +62,12 @@ public class ApprovalController {
 	// --------------새결재폼 -----------------------
 	@RequestMapping("approvalWrite")
 	public String form(String userid, Model model) {
-		log.info("getApprInfo start...");
+		log.info("approvalWrite start...");
 		// 결재하는 사용자의 이름 출력
 		MemDept memDept = new MemDept();
 		memDept.setUserid(userid);
 		
-		MemDept infoAppr = as.getApprInfo(memDept);
+		MemDept infoAppr = as.findMem(memDept.getUserid());
 		
 		String mem_name = infoAppr.getName();
 		String dname = infoAppr.getDname();
@@ -73,19 +79,68 @@ public class ApprovalController {
 	
 	// --------------결재저장 -----------------------
 	@PostMapping("approvalSave")
-	public String save(String userid, Approval approval, Model model) {
+	public String save(String userid, Approval approval, HttpServletRequest request, MultipartFile file1, Model model) throws IOException, Exception {
 		log.info("approvalSave start...");
+		int result = 0;
 		userid = "12301001";
 		approval.setUserid(userid);
 		
-		int result = as.saveAppr(approval);
-		
-		if(result > 0) {
-			return "manager/approvalMain";
-		} else {
+		if(!file1.isEmpty()) {
+			// 파일 저장
+			String filePath = request.getSession().getServletContext().getRealPath("/fileUpload/hs/");
+			log.info("file POST Start...");
+			log.info("originalName: {}", file1.getOriginalFilename());
+			log.info("size: {}", file1.getSize());
+			log.info("contentType: {}", file1.getContentType());
+			log.info("filePath: {}", filePath);
+			String serverFileName = uploadFile(file1.getOriginalFilename(), file1.getBytes(), filePath);
+			log.info("serverFileName: {}", serverFileName);
 			
-			return "forward:approvalForm";
+			approval.setFile_path(filePath);
+			approval.setServer_file_name(serverFileName);
+			approval.setOrg_file_name(file1.getOriginalFilename());
+			
+			result = as.saveAppr(approval);
+			
+			if(result > 0) {
+				return "manager/approvalMain";
+			} else {
+				
+				return "forward:approvalForm";
+			}
+		} else {
+			result = as.save(approval);
+			
+			if(result > 0) {
+				return "manager/approvalMain";
+			} else {
+				
+				return "forward:approvalForm";
+			}
+		}	
+	}
+	
+	// 파일 업로드 메서드
+	private String uploadFile(String originalName, byte[] fileData, String filePath) throws Exception {
+		// universally unique identifier (UUID).
+		UUID uid = UUID.randomUUID();
+		// requestPath = requestPath + "/resources/image";
+		log.info("uploadFile filePath: {}",filePath);
+		// Directory 생성
+		File fileDirectory = new File(filePath);
+		if (!fileDirectory.exists()) {
+			fileDirectory.mkdirs(); // mkdir 신규 폴더 생성
+			log.info("업로드용 폴더 생성 : {}", filePath);
 		}
+		
+		String serverFileName = uid.toString();
+		log.info("serverFileName: {}", serverFileName);
+		File target = new File(filePath, serverFileName);
+		// File target = new File(requestPath, savedName);
+		// File Upload -> uplaodPath / UUID+_+originalName
+		FileCopyUtils.copy(fileData, target); // org.springframework.util.FileCopyUtils
+		
+		return serverFileName;
 	}
 	
 	
@@ -96,10 +151,10 @@ public class ApprovalController {
 		userid = "12301001";
 		
 		// 결재하는 사용자의 이름 출력
-		MemDept mem_userid = new MemDept();
-		mem_userid.setUserid(userid);
+		MemDept memDept = new MemDept();
+		memDept.setUserid(userid);
 		
-		MemDept infoAppr = as.getApprInfo(mem_userid);
+		MemDept infoAppr = as.findMem(memDept.getUserid());
 		
 		String mem_name = infoAppr.getName();
 		String dname = infoAppr.getDname();

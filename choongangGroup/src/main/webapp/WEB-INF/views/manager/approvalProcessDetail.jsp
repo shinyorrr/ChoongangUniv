@@ -56,11 +56,17 @@
 	function getApprDelete() {
 		 if (confirm("상신취소하시겠습니까?") == true) {    //확인
 		 	var selApproNo = $('#approval_no').val();
+		 	var selFilePath = $('#file_path').val();
+		 	var selServerPath= $('#server_file_name').val();
 		 	console.log(selApproNo);
+		 	console.log(selFilePath);
+		 	console.log(selServerPath);
 			$.ajax(
 					{
 						url:"apprDelete",
-						data:{approval_no : selApproNo},
+						data:{approval_no 	   : selApproNo,
+							  file_path   	   : selFilePath,
+							  server_file_name : selServerPath},
 						dataType:'text',
 						success:function(data) {
 							if(data == '1'){
@@ -349,7 +355,9 @@
 											<tr>
 												<th style="width: 10%; font-size: 14px; display: table-cell; vertical-align: middle; background-color: #dddddd">파일선택</th>
 												<td colspan="5">
-													<input type="text" name="file_path" id="file_path" value="${appr.file_path }" style="width: 50%; margin-left:10px; margin-right: 1%; border-radius:3px; border: none;" readonly="readonly">
+													<input type="text" 	 name="org_file_name" id="org_file_name" value="${appr.org_file_name }" style="width: 50%; margin-left:10px; margin-right: 1%; border-radius:3px; border: none;" readonly="readonly">
+													<input type="hidden" name="file_path" id="file_path" value="${appr.file_path }">
+													<input type="hidden" name="server_file_name" id="server_file_name" value="${appr.server_file_name }">
 												</td>
 											</tr>
 									    </tbody>

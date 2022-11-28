@@ -18,8 +18,6 @@ public interface ApprovalService {
 
 	List<ApprovalSort> sortSelect();
 
-	MemDept getApprInfo(MemDept memDept);
-
 	List<MemDept> apprList(String userid);
 
 	int saveAppr(Approval approval);
@@ -29,5 +27,7 @@ public interface ApprovalService {
 	MemDept findMem(String userid);
 
 	int delete(Long approval_no);
+
+	int save(Approval approval);
 
 }

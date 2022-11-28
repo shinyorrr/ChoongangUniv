@@ -190,13 +190,13 @@
 											<c:if test="${wait.file_path eq null }">
 												<td>&nbsp;</td>
 											</c:if>
-											<c:if test="${wait.approval_status eq 0}">
+											<c:if test="${wait.approval_status eq '0'}">
 												<td>대기중<td>
 											</c:if>
-											<c:if test="${wait.approval_status eq 1}">
+											<c:if test="${wait.approval_status eq '1'}">
 												<td>승인<td>
 											</c:if>
-											<c:if test="${wait.approval_status eq 2}">
+											<c:if test="${wait.approval_status eq '2'}">
 												<td>반려<td>
 											</c:if>
 										</tr>
@@ -281,12 +281,9 @@
 												<td>대기중<td>
 											</c:if>
 											<c:if test="${finish.approval_status eq 1}">
-												<td>심사중<td>
-											</c:if>
-											<c:if test="${finish.approval_status eq 2}">
 												<td>반려<td>
 											</c:if>
-											<c:if test="${finish.approval_status eq 3}">
+											<c:if test="${finish.approval_status eq 2}">
 												<td>승인<td>
 											</c:if>
 										</tr>
