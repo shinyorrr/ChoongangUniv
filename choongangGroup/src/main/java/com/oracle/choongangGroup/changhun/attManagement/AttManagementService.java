@@ -4,9 +4,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -25,6 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 @RequiredArgsConstructor
 @Slf4j
+
 public class AttManagementService {
 
 	private final AttCustomRepository attCustomRepository;
@@ -46,10 +50,11 @@ public class AttManagementService {
 		String nowDate = sdf2.format(now);
 		
 		Work work =  new Work();
-		List<Work> worklist = repository.findByUseridAndWorkDate(userid,nowDate);
+//		List<Work> worklist = repository.findByUseridAndWorkDate(userid,nowDate);
+		List<Work> worklist = repository.findByMember_UseridAndWorkDate(userid,nowDate);
 		
 		if(worklist.size() == 0) {
-			work.setUserid(userid);
+//			work.setUserid(userid);
 			work.setMember(member);
 			work.setAttOnTime(nowTime);			
 			work.setWorkDate(nowDate);
@@ -65,7 +70,7 @@ public class AttManagementService {
 			
 			repository.save(work);
 		}
-		
+		System.out.println(worklist.size());
 		String msg = "출근등록이 완료되었습니다";
 		if(worklist.size() == 1) {
 			msg = "이미 출근등록이 되었습니다";
@@ -89,13 +94,13 @@ public class AttManagementService {
 		return result;
 	}
 
+	// 퇴근 등록
 	public void attOff() throws ParseException {
 		String userid = "18301001";
 		
 		// 날짜 포맷
 		SimpleDateFormat sdf1 = new SimpleDateFormat("HH:mm:ss");
 		SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
-		SimpleDateFormat sdf3 = new SimpleDateFormat("HH:mm");
 		
 		// 날짜 객체 생성
 		Date now = new Date();
@@ -107,36 +112,7 @@ public class AttManagementService {
 		
 		String findAttOntime = work.get(0).getAttOnTime();
 		
-		// 문자열 -> Date
-		Date attOn 	= sdf1.parse(findAttOntime);
-		System.out.println("attOn --> " + attOn);
-		Date attOff = sdf1.parse(nowTime);
-		System.out.println("attOff --> " + attOff);
-		
-		//비교
-		long hour,min,sec = 0;
-		hour 	= attOff.getHours()   - attOn.getHours();
-		
-		if(attOff.getMinutes()<attOn.getMinutes()) {
-			min 	= (60+attOff.getMinutes()) - attOn.getMinutes();
-			hour -= 1;
-		} else {
-			min 	= attOff.getMinutes() - attOn.getMinutes();			
-		}
-		
-		if(attOff.getSeconds()<attOn.getSeconds()) {
-			sec 	= (60+attOff.getSeconds()) - attOn.getSeconds();
-			min -= 1;
-		} else {
-			sec 	= attOff.getSeconds() - attOn.getSeconds();			
-		}
-		
-		System.out.println("Hour->" + hour);
-		System.out.println("Min->" + min);
-		System.out.println("sec->" + sec);
-		
-		
-		String totalResult = String.format("%02d:%02d:%02d", hour,min,sec);
+		String totalResult = timeMinus(nowTime, findAttOntime);
 		
 		System.out.println("totalResult1 --> " + totalResult);
 		
@@ -160,7 +136,49 @@ public class AttManagementService {
 //		int result = howManyWeek(lastDay, whatDay, setDate);
 //		System.out.println(result);
 	}
-
+	
+	// 시간 차 구하기
+	public String timeMinus(String mainTime, String subTime) throws ParseException {
+		int mainHour = Integer.parseInt(mainTime.substring(0,2));
+		int subHour = Integer.parseInt(subTime.substring(0,2));
+		
+		SimpleDateFormat sdf1 = new SimpleDateFormat("HH:mm:ss");
+		// 문자열 -> Date
+		Date sub  = sdf1.parse(subTime);
+		System.out.println("main -->" + mainTime);
+		Date main = sdf1.parse(mainTime);
+		System.out.println("sub -->" + subTime);
+		System.out.println();
+		
+		//비교
+		long hour, min,sec = 0;
+		hour = mainHour - subHour;
+		System.out.println("hour --> " + hour);
+		if(main.getMinutes()<sub.getMinutes()) {
+			min 	= (60+main.getMinutes()) - sub.getMinutes();
+			hour -= 1;
+		} else {
+			min 	= main.getMinutes() - sub.getMinutes();			
+		}
+		
+		if(main.getSeconds()<sub.getSeconds()) {
+			sec 	= (60+main.getSeconds()) - sub.getSeconds();
+			min -= 1;
+		} else {
+			sec 	= main.getSeconds() - sub.getSeconds();			
+		}
+		
+		System.out.println("Hour->" + (hour));
+		System.out.println("Min->" + min);
+		System.out.println("sec->" + sec);
+		
+		
+		String totalResult = String.format("%02d:%02d:%02d", hour,min,sec);
+		
+		return totalResult;
+	}
+	
+	
 	// 현재 날짜 구하기
 	public String today() {
 		
@@ -171,30 +189,33 @@ public class AttManagementService {
 		return nowDate;
 	}
 	
-	// 마지막 날짜 구하기
-	public int getLastMonth(String yyyyMMdd) {
+	// 날짜 더하기
+	public String addDate(String today, int year, int month, int day) throws ParseException {
 		
-		String date = yyyyMMdd.replace("-","");
-		String year  = date.substring(0,4);
-		String month = date.substring(4,6);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		
 		Calendar cal = Calendar.getInstance();
-		cal.set(Integer.parseInt(year), Integer.parseInt(month)-1,1);
 		
-		int lastDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+		Date dt = sdf.parse(today);
 		
-		return lastDay;
+		cal.setTime(dt);
+		
+		cal.add(Calendar.YEAR, year);
+		cal.add(Calendar.MONTH, year);
+		cal.add(Calendar.DATE, day);
+		
+		return sdf.format(cal.getTime());
 	}
 	
-
-	// 해당 달의 1일이 무슨 요일인지 구하기
+//	 현재 날짜 무슨 요일인지 구하기
 	public int whatDay(String yyyyMMdd) {
 		
 		String date = yyyyMMdd.replace("-","");
 		int year  = Integer.parseInt(date.substring(0,4));
 		int month = Integer.parseInt(date.substring(4,6));
+		int day = Integer.parseInt(date.substring(6,8));
 		
-		LocalDate localdate = LocalDate.of(year, month, 1);
+		LocalDate localdate = LocalDate.of(year, month, day);
 		
 		DayOfWeek dayOfWeek = localdate.getDayOfWeek();
 		
@@ -203,49 +224,149 @@ public class AttManagementService {
 		return dayOfDay;
 	}
 	
-	// 날짜 세팅값 변경
-	public int setDate(int dayOfDay) {
-		int setDate = 0;
-		int result = 1;
-		if(dayOfDay != 1) {
-			setDate = 8-dayOfDay;
-			 result += setDate;			
-		}
-		return result;
-	}
+//	// 마지막 날짜 구하기
+//	public int getLastMonth(String yyyyMMdd) {
+//		
+//		String date = yyyyMMdd.replace("-","");
+//		String year  = date.substring(0,4);
+//		String month = date.substring(4,6);
+//		
+//		Calendar cal = Calendar.getInstance();
+//		cal.set(Integer.parseInt(year), Integer.parseInt(month)-1,1);
+//		
+//		int lastDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+//		
+//		return lastDay;
+//	}
 	
-	// 몇주차까지 있는 확인
-	public int howManyWeek(int lastDay,int dayOfDay, int setDate) {
-		
-		int weekCount = 0;
-		int checkRemain = 0;
-		
-		System.out.println("dayOfDay --> " + dayOfDay);
-		
-		weekCount 	= (lastDay-setDate+1)/7;
-		System.out.println("weekCount --> " + weekCount);
-		checkRemain = (lastDay-setDate+1)%7;
-		System.out.println("checkRemain --> " + checkRemain);
-		if(checkRemain != 0) weekCount += 1;
-		
-		if(dayOfDay != 1 && dayOfDay != 6 && dayOfDay != 7) {
-			weekCount += 1;
-		} 
 
-		return weekCount;
-	}
 	
-	// 내가 지금 주차에 있는지 확인
-	public int weekCount() {
+//	// 날짜 세팅값 변경
+//	public int setDate(int dayOfDay) {
+//		int setDate = 0;
+//		int result = 1;
+//		if(dayOfDay != 1) {
+//			setDate = 8-dayOfDay;
+//			 result += setDate;			
+//		}
+//		return result;
+//	}
+	
+//	// 몇주차까지 있는 확인
+//	public int howManyWeek(int lastDay,int dayOfDay, int setDate) {
+//		
+//		int weekCount = 0;
+//		int checkRemain = 0;
+//		
+//		System.out.println("dayOfDay --> " + dayOfDay);
+//		
+//		weekCount 	= (lastDay-setDate+1)/7;
+//		System.out.println("weekCount --> " + weekCount);
+//		checkRemain = (lastDay-setDate+1)%7;
+//		System.out.println("checkRemain --> " + checkRemain);
+//		if(checkRemain != 0) weekCount += 1;
+//		
+//		if(dayOfDay != 1 && dayOfDay != 6 && dayOfDay != 7) {
+//			weekCount += 1;
+//		} 
+//
+//		return weekCount;
+//	}
+	
+//	// 내가 지금 주차에 있는지 확인
+//	public int weekCount() {
+//		
+//		String today	= today();
+//		int lastDay 	= getLastMonth(today);
+//		int whatDayNum	= whatDay(today);
+//		int setDay		= setDate(whatDayNum);
+//		int weekCount   = howManyWeek(lastDay, whatDayNum, setDay);
+//		
+//		return weekCount;
+//	}
+	
+	// 총 일한시간 구하기
+	public String totalWorkTime(List<String> totalTime) throws ParseException {
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 		
-		String today	= today();
-		int lastDay 	= getLastMonth(today);
-		int whatDayNum	= whatDay(today);
-		int setDay		= setDate(whatDayNum);
-		int weekCount   = howManyWeek(lastDay, whatDayNum, setDay);
+		int hour = 0;
+		int min = 0;
+		int sec = 0;
 		
-		return weekCount;
+		// 시,분,초 구하기
+		for(int i = 0 ; i < totalTime.size(); i++) {
+			Date day = sdf.parse(totalTime.get(i));
+			hour += day.getHours();
+			min += day.getMinutes();
+			sec += day.getSeconds();
+		}
+		
+		// 시간 계산
+		min += sec/60;
+		sec = sec%60;
+		
+		hour += min/60;
+		min = min%60;
+		
+		
+		System.out.println("hour --> " + hour);
+		System.out.println("min --> " + min);
+		System.out.println("sec --> " + sec);
+		String totalResult = String.format("%02d:%02d:%02d", hour,min,sec);
+		System.out.println(totalResult);
+		
+		return totalResult;
 	}
+
+	// 일주일간 초과 근무, 근무시간
+	public Map<String, String> sumWeekWorking(String userid) throws ParseException {
+		Map<String, String> timeMap = new HashMap<>();
+		String today = today();
+//		String today = "2022-11-26";
+		String weekTotal,weekOver = null;
+		int listsize = 0;
+		int dayNum = whatDay(today);
+		
+		if(dayNum == 7) {
+			// 일요일경우 일주일 누적 근무시간 초기화
+			weekTotal = "00:00:00";
+			weekOver = "00:00:00";
+		} else {
+			System.out.println("dayNum - > " + dayNum);
+			
+			while(dayNum != 1) {
+				today = addDate(today,0,0,-1);
+				dayNum -= 1;
+			}
+			
+			System.out.println("today-> " + today);
+			
+			List<String> dayList = new ArrayList<>();
+			
+			while(dayNum < 6) {
+				dayList.add(today);
+				today = addDate(today,0,0,1);
+				dayNum+=1;
+			}
+			
+			List<String> totalTime = attCustomRepository.findTotalTime(dayList,userid);
+			listsize = totalTime.size();
+			weekTotal = totalWorkTime(totalTime);
+			System.out.println(totalTime);
+			
+			// 일주일 초과 근무시간 계산
+			int initTime = 8 * listsize;
+			String companyWorkTime = String.format("%02d:00:00", initTime);
+			weekOver = timeMinus(weekTotal,companyWorkTime);
+			System.out.println("weekOver -->" + weekOver );
+		}
+		timeMap.put("weekTotal", weekTotal);
+		timeMap.put("weekOver", weekOver);
+		
+		
+		return timeMap;
+	}
+
 	
 	
 	
