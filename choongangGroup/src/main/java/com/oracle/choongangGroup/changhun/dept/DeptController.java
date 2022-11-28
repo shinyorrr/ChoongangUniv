@@ -53,6 +53,7 @@ public class DeptController {
 		
 		List<Dept> searchDeptList = deptService.searchDept(search, searchGubun);
 		
+		
 		String msg = "";
 		if(searchDeptList == null) {
 			msg += "다시 입력해주세요";
