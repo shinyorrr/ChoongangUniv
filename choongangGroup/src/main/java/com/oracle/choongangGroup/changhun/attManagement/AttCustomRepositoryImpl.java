@@ -1,5 +1,6 @@
 package com.oracle.choongangGroup.changhun.attManagement;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -39,6 +40,17 @@ public class AttCustomRepositoryImpl implements AttCustomRepository {
 													.setParameter("time", nowDate).getResultList();
 		
 		return work;
+	}
+
+	@Override
+	public List<String> findTotalTime(List<String> dayList, String userid) {
+		
+		String query = "select w.totalTime from Work w where userid =: userid and work_date in (:todays) ";
+		
+		@SuppressWarnings("unchecked")
+		List<String> TotalTime = em.createQuery(query).setParameter("userid", userid).setParameter("todays", dayList).getResultList();
+		
+		return TotalTime;
 	}
 
 	
