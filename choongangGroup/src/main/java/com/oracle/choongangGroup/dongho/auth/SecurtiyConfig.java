@@ -1,5 +1,7 @@
 package com.oracle.choongangGroup.dongho.auth;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,10 +11,12 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 
 import com.oracle.choongangGroup.dongho.auth.CustomAuthenticationProvider;
@@ -28,6 +32,8 @@ import lombok.RequiredArgsConstructor;
 public class SecurtiyConfig {
 	private final PrincipalDetailsService principalDetailsService;
 	private final SecurityService securityService;
+    private final JwtTokenProvider jwtTokenProvider;
+    private final HttpServletResponse response;
 	
 	@Bean
 	public BCryptPasswordEncoder passwordEncoder() {
@@ -49,38 +55,44 @@ public class SecurtiyConfig {
 	protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
 		http.csrf().disable()
+			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+			.and()
 			.authorizeRequests()
 			.antMatchers("/student/**").hasRole("STUDENT")
 			.antMatchers("/manager/**").hasRole("MANAGER")
 			.antMatchers("/professor/**").hasRole("PROFESSOR")
 			.antMatchers("/admin/**").permitAll()//.hasRole("ADMIN")
+			.antMatchers("/members/login").permitAll()
+            .antMatchers("/members/loginForm", "/members/createMemberForm", "/members/createMember").permitAll()
 			.antMatchers("/anonymous/**").permitAll()
 			.antMatchers("/repoTest", "/loginForm").permitAll()
 			.antMatchers("/main").authenticated()
-
 			.and()
+			.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, securityService, response), UsernamePasswordAuthenticationFilter.class)
+
+			//.and()
 			.formLogin()
 			.loginPage("/").permitAll()
-			.loginProcessingUrl("/login")
+			//.loginProcessingUrl("/login")
 			.failureUrl("/loginFail")
 			//.defaultSuccessUrl("/main").permitAll()
-			.usernameParameter("securedUsername")
-			.passwordParameter("securedPassword")
-			.successHandler(new CustomSuccessHandler(securityService))
+			//.usernameParameter("securedUsername")
+			//.passwordParameter("securedPassword")
+			//.successHandler(new CustomSuccessHandler(securityService))
 			//.failureHandler(new CustomFailureHandler())
 			
 			.and()
 			.logout()
 			.logoutSuccessUrl("/")
 			.invalidateHttpSession(true)
-			.deleteCookies("JSESSIONID")
+			.deleteCookies("JSESSIONID", "RefreshToken", "AccessToken")
 			.clearAuthentication(false)
 			
 			.and()
 			.sessionManagement()
 			.maximumSessions(1)
 			.maxSessionsPreventsLogin(true)
-			.expiredUrl("/loginForm")
+			.expiredUrl("/")
 			.sessionRegistry(sessionRegistry());
 			
 		http.authenticationProvider(new CustomAuthenticationProvider(principalDetailsService , passwordEncoder()));

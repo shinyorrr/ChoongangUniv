@@ -33,33 +33,36 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 	
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-		HttpSession session = request.getSession();
-        PrivateKey privateKey = (PrivateKey)session.getAttribute("__rsaPrivateKey__");
-
-        System.out.println("authenticate privateKey -> " + privateKey);
-		String encryptedUsername = authentication.getName();
-		System.out.println("encryptedUsername -> " + encryptedUsername);
-		String encryptedPassword = (String) authentication.getCredentials();
-		String username = null;
-		String password = null;
-		try {
-			username = decryptRSA(privateKey, encryptedUsername);
-			System.out.println("username -> " + username);
-			password = decryptRSA(privateKey, encryptedPassword);
-			System.out.println("password -> " + password);
-			
-		} catch (Exception e) {
-			System.out.println("authenticate decryptRSA exception -> " + e.getMessage());
-		}
+//		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+//		HttpSession session = request.getSession();
+//        PrivateKey privateKey = (PrivateKey)session.getAttribute("__rsaPrivateKey__");
+//        System.out.println("authenticate privateKey -> " + privateKey);
+//		String encryptedUsername = authentication.getName();
+//		System.out.println("encryptedUsername -> " + encryptedUsername);
+//		String encryptedPassword = (String) authentication.getCredentials();
+//		String username = null;
+//		String password = null;
+//		try {
+//			username = decryptRSA(privateKey, encryptedUsername);
+//			System.out.println("username -> " + username);
+//			password = decryptRSA(privateKey, encryptedPassword);
+//			System.out.println("password -> " + password);
+//			
+//		} catch (Exception e) {
+//			System.out.println("authenticate decryptRSA exception -> " + e.getMessage());
+//		}
 		
+		String username = authentication.getName();
+		String password = (String) authentication.getCredentials();
 		System.out.println("username -> " + username);
 		PrincipalDetails principalDetails = (PrincipalDetails) principalDetailsService.loadUserByUsername(username);
 		if (principalDetails == null) {
+			System.out.println("CustomAuthenticationProvider authenticate : principalDetails == null");
 			throw new UsernameNotFoundException("아이디가 존재하지 않습니다.");
 		}
 		
 		if (isNotMatches(password, principalDetails.getPassword())) {
+			System.out.println("CustomAuthenticationProvider authenticate : isNotMatches(password, principalDetails.getPassword())");
 			throw new BadCredentialsException("비밀번호가 일치하지 않습니다.");
 		}
 		
