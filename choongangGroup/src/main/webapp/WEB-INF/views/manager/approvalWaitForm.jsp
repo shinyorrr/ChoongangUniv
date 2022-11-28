@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,18 +16,8 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <!-- CSS -->
 <link rel="stylesheet" href="/css/styles.css">
-<title>전자결재홈</title>
-<style type="text/css">
-	#btnNewAppr {
-		background-color: #0c5df4;
-		border : 0;
-	}
-	
-	.btnProcess {
-		font-size: 12px;
-		color: #7F7F7F;
-	}
-</style>
+
+    <title>SideBar sub menus</title>
 </head>
 
 <body class="" id="body-pd">
@@ -153,153 +142,20 @@
                 <div class="row m-5">
                     <!-- card header -->
                     <div class="col-12 rounded-top text-white overflow-auto pt-2 fw-bold" style="background-color: rgb(39, 40, 70); height: 40px;"> 
-                        <i class="bi bi-bookmark-fill me-2"></i>전자결재 
+                        <i class="bi bi-bookmark-fill me-2"></i>교수서비스 <i class="bi bi-chevron-right"></i>학사관리 <i class="bi bi-chevron-right"></i>강의 시간표 조회
                     </div>
                     <!-- card content -->  
                     <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
-                        <div id="titleInBox" style="font-weight: bold; font-size: 19px;">전자결재홈
-							 <a id="btnNewAppr" href="approvalWrite?userid=${userid}" class="btn btn-danger pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light">새 결재 진행</a>
-						</div>
-						<div id="containerBox">
-							<div style="border-top: 1px dashed #c9c9c9; margin-top: 10px;"></div>
-							
-							<!-- =================================결재 대기중 문서================================= -->
-							<div class="#">결재 대기중 문서</div>
-							<div class="btnProcess">승인 해야할 문서가 ${waitTotal}건 있습니다.</div>
-							<table class="table table-hover" style="font-size: 14px; text-align: center;">
-								<thead>
-									<tr>
-										<th>문서번호</th>
-										<th>기안일</th>
-										<th>결재양식</th>
-										<th style="width: 57%;">제목</th>
-										<th>첨부</th>
-										<th>결재상태</th>
-									</tr>
-								</thead>
-								<tbody>
-									<c:forEach var="wait" items="${waitList}">
-										<tr>
-											<td>${wait.approval_no}</td>
-											<td>${wait.writeday}</td>
-											<td>${wait.approval_sort_name}</td>
-											<td>${wait.title}</td>
-											<c:if test="${wait.file_path ne null }">
-												<td><i class="bi bi-file-earmark"></i></td>
-											</c:if>
-											<c:if test="${wait.file_path eq null }">
-												<td>&nbsp;</td>
-											</c:if>
-											<c:if test="${wait.approval_status eq '0'}">
-												<td>대기중<td>
-											</c:if>
-											<c:if test="${wait.approval_status eq '1'}">
-												<td>승인<td>
-											</c:if>
-											<c:if test="${wait.approval_status eq '2'}">
-												<td>반려<td>
-											</c:if>
-										</tr>
-									</c:forEach>
-								</tbody>
-							</table>
-					
-							<div style="border-top: 1px dashed #c9c9c9; margin-top: 50px;"></div>
-						
-							<!-- =================================기안 진행 문서================================= -->
-							<div class="#">기안 진행 문서</div>
-							<table class="table table-hover" style="font-size: 14px; text-align: center;">
-								<thead>
-									<tr>
-										<th>문서번호</th>
-										<th>기안일</th>
-										<th>결재양식</th>
-										<th style="width: 57%;">제목</th>
-										<th>첨부</th>
-										<th>결재상태</th>
-									</tr>
-								</thead>
-								<tbody>
-									<c:forEach var="process" items="${processList}">
-										<tr>
-											<td>${process.approval_no}</td>
-											<td>${process.writeday}</td>
-											<td>${process.approval_sort_name}</td>
-											<td>${process.title}</td>
-											<c:if test="${process.file_path ne null }">
-												<td><i class="bi bi-file-earmark"></i></td>
-											</c:if>
-											<c:if test="${process.file_path eq null }">
-												<td>&nbsp;</td>
-											</c:if>
-											<c:if test="${process.approval_status eq 0}">
-												<td>대기중<td>
-											</c:if>
-											<c:if test="${process.approval_status eq 1}">
-												<td>심사중<td>
-											</c:if>
-											<c:if test="${process.approval_status eq 2}">
-												<td>반려<td>
-											</c:if>
-											<c:if test="${process.approval_status eq 3}">
-												<td>승인<td>
-											</c:if>
-										</tr>
-									</c:forEach>
-								</tbody>
-							</table>
-					
-							<div style="border-top: 1px dashed #c9c9c9; margin-top: 50px;"></div>
-							
-							<!-- =================================기안 완료 문서================================= -->
-							<div class="#">기안 완료 문서</div>
-							<table class="table table-hover" style="font-size: 14px; text-align: center;">
-								<thead>
-									<tr>
-										<th>문서번호</th>
-										<th>기안일</th>
-										<th>결재양식</th>
-										<th style="width: 57%;">제목</th>
-										<th>첨부</th>
-										<th>결재상태</th>
-									</tr>
-								</thead>
-								<tbody>
-									<c:forEach var="finish" items="${finishList}">
-										<tr>
-											<td>${finish.approval_no}</td>
-											<td>${finish.writeday}</td>
-											<td>${finish.approval_sort_name}</td>
-											<td>${finish.title}</td>
-											<c:if test="${finish.file_path ne null }">
-												<td><i class="bi bi-file-earmark"></i></td>
-											</c:if>
-											<c:if test="${finish.file_path eq null }">
-												<td>&nbsp;</td>
-											</c:if>
-											<c:if test="${finish.approval_status eq 0}">
-												<td>대기중<td>
-											</c:if>
-											<c:if test="${finish.approval_status eq 1}">
-												<td>반려<td>
-											</c:if>
-											<c:if test="${finish.approval_status eq 2}">
-												<td>승인<td>
-											</c:if>
-										</tr>
-									</c:forEach>
-								</tbody>
-							</table>
-						</div>
-					                    </div>
-					                    <!-- footer -->
-					                    <footer class="col-12" style="height: 60px;">
-					                        
-					                    </footer>    
-					                </div>
-					            </main>
-					        </div>
-					    </div>
+                        content
+                    </div>
+                    <!-- footer -->
+                    <footer class="col-12" style="height: 60px;">
+                        footer
+                    </footer>    
+                </div>
+            </main>
+        </div>
+    </div>
     <!-- IONICONS -->
     <script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script>
     <!-- JS -->

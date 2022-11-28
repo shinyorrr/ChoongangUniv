@@ -66,4 +66,6 @@ public class Member {
 	@OneToMany(mappedBy = "writer", fetch = FetchType.LAZY)
 	private List<Notice> notices = new ArrayList<>();
 	
+	private String refreshToken;
 	}
+	
