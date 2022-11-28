@@ -274,7 +274,7 @@ function newLec(){
 			<div class="d-flex flex-row" >
 				<div class="text-white h4">안녕하세요. <b>${name }</b>님!</div>
 					<span class="border border-1 border-white border-bottom rounded-pill text-white px-2 pt-1 pb-0 ms-2 me-3"
-								style="font-size: 12px; height: 24px;">${position }</span>
+								style="font-size: 12px; height: 24px;">교수</span>
 					<i class="text-white bi-gear-fill mx-2" style="height: 18px;"></i>
 			</div>
 				<div class="d-flex text-white" style="font-size: 14px;">${major} | ${position}</div>
