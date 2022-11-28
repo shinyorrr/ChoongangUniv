@@ -93,5 +93,34 @@
 			]]>
 	</select>
 	
+	<!-- =====================새 결재 저장===================== -->
+	<insert id="hsApprSave" parameterType="Approval">
+	
+		insert into approval (approval_no, approval_sort_no, mid_approver, fin_approver, title, item_need, item_quantity, approval_content, item_purpose, item_price, server_file_name, org_file_name, file_path, mid_approver_ok, fin_approver_ok, approval_status, writeday, approval_start, approval_end, mid_approver_opinion, fin_approver_opinion, userid) 
+									values((select NVL(MAX(approval_no), 0) + 1 from approval)
+									, #{approval_sort_no}
+									, #{mid_approver}
+									, #{fin_approver}
+									, #{title}
+									, #{item_need, jdbcType=VARCHAR}
+									, NVL(#{item_quantity, jdbcType=INTEGER}, 0)
+									, #{approval_content}
+									, #{item_purpose, jdbcType=VARCHAR}
+									, #{item_price, jdbcType=VARCHAR}
+									, #{server_file_name, jdbcType=VARCHAR}
+									, #{org_file_name, jdbcType=VARCHAR}
+									, #{file_path, jdbcType=VARCHAR}
+									, NVL(#{mid_approver_ok, jdbcType=VARCHAR}, '0')
+									, NVL(#{fin_approver_ok, jdbcType=VARCHAR}, '0')
+									, NVL(#{approval_status, jdbcType=VARCHAR}, '0')
+									, #{writeday}
+									, #{approval_start}
+									, #{approval_end}
+									, #{mid_approver_opinion, jdbcType=VARCHAR}
+									, #{fin_approver_opinion, jdbcType=VARCHAR}
+									, #{userid}
+								)
+								
+	</insert>
 	
 </mapper>

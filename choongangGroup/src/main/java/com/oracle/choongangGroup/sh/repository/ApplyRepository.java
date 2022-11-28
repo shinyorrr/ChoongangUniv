@@ -11,10 +11,17 @@ public interface ApplyRepository {
 	
 	List<Lecture> lectureListAll();
 
-	Member memberFindOne(String userid);
+	Member 	memberFindOne(String userid);
 
-	Lecture lectureFindOne(String lecId);
+	Lecture lectureFindOne(Long lecId);
+	
+	int 	apply(ApplicationLec applyLec);
 
-	void apply(ApplicationLec applyLec);
+
+
+
+
+
+
 
 }

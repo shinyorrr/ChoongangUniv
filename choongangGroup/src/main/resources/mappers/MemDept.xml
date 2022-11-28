@@ -18,5 +18,6 @@
 		select m.*, d.dname
 		from member m , dept d
 		where m.deptno = d.deptno
+		and userid != ${userid}
 	</select>
 </mapper>
