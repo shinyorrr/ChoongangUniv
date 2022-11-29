@@ -14,9 +14,10 @@ public class WebMbcConfig implements WebMvcConfigurer {
 	//private final Authentication authentication;
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		//WebMvcConfigurer.super.addInterceptors(registry);
+		WebMvcConfigurer.super.addInterceptors(registry);
 		registry.addInterceptor(new RsaInterceptor())
-				.addPathPatterns("/", "/admin/createMemberForm", "/admin/updatePasswordForm");
+				.addPathPatterns("/","/admin/createMemberForm", "/updatePasswordForm")
+				;
 		registry.addInterceptor(new LoginSuccessHandler(securityService))
 				.addPathPatterns("/login");
 	}

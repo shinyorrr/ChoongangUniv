@@ -1,13 +1,19 @@
 package com.oracle.choongangGroup.changhun.attManagement;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.oracle.choongangGroup.changhun.JPA.Work;
 
 import lombok.RequiredArgsConstructor;
 
@@ -15,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AttRestController {
 	
+	private final AttManagementRepository repository;
 	private final AttManagementService service;
 	
 	@RequestMapping(value = "attInsert")
@@ -49,4 +56,22 @@ public class AttRestController {
 		
 		return msg;
 	}
+	
+	@PostMapping(value = "/attClk")
+	public List<Work> attMyFormClk(@RequestParam(required = false, defaultValue = "0", value="page")int page) {
+		
+		System.out.println("page --> " + page);
+		HttpSession session;
+//		String userid = (String) session.getAttribute("userid");
+		String userid = "18301001";
+		
+//		Page<Work> workList = repository.findByUserid(userid,PageRequest.of(page, 5, Sort.by(Sort.Direction.ASC,"workDate")));
+		Page<Work> workList = repository.findPageByMember_Userid(userid,PageRequest.of(page, 5, Sort.by(Sort.Direction.ASC,"workDate")));
+		List<String> list = new ArrayList<String>();
+		list.add("가자");
+		
+		return workList.getContent();
+	}
+	
+	
 }

@@ -23,6 +23,7 @@ public class PrincipalDetailsService implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		System.out.println("loadUserByUsername start ");
 		Member member = securityRepository.findByUserid(username);
+		System.out.println("loadUserByUsername -> " + member.getUserid());
 		if (member == null) {return (UserDetails) new UsernameNotFoundException("아이디를 찾을 수 없습니다. : " + username);} 
 		else                {return new PrincipalDetails(member);}
 	}

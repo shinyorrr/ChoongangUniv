@@ -13,10 +13,11 @@ import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.DynamicUpdate;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import lombok.Data;
 
 @Entity
-@DynamicUpdate
 @Data
 @IdClass(WorkPK.class)
 public class Work {
@@ -26,12 +27,10 @@ public class Work {
 	private String workDate;
 	
 	@Id
-	private String userid;
+	@ManyToOne
+	@JoinColumn(name = "userid")
+	private Member member; 
 	
-	@ManyToOne(fetch = FetchType.LAZY,
-			   cascade = CascadeType.ALL)
-	@JoinColumn(name = "userid", insertable = false, updatable = false)
-	private Member member;
 	private String attOnTime;
 	private String attOffTime;
 	private String totalTime;
