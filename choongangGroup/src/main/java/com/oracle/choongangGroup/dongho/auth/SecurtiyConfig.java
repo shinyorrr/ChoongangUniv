@@ -62,19 +62,25 @@ public class SecurtiyConfig {
 			.antMatchers("/manager/**").hasRole("MANAGER")
 			.antMatchers("/professor/**").hasRole("PROFESSOR")
 			.antMatchers("/admin/**").permitAll()//.hasRole("ADMIN")
-			.antMatchers("/members/login").permitAll()
-            .antMatchers("/members/loginForm", "/members/createMemberForm", "/members/createMember").permitAll()
-			.antMatchers("/anonymous/**").permitAll()
-			.antMatchers("/repoTest", "/loginForm").permitAll()
-			.antMatchers("/main").authenticated()
+            // 권한이 없어도 모두 허용
+			.antMatchers(
+            			 "/login", 
+            			 "/anonymous/**"
+            			 ).permitAll()
+			// 로그인된 사용자만 접근 허용
+            .antMatchers(
+            			 "/updatePasswordForm",
+            			 "/updatePassword"
+            			 ).authenticated()
+            //.anyRequest().authenticated() //활성화 하면 로그인페이지 두번 요청되는듯하다.
 			.and()
 			.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, securityService, response), UsernamePasswordAuthenticationFilter.class)
 
 			//.and()
 			.formLogin()
 			.loginPage("/").permitAll()
-			//.loginProcessingUrl("/login")
-			.failureUrl("/loginFail")
+			//.loginProcessingUrl("/login") // JWT custom login 사용하므로 비활성
+			.failureUrl("/").permitAll()
 			//.defaultSuccessUrl("/main").permitAll()
 			//.usernameParameter("securedUsername")
 			//.passwordParameter("securedPassword")
@@ -83,15 +89,15 @@ public class SecurtiyConfig {
 			
 			.and()
 			.logout()
-			.logoutSuccessUrl("/")
-			.invalidateHttpSession(true)
+			.logoutSuccessUrl("/").permitAll()
+			.invalidateHttpSession(true)  // 로그아웃 이후 세션 전체 삭제 여부
 			.deleteCookies("JSESSIONID", "RefreshToken", "AccessToken")
-			.clearAuthentication(false)
+			.clearAuthentication(true)
 			
 			.and()
 			.sessionManagement()
-			.maximumSessions(1)
-			.maxSessionsPreventsLogin(true)
+			.maximumSessions(1)				 // 최대 허용 가능 세션 수, -1인 경우 무제한 세션
+			.maxSessionsPreventsLogin(false) // false : 이전 사용자의 세션 만료, true : 신규 사용자의 인증 실패 
 			.expiredUrl("/")
 			.sessionRegistry(sessionRegistry());
 			
@@ -107,7 +113,8 @@ public class SecurtiyConfig {
                     .antMatchers(
                             "/images/**",
                             "/js/**",
-                            "/css/**"
+                            "/css/**",
+                            "/favicon.ico"
                     );
         };
     }

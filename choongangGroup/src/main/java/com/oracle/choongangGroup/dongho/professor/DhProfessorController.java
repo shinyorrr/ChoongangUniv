@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -29,10 +30,11 @@ import oracle.jdbc.proxy.annotation.GetProxy;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/professor")
 public class DhProfessorController {
 	private final DhProfessorService dhprofessorService;
 	
-	@GetMapping("/professor/reportList")
+	@GetMapping("/reportList")
 	public String reportList(Model model, HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		String profName = (String) session.getAttribute("name");
@@ -41,24 +43,24 @@ public class DhProfessorController {
 		return "/professor/report";
 	}
 	
-	@ResponseBody
-	@PostMapping("/professor/lecReportList")
-	public List<Report> lecReportList(@RequestParam("id") Long id, Model model, @RequestParam(required = false, defaultValue = "0", value="page") int page) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		
-		Page<Report> lecReportList = dhprofessorService.findPageByLecture_Id(id , PageRequest.of(page, 2, Sort.by(Sort.Direction.ASC,"member.name")));
-		for (Report report2 : lecReportList) {
-			System.out.println(report2.getMember().getName());
-			System.out.println(report2.getMember().getUserid());
-		}
-		
-		int totalPage = lecReportList.getTotalPages();
-		System.out.println(totalPage);
-		
-		//map.put("totalPage", value)
-		
-		return lecReportList.getContent();
-	}
+//	@ResponseBody
+//	@PostMapping("/lecReportList")
+//	public List<Report> lecReportList(@RequestParam("id") Long id, Model model, @RequestParam(required = false, defaultValue = "0", value="page") int page) {
+//		Map<String, Object> map = new HashMap<String, Object>();
+//		
+//		Page<Report> lecReportList = dhprofessorService.findPageByLecture_Id(id , PageRequest.of(page, 5, Sort.by(Sort.Direction.ASC,"member.name")));
+//		for (Report report2 : lecReportList) {
+//			System.out.println(report2.getMember().getName());
+//			System.out.println(report2.getMember().getUserid());
+//		}
+//		
+//		int totalPage = lecReportList.getTotalPages();
+//		System.out.println(totalPage);
+//		
+//		//map.put("totalPage", value)
+//		
+//		return lecReportList.getContent();
+//	}
 	
 	
 }
