@@ -441,7 +441,7 @@
 										<tr>
 											<th style="width: 10%; font-size: 14px; display: table-cell; vertical-align: middle; background-color: #dddddd">기안자</th>
 											<td style="width: 40%;">
-												${appr.name}
+												${mem_name}
 											</td>
 										</tr>
 									</table>
@@ -516,7 +516,7 @@
 									    	<tr>
 												<th style="width: 10%; font-size: 14px; display: table-cell; vertical-align: middle; background-color: #dddddd">부서</th>
 												<td>
-													${appr.dname}
+													${dname}
 												</td>
 												<th style="width: 10%; font-size: 14px; display: table-cell; vertical-align: middle; background-color: #dddddd">기안일</th>
 												<td>
@@ -544,7 +544,7 @@
 											<tr>
 												<td colspan="6">
 													<div class="mb-3">
-														<textarea name="approval_content" class="form-control" id="exampleFormControlTextarea1" maxlength="200" placeholder="상세 내용을 입력하세요" rows="3" required="required" style="resize: none;"></textarea>
+														<textarea name="approval_content" class="form-control" id="exampleFormControlTextarea1" maxlength="200" placeholder="상세 내용을 입력하세요" rows="3" required="required"></textarea>
 													</div>
 												</td>
 											</tr>

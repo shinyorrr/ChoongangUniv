@@ -35,8 +35,7 @@ public class ApprovalRestController {
 	// 회원 전체 조회
 	@RequestMapping("apprList")
 	public List<MemDept> apprList(String userid, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		userid = (String) session.getAttribute("userid");
+		userid = "12301001";
 		log.info("apprList start...");
 		List<MemDept> listAppr = as.apprList(userid);
 		log.info("listAppr.size()->{}",listAppr.size());

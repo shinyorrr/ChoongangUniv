@@ -70,9 +70,13 @@ public class ApprovalController {
 		MemDept memDept = new MemDept();
 		memDept.setUserid(userid);
 		
-		MemDept appr = as.findMem(memDept.getUserid());
-
-		model.addAttribute("appr", appr);
+		MemDept infoAppr = as.findMem(memDept.getUserid());
+		
+		String mem_name = infoAppr.getName();
+		String dname = infoAppr.getDname();
+		
+		model.addAttribute("mem_name", mem_name);
+		model.addAttribute("dname", dname);
 		return "manager/approvalForm";
 	}
 	
