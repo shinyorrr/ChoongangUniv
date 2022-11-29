@@ -13,4 +13,8 @@ public interface AttCustomRepository {
 
 	List<String> findTotalTime(List<String> dayList,String userid);
 
+	List<String> monthList(List<String> dayList, String userid);
+
+	long findVacation(String userid);
+
 }

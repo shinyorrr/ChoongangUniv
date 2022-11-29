@@ -32,21 +32,6 @@
 	/* location.href="${pageContext.request.contextPath}/attForm?page="+vWeek; */
 	vindex = vWeek+1;
 	console.info(index);
-/* 	$('#weekWork'+index).append("<table class='table table-hover'>"
-								+"<thead><tr><th>일자</th><th>업무시작</th><th>업무종료</th><th>총근무시간</th></thead>"
-								+"<c:forEach var='attList' items='${attList }'>"
-								+"<tbody>"
-								+"<tr>"
-								+"<td>${attList.workDate }</td>"
-								+"<td>${attList.attOnTime }</td>"
-								+"<td>${attList.attOffTime }</td>"
-								+"<td>${attList.totalTime }</td>"
-								+"</tr>"
-								+"</tbody>"			
-								+"</c:forEach>"
-								+"</table>" ) */
-	
-	
  		$.ajax({
  			type: 'POST',
 			url : '/attClk',
@@ -229,10 +214,12 @@
                     			${weekOver }
                     		</div>
                     		<div class="col border border-3 p-3 mb-2 bg-secondary text-white" style="text-align: center">
-                    			남은 연차
+                    			남은 연차<br>
+                    			${vacation}
                     		</div>
                     		<div class="col border border-3 p-3 mb-2 bg-secondary text-white" style="text-align: center">
-                    			이번달 누적근무시간
+                    			이번달 누적근무시간<br>
+                    			${monthTotal }
                     		</div>
                     	</div>
                     	<div id="weekWorkClk1" onclick="weekWorkClick(0)">1주차</div><hr>

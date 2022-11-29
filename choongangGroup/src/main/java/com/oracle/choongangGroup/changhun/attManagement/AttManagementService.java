@@ -35,6 +35,7 @@ public class AttManagementService {
 	private final AttManagementRepository repository;
 	private final MemberRepository memRepository;
 	
+	// 출근 등록
 	public String attInsert() {
 		
 		HttpSession session;
@@ -112,6 +113,7 @@ public class AttManagementService {
 		
 		String findAttOntime = work.get(0).getAttOnTime();
 		
+		// 하루 총 근무시간 구하기
 		String totalResult = timeMinus(nowTime, findAttOntime);
 		
 		System.out.println("totalResult1 --> " + totalResult);
@@ -224,33 +226,33 @@ public class AttManagementService {
 		return dayOfDay;
 	}
 	
-//	// 마지막 날짜 구하기
-//	public int getLastMonth(String yyyyMMdd) {
-//		
-//		String date = yyyyMMdd.replace("-","");
-//		String year  = date.substring(0,4);
-//		String month = date.substring(4,6);
-//		
-//		Calendar cal = Calendar.getInstance();
-//		cal.set(Integer.parseInt(year), Integer.parseInt(month)-1,1);
-//		
-//		int lastDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
-//		
-//		return lastDay;
-//	}
+	// 마지막 날짜 구하기
+	public int getLastMonth(String yyyyMMdd) {
+		
+		String date = yyyyMMdd.replace("-","");
+		String year  = date.substring(0,4);
+		String month = date.substring(4,6);
+		
+		Calendar cal = Calendar.getInstance();
+		cal.set(Integer.parseInt(year), Integer.parseInt(month)-1,1);
+		
+		int lastDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+		
+		return lastDay;
+	}
 	
 
 	
-//	// 날짜 세팅값 변경
-//	public int setDate(int dayOfDay) {
-//		int setDate = 0;
-//		int result = 1;
-//		if(dayOfDay != 1) {
-//			setDate = 8-dayOfDay;
-//			 result += setDate;			
-//		}
-//		return result;
-//	}
+	// 달의 시작 날짜로 세팅값 변경
+	public String setDate(String today) {
+		
+		String todayStr = today.replace("-", "");
+		String year = todayStr.substring(0,4);
+		String month = todayStr.substring(4,6);
+		
+		return String.format("%s-%s-01", year,month);
+		
+	}
 	
 //	// 몇주차까지 있는 확인
 //	public int howManyWeek(int lastDay,int dayOfDay, int setDate) {
@@ -365,6 +367,39 @@ public class AttManagementService {
 		
 		
 		return timeMap;
+	}
+
+
+	// 한달 근무시간
+	public String monthTotal(String userid) throws ParseException {
+		
+		String today = today();
+		int lastDay = getLastMonth(today);
+		String startMonth = setDate(today);
+		
+		List<String> dayList = new ArrayList<>();
+		
+		for(int i = 0 ; i < lastDay ; i++) {
+			dayList.add(startMonth);
+			startMonth = addDate(startMonth, 0, 0, 1);
+		}
+		log.info("monthTotal dayList.size() --> {}",dayList);
+		
+		List<String> monthList = attCustomRepository.monthList(dayList,userid);
+		
+		String monthTotalTime = totalWorkTime(monthList);
+		
+		System.out.println("monthTotalLTime --> " + monthTotalTime);
+		
+		return monthTotalTime;
+	}
+
+
+	public long vacation(String userid) {
+		
+		long vacation = attCustomRepository.findVacation(userid);
+		
+		return vacation;
 	}
 
 	
