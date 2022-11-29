@@ -35,8 +35,8 @@ public class SecurityServiceImpl implements SecurityService {
     // login method
     public TokenInfo login(String username, String password) {
     	// controller에서 복호화한 username, password
-        System.out.println("tokenInfo username -> " + username);
-        System.out.println("tokenInfo password -> " + password);
+        System.out.println("tokenInfo(login) username -> " + username);
+        System.out.println("tokenInfo(login) password -> " + password);
         
         // authentication token 만들기 (JWT아님, spring security의 authentication token)
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
