@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <!-- CSS -->
 <link rel="stylesheet" href="/css/styles.css">
-<title>새결재홈</title>
+<title>결재완료상세</title>
 <style type="text/css">
 	.docListTitle {
 		margin-top: 10px;
@@ -52,63 +52,7 @@
 </style>
 
 <script type="text/javascript">
-	// -------- 상신취소 ----------
-	function getApprDelete() {
-		 if (confirm("상신취소하시겠습니까?") == true) {    //확인
-		 	var selApproNo = $('#approval_no').val();
-		 	var selFilePath = $('#file_path').val();
-		 	var selServerName= $('#server_file_name').val();
-		 	console.log(selApproNo);
-		 	console.log(selFilePath);
-		 	console.log(selServerName);
-			$.ajax(
-					{
-						url:"apprDelete",
-						data:{approval_no 	   : selApproNo,
-							  file_path   	   : selFilePath,
-							  server_file_name : selServerName},
-						dataType:'text',
-						success:function(data) {
-							if(data == '1'){
-								alert("상신취소 되었습니다");
-								window.location.href = "approvalProcess";
-							}
-							else{
-								alert("삭제실패");
-							}
-						}
-					}
-			);
-		  }	else {   //취소
-		      return false;
-		}
-	}
 	
-	// -------- 파일 다운로드 ----------
-	function fileDownload() {
-		var selFilePath = $('#file_path').val();
-		var selServerName= $('#server_file_name').val();
-		var selOrgName   = $('#org_file_name').val();
-		console.log(selFilePath);
-		console.log(selServerName);
-		console.log(selOrgName);
-		if(selOrgName != null) {
-			
-			$.ajax(
-					{
-						url:"/download",
-						data:{file_path 	  : selFilePath,
-							 server_file_name : selServerName,
-							 org_file_name 	  : selOrgName},
-						dataType:'text',
-						success:function(data) {
-							alert("다운로드 성공")
-						}
-					}	
-			);
-		}
-		
-	} 
 </script>
 </head>
 
@@ -208,7 +152,7 @@
             <div class="col-12 pt-4" style="height: 150px; background-color: rgb(95, 142, 241)">
                 <div class="d-flex flex-row mb-3">
                     <div>
-                        <span class="text-white h4">안녕하세요. <span class="fw-bold">{name}</span>님!</span>
+                        <span class="text-white h4">안녕하세요. <span class="fw-bold">김중앙</span>님!</span>
                     </div>
                     <div class="border border-1 border-white border-bottom rounded-pill text-white px-2 pt-1 ms-2 h6">교수</div>
                     <div>
@@ -234,18 +178,18 @@
                 <div class="row m-5">
                     <!-- card header -->
                     <div class="col-12 rounded-top text-white overflow-auto pt-2 fw-bold" style="background-color: rgb(39, 40, 70); height: 40px;"> 
-                        <i class="bi bi-bookmark-fill me-2"></i>전자결재 <i class="bi bi-chevron-right"></i>기안진행문서목록 <i class="bi bi-chevron-right"></i>기안진행상세
+                        <i class="bi bi-bookmark-fill me-2"></i>전자결재 <i class="bi bi-chevron-right"></i>결재완료목록 <i class="bi bi-chevron-right"></i>결재완료상세
                     </div>
                     <!-- card content -->  
                     <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
-                        <div id="titleInBox" style="font-weight: bold; font-size: 19px;">진행중인 문서 상세보기</div>
+                        <div id="titleInBox" style="font-weight: bold; font-size: 19px;">결재완료 문서 상세보기</div>
 							<div style="border-top: 1px dashed #c9c9c9; margin-top: 10px;"></div>
 							<div id="containerBox">
 							
 								<form action="" name="processFrm" enctype="multipart/form-data">
 								<!--===================================== 문서선택  ======================================-->
 								<!-- 사용자 아이디값 가져오기 -->
-								<input type="hidden" name="userid" id="userid" value="${userid}">
+								<input type="hidden" name="userid" id="userid" value="${appr.userid}">
 								<div class="ApprListTitle" style="margin-top: 10px;">요약</div>
 								<div style="display: inline-block; width: 100%">
 								<div style="float: left; width: 30%">
@@ -259,13 +203,13 @@
 										<tr>
 											<th style="width: 5%; font-size: 14px; display: table-cell; vertical-align: middle; background-color: #dddddd">기안자</th>
 											<td style="width: 5%;">
-												${mem_name }
+												${appr.memDept.name }
 											</td>
 										</tr>
 										<tr>
 											<th style="width: 5%; font-size: 14px; display: table-cell; vertical-align: middle; background-color: #dddddd">소속</th>
 											<td style="width: 5%;">
-												${dname}
+												${appr.memDept.dname }
 											</td>
 										</tr>
 										<tr>
@@ -278,54 +222,63 @@
 								</div>
 								
 								<!--===================================== 결재선  ======================================-->
-								<div style="float: right; width: 45%">
+								<div style="float: right; width: 45%;">
 									<table class="table table-bordered table-responsive" style="width: 100%; margin-top : 10px; border-collapse: collapse !important; color: black; background: white; font-size: 14px; text-align: center;">
 										<tbody>
 											<tr>
-												<th style="width: 5%; font-size: 14px; display: table-cell; vertical-align: middle; background-color: #dddddd">구분</th>
-												<th style="width: 5%; font-size: 14px; display: table-cell; vertical-align: middle; background-color: #dddddd">중간결재자</th>
-												<th style="width: 5%; font-size: 14px; display: table-cell; vertical-align: middle; background-color: #dddddd">최종결재자</th>
+												<th style="width: 10%; font-size: 14px; display: table-cell; vertical-align: middle; background-color: #dddddd">구분</th>
+												<th style="width: 15%; font-size: 14px; display: table-cell; vertical-align: middle; background-color: #dddddd">중간결재자</th>
+												<th style="width: 15%; font-size: 14px; display: table-cell; vertical-align: middle; background-color: #dddddd">최종결재자</th>
 											</tr>
 										
 											<tr>
-												<th style="width: 5%; font-size: 14px; display: table-cell; vertical-align: middle; background-color: #dddddd">직급</th>
-												<td style="width: 5%;">
+												<th style="width: 10%; font-size: 14px; display: table-cell; vertical-align: middle; background-color: #dddddd">직급</th>
+												<td style="width: 15%;">
 													${appr.midapprvo.dname }
 												</td>
-												<td style="width: 5%;">
+												<td style="width: 15%;">
 													${appr.finapprvo.dname }
 												</td>
 											</tr>
 											<tr>
-												<th style="width: 5%; font-size: 14px; display: table-cell; vertical-align: middle; background-color: #dddddd">이름</th>
-												<td style="width: 5%;">
+												<th style="width: 10%; font-size: 14px; display: table-cell; vertical-align: middle; background-color: #dddddd">이름</th>
+												<td style="width: 15%;">
 													${appr.midapprvo.name }
 												</td>
-												<td style="width: 5%;">
+												<td style="width: 15%;">
 													${appr.finapprvo.name }
 												</td>
 											</tr>
 											<tr>
-												<th style="width: 5%; font-size: 14px; display: table-cell; vertical-align: middle; background-color: #dddddd">승인여부</th>
+												<th style="width: 10%; font-size: 14px; display: table-cell; vertical-align: middle; background-color: #dddddd">승인여부</th>
 											
 												<c:if test="${appr.mid_approver_ok eq '0' }">
-													<td style="width: 5%;">&nbsp;</td>
+													<td style="width: 15%;">&nbsp;</td>
 												</c:if>
 												<c:if test="${appr.mid_approver_ok eq '1' }">
-													<td style="width: 5%;">승인</td>
+													<td style="width: 15%;">승인</td>
 												</c:if>
 												<c:if test="${appr.mid_approver_ok eq '2' }">
-													<td style="width: 5%;">반려</td>
+													<td style="width: 15%;">반려</td>
 												</c:if>
 												<c:if test="${appr.fin_approver_ok eq '0' }">
-													<td style="width: 5%;">&nbsp;</td>
+													<td style="width: 15%;">&nbsp;</td>
 												</c:if>
 												<c:if test="${appr.fin_approver_ok eq '1' }">
-													<td style="width: 5%;">승인</td>
+													<td style="width: 15%;">승인</td>
 												</c:if>
 												<c:if test="${appr.fin_approver_ok eq '2' }">
-													<td style="width: 5%;">반려</td>
+													<td style="width: 15%;">반려</td>
 												</c:if>
+											</tr>
+											<tr>
+												<th style="width: 10%; font-size: 14px; display: table-cell; vertical-align: middle; background-color: #dddddd">결재자의견</th>
+												<td style="width: 15%;">
+													${appr.mid_approver_opinion }
+												</td>
+												<td style="width: 15%;">
+													${appr.fin_approver_opinion }
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -346,7 +299,7 @@
 									    	<tr>
 												<th style="width: 10%; font-size: 14px; display: table-cell; vertical-align: middle; background-color: #dddddd">부서</th>
 												<td>
-													${dname}
+													${appr.memDept.dname }
 												</td>
 												<th style="width: 10%; font-size: 14px; display: table-cell; vertical-align: middle; background-color: #dddddd">기안일</th>
 												<td>
@@ -390,11 +343,10 @@
 									  <input type="hidden" name="server_file_name" id="server_file_name" value="${appr.server_file_name }">
 									</div>
 								</div>
-								
-								<!--======================== 결재완료/취소 =======================-->
-								<div>
-									<button type="submit" class="btn btn-primary btn-sm" onclick="getApprDelete()">상신취소</button>
-									<button type="button" class="btn btn-secondary btn-sm" onclick="location.href='approvalProcess'">목록가기</button>				
+									
+								<!--======================== 결재완료목록가기 =======================-->
+								<div style="clear: left; margin-top: 10px;">
+									<button type="button" class="btn btn-secondary btn-sm" onclick="location.href='approvalEnd'">목록가기</button>				
 								</div>
 								</form>
 							</div>

@@ -38,6 +38,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
         	System.out.println("JwtAuthenticationFilter val1 start");
             // 토큰이 유효할 경우 토큰에서 Authentication 객체를 가지고 와서 SecurityContext 에 저장
             Authentication authentication = jwtTokenProvider.getAuthentication(accessToken);
+            
             SecurityContextHolder.getContext().setAuthentication(authentication);
         // AT 유효기간 지나고 RT가 null이 아니면 RT 검증후 AT,RT 재발급
         } else if (accessToken != null && !jwtTokenProvider.validateToken(accessToken) && refreshToken != null) {

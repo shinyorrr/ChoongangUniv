@@ -101,7 +101,7 @@
 	    <!-- errMsg -->
 	    <div class="h6 mb-3 fw-normal" id="errMsg"></div>
 		<!-- login button -->
-	    <a href="/loginFailure" onclick="validateEncryptForm(); return false;"><button class="w-100 btn btn-lg btn-primary mb-3" type="button">로그인</button></a>
+	    <a href="/mainLogin" onclick="validateEncryptForm(); return false;"><button class="w-100 btn btn-lg btn-primary mb-3" type="button">로그인</button></a>
 	    <div class="d-flex justify-content-center" style="font-size: small;">
 		    <div class="d-flex justify-content-between">
 		    	<a class="text-decoration-none text-muted" style="padding-left: 30px;" href="/anonymous/findIdForm">아이디 찾기</a>

@@ -161,10 +161,12 @@
 							 <a id="btnNewAppr" href="approvalWrite?userid=${userid}" class="btn btn-danger pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light">새 결재 진행</a>
 						</div>
 						<div id="containerBox">
-							<div style="border-top: 1px dashed #c9c9c9; margin-top: 10px;"></div>
+							<div style="border-top: 1px dashed #c9c9c9; margin: 10px 0;"></div>
 							
 							<!-- =================================결재 대기중 문서================================= -->
-							<div class="#">결재 대기중 문서</div>
+							<div class="#">
+								<a href="approvalWait" style="color:black">결재 대기중 문서</a>
+							</div>
 							<div class="btnProcess">승인 해야할 문서가 ${waitTotal}건 있습니다.</div>
 							<table class="table table-hover" style="font-size: 14px; text-align: center;">
 								<thead>
@@ -180,7 +182,9 @@
 								<tbody>
 									<c:forEach var="wait" items="${waitList}">
 										<tr>
-											<td>${wait.approval_no}</td>
+											<td>
+												<a href="apprWaitDetail?approval_no=${wait.approval_no}" style="color: black">${wait.approval_no}</a>
+											</td>
 											<td>${wait.writeday}</td>
 											<td>${wait.approval_sort_name}</td>
 											<td>${wait.title}</td>
@@ -204,10 +208,12 @@
 								</tbody>
 							</table>
 					
-							<div style="border-top: 1px dashed #c9c9c9; margin-top: 50px;"></div>
+							<div style="border-top: 1px dashed #c9c9c9; margin: 10px 0;"></div>
 						
 							<!-- =================================기안 진행 문서================================= -->
-							<div class="#">기안 진행 문서</div>
+							<div class="#">
+								<a href="approvalProcess" style="color:black">기안 진행 문서</a>
+							</div>
 							<table class="table table-hover" style="font-size: 14px; text-align: center;">
 								<thead>
 									<tr>
@@ -222,7 +228,9 @@
 								<tbody>
 									<c:forEach var="process" items="${processList}">
 										<tr>
-											<td>${process.approval_no}</td>
+											<td>
+												<a href="apprProcessDetail?approval_no=${process.approval_no}" style="color: black">${process.approval_no}</a>
+											</td>
 											<td>${process.writeday}</td>
 											<td>${process.approval_sort_name}</td>
 											<td>${process.title}</td>
@@ -249,10 +257,12 @@
 								</tbody>
 							</table>
 					
-							<div style="border-top: 1px dashed #c9c9c9; margin-top: 50px;"></div>
+							<div style="border-top: 1px dashed #c9c9c9; margin: 10px 0;"></div>
 							
 							<!-- =================================기안 완료 문서================================= -->
-							<div class="#">기안 완료 문서</div>
+							<div class="#">
+								<a href="approvalEnd" style="color:black">기안 완료 문서</a>
+							</div>
 							<table class="table table-hover" style="font-size: 14px; text-align: center;">
 								<thead>
 									<tr>
@@ -265,25 +275,27 @@
 									</tr>
 								</thead>
 								<tbody>
-									<c:forEach var="finish" items="${finishList}">
+									<c:forEach var="end" items="${endList}">
 										<tr>
-											<td>${finish.approval_no}</td>
-											<td>${finish.writeday}</td>
-											<td>${finish.approval_sort_name}</td>
-											<td>${finish.title}</td>
-											<c:if test="${finish.file_path ne null }">
+											<td>
+												<a href="apprEndDetail?approval_no=${end.approval_no}" style="color: black">${end.approval_no}</a>
+											</td>
+											<td>${end.writeday}</td>
+											<td>${end.approval_sort_name}</td>
+											<td>${end.title}</td>
+											<c:if test="${end.file_path ne null }">
 												<td><i class="bi bi-file-earmark"></i></td>
 											</c:if>
-											<c:if test="${finish.file_path eq null }">
+											<c:if test="${end.file_path eq null }">
 												<td>&nbsp;</td>
 											</c:if>
-											<c:if test="${finish.approval_status eq 0}">
+											<c:if test="${end.approval_status eq 0}">
 												<td>대기중<td>
 											</c:if>
-											<c:if test="${finish.approval_status eq 1}">
+											<c:if test="${end.approval_status eq 1}">
 												<td>반려<td>
 											</c:if>
-											<c:if test="${finish.approval_status eq 2}">
+											<c:if test="${end.approval_status eq 2}">
 												<td>승인<td>
 											</c:if>
 										</tr>
