@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.oracle.choongangGroup.taewoo.domain.Notice;
 
 import lombok.Data;
@@ -50,7 +52,8 @@ public class Member {
 	private String mainProf; //지도교수
 	
 	@JoinColumn(name = "deptno")
-	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonBackReference
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Dept dept;
 	
 	@Column(name = "mem_role")
@@ -59,6 +62,7 @@ public class Member {
 	@Column(name = "mem_right")
 	private String memRight;
 
+	@JsonManagedReference
 	@OneToMany(mappedBy = "writer", fetch = FetchType.LAZY)
 	private List<Notice> notices = new ArrayList<>();
 	
