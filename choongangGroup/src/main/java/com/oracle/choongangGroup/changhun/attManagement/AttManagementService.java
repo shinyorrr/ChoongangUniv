@@ -28,7 +28,6 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 @RequiredArgsConstructor
 @Slf4j
-
 public class AttManagementService {
 
 	private final AttCustomRepository attCustomRepository;
@@ -323,45 +322,42 @@ public class AttManagementService {
 	// 일주일간 초과 근무, 근무시간
 	public Map<String, String> sumWeekWorking(String userid) throws ParseException {
 		Map<String, String> timeMap = new HashMap<>();
-		String today = today();
-//		String today = "2022-11-26";
+//		String today = today();
+		String today = "2022-11-25";
 		String weekTotal,weekOver = null;
 		int listsize = 0;
 		int dayNum = whatDay(today);
 		
-		if(dayNum == 7) {
-			// 일요일경우 일주일 누적 근무시간 초기화
-			weekTotal = "00:00:00";
-			weekOver = "00:00:00";
-		} else {
-			System.out.println("dayNum - > " + dayNum);
-			
-			while(dayNum != 1) {
-				today = addDate(today,0,0,-1);
-				dayNum -= 1;
-			}
-			
-			System.out.println("today-> " + today);
-			
-			List<String> dayList = new ArrayList<>();
-			
-			while(dayNum < 6) {
-				dayList.add(today);
-				today = addDate(today,0,0,1);
-				dayNum+=1;
-			}
-			
-			List<String> totalTime = attCustomRepository.findTotalTime(dayList,userid);
-			listsize = totalTime.size();
-			weekTotal = totalWorkTime(totalTime);
-			System.out.println(totalTime);
-			
-			// 일주일 초과 근무시간 계산
-			int initTime = 8 * listsize;
-			String companyWorkTime = String.format("%02d:00:00", initTime);
-			weekOver = timeMinus(weekTotal,companyWorkTime);
-			System.out.println("weekOver -->" + weekOver );
+		
+		System.out.println("dayNum - > " + dayNum);
+		
+		while(dayNum != 1) {
+			today = addDate(today,0,0,-1);
+			dayNum -= 1;
 		}
+		
+		System.out.println("today-> " + today);
+		
+		List<String> dayList = new ArrayList<>();
+		
+		while(dayNum < 6) {
+			dayList.add(today);
+			today = addDate(today,0,0,1);
+			dayNum+=1;
+		}
+		
+		List<String> totalTime = attCustomRepository.findTotalTime(dayList,userid);
+		listsize = totalTime.size();
+		weekTotal = totalWorkTime(totalTime);
+		System.out.println(totalTime);
+		
+		// 일주일 초과 근무시간 계산
+		int initTime = 8 * listsize;
+		String companyWorkTime = String.format("%02d:00:00", initTime);
+		weekOver = timeMinus(weekTotal,companyWorkTime);
+		System.out.println("weekOver -->" + weekOver );
+		
+		
 		timeMap.put("weekTotal", weekTotal);
 		timeMap.put("weekOver", weekOver);
 		
@@ -400,6 +396,29 @@ public class AttManagementService {
 		long vacation = attCustomRepository.findVacation(userid);
 		
 		return vacation;
+	}
+
+
+	public List<Work> attAllList() {
+		List<Work> attAllList = attCustomRepository.attAllList();
+		return attAllList;
+	}
+
+
+	public List<String> monthList() throws ParseException {
+		List<String> monthList = new ArrayList<>();
+		String today = today();
+		today = setDate(today);
+		int num = 1;
+		int lastDay = getLastMonth(today);
+		
+		while(num <= lastDay) {
+			if(whatDay(today) != 6 && whatDay(today) != 7) monthList.add(today);
+			today = addDate(today, 0, 0, 1);
+			num++;
+		}
+		
+		return monthList;
 	}
 
 	

@@ -80,5 +80,22 @@ public class AttCustomRepositoryImpl implements AttCustomRepository {
 		return vacation;
 	}
 
+	@Override
+	public List<Work> attAllList() {
+		
+		String query = "select w from Work w order by w.member.userid, w.workDate";
+		List<Work> attAllList = null;
+		attAllList = em.createQuery(query,Work.class).getResultList();
+		
+//		try {
+//		} catch (Exception e) {
+//			System.out.println("=======================================================");
+//			System.out.println("AttCustomRepositoryImpl attAllList 오류 --> " + e.getMessage());
+//			System.out.println("=======================================================");
+//		}
+//		
+		return attAllList;
+	}
+
 	
 }

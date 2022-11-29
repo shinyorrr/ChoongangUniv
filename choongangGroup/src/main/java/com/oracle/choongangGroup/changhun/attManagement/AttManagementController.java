@@ -2,6 +2,7 @@ package com.oracle.choongangGroup.changhun.attManagement;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -67,26 +68,15 @@ public class AttManagementController {
 		return "manager/attManagementForm";
 	}
 	
-//	@ResponseBody
-//	@RequestMapping(value = "attClk")
-//	public List<Work> attMyFormClk(@RequestParam(required = false, defaultValue = "0", value="page")int page) {
-//		
-//		System.out.println("page --> " + page);
-////		HttpSession session;
-////		String userid = (String) session.getAttribute("userid");
-//		String userid = "18301001";
-//		
-//		Page<Work> workList = repository.findByUserid(userid,PageRequest.of(page, 5, Sort.by(Sort.Direction.ASC,"workDate")));
-//		
-//		List<String> list = new ArrayList<String>();
-//		
-//		list.add("간다");
-//		list.add("간다1");
-//		
-//		
-//		System.out.println(workList.getContent().get(0).getWorkDate());
-//		
-//		return workList.getContent();
-//	}
+	@RequestMapping(value = "attAllMemberForm")
+	public String attAllMemberForm(Model model) throws ParseException {
+		List<Work> attMemberList = attManagementService.attAllList();
+		List<String> monthList = attManagementService.monthList();
+		System.out.println(monthList.get(0));
+		System.out.println(monthList);
+		model.addAttribute("monthList" , monthList);
+		model.addAttribute("attList" , attMemberList);
+		return "manager/attAllMemberForm";
+	}
 	
 }

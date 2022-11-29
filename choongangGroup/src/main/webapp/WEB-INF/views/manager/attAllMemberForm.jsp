@@ -4,6 +4,11 @@
 <!DOCTYPE html>
 <html>
 <head>
+<style type="text/css">
+	.tdwidth{
+		min-width: 150px;
+	}
+</style>
 <meta charset="UTF-8">
 <!-- bottSTrap CSS only -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">		
@@ -19,68 +24,47 @@
 <link rel="stylesheet" href="/css/styles.css">
 
     <title>SideBar sub menus</title>
-    <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
-	<script type="text/javascript">
-	function deptDelete(index){
-		console.log(index);
-		var vdeptno = $("#deptno"+index).text();
-		if(confirm("삭제하시겠습니까?") == true){
-			$.ajax({
-				url 	: "/deptDelete",
-				data	: {deptno : vdeptno},
-				dataType: 'text',
-				success	: function(data){
-						$('#deptNum'+index).remove();
-				}
-			});
-		} else{
-			return false;
-		}
-	}
-	
-	function updateForm(vIndex){
-		console.log(vIndex);
-		$("#deptnoSpan"+vIndex).text(" ");
-		$("#dnameSpan"+vIndex).text(" ");
-		$('#deptnoInput'+vIndex).show();
-		$('#dnameInput'+vIndex).show();
-		$('#afterUpdate'+vIndex).show();
-		$('#beforeUpdate'+vIndex).hide();
-	}
-	
-	function updateDept(vIndex){
-		var vdeptno  = $("#deptnoInput"+vIndex).val();
-		var vdname 	 = $("#dnameInput"+vIndex).val();
-		var vupDeptno= $('#upDeptno'+vIndex).val();
-	
-		console.log("vdeptno--> " + vdeptno);
-		
-		$.ajax({
-			url 	: "/deptUpdate",
-			data	: {deptno : vdeptno , dname : vdname , upDeptno : vupDeptno},
-			dataType: 'text',
-			success : function(data){
-				$('#deptnoSpan'+vIndex).text(vdeptno);
-				$('#dnameSpan'+vIndex).text(vdname);
-			},
-		});
-		$('#deptnoInput'+vIndex).hide();
-		$('#dnameInput'+vIndex).hide();
-		$('#afterUpdate'+vIndex).hide();
-		$('#beforeUpdate'+vIndex).show();
-	}
-	
-	
-		/* $(document).ready(function(){
-			$('#insert').on('click',function(){
-				$.ajax({
-					url : ""
-				})
-			})
-		}) */
-	</script>
-    
 </head>
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script type="text/javascript">
+
+
+	/* 주차 Click */
+	var index = 0;
+	function weekWorkClick(vWeek){
+	//	var user= $('#user'+vIndex).val();
+	$('.weekclk').not('#weekWork'+index).text("");
+	/* location.href="${pageContext.request.contextPath}/attForm?page="+vWeek; */
+	vindex = vWeek+1;
+	console.info(index);
+ 		$.ajax({
+ 			type: 'POST',
+			url : '/attClk',
+			data : {page : vWeek},
+			dataType: 'json',
+			success : function(data){
+				console.log("성공");
+				var str = "<table class='table table-hover'>"
+        				+"<thead><tr><th>일자</th><th>업무시작</th><th>업무종료</th><th>총근무시간</th>"
+        				+"</thead>"
+        				+"<tbody>";
+			 	$.each(data,function(index,item){
+		            	str +=	"<tr>"
+		            			+"<td>"+item.workDate+"</td>"
+		            			+"<td>"+item.attOnTime+"</td>"
+		            			+"<td>"+item.attOffTime+"</td>"
+		            			+"<td>"+item.totalTime+"</td>"
+		            			+"</tr>";
+				});
+				str +="</tbody></table>"
+			 	$('#weekWork'+vindex).append(str) 
+			}
+		}); 
+	}
+	
+	
+</script>
+
 
 <body class="" id="body-pd" onload="printClock()">
     <!-- header -->
@@ -172,10 +156,11 @@
     <!-- main content -->
     <div class="container-fluid w-100" style=" background-color: rgb(214, 225, 237)">
         <div class="row">
+        
             
             
             <!-- content header -->
-               <div class="col-12 pt-4" style="height: 150px; background-color: rgb(95, 142, 241)">
+              <div class="col-12 pt-4" style="height: 150px; background-color: rgb(95, 142, 241)">
                 <div class="row">
                 	<div class="col-6">
 		                <div class="d-flex flex-row mb-3">
@@ -216,120 +201,38 @@
                 <div class="row m-5">
                     <!-- card header -->
                     <div class="col-12 rounded-top text-white overflow-auto pt-2 fw-bold" style="background-color: rgb(39, 40, 70); height: 40px;"> 
-                        <i class="bi bi-bookmark-fill me-2"></i>교수서비스 <i class="bi bi-chevron-right"></i>학사관리 <i class="bi bi-chevron-right"></i>강의 시간표 조회
+                        <i class="bi bi-bookmark-fill me-2"></i>교직원<i class="bi bi-chevron-right"></i>전체 주소록 조회 
+                        <button class="btn btn-danger" onclick="location.href='${pageContext.request.contextPath}/myLikeAddress'"
+                        	style="margin-left: 64%;line-height: 11px;">내 즐겨찾기</button>
                     </div>
                     <!-- card content -->  
                     <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
-                        <!---------------------------------------------------------------->
-									<!-- 부서등록 -->
-					<!---------------------------------------------------------------->
-					<div class="border border-2" style="padding: 20px;width: 900px;">
-						<span>부서 등록</span>
-						<div class="row">
-						  <div class="col-3">
-						  	부서코드
-						  </div>
-						  <div class="col-3">
-						  	부서명
-						  </div>
-						  <div class="col-3">
-						  	구분
-						  </div>
-						</div>
-						
-						<form action="deptInsert">
-						<div class="row">
-						  <div class="col-3" style="margin-bottom: 10px">
-						    <input type="number" name ="deptno" class="form-control" placeholder="부서코드" required="required">
-						  </div>
-						  <div class="col-3">
-						    <input type="text" name = "dname" class="form-control" placeholder="부서명" required="required">
-						  </div>
-						  <div class="col-3">
-						    <select name = "upDeptno" class="form-select" aria-label="Default select example" >
-							  <option value="100">교수</option>
-							  <option value="200" selected="selected">교직원</option>
-							</select>
-						  </div>
-						</div>
-						   <button type="submit" id = "insert" class="btn btn-primary mb-3">등록</button>
-						</form>
-					</div>
-					
-					<!---------------------------------------------------------------->
-									<!-- 부서목록 조회 -->
-					<!---------------------------------------------------------------->
-					<div class="border border-2" style="padding: 20px;margin-top: 20px;width: 900px;">
-					<form action="searchDept">
-					<div class = "row">
-						
-						<div class = "col-4">부서 목록</div>
-						<!---------------------------------------------------------------->
-									<!-- 부서검색  -->
-						<!---------------------------------------------------------------->
-						<div class = "col-2">
-							<select name = "searchGubun" class="form-select" aria-label="Default select example" style="width: 123px;font-size:12px">
-							  <option value="code"  selected="selected">코드조회</option>
-							  <option value="codeName">부서이름조회</option>
-							</select>		
-						</div>		 		
-						<div class = "col-4"  style="margin-bottom: 20px">
-							<div class="input-group mb-3">
-							<input  type = "text"  name = "search" class="form-control" placeholder="search" aria-describedby="button-addon2">
-							<button class="btn btn-outline-secondary" type="submit" id="button-addon2"><i class="bi bi-search"></i></button>
-							</div>
-						</div>
-						<!-- 오류메시지 출력 -->
-					<span id = error 
-					 style="
-					    font-size: medium;
-					    font-style: italic;
-					    color: red;
-					    margin-left: 500px;">${msg }</span>
-					</div>
-						</form> 
-						<table class="table table-striped table-hover" style = "width : 700px">	
-						<thead class = "table-dark">
-							<tr>
-								<th scope = "col">부서코드</th>
-								<th scope = "col">부서명</th>
-								<th scope = "col">수정/삭제</th>
-							<tr>
-						</tr>
-						</thead>
-						<tbody>
-						<!---------------------------------------------------------------->
-									<!-- 부서 수정 삭제 -->
-						<!---------------------------------------------------------------->
-							<c:forEach var="dept" items="${ deptList}" varStatus="status">
-								<c:if test="${dept.deptno != 200 && dept.deptno != 100}">
-								<tr id="deptNum${status.index }">
-									<td id="deptno${status.index}"><span id="deptnoSpan${status.index }">${dept.deptno}</span>
-										<input type="text" class="form-control" id = "deptnoInput${status.index}"name="deptno" value="${dept.deptno }" style="display: none;">
-									</td>
-									<td id="dname${status.index }"><span id="dnameSpan${status.index }">${dept.dname}</span>
-										<input type="text" class="form-control" id = "dnameInput${status.index }" name="dname" value="${dept.dname }" style="display: none;">									
-										<input type="text" id = "upDeptno${status.index }" name="upDeptno" value="${dept.upDeptno }" style="display: none;">									
-									</td>
-								<td><button type="button" id="beforeUpdate${status.index }" class="btn btn-primary" onclick="updateForm(${status.index})">수정</button>
-									<button type="button" id="afterUpdate${status.index }" class="btn btn-primary" onclick="updateDept(${status.index})" style="display: none;" >수정완료</button>
-									<button type="button" class="btn btn-dark" onclick="deptDelete(${status.index})">삭제</button>
-								</td>
-								</tr>
-								</c:if>
-							</c:forEach>
-						</tbody>
-						</table>
-					</div>
-					</div>
-                    </div>
-                    <!-- footer -->
-                    <footer class="col-12" style="height: 60px;">
-                        footer
-                    </footer>    
-                </div>
-            </main>
-        </div>
+                    	<div>내 근태현황</div><hr>
+                    	<table class="table table-hover">
+                    		<tr>
+                    		<th class="tdwidth">이름</th>
+                     		<c:forEach var="i" begin="0" end="${monthList.size()-1}">
+   	   	              			<th class="tdwidth">${monthList.get(i)}</th>
+                    		</c:forEach>
+                    		<c:forEach var="i" begin="0" end ="${attList.size()-monthList.size()}" step ="${monthList.size()}">
+                    		<tr>
+                    			<td class="tdwidth">${attList.get(i).member.name }</td>
+                    			<td class="tdwidth">출근 : ${attList.get(i).attOnTime} <br> 퇴근 : ${attList.get(i).attOffTime }</td>
+	                    			<c:forEach var="j" begin="1" end="${monthList.size()-1}">
+    	    	            			<td class="tdwidth">출근 : ${attList.get(i+j).attOnTime} <br> 퇴근 : ${attList.get(i+j).attOffTime }</td>
+        	            			</c:forEach>
+<%--                     			<td>출근 : ${attList.get(i+1).attOnTime} <br> 퇴근 : ${attList.get(i+1).attOffTime }</td>
+                    			<td>출근 : ${attList.get(i+2).attOnTime} <br> 퇴근 : ${attList.get(i+2).attOffTime }</td>
+                    			<td>출근 : ${attList.get(i+3).attOnTime} <br> 퇴근 : ${attList.get(i+3).attOffTime }</td>
+                    			<td>출근 : ${attList.get(i+4).attOnTime} <br> 퇴근 : ${attList.get(i+4).attOffTime }</td> --%>
+                    		</tr>
+                    		</c:forEach>
+                    		<tr>
+                    		
+                    	</table>
+           			</div>
+           		</div>
+          </main>
     </div>
     <!-- IONICONS -->
     <script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script>
