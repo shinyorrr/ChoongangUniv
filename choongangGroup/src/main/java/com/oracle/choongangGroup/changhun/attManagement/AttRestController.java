@@ -22,9 +22,11 @@ public class AttRestController {
 		String msg = null;
 		
 		try {
-			service.attInsert();
+			msg = service.attInsert();
 		} catch (Exception e) {
-			msg = "이미 출근 등록이 되었습니다!";
+			System.out.println("=============================================");
+			System.out.println("AttManagementService attInsert 오류발생" + e.getMessage());
+			System.out.println("=============================================");
 		}
 		
 		System.out.println(msg);

@@ -12,5 +12,9 @@ public interface SecurityService {
 	Member findByNameAndEmail(String searchId, String searchEmail);
 
 	Optional<Member> findByUseridAndEmail(String userid, String email);
+
+	TokenInfo login(String username, String password);
+
+	void saveRefreshToken(String refreshToken, String username);
 	
 }

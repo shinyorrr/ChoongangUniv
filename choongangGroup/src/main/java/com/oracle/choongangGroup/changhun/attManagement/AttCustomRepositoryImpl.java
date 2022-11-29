@@ -1,5 +1,7 @@
 package com.oracle.choongangGroup.changhun.attManagement;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 
 import org.springframework.stereotype.Repository;
@@ -15,15 +17,29 @@ public class AttCustomRepositoryImpl implements AttCustomRepository {
 	public final EntityManager em;
 	
 	@Override
-	public void attOff(String userid, String nowDate, String nowTime) {
+	public void attOff(String userid, String nowDate, String nowTime, String totalResult) {
 
 		System.out.println("attOff start...");
 		
-		String query = "update Work w set att_Off_Time =: offtime where userid =: userid and workDate =: nowDate";
+		String query = "update Work w set att_Off_Time =: offtime, total_time =: total  where userid =: userid and workDate =: nowDate";
 		
 		em.createQuery(query).setParameter("offtime", nowTime)
 										.setParameter("userid", userid)
-										.setParameter("nowDate", nowDate).executeUpdate();
+										.setParameter("nowDate", nowDate)
+										.setParameter("total", totalResult)
+										.executeUpdate();
 	}
+
+	@Override
+	public List<Work> findAttOnDate(String userid, String nowDate) {
+		
+		String query = "select w from Work w where userid =: userid and work_date =: time ";
+		
+		List<Work> work = em.createQuery(query,Work.class).setParameter("userid", userid)
+													.setParameter("time", nowDate).getResultList();
+		
+		return work;
+	}
+
 	
 }

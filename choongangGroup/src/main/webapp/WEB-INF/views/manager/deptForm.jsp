@@ -202,7 +202,7 @@
 		                </div>
 		            </div>
 		            <div class="col-4">
-		            	<div style="width: 598px;line-height: 100px;color: white;font-size: 77px;text-align:center;" id="clock">
+		            	<div style="width: 535px;line-height: 100px;color: white;font-size: 77px;text-align:center;" id="clock">
 						</div>
 		            </div>
 		            <div class="col-1">
