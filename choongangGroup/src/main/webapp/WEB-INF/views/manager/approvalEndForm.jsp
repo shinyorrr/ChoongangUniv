@@ -143,7 +143,7 @@
                 <div class="row m-5">
                     <!-- card header -->
                     <div class="col-12 rounded-top text-white overflow-auto pt-2 fw-bold" style="background-color: rgb(39, 40, 70); height: 40px;"> 
-                        <i class="bi bi-bookmark-fill me-2"></i>전자결재 <i class="bi bi-chevron-right"></i>결재완료조회
+                        <i class="bi bi-bookmark-fill me-2"></i>전자결재 <i class="bi bi-chevron-right"></i>결재완료목록
                     </div>
                     <!-- card content -->  
                     <!-- card content -->  
@@ -159,7 +159,7 @@
 										<th>문서번호</th>
 										<th>기안일</th>
 										<th>결재양식</th>
-										<th>사번</th>
+										<th>기안자</th>
 										<th style="width: 57%;">제목</th>
 										<th>첨부</th>
 										<th>결재상태</th>
@@ -168,7 +168,9 @@
 								<tbody>
 									<c:forEach var="end" items="${endList}">
 										<tr>
-											<td>${end.approval_no}</td>
+											<td>
+												<a href="apprEndDetail?approval_no=${end.approval_no}">${end.approval_no}</a>
+											</td>
 											<td>${end.writeday}</td>
 											<td>${end.approval_sort_name}</td>
 											<td>${end.userid}</td>

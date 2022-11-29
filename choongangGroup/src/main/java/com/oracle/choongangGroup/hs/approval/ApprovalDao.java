@@ -4,11 +4,11 @@ import java.util.List;
 
 public interface ApprovalDao {
 
-	List<Approval> waitingListAll(Approval approval);
+	List<Approval> waitListAll(Approval approval);
 
 	List<Approval> processListAll(Approval approval);
 
-	List<Approval> finishListAll(Approval approval);
+	List<Approval> endListAll(Approval approval);
 
 	int waitTotal(String userid);
 
@@ -23,5 +23,17 @@ public interface ApprovalDao {
 	int delete(Long approval_no);
 
 	int save(Approval approval);
+
+	Approval finishDetail(Approval approval);
+
+	Approval waitDetail(Approval approval);
+
+	int finAgree(Approval approval);
+
+	int midAgree(Approval approval);
+
+	int midReject(Approval approval);
+
+	int finReject(Approval approval);
 
 }
