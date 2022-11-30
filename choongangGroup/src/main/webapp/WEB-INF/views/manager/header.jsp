@@ -51,7 +51,7 @@
 				dataType: 'text',
 				success : function(data){
 					console.log("성공");
-					alert("출근 등록 완료되었습니다");
+					alert(data);
 				}
 			});
 		}
