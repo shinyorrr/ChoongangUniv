@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -168,7 +170,7 @@
 		</tr>
 
 		<tr align="center">
-			<td bgcolor="#5CD1E5">2</td>
+			<td bgcolor="#5CD1E5"><c:if test="${applicationLec.get }"></c:if> 2</td>
 			<td></td>
 			<td bgcolor="#5CD1E5">포토샾</td>
 			<td></td>

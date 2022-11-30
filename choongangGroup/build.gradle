@@ -36,6 +36,13 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation group: 'org.javassist', name: 'javassist', version: '3.15.0-GA'
+    //bootpay
+	implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '+'
+	implementation group: 'com.google.code.gson', name: 'gson', version: '+'
+	implementation group: 'commons-io', name: 'commons-io', version: '+'
+
+	//objectMapper
+	implementation group: 'com.konghq', name: 'unirest-objectmapper-jackson', version: '4.0.0-RC1'
 }
 
 tasks.named('test') {

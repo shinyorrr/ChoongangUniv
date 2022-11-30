@@ -5,6 +5,9 @@
 <configuration>
 	<typeAliases>
 	   
+	  	<typeAlias  alias="Book"  type="com.oracle.choongangGroup.ry.model.Book"/> 
+	  	<typeAlias  alias="Payment"  type="com.oracle.choongangGroup.ry.model.Payment"/> 
+	  	
 	  	<typeAlias  alias="MemberVo"  type="com.oracle.choongangGroup.hj.model.MemberVo"/> 
 	  	<typeAlias  alias="GradeVo"  type="com.oracle.choongangGroup.hj.model.GradeVo"/> 
 
