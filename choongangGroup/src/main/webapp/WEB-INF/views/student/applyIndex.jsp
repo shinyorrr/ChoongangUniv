@@ -10,13 +10,13 @@
 
 <h1>안내문</h1>
 <hr>
-장바구니 기간
+장바구니 기간 : 
 수강신청 기간
 
 <br>
 장바구니
 <button value="장바구니" onclick="location.href='likeMain?userid=${userid}'"></button>
 수강신청
-<button value="수강신청" onclick="location.href='applyForm?userid=${userid}'"></button>
+<button value="수강신청" onclick="location.href='applySelect?userid=${userid}'"></button>
 </body>
 </html>

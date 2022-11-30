@@ -58,7 +58,7 @@ public class Lecture {
 	private Long maxStud; //강의정원
 	
 	@Column(name = "lec_status")
-	private String status;
+	private String status; //강의상태 [승인 대기, 승인]
 	
 	@Column(name = "lec_max_count")
 	private int maxCount; //강의시수

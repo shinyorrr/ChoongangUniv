@@ -16,14 +16,16 @@
 			dataType:'text',
 			success:function(data){
 				const result = $.trim(data);
-				alert("result---->"+result)
+
 				if(result == 1){
 				alert("성공")
 				location.reload();
 				}else if(result == 0){
 					alert("중복된 강의입니다.")
-				}else{
+				}else if(result == 2){
 					alert("시간이 중복되었습니다.")
+				}else{
+					alert("최대학점을 초과했습니다 [신청가능 최대학점 : 21학점]")
 				}
 			}		
 		});	
