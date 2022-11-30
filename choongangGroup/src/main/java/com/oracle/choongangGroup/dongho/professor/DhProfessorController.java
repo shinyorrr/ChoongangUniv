@@ -75,7 +75,6 @@ public class DhProfessorController {
 		
 		Member member = getMember.getMember();
 		System.out.println("lecReportList member.getName" + member.getName());
-		System.out.println("lecReportList member.getName" + member.getUserid());
 		return map;
 	}
 	
