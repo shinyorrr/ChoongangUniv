@@ -4,11 +4,11 @@ import java.util.List;
 
 public interface ApprovalService {
 
-	List<Approval> waitingListAll(String userid);
+	List<Approval> waitingListAll(Approval approval);
 
-	List<Approval> processListAll(String userid);
+	List<Approval> processListAll(Approval approval);
 
-	List<Approval> finishListAll(String userid);
+	List<Approval> finishListAll(Approval approval);
 	
 	int waitTotal(String userid);
 
@@ -20,6 +20,14 @@ public interface ApprovalService {
 
 	MemDept getApprInfo(MemDept memDept);
 
-	List<MemDept> apprList();
+	List<MemDept> apprList(String userid);
+
+	int saveAppr(Approval approval);
+
+	Approval processDetail(Approval approval);
+
+	MemDept findMem(String userid);
+
+	int delete(Long approval_no);
 
 }

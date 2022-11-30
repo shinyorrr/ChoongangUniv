@@ -1,8 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,19 +16,12 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <!-- CSS -->
 <link rel="stylesheet" href="/css/styles.css">
-<link href="css/taewooCss.css" rel="stylesheet" type="text/css">
-    <title>SideBar sub menus</title>
+
+    <title>과제관리</title>
 </head>
 
 <body class="" id="body-pd">
-    <!-- header -->
-    <!-- <nav class="navbar navbar-expand-lg navbar-dark bd-navbar bg-light sticky-top position-fixed fixed-top w-100" style="position : absolute">
-        <a class="navbar-brand">
-            <button class="btn ms-2" type="button">
-                <img class="img-fluid" src="/images/logo2.png" alt="logo2" style="height: 40px;">
-            </button>
-        </a>
-    </nav> -->
+
     <nav class="navbar navbar-expand-lg navbar-dark bd-navbar bg-light sticky-top position-fixed fixed-top w-100" style="position : absolute">
         <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between">
           <a href="/" class="navbar-brand">
@@ -54,12 +44,12 @@
             <div>
                 <div class="nav__brand">
                     <ion-icon name="menu-outline" class="nav__toggle" id="nav-toggle"></ion-icon>
-                    <a href="#" class="nav__logo">공지사항 관리</a>
+                    <a href="#" class="nav__logo">Bedimcode</a>
                 </div>
                 <div class="nav__list">
-                    <a href="/noticeWrite" class="nav__link active">
+                    <a href="#" class="nav__link active">
                         <ion-icon name="home-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">공지사항 글쓰기</span>
+                        <span class="nav_name">Dashboard</span>
                     </a>
                     <a href="#" class="nav__link">
                         <ion-icon name="chatbubbles-outline" class="nav__icon"></ion-icon>
@@ -119,8 +109,8 @@
             <div class="col-12 pt-4" style="height: 150px; background-color: rgb(95, 142, 241)">
                 <div class="d-flex flex-row mb-3">
                     <div>
-                        <span class="text-white h4">공지사항 조회 <span class="fw-bold">김중앙</span>님!</span>
-                    </div> 
+                        <span class="text-white h4">안녕하세요. <span class="fw-bold">김중앙</span>님!</span>
+                    </div>
                     <div class="border border-1 border-white border-bottom rounded-pill text-white px-2 pt-1 ms-2 h6">교수</div>
                     <div>
                         <i class="text-white bi-gear-fill mx-2"></i>
@@ -145,41 +135,49 @@
                 <div class="row m-5">
                     <!-- card header -->
                     <div class="col-12 rounded-top text-white overflow-auto pt-2 fw-bold" style="background-color: rgb(39, 40, 70); height: 40px;"> 
-                        <i class="bi bi-bookmark-fill me-2"></i>공지사항 관리 <i class="bi bi-chevron-right"></i>공지사항 조회
+                        <i class="bi bi-bookmark-fill me-2"></i>교수서비스 <i class="bi bi-chevron-right"></i>학사관리 <i class="bi bi-chevron-right"></i>강의관리 <i class="bi bi-chevron-right"></i>과제관리
                     </div>
                     <!-- card content -->  
                     <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
-                      <table class="Notice-table table table-striped">
-					    <thead>
-					    <tr>
-					        <th>번호</th>
-					        <th>제목</th>
-					        <th>내용</th>
-					        <th>작성일자</th>
-					        <th>조회수</th>
-					    </tr>
-					    </thead>
-					    <tbody>
-					    <c:forEach items="${noticeList}" var="notice">				   
-					    <tr>
-					        <td>${notice.noticeNum}</td>
-					        <td><a href="/noticeDetail?noticeNum=${notice.noticeNum}">${notice.noticeTitle }</a></td>
-					        <td>${notice.noticeContent }</td>
-					        <c:choose>
-						        <c:when test="${notice.createdDate != null}">
-							        <c:set var="DateValue" value="${notice.createdDate}"/>
-							        <td>${fn:substring(DateValue,0,10)}</td>
-						        </c:when>
-						        <c:when test="${notice.modifiedDate != null}">
-							        <c:set var="DateValue" value="${notice.modifiedDate}"/>
-							        <td>${fn:substring(DateValue,0,10)}</td>
-						        </c:when>
-					        </c:choose>
-					        <td>${notice.noticeHit}</td>
-					    </tr>
-					    </c:forEach>
-					    </tbody>
-					</table>  
+                        <h2>과제관리</h2>
+                        <select class="form-select w-50" aria-label="Default select example">
+							<option selected>Open this select menu</option>
+							<option value="1">One</option>
+							<option value="2">Two</option>
+							<option value="3">Three</option>
+						</select>
+						<div>total : <span class="text-danger">999</span></div>
+						<div class="btn btn-danger">점수등록</div>
+						<div class="btn btn-primary">전체내려받기</div>
+						<div class="btn btn-secondary">선택내려받기</div>
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th>No</th>
+									<th>선택</th>
+									<th>학번</th>
+									<th>제출자</th>
+									<th>제출여부</th>
+									<th>파일명</th>
+									<th>제출일</th>
+									<th>점수</th>
+									<th>평가</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+								</tr>
+							</tbody>
+						</table>
                     </div>
                     <!-- footer -->
                     <footer class="col-12" style="height: 60px;">

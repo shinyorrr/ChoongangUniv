@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,7 +19,6 @@
 
     <title>SideBar sub menus</title>
 </head>
-
 
 <body class="" id="body-pd">
     <!-- header -->
@@ -148,162 +146,7 @@
                     </div>
                     <!-- card content -->  
                     <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
-                       
-                       
-          <!--  ***************************성적조회 ************************************************** -->                       
-                       
-        
-<h1>성적조회(누적)</h1>
-<div>
-<th>${member.name }</th>
-<th> (${member.userid })</th>
-<th>${member.grade } 학년</th>   
-<th>${member.studStatus } 학적상태</th>   
-
-</div>
-
-<div>
-<h4>총 성적 내역 </h4>
-
-<table class="table table-striped table-hover" style = "width : 700px">	
-						<thead >
-							<tr>
-								<th>신청학점</th>
-								<th>취득학점</th>
-								<th>평점총계</th>
-								<th >평균평점</th>
-								<th>백분위</th>
-								<th >전필</th>
-								<th>전선</th>
-								<th>교양</th>
-							<tr>
-							
-							<tr>
-								<th > </th>
-								<th ></th>
-								<th ></th>
-								<th ></th>
-								<th ></th>
-								<th ></th>
-								<th ></th>
-								<th ></th>
-							<tr>
-						
-						
-						
-						
-						</thead>
-
-</table>
-
-
-
-
-</div>
-
-
-
-<div>
-<table class="table table-striped table-hover" style = "width : 700px">	
-						<thead >
-							<tr>
-								<th>신청학점</th>
-								<th>취득학점</th>
-								<th>평점총계</th>
-								<th >평균평점</th>
-								<th>백분위</th>
-							</tr>
-							
-							
-						</thead>
-						<tbody>
-							<tr>
-								<th ></th>
-								<th ></th>
-								<th ></th>
-								<th ></th>
-								<th ></th>
-		
-						</tr>
-				
-						</tbody>
-						
-						
-
-</table>
-
-
-
-</div>
-
-
-
-<div>
-<table class="table table-striped table-hover" style = "width : 700px">	
-						<thead >
-							<tr>
-								<th>구분</th>
-								<th>교과명</th>
-								<th>교과코드</th>
-								<th >학점</th>
-								<th>성적</th>
-							<tr>
-							
-						
-							<c:forEach var="grade" items="${grades }" >
-							<tr>
-							
-								<th >${grade.type} </th>
-								<th >${grade.name} </th>
-								<th >${grade.id}</th>
-								<th >${grade.unitScore}</th>
-									<th >   </th>
-							<tr>
-							
-							
-						
-							
-						
-						 </c:forEach>
-							
-						
-						</thead>
-
-</table>
-
-</div>
-
-
-
-        <!--  ************************************************************************************ -->               
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
+                        content
                     </div>
                     <!-- footer -->
                     <footer class="col-12" style="height: 60px;">

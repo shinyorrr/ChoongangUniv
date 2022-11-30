@@ -6,6 +6,8 @@ public interface MemDeptDao {
 
 	MemDept getApprInfo(MemDept memDept);
 
-	List<MemDept> getApprList();
+	List<MemDept> getApprList(String userid);
+
+	MemDept findMem(String userid);
 
 }

@@ -13,12 +13,11 @@ import javax.persistence.Table;
 
 import com.oracle.choongangGroup.changhun.JPA.Member;
 
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
-@Getter
+@Data
 @NoArgsConstructor
 @SequenceGenerator(
 					name = "NOTICE_SEQ_GEN",
@@ -55,10 +54,10 @@ public class Notice extends BaseTimeEntity {
 		private int noticeHit;					// 조회수
 		
 		
-		//== 연관관계 메서드 ==//
-		public void update(String noticeTitle, String noticeContent) {
-			this.noticeTitle = noticeTitle;
-			this.noticeContent = noticeContent;
-		}
+//		//== 연관관계 메서드 ==//
+//		public void update(String noticeTitle, String noticeContent) {
+//			this.noticeTitle = noticeTitle;
+//			this.noticeContent = noticeContent;
+//		}
 		
 }

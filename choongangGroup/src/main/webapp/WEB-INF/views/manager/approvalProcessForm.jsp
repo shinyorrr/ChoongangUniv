@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,7 +17,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <!-- CSS -->
 <link rel="stylesheet" href="/css/styles.css">
-<link href="css/taewooCss.css" rel="stylesheet" type="text/css">
+
     <title>SideBar sub menus</title>
 </head>
 
@@ -54,12 +52,12 @@
             <div>
                 <div class="nav__brand">
                     <ion-icon name="menu-outline" class="nav__toggle" id="nav-toggle"></ion-icon>
-                    <a href="#" class="nav__logo">공지사항 관리</a>
+                    <a href="#" class="nav__logo">Bedimcode</a>
                 </div>
                 <div class="nav__list">
-                    <a href="/noticeWrite" class="nav__link active">
+                    <a href="#" class="nav__link active">
                         <ion-icon name="home-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">공지사항 글쓰기</span>
+                        <span class="nav_name">Dashboard</span>
                     </a>
                     <a href="#" class="nav__link">
                         <ion-icon name="chatbubbles-outline" class="nav__icon"></ion-icon>
@@ -119,8 +117,8 @@
             <div class="col-12 pt-4" style="height: 150px; background-color: rgb(95, 142, 241)">
                 <div class="d-flex flex-row mb-3">
                     <div>
-                        <span class="text-white h4">공지사항 조회 <span class="fw-bold">김중앙</span>님!</span>
-                    </div> 
+                        <span class="text-white h4">안녕하세요. <span class="fw-bold">김중앙</span>님!</span>
+                    </div>
                     <div class="border border-1 border-white border-bottom rounded-pill text-white px-2 pt-1 ms-2 h6">교수</div>
                     <div>
                         <i class="text-white bi-gear-fill mx-2"></i>
@@ -145,41 +143,77 @@
                 <div class="row m-5">
                     <!-- card header -->
                     <div class="col-12 rounded-top text-white overflow-auto pt-2 fw-bold" style="background-color: rgb(39, 40, 70); height: 40px;"> 
-                        <i class="bi bi-bookmark-fill me-2"></i>공지사항 관리 <i class="bi bi-chevron-right"></i>공지사항 조회
+                        <i class="bi bi-bookmark-fill me-2"></i>전자결재 <i class="bi bi-chevron-right"></i>기안문서조회
                     </div>
                     <!-- card content -->  
+                    <!-- card content -->  
                     <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
-                      <table class="Notice-table table table-striped">
-					    <thead>
-					    <tr>
-					        <th>번호</th>
-					        <th>제목</th>
-					        <th>내용</th>
-					        <th>작성일자</th>
-					        <th>조회수</th>
-					    </tr>
-					    </thead>
-					    <tbody>
-					    <c:forEach items="${noticeList}" var="notice">				   
-					    <tr>
-					        <td>${notice.noticeNum}</td>
-					        <td><a href="/noticeDetail?noticeNum=${notice.noticeNum}">${notice.noticeTitle }</a></td>
-					        <td>${notice.noticeContent }</td>
-					        <c:choose>
-						        <c:when test="${notice.createdDate != null}">
-							        <c:set var="DateValue" value="${notice.createdDate}"/>
-							        <td>${fn:substring(DateValue,0,10)}</td>
-						        </c:when>
-						        <c:when test="${notice.modifiedDate != null}">
-							        <c:set var="DateValue" value="${notice.modifiedDate}"/>
-							        <td>${fn:substring(DateValue,0,10)}</td>
-						        </c:when>
-					        </c:choose>
-					        <td>${notice.noticeHit}</td>
-					    </tr>
-					    </c:forEach>
-					    </tbody>
-					</table>  
+                        <div id="titleInBox" style="font-weight: bold; font-size: 19px;">기안문서홈</div>
+						<div id="containerBox">
+							<div style="border-top: 1px dashed #c9c9c9; margin-top: 10px;"></div>
+                    
+                    	<!----------------------------- 조회 테이블 시작  ---------------------------->
+                        <table class="table table-hover" style="font-size: 14px; text-align: center;">
+								<thead>
+									<tr>
+										<th>문서번호</th>
+										<th>기안일</th>
+										<th>결재양식</th>
+										<th>사번</th>
+										<th style="width: 57%;">제목</th>
+										<th>첨부</th>
+										<th>결재상태</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach var="process" items="${processList}">
+										<tr>
+											<td>
+												<a href="apprProcessDetail?approval_no=${process.approval_no}">${process.approval_no}</a>
+											</td>
+											<td>${process.writeday}</td>
+											<td>${process.approval_sort_name}</td>
+											<td>${process.userid}</td>
+											<td>${process.title}</td>
+											<c:if test="${process.file_path ne null }">
+												<td><i class="bi bi-file-earmark"></i></td>
+											</c:if>
+											<c:if test="${process.file_path eq null }">
+												<td>&nbsp;</td>
+											</c:if>
+											<c:if test="${process.approval_status eq 0}">
+												<td>대기중<td>
+											</c:if>
+										</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+							
+							
+							<!-- 페이징 번호 설정 -->
+							<nav aria-label="Page navigation example">
+							  <ul class="pagination pagination-sm justify-content-center">
+							    <li class="page-item">
+							    <c:if test="${page.startPage > page.pageBlock }">	
+							      <a class="page-link" href="approvalProcess?currentPage=${page.startPage-page.pageBlock}" aria-label="Previous">
+							        <span aria-hidden="true">&laquo;</span>
+							      </a>
+							    </c:if>  
+							    </li>
+							    <li class="page-item">
+							    <c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
+							    	<a href="approvalProcess?currentPage=${i}">${i}</a>
+							    </c:forEach>
+							    </li>
+							    <li class="page-item">
+							    <c:if test="${page.endPage < page.totalPage}">
+							      <a class="page-link" href="approvalProcess?currentPage=${page.startPage+page.pageBlock}" aria-label="Next">
+							        <span aria-hidden="true">&raquo;</span>
+							      </a>
+							    </c:if>
+							    </li>
+							  </ul>
+							</nav>
                     </div>
                     <!-- footer -->
                     <footer class="col-12" style="height: 60px;">

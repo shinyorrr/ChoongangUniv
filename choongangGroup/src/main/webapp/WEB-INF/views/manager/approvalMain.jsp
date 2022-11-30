@@ -158,7 +158,7 @@
                     <!-- card content -->  
                     <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
                         <div id="titleInBox" style="font-weight: bold; font-size: 19px;">전자결재홈
-							 <a id="btnNewAppr" href="approvalForm?userid=${userid}" class="btn btn-danger pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light">새 결재 진행</a>
+							 <a id="btnNewAppr" href="approvalWrite?userid=${userid}" class="btn btn-danger pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light">새 결재 진행</a>
 						</div>
 						<div id="containerBox">
 							<div style="border-top: 1px dashed #c9c9c9; margin-top: 10px;"></div>
@@ -194,13 +194,10 @@
 												<td>대기중<td>
 											</c:if>
 											<c:if test="${wait.approval_status eq 1}">
-												<td>심사중<td>
+												<td>승인<td>
 											</c:if>
 											<c:if test="${wait.approval_status eq 2}">
 												<td>반려<td>
-											</c:if>
-											<c:if test="${wait.approval_status eq 3}">
-												<td>승인<td>
 											</c:if>
 										</tr>
 									</c:forEach>

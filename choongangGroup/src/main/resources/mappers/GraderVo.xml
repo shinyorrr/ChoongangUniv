@@ -5,18 +5,38 @@
 
 <mapper namespace="com.oracle.choongangGroup.hj.model.GradeVoMapper">
  
-<!--  //아이디 받아와서 성적 조회  -->
- 	<select id="hjGradeSelOne"  parameterType="String" resultType="GradeVo">
-	 SELECT * from grade
-	 WHERE userid = #{userid}
+<!-- 년도학기별로 신청한 과목 성적 조회  -->
+ 	<select id="hjgradeSelList"  parameterType="GradeVo"  resultType="GradeVo">
+ 	
+	SELECT  g.sco_total , l.lec_type , l.lec_name , l.lec_id , l.lec_unit_score
+		 from    grade g , lecture l
+		 WHERE   l.lec_id = g.lec_id
+		 and     g.userid = ${userid}
+		 and l.lec_year = ${lec_year}
+		 and l.lec_semester =${lec_semester}
+	
+	</select>	
+	<!-- 총 학점 평균 조회 -->
+	<select id="hjgradeSelOne" parameterType="String" resultType="GradeVo">
+	
+	    SELECT sum(g.sco_total) stotal , 
+       SUM(l.lec_unit_score) utotal,
+       round(avg(g.sco_total),1) avg,
+       SUM(CASE WHEN l.lec_type= '교양' THEN l.lec_unit_score ELSE 0 END) subutotal ,
+       SUM(CASE WHEN l.lec_type= '전필' THEN l.lec_unit_score ELSE 0 END) majorutotal
+       from    grade g , lecture l
+       WHERE   l.lec_id = g.lec_id
+       AND     g.userid = ${userid}
+       GROUP BY g.userid
+	
+	
 	
 	</select>
 	
 
 	
+
 	
-	
-	
-	
+
 	</mapper>
 	

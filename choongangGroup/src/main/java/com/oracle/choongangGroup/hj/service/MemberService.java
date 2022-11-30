@@ -19,18 +19,23 @@ public interface MemberService {
 	//성적조회페이지
 	GradeVo gradeList(String userid);
 
-	//성적조회 할 과목 조회 jpa 
-
-	List<Lecture> findgrades();
-
+   //이름 가져오기
 	MemberVo infoList(String userid);
 
+	//년도학기별로 신청한 과목 성적 조회
+	List<GradeVo> listgrade(String userid ,String lec_year, String lec_semester );
 
-	List<String> findYear();
+	//셀렉트바 학기년도 조회 
+	List<GradeVo> findys(String userid);
 
-	List<String> findsemester();
+	//학점 조회
+	GradeVo sutotal(String userid);
 
-	MemberVo infoList2(String userid);
+
+
+	
+
+
 
 
 

@@ -21,25 +21,25 @@ public class ApprovalServiceImpl implements ApprovalService {
 	// ---------------- 결재 리스트 ----------------------
 	// 승인 대기중
 	@Override
-	public List<Approval> waitingListAll(String userid) {
+	public List<Approval> waitingListAll(Approval approval) {
 		log.info("waitingListAll start...");
-		List<Approval> list = ad.waitingListAll(userid);
+		List<Approval> list = ad.waitingListAll(approval);
 		return list;
 	}
 	
 	// 승인 진행중
 	@Override
-	public List<Approval> processListAll(String userid) {
+	public List<Approval> processListAll(Approval approval) {
 		log.info("processListAll start...");
-		List<Approval> list = ad.processListAll(userid);
+		List<Approval> list = ad.processListAll(approval);
 		return list;
 	}
 	
 	// 승인 완료
 	@Override
-	public List<Approval> finishListAll(String userid) {
+	public List<Approval> finishListAll(Approval approval) {
 		log.info("finishListAll start...");
-		List<Approval> list = ad.finishListAll(userid);
+		List<Approval> list = ad.finishListAll(approval);
 		return list;
 	}
 	
@@ -60,7 +60,7 @@ public class ApprovalServiceImpl implements ApprovalService {
 
 	@Override
 	public int finishTotal(String userid) {
-		log.info("processTotal start...");
+		log.info("finishTotal start...");
 		int totFinishCnt = ad.finishTotal(userid);
 		return totFinishCnt;
 	}
@@ -84,10 +84,41 @@ public class ApprovalServiceImpl implements ApprovalService {
 	
 	// ---------------- 결재자 리스트 ---------------------- 
 	@Override
-	public List<MemDept> apprList() {
+	public List<MemDept> apprList(String userid) {
 		log.info("apprList start...");
-		List<MemDept> listAppr = mdd.getApprList();
+		List<MemDept> listAppr = mdd.getApprList(userid);
 		return listAppr;
+	}
+	
+	// ---------------- 새결재저장 ----------------------
+	@Override
+	public int saveAppr(Approval approval) {
+		log.info("saveAppr start...");
+		int result = ad.saveAppr(approval);
+		return result;
+	}
+	
+	// ---------------- 기안진행 상세페이지----------------------
+	@Override
+	public Approval processDetail(Approval approval) {
+		log.info("processDetail start...");
+		Approval apprDetail = ad.processDetail(approval);
+		return apprDetail;
+	}
+
+	@Override
+	public MemDept findMem(String userid) {
+		log.info("findMem start...");
+		MemDept memDept = mdd.findMem(userid);
+		return memDept;
+	}
+	
+	// ---------------- 기안진행 삭제----------------------
+	@Override
+	public int delete(Long approval_no) {
+		log.info("delete start...");
+		int result = ad.delete(approval_no);
+		return result;
 	}
 
 }

@@ -7,6 +7,7 @@
 	   
 	  	<typeAlias  alias="MemberVo"  type="com.oracle.choongangGroup.hj.model.MemberVo"/> 
 	  	<typeAlias  alias="GradeVo"  type="com.oracle.choongangGroup.hj.model.GradeVo"/> 
+	  	<typeAlias  alias="EvaluationVo"  type="com.oracle.choongangGroup.hj.model.EvaluationVo"/> 
 
 	   
 	   

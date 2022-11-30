@@ -18,5 +18,14 @@
 		select m.*, d.dname
 		from member m , dept d
 		where m.deptno = d.deptno
+		and userid != ${userid}
+	</select>
+	
+	<!-- =====================직원 상세 정보===================== -->
+	<select id="hsMemDetail" parameterType="String" resultType="MemDept">
+		select m.userid, m.name, d.dname
+		from member m , dept d
+		where m.deptno = d.deptno
+		and userid = ${userid}
 	</select>
 </mapper>
