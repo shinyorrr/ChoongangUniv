@@ -18,7 +18,6 @@ import lombok.ToString;
 
 @Data
 @Entity
-@ToString
 public class Member {
 	
 	@Id
