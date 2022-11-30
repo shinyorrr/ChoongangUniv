@@ -46,6 +46,17 @@ public class ApplyRepositoryImpl implements ApplyRepository {
 		return lecture;
 	}
 	
+	//장바구니/수강신청 리스트
+	@Override
+	public List<ApplicationLec> applicationLecList(String userid , int gubun) {
+		String jpql = "select a from ApplicationLec a where a.gubun = :gubun";
+		List<ApplicationLec> list = em.createQuery(jpql,ApplicationLec.class)
+										.setParameter("gubun", gubun)
+										.getResultList();
+		return list;
+	}
+	
+	
 	//장바구니, 수강신청
 	@Override
 	public int apply(ApplicationLec applyLec) {
@@ -162,6 +173,8 @@ public class ApplyRepositoryImpl implements ApplyRepository {
 		
 		return result;
 	}
+
+
 
 
 

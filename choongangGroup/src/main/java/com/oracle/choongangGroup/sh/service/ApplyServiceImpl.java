@@ -40,6 +40,15 @@ public class ApplyServiceImpl implements ApplyService {
 	}
 
 
+	@Override
+	public List<ApplicationLec> applicationLecList(String userid, int gubun) {
+		List<ApplicationLec> list = ar.applicationLecList(userid, gubun);
+		return list;
+	}
+	
+
+
+
 
 
 

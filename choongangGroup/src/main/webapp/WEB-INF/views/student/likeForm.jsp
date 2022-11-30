@@ -38,7 +38,7 @@
 				<th>강의코드</th><th>강의명</th><th>학년</th><th>강의시간</th><th>교수명</th>
 				<th>이수구분</th><th>전공</th><th>학점</th><th>&nbsp;&nbsp;</th>
 			</tr>
-			<c:forEach var="book" items="${list }">
+			<c:forEach var="lec" items="${list }">
 				<tr>
 					<td>${lec.id }</td><td>${lec.name }</td><td>${lec.grade }</td>
 					<td>${lec.day1}${lec.time1}, ${lec.day2}${lec.time2}</td><td>${lec.prof }</td><td>${lec.type }</td>

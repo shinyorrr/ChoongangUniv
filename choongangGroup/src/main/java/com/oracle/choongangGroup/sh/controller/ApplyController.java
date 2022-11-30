@@ -2,12 +2,14 @@ package com.oracle.choongangGroup.sh.controller;
 
 import java.util.List;
 
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -66,20 +68,27 @@ public class ApplyController {
 	}
 		
 	@GetMapping(value = "applyForm")
-	public String applyForm( String userid , Model model, @RequestParam("select") String select) {
-		/////////접속 아이디 받아서 넘기기////////////
-		userid = "1111";
-		System.out.println("넘어온 파라미터 ----->"+select);
-		List<Lecture> lectureList = as.lectureListAll();
-		model.addAttribute("list", lectureList);
+	public String applyForm( String userid , Model model ) {
 		model.addAttribute("userid", userid);
 		return "student/applyForm";
 	}
 	
+	@ResponseBody
 	@GetMapping(value = "applyList")
-	public String applyList(@RequestParam("select") String select) {
+	public Object applyList(String select, String userid, Model model) {
 		System.out.println("넘어온 파라미터 ----->"+select);
-		return "student/applyForm";
+		Object result;
+		if(select.equals("all")) {
+			List<Lecture> lectureList = as.lectureListAll();
+			result = lectureList;
+
+		}else {
+			int gubun = 1; //장바구니 구분
+			List<ApplicationLec> likeList =  as.applicationLecList(userid, gubun);
+			result = likeList;
+		}	
+		model.addAttribute("userid", userid);
+		return result;
 			
 	}
 	

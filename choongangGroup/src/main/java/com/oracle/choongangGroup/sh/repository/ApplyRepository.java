@@ -17,7 +17,7 @@ public interface ApplyRepository {
 	
 	int 	apply(ApplicationLec applyLec);
 
-
+	List<ApplicationLec> applicationLecList(String userid, int gubun);
 
 
 
