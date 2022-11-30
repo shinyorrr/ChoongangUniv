@@ -1,6 +1,5 @@
 package com.oracle.choongangGroup.sh.domain;
 
-import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,7 +13,7 @@ import com.oracle.choongangGroup.changhun.JPA.Member;
 
 import lombok.Data;
  
-@Entity 
+@Entity  
 @Data 
 @IdClass(LectureMember.class) 
 public class ApplicationLec { 
@@ -31,13 +30,7 @@ public class ApplicationLec {
 	
 	@Column(name = "lec_gubun")
 	private int gubun; 
-	
-	@Column(name = "register_start")
-	private String start; 
-	
-	@Column(name = "register_end")
-	private String end; 
-	
+		
 	
 	public static ApplicationLec apply(Member member, Lecture lecture, int gubun) {
 		ApplicationLec applyLec = new ApplicationLec();
