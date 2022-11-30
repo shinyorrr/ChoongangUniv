@@ -48,7 +48,7 @@
 		]]>
 	</select>
 	
-	<select id="hsApprfinishList" parameterType="Approval" resultType="Approval">
+	<select id="hsApprEndList" parameterType="Approval" resultType="Approval">
 		<![CDATA[
 		SELECT *
 		FROM
@@ -93,7 +93,7 @@
 			]]>
 	</select>
 	
-	<!-- =====================새 결재 저장===================== -->
+	<!-- =====================새 결재 저장(파일있음)===================== -->
 	<insert id="hsApprSave" parameterType="Approval">
 	
 		insert into approval (approval_no, approval_sort_no, mid_approver, fin_approver, title, item_need, item_quantity, approval_content, item_purpose, item_price, server_file_name, org_file_name, file_path, mid_approver_ok, fin_approver_ok, approval_status, writeday, approval_start, approval_end, mid_approver_opinion, fin_approver_opinion, userid) 
@@ -123,13 +123,60 @@
 								
 	</insert>
 	
+	<!-- =====================새 결재 저장(파일없음)===================== -->
+	<insert id="hsSave" parameterType="Approval">
+	
+		insert into approval (approval_no, approval_sort_no, mid_approver, fin_approver, title, item_need, item_quantity, approval_content, item_purpose, item_price, mid_approver_ok, fin_approver_ok, approval_status, writeday, approval_start, approval_end, mid_approver_opinion, fin_approver_opinion, userid) 
+									values((select NVL(MAX(approval_no), 0) + 1 from approval)
+									, #{approval_sort_no}
+									, #{mid_approver}
+									, #{fin_approver}
+									, #{title}
+									, #{item_need, jdbcType=VARCHAR}
+									, NVL(#{item_quantity, jdbcType=INTEGER}, 0)
+									, #{approval_content}
+									, #{item_purpose, jdbcType=VARCHAR}
+									, #{item_price, jdbcType=VARCHAR}
+									, NVL(#{mid_approver_ok, jdbcType=VARCHAR}, '0')
+									, NVL(#{fin_approver_ok, jdbcType=VARCHAR}, '0')
+									, NVL(#{approval_status, jdbcType=VARCHAR}, '0')
+									, #{writeday}
+									, #{approval_start}
+									, #{approval_end}
+									, #{mid_approver_opinion, jdbcType=VARCHAR}
+									, #{fin_approver_opinion, jdbcType=VARCHAR}
+									, #{userid}
+								)
+								
+	</insert>
+	
 	<!-- =====================기안 진행 상세페이지===================== -->
 	<select id="hsApprDetail" parameterType="Approval" resultType="Approval">
 		select a.*, s.approval_sort_name
-           from approval a, approval_sort s
+        from approval a, approval_sort s
 		where a.approval_sort_no  = s.approval_sort_no
            and userid = #{userid}
            and approval_no = #{approval_no}
+	</select>
+	
+	<!-- =====================결재 완료 상세페이지===================== -->
+	<select id="hsApprEndDetail" parameterType="Approval" resultType="Approval">
+		select a.*, s.approval_sort_name
+        from approval a, approval_sort s
+		where a.approval_sort_no  = s.approval_sort_no
+                and #{userid} = any(mid_approver, fin_approver, userid)
+				and approval_status in (1, 2)
+				and approval_no = #{approval_no}
+	</select>
+	
+	<!-- =====================결재 승인하기 상세페이지===================== -->
+	<select id="hsApprWaitDetail" parameterType="Approval" resultType="Approval">
+		select a.*, s.approval_sort_name 
+		from approval a, approval_sort s
+		where a.approval_sort_no  = s.approval_sort_no
+                and #{userid} = any(mid_approver, fin_approver)
+				and approval_status = 0
+				and approval_no = #{approval_no}
 	</select>
 	
 	<!-- =====================상신 취소===================== -->
@@ -139,36 +186,36 @@
 	
 	<!-- =====================중간결재자 / 최종결재자 승인===================== -->
 	
-	<update id="confirmMidApproval" parameterType="Approval">
+	<update id="hsMidAgree" parameterType="Approval">
 		update approval
 		set mid_approver_ok = 1,
-		    mid_approver_opinion = #{mid_approval_opinion}
-		where approval_no = #{aproval_no}
+		    mid_approver_opinion = #{mid_approver_opinion}
+		where approval_no = #{approval_no}
 	</update>
 	
-	<update id="confirmFinApproval" parameterType="Approval">
+	<update id="hsFinAgree" parameterType="Approval">
 		update approval
 		set fin_approver_ok = 1,
-			approval_status = 2,
-		    fin_approver_opinion = #{fin_approval_opinion}
-		where approval_no = #{aproval_no}
+			approval_status = 1,
+		    fin_approver_opinion = #{fin_approver_opinion}
+		where approval_no = #{approval_no}
 	</update>
 	
 	<!-- =====================중간결재자 / 최종결재자 반려===================== -->
 	
-	<update id="rejectMidApproval"  parameterType="Approval">
+	<update id="hsMidReject"  parameterType="Approval">
 		update approval
-		set mid_approvar_ok = 2,
+		set mid_approver_ok = 2,
 			approval_status = 2,
-			mid_approval_opinion = #{mid_approval_opinion},
+			mid_approver_opinion = #{mid_approver_opinion}
 		where approval_no = #{approval_no}
 	</update>
 	
-	<update id="rejectFinApproval"  parameterType="Approval">
+	<update id="hsFinReject"  parameterType="Approval">
 		update approval
 		set fin_approver_ok = 2,
 			approval_status = 2,
-			fin_approval_opinion = #{fin_approval_opinion},
+			fin_approver_opinion = #{fin_approver_opinion}
 		where approval_no = #{approval_no}
 	</update>
 	

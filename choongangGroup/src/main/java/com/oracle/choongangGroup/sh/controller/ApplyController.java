@@ -102,6 +102,7 @@ public class ApplyController {
 		return result;
 	}
 	
+
 	@GetMapping(value = "registerTimeForm")
 	public String registerTimeForm(Model model){
 		LocalDate now = LocalDate.now();
@@ -109,7 +110,7 @@ public class ApplyController {
 		model.addAttribute("year", year);
 		return "student/registerTimeForm";
 	}
-	
+
 	@GetMapping(value = "registerTime")
 	public String registerTime(ApplyTime applyTime) { //@ModelAttribute 생략
 		System.out.println("받아온 시간 ---->"+applyTime.getStart());

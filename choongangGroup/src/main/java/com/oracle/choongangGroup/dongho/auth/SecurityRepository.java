@@ -17,5 +17,4 @@ public interface SecurityRepository extends JpaRepository<Member, String> {
 
 	Optional<Member> findByUseridAndEmail(String userid, String email);
 
-
 }

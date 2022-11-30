@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="core" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%-- <%@ include file="header.jsp"%> --%>
 <!DOCTYPE html>
 <html>
@@ -39,6 +39,74 @@
 $(document).on('focus',".date", function(){
     $(this).datepicker({format: 'yyyy-mm-dd'});
 })
+
+function lecUpdate(id) {
+	console.log("강의 클릭 ===> " + id);
+	$.ajax({
+		url 	: "lecFindById",
+		data	: {"id" : id},
+		dataType: 'text',
+		success	: function(data){
+			console.log("성공===> " + data );
+			var lec = JSON.parse(data);
+			console.log("==>" + lec.name);
+			document.getElementById("lecName").value=lec.name;
+			document.getElementById("lecGrade").value=lec.grade;
+			document.getElementById("lecBuilding").value=lec.building;
+			document.getElementById("lecRoom").value=lec.room;
+			document.getElementById("lecDay1").value=lec.day1;
+			document.getElementById("lecTime1").value=lec.time1;
+			document.getElementById("lecDay2").value=lec.day2;
+			document.getElementById("lecTime2").value=lec.time2;
+			document.getElementById("lecMaxStud").value=lec.maxStud;
+			document.getElementById("lecMaxCount").value=lec.maxCount;
+			document.getElementById("lecTypeCode").value=lec.typeCode;
+			document.getElementById("lecUnitScore").value=lec.unitScore;
+			document.getElementById("lecYear").value=lec.year;
+			document.getElementById("lecSemester").value=lec.semester;
+			document.getElementById("lecMajor").value=lec.major;
+			document.getElementById("lecId").value=lec.id;
+			
+		}
+	});
+}
+function lecDelete() {
+	var id = document.getElementById("lecId").value;
+	console.log("강의 클릭 ===> " + id);
+	if(confirm("삭제하시겠습니까?") == true){
+		$.ajax({
+			url 	: "lecDelete",
+			data	: {"id" : id},
+			dataType: 'text',
+			success	: function(data){
+				window.location.reload();
+			}
+		});
+	} else{
+		return false;
+	}
+	
+}
+
+function newLec(){
+	document.getElementById("lecName").value = "";
+	document.getElementById("lecGrade").value= "1";
+	document.getElementById("lecBuilding").value= "중앙동";
+	document.getElementById("lecRoom").value= "101호";
+	document.getElementById("lecDay1").value= "월";
+	document.getElementById("lecTime1").value= "1교시";
+	document.getElementById("lecDay2").value= "";
+	document.getElementById("lecTime2").value= "";
+	document.getElementById("lecMaxStud").value= "";
+	document.getElementById("lecMaxCount").value= "15";
+	document.getElementById("lecTypeCode").value= "";
+	document.getElementById("lecUnitScore").value= "1";
+	document.getElementById("lecYear").value= "";
+	document.getElementById("lecSemester").value= "1";
+	document.getElementById("lecMajor").value= "";
+	document.getElementById("lecId").value= ""
+}
+
    // e.date를 찍어보면 Thu Jun 27 2019 00:00:00 GMT+0900 (한국 표준시) 위와 같은 형태로 보인다.
 
 
@@ -123,7 +191,7 @@ $(document).on('focus',".date", function(){
 
 			<ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
 				<li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>
-				<li><a href="#" class="nav-link px-2 link-dark">Features</a></li>
+				<li><a href="#" class="nav-link px-2 link-dark">Features</a></rotli>
 				<li><a href="#" class="nav-link px-2 link-dark">Pricing</a></li>
 				<li><a href="#" class="nav-link px-2 link-dark">FAQs</a></li>
 				<li><a href="#" class="nav-link px-2 link-dark">About</a></li>
@@ -204,14 +272,14 @@ $(document).on('focus',".date", function(){
 		<!-- content header -->
 		<div class="col-12 p-4" style="height: 150px; background-color: rgb(95, 142, 241); vertical-align: middle;">
 			<div class="d-flex flex-row" >
-				<div class="text-white h4">안녕하세요. <b>김중앙</b>님!</div>
+				<div class="text-white h4">안녕하세요. <b>${name }</b>님!</div>
 					<span class="border border-1 border-white border-bottom rounded-pill text-white px-2 pt-1 pb-0 ms-2 me-3"
 								style="font-size: 12px; height: 24px;">교수</span>
 					<i class="text-white bi-gear-fill mx-2" style="height: 18px;"></i>
 			</div>
-				<div class="d-flex text-white" style="font-size: 14px;">이공대학 컴퓨터공학과 | 정교수</div>
+				<div class="d-flex text-white" style="font-size: 14px;">${major} | ${position}</div>
 				<div class="d-flex flex-low text-white" style="font-size: 14px;">
-					<i class="bi bi-envelope-fill me-3 ml-0 "></i>test123@naver.com
+					<i class="bi bi-envelope-fill me-3 ml-0 "></i>${email }
 				</div>
 		</div>
 
@@ -260,9 +328,12 @@ $(document).on('focus',".date", function(){
 	
 	
 					<div class="col-2 ms-3   col-md-4 themed-grid-col text-right px-0 text-end" style="float: right;">
-						<button type="button" style="width: 20%;" class="btn btn-primary btn-sm me-1">신규</button>
-						<button type="button" style="width: 20%;" class="btn btn-dark btn-sm me-1">저장</button>
-						<button type="button" style="width: 20%;" class="btn btn-danger btn-sm">삭제&nbsp;</button>
+						<button type="button" style="width: 20%;" class="btn btn-primary btn-sm me-1"
+								onclick="newLec()">신규</button>
+						<button type="submit" style="width: 20%;" class="btn btn-dark btn-sm me-1"
+								form="lecSave">저장</button>
+						<button type="button" style="width: 20%;" class="btn btn-danger btn-sm"
+						        onclick="lecDelete()">삭제&nbsp;</button>
 					</div>
 				</div>
 	
@@ -287,16 +358,17 @@ $(document).on('focus',".date", function(){
 					</div>
 				</div>
 	
-	<form action="lecCreateList" method="post">
-				<table class="table table-bordered table-sm mt-2 " style="font-size: 0.8em;">
-					<thead class="table-light">
+ 				<div style="width:100%;height:140px;overflow-y:auto;overflow-x:hidden; border: solid 1px gray;">
+				<table class="table table-bordered table-hover table-sm mt-2 " style="font-size: 0.8em;">
+					<thead class="table-light" style="position: sticky;">
 						<tr style="text-align: center;">
 							<th scope="col" style="vertical-align: middle; width: 4%;">순번</th>
-							<th scope="col" style="vertical-align: middle;">강의번호</th>
+							<th scope="col" style="vertical-align: middle; width: 15%;">강의번호</th>
+							<th scope="col" style="vertical-align: middle; width: 10%;">교수명</th>
 							<th scope="col" style="vertical-align: middle;">강의명</th>
 							<th scope="col" style="vertical-align: middle; width: 7%;">개설년도</th>
 							<th scope="col" style="vertical-align: middle; width: 7%;">학기</th>
-							<th scope="col" style="vertical-align: middle;">전공</th>
+							<th scope="col" style="vertical-align: middle; width: 15%;">전공</th>
 							<th scope="col" style="vertical-align: middle; width: 7%;" >이수구분</th>
 							<th scope="col" style="vertical-align: middle; width: 7%;">학점</th>
 							<th scope="col" style="vertical-align: middle; width: 7%;">승인여부</th>
@@ -305,48 +377,50 @@ $(document).on('focus',".date", function(){
 	
 					
 					<tbody>
-						<tr>
-							<td class="text-center"><input type="text" name="createCnt" value="${Lec.createCnt}"></td>
-							<td class="text-center"><input type="text" name="createCnt" value="${Lec.subjectGubun}${Lec.id}"></td>
-							<td class="text-center"><input type="text" name="createCnt" value="${Lec.name}"></td>
-							<td class="text-center"><input type="text" name="createCnt" value="${Lec.year}"></td>
-							<td class="text-center"><input type="text" name="createCnt" value="${Lec.semester}"></td>
-							<td class="text-center"><input type="text" name="createCnt" value="${Lec.subjectGubun}"></td>
-							<td class="text-center"><input type="text" name="createCnt" value="${Lec.type}"></td>
-							<td class="text-center"><input type="text" name="createCnt" value="${Lec.unitScore}"></td>
-							<td class="text-center text-danger fw-bold"><input type="text" name="createCnt" value="${Lec.status}"></td>
+					<c:forEach var="lec" items="${lecList}">
+						<c:set var="i" value="${i+1}"></c:set>
+						<tr onclick="lecUpdate(${lec.id})">
+							<th class="text-center">${i }</th>
+							<td class="text-center">${lec.typeCode}${lec.id}</td>
+							<td class="text-center">${lec.prof}</td>
+							<td class="text-center">${lec.name}</td>
+							<td class="text-center">${lec.year}</td>
+							<td class="text-center">${lec.semester}</td>
+							<td class="text-center">${lec.major}</td>
+							<td class="text-center">${lec.type}</td>
+							<td class="text-center">${lec.unitScore}</td>
+							<c:choose>
+							<c:when test="${lec.status == null || ''}">
+								<td class="text-center text-danger fw-bold">미승인</td>
+							</c:when>
+							<c:otherwise>
+								<td class="text-center text-primary fw-bold">승인</td>
+							</c:otherwise>
+							</c:choose>
 						</tr>
-					
-					<!-- 	<tr>
-							<td style="height: 50px; border-right: none;"></td>
-							<td style="height: 50px; border: none;"></td>
-							<td style="height: 50px; border: none;"></td>
-							<td style="height: 50px; border: none;"></td>
-							<td style="height: 50px; border: none;"></td>
-							<td style="height: 50px; border: none;"></td>
-							<td style="height: 50px; border: none;"></td>
-							<td style="height: 50px; border: none;"></td>
-							<td style="height: 50px; border-left: none;"></td>
-						</tr> -->
+					</c:forEach>
 					</tbody>
 				</table>
-					</form>
+				</div>
 	
 				<br>
 				<div class="mt-2 fw-bold ">개설강좌 상세정보</div>
 				<br>
 	<!--          <table class="table table-bordered table-sm mt-2 " style="font-size: 0.8em; text-align: center;">-->
 	<!--            <tr>-->
+	<!------------------------------------------------------------------------------------->
+				<form id="lecSave" action="/professor/lecSave" method="post">
+				
+				<input type="hidden" id="lecId" name="id">
+				
 				<div class="container font08">
 				
 					<div class="row row-cols-4 ps-0" style="float:left;">
 						<div class="col form-inline text-start ps-0" style="display: inline; float:left;">
 							년도/학기
-							<input class="form-control ms-2 form-inline form-control-sm text-start font09" type="text" name="year" placeholder="년도" 
-									style= "margin:0 !important; width:40%;">
-							<!-- <input class="form-control form-control-sm" type="text" name="semester" placeholder="학기" style="width:20%;  disply:inline; margin-right:0;"> -->
-							<select class="form-select ms-1 form-inline form-select-sm me-0 font09"  name="semester" style="margin: 0 !important;  width:40%;">
-								<!-- <option selected>선택</option> -->
+							<input class="form-control ms-2 form-inline form-control-sm text-start font09" type="text" placeholder="년도" 
+									id="lecYear" name="year" style= "margin:0 !important; width:40%;">
+							<select id="lecSemester" name="semester" class="form-select ms-1 form-inline form-select-sm me-0 font09"  style="margin: 0 !important;  width:40%;">
 								<option value="1" selected>1</option>
 								<option value="2">2</option>
 							</select>
@@ -355,29 +429,27 @@ $(document).on('focus',".date", function(){
 						
 						<div class="col " >
 							<label class="col-form-label me-2">이수구분</label>
-							<select class="form-select form-select-sm me-0 font09"  name="type" style="width: 40%; margin-left: 0;">
-								<option selected>선택</option>
-								<option value="전공">전공</option>
-								<option value="교양">교양</option>
+							<select id="lecTypeCode" name="typeCode" class="form-select form-select-sm me-0 font09" style="width: 40%; margin-left: 0;">
+								<option value="" selected>선택</option>
+								<option value="M">전필</option>
+								<option value="S">전선</option>
+								<option value="C">교양</option>
 							</select>
 						</div>
 						
 						<div class="col " style="display: inline">
 							<label class="col-form-label me-2">전공</label>
-							<!-- <input class="downBorder form-control form-control-sm" type="text" name="major" style="width:50%;"> -->
-							<select class="form-select form-select-sm font09"  name="major" style="margin: 0;">
-								<option selected>전공선택</option>
+							<select id="lecMajor" name="major" class="form-select form-select-sm font09" style="margin: 0;">
+								<option value="" selected>전공선택</option>
 								<option value="컴퓨터공학과">컴퓨터공학과</option>
-								<option value="소프트웨어과">소프트웨어과</option>
-								<option value="전산과">전산과</option>
+								<option value="AI학과">AI학과</option>
 								<option value="경영학과">경영학과</option>
-								<option value="기계공학과">기계공학과</option>
 							</select>
 						</div>
 						
 						<div class="col" style="display:inline;">
 							대상학년
-							<select class="form-select form-select-sm me-0 font09"  name="grade" style="width: 40%; margin: 0;">
+							<select id="lecGrade" name="grade" class="form-select form-select-sm me-0 font09" style="width: 40%; margin: 0;">
 								<option selected value="1">1 학년</option>
 								<option value="2">2 학년</option>
 								<option value="3">3 학년</option>
@@ -389,79 +461,76 @@ $(document).on('focus',".date", function(){
 						<br>
 						<div class="col text-start ps-0 " style="display: inline">
 							<label class="col-form-label me-2 ">강의명</label>
-							<input class="form-control form-control-sm text-start font09" type="text" name="name" placeholder="강의명을 입력해주세요" style="width:auto;">
+							<input id="lecName" name="name" class="form-control form-control-sm text-start font09" type="text" placeholder="강의명을 입력해주세요" style="width:auto;">
 						</div>
 						
-						<div class="col">
+						<!-- <div class="col">
 							<label class="col-form-label me-2">강의번호</label>
-							<input class="form-control form-control-sm text-start font09" type="text" name="subjectGubun"style="width:50%;">
-							<%-- <form class="form-inline d-flex justify-content-center md-form form-sm my-0 mx-0" style=" float: left;">
-								<i class="fas fa-search active" aria-hidden="true"></i>
-								<input class="form-control  py-0" type="text" placeholder="코드조회" name="" style="width:50% ">
-							</form> --%>
-						</div>
+							<input class="form-control form-control-sm text-start font09" type="text" name="id"style="width:50%;" readonly>
+							
+						</div> -->
 						
-						<div class="col py-0 ">
+						<!-- <div class="col py-0 ">
 							<label class="col-form-label me-2">강의시작일</label>
-							<input type="date" name="register_start" class="form-control font09" value="2023-03-02">
-							 <!-- <input type="text" name="register_start" id="datePicker" class="form-control font09" value="2023-03-02" /> -->
-							<!-- <div class="input-group date">
+							<input type="date" name="register_start" class="form-control font09" >
+							 <input type="text" name="register_start" id="datePicker" class="form-control font09" value="2023-03-02" />
+							 <div class="input-group date">
 								<input type="text" class="form-control">
 								<span class="input-group-addon">
 									<i class="glyphicon glyphicon-calendar"></i>
 								</span>
-							</div> -->
-						</div>
+							</div>
+						</div> -->
 						<div class="col">
 							<label class="col-form-label me-2">총시수</label>
-								<select class="form-select form-select-sm me-0"  name="maxCount" style="width: 30%; margin: 0;">
-									<option selected value="13">13</option>
+								<select id="lecMaxCount" name="maxCount" class="form-select form-select-sm me-0" style="width: 30%; margin: 0;">
 									<option value="14">14</option>
-									<option value="15">15</option>
+									<option selected value="15">15</option>
 								</select>
 						</div>
 						
-						<br>
 					<!--------------------------------------------------------------------------->
 						<div class="col text-start ps-0" style="display: inline">
 							<label class="col-form-label">학점</label>
-							<select class="form-select form-select-sm me-0 font09"  name="unitScore" style="width: 30%; margin: 0;">
+							<select id="lecUnitScore" name="unitScore" class="form-select form-select-sm me-0 font09" style="width: 30%; margin: 0;">
 								<option selected value="1">1 학점</option>
 								<option value="2">2 힉점</option>
 								<option value="3">3 학점</option>
 							</select>
 						</div>
 						
-						
-						
 						<div class="col" >
 							<label class="col-form-label me-2">수강인원</label>
-							<input class="form-control form-control-sm text-start" type="text" name="studCount"style="width:20%;">
+							<input id="lecMaxStud" name="maxStud" class="form-control form-control-sm text-start" type="text" style="width:20%;">
 						</div>
 					
 						
 						
 						<div class="col" style="display:inline;">
 							강의동
-							<select class="form-select form-select-sm me-0 font09"  name="building" style="width: 40%; margin-right: 0;">
+							<select id="lecBuilding" name="building" class="form-select form-select-sm me-0 font09" style="width: 40%; margin-right: 0;">
 								<option selected value="중앙동 ">중앙동</option>
 								<option value="정보동">정보동</option>
+								<option value="종합강의동">종합강의동</option>
 							</select>
 						</div>
 						<div class="col" style="display:inline;">
 							강의실
-							<select class="form-select form-select-sm me-0 font09"  name="room" style="width: 40%; margin: 0;">
-								<option selected value="301호 ">301호</option>
-								<option value="302호">302호</option>
+							<select id="lecRoom" name="room" class="form-select form-select-sm me-0 font09" style="width: 40%; margin: 0;">
+								<option selected value="101호 ">101호</option>
+								<option value="102호">102호</option>
+								<option value="103호">103호</option>
+								<option value="201호">201호</option>
+								<option value="202호">202호</option>
+								<option value="203호">203호</option>
 							</select>
 						</div>
 						
-						<br></br
 					<!--------------------------------------------------------------------------->
 					<!-- <div class="row font08" style="float:left;"> -->
 						<div class="col col-6 text-start ps-0" style="display: inline; ">
 							<label class="col-form-label me-1">강의일 1</label>
-							<select class="form-select form-select-sm me-0 font09" name="day1"
+							<select id="lecDay1" name="day1" class="form-select form-select-sm me-0 font09" 
 										style="width: 25%; margin: 0; display: inline;">
 									<option value="월" selected>월요일</option>
 									<option value="화">화요일</option>
@@ -469,10 +538,9 @@ $(document).on('focus',".date", function(){
 									<option value="목">목요일</option>
 									<option value="금">금요일</option>
 							</select>
-							<select class="font09 form-select form-select-smfont09" name="time1"
+							<select id="lecTime1" name="time1" class="font09 form-select form-select-smfont09" 
 									style="width: 40%; margin: 0; display: inline;">
-								<option selected>시간</option>
-								<option value="1교시">1교시 (09:00-09:50)</option>
+								<option selected value="1교시">1교시 (09:00-09:50)</option>
 								<option value="2교시">2교시 (10:00-10:50)</option>
 								<option value="3교시">3교시 (11:00-11:50)</option>
 								<option value="4교시">4교시 (12:00-12:50)</option>
@@ -486,17 +554,18 @@ $(document).on('focus',".date", function(){
 						<!-- <br> -->
 						<div class="col col-6 " style="display: inline; ">
 							<label class="col-form-label me-1 ">강의일 2</label>
-							<select class="form-select form-select-sm me-0 font09" name="day2"
-										style="width: 25%; margin: 0; display: inline;">
-									<option value="월" selected>월요일</option>
+							<select id="lecDay2" name="day2" class="form-select form-select-sm me-0 font09" 
+									style="width: 25%; margin: 0; display: inline;">
+									<option value="" selected>선택</option>
+									<option value="월">월요일</option>
 									<option value="화">화요일</option>
 									<option value="수">수요일</option>
 									<option value="목">목요일</option>
 									<option value="금">금요일</option>
 							</select>
-							<select class="font09 form-select form-select-smfont09" name="time2"
+							<select id="lecTime2" name="time2" class="font09 form-select form-select-smfont09"
 									style="width: 40%; margin: 0; display: inline;">
-								<option selected>시간</option>
+								<option selected value="">시간</option>
 								<option value="1교시">1교시 (09:00-09:50)</option>
 								<option value="2교시">2교시 (10:00-10:50)</option>
 								<option value="3교시">3교시 (11:00-11:50)</option>
@@ -511,6 +580,7 @@ $(document).on('focus',".date", function(){
 						
 					</div>
 				</div>
+				</form>
 			</div>
 		</main>
 					

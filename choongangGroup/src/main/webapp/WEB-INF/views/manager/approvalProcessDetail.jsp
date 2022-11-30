@@ -56,16 +56,22 @@
 	function getApprDelete() {
 		 if (confirm("상신취소하시겠습니까?") == true) {    //확인
 		 	var selApproNo = $('#approval_no').val();
+		 	var selFilePath = $('#file_path').val();
+		 	var selServerName= $('#server_file_name').val();
 		 	console.log(selApproNo);
+		 	console.log(selFilePath);
+		 	console.log(selServerName);
 			$.ajax(
 					{
 						url:"apprDelete",
-						data:{approval_no : selApproNo},
+						data:{approval_no 	   : selApproNo,
+							  file_path   	   : selFilePath,
+							  server_file_name : selServerName},
 						dataType:'text',
 						success:function(data) {
 							if(data == '1'){
 								alert("상신취소 되었습니다");
-								location.replace("approvalProcess");
+								window.location.href = "approvalProcess";
 							}
 							else{
 								alert("삭제실패");
@@ -74,10 +80,35 @@
 					}
 			);
 		  }	else {   //취소
-			  
 		      return false;
 		}
 	}
+	
+	// -------- 파일 다운로드 ----------
+	function fileDownload() {
+		var selFilePath = $('#file_path').val();
+		var selServerName= $('#server_file_name').val();
+		var selOrgName   = $('#org_file_name').val();
+		console.log(selFilePath);
+		console.log(selServerName);
+		console.log(selOrgName);
+		if(selOrgName != null) {
+			
+			$.ajax(
+					{
+						url:"/download",
+						data:{file_path 	  : selFilePath,
+							 server_file_name : selServerName,
+							 org_file_name 	  : selOrgName},
+						dataType:'text',
+						success:function(data) {
+							alert("다운로드 성공")
+						}
+					}	
+			);
+		}
+		
+	} 
 </script>
 </head>
 
@@ -177,7 +208,7 @@
             <div class="col-12 pt-4" style="height: 150px; background-color: rgb(95, 142, 241)">
                 <div class="d-flex flex-row mb-3">
                     <div>
-                        <span class="text-white h4">안녕하세요. <span class="fw-bold">김중앙</span>님!</span>
+                        <span class="text-white h4">안녕하세요. <span class="fw-bold">{name}</span>님!</span>
                     </div>
                     <div class="border border-1 border-white border-bottom rounded-pill text-white px-2 pt-1 ms-2 h6">교수</div>
                     <div>
@@ -203,7 +234,7 @@
                 <div class="row m-5">
                     <!-- card header -->
                     <div class="col-12 rounded-top text-white overflow-auto pt-2 fw-bold" style="background-color: rgb(39, 40, 70); height: 40px;"> 
-                        <i class="bi bi-bookmark-fill me-2"></i>전자결재 <i class="bi bi-chevron-right"></i>새 결재 홈
+                        <i class="bi bi-bookmark-fill me-2"></i>전자결재 <i class="bi bi-chevron-right"></i>기안진행문서목록 <i class="bi bi-chevron-right"></i>기안진행상세
                     </div>
                     <!-- card content -->  
                     <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
@@ -217,7 +248,7 @@
 								<input type="hidden" name="userid" id="userid" value="${userid}">
 								<div class="ApprListTitle" style="margin-top: 10px;">요약</div>
 								<div style="display: inline-block; width: 100%">
-								<div style="float: left; width: 45%">
+								<div style="float: left; width: 30%">
 									<table class="table table-bordered table-responsive" style="width: 300px; margin-top : 10px; border-collapse: collapse !important; color: black; background: white; font-size: 14px;">
 										<tr>
 											<th style="width: 5%; font-size: 14px; display: table-cell; vertical-align: middle; background-color: #dddddd">문서종류</th>
@@ -248,7 +279,7 @@
 								
 								<!--===================================== 결재선  ======================================-->
 								<div style="float: right; width: 45%">
-									<table class="table table-bordered table-responsive" style="width: 500px; margin-top : 10px; border-collapse: collapse !important; color: black; background: white; font-size: 14px; text-align: center;">
+									<table class="table table-bordered table-responsive" style="width: 100%; margin-top : 10px; border-collapse: collapse !important; color: black; background: white; font-size: 14px; text-align: center;">
 										<tbody>
 											<tr>
 												<th style="width: 5%; font-size: 14px; display: table-cell; vertical-align: middle; background-color: #dddddd">구분</th>
@@ -342,25 +373,28 @@
 											<tr>
 												<td colspan="6">
 													<div class="mb-3">
-														<textarea name="approval_content" class="form-control" id="exampleFormControlTextarea1" maxlength="200" rows="3" readonly="readonly">${appr.approval_content }</textarea>
+														<textarea name="approval_content" class="form-control" id="exampleFormControlTextarea1" maxlength="200" rows="3" readonly="readonly" style="resize: none;">${appr.approval_content }</textarea>
 													</div>
 												</td>
 											</tr>
 											<tr>
 												<th style="width: 10%; font-size: 14px; display: table-cell; vertical-align: middle; background-color: #dddddd">파일선택</th>
 												<td colspan="5">
-													<input type="text" name="file_path" id="file_path" value="${appr.file_path }" style="width: 50%; margin-left:10px; margin-right: 1%; border-radius:3px; border: none;" readonly="readonly">
+													<a onclick="fileDownload()"><input type="text" name="org_file_name" id="org_file_name" value="${appr.org_file_name}" style="width: 50%; margin-left:10px; margin-right: 1%; border-radius:3px; border: none;" readonly="readonly"></a>
 												</td>
 											</tr>
 									    </tbody>
 									  </table>
+									  <!--  파일삭제를 위한 값 저장 -->
+									  <input type="hidden" name="file_path" id="file_path" value="${appr.file_path }">
+									  <input type="hidden" name="server_file_name" id="server_file_name" value="${appr.server_file_name }">
 									</div>
 								</div>
 								
 								<!--======================== 결재완료/취소 =======================-->
 								<div>
 									<button type="submit" class="btn btn-primary btn-sm" onclick="getApprDelete()">상신취소</button>
-									<button type="button" class="btn btn-secondary btn-sm" onclick="history.go(-1);">목록가기</button>				
+									<button type="button" class="btn btn-secondary btn-sm" onclick="location.href='approvalProcess'">목록가기</button>				
 								</div>
 								</form>
 							</div>

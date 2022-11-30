@@ -12,6 +12,7 @@
 	
 	</select>
 
+	
 	<update id="hjMemberUpdate" parameterType="MemberVo" >
 		UPDATE member SET                       phone 		   = #{phone},
    		                                        address        = #{address},

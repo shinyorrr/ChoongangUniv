@@ -202,7 +202,7 @@
 		                </div>
 		            </div>
 		            <div class="col-4">
-		            	<div style="width: 598px;line-height: 100px;color: white;font-size: 77px;text-align:center;" id="clock">
+		            	<div style="width: 535px;line-height: 100px;color: white;font-size: 77px;text-align:center;" id="clock">
 						</div>
 		            </div>
 		            <div class="col-1">
@@ -274,7 +274,10 @@
 							</select>		
 						</div>		 		
 						<div class = "col-4"  style="margin-bottom: 20px">
-							<input  type = "text"  name = "search" class="form-control" placeholder="search">
+							<div class="input-group mb-3">
+							<input  type = "text"  name = "search" class="form-control" placeholder="search" aria-describedby="button-addon2">
+							<button class="btn btn-outline-secondary" type="button" id="button-addon2"><i class="bi bi-search"></i></button>
+							</div>
 						</div>
 						<!-- 오류메시지 출력 -->
 					<span id = error 

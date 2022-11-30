@@ -17,6 +17,11 @@ public class RsaInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
+		
+		System.out.println("===RsaInterceptor preHandle start===");
+//		if (request.getAttribute("publicKeyModulus") != "" && request.getAttribute("publicKeyExponent") != "") {
+//			return true;
+//		}
 		KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA");
         generator.initialize(2048);
         
@@ -27,11 +32,15 @@ public class RsaInterceptor implements HandlerInterceptor {
         PrivateKey privateKey = keyPair.getPrivate();
         HttpSession session = request.getSession();
         session.setAttribute("__rsaPrivateKey__", privateKey);
+        System.out.println("RsaInterceptor publicKey -> " + publicKey);
+        System.out.println("RsaInterceptor privateKey -> " + privateKey);
         
         RSAPublicKeySpec publicKeySpec = keyFactory.<RSAPublicKeySpec>getKeySpec(publicKey, RSAPublicKeySpec.class);
         
         String publicKeyModulus  = publicKeySpec.getModulus().toString(16);
         String publicKeyExponent = publicKeySpec.getPublicExponent().toString(16);
+        System.out.println("RsaInterceptor publicKeyModulus -> " + publicKeyModulus);
+        System.out.println("RsaInterceptor publicKeyExponent -> " + publicKeyExponent);
         request.setAttribute("publicKeyModulus" , publicKeyModulus);
         request.setAttribute("publicKeyExponent", publicKeyExponent);
 		

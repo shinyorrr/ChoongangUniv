@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,6 +19,58 @@
 <link rel="stylesheet" href="/css/styles.css">
 
     <title>과제관리</title>
+<script type="text/javascript">
+	document.addEventListener("DOMContentLoaded", function(){
+		showReport();
+	});
+	function showReport() {
+		alert('start');
+		var selLec = document.getElementById("selLec");
+		var ajaxAppend = document.getElementById("ajaxAppend");
+		ajaxAppend.textContent = "";
+		selLecValue = selLec.options[selLec.selectedIndex].value;
+		
+		var token = $("input[name='_csrf']").val();
+		var header = "X-CSRF-TOKEN";
+		
+		$.ajax({
+			type: "POST",
+			url: "/professor/lecReportList",
+			data: {
+				id : selLecValue, page : 1
+				},
+			dataType: 'json',
+			beforeSend : function(xhr)
+			  {  
+			 	 xhr.setRequestHeader(header, token);
+			  },
+			success: function(data) {
+					alert('success');
+						console.log(data);
+					$.each(data.lecReportList, function(index, item) {
+						$("#ajaxAppend").append('<tr>');
+						$("#ajaxAppend").append("<td>" + index + "</td>");
+						$("#ajaxAppend").append('<td><div class="form-check">' +
+												'<input class="form-check-input" type="checkbox" value="" id="check'+ index +'">' +
+												'<label class="form-check-label" for="flexCheckDefault"></label></div></td>');
+						$("#ajaxAppend").append('<td>' + item.member.userid + '</td>');
+						$("#ajaxAppend").append('<td>' + item.member.name + '</td>');
+						$("#ajaxAppend").append('<td>' + item.whether + '</td>');
+						$("#ajaxAppend").append('<td>' + item.fileName + '</td>');
+						$("#ajaxAppend").append('<td>' + item.submitDate + '</td>');
+						$("#ajaxAppend").append('<td>' + item.score + '</td>');
+						$("#ajaxAppend").append('<td>' + item.grade + '</td>');
+						$("#ajaxAppend").append('</tr>');
+					});
+			},
+			error: function() {
+				alert('error');
+			}
+		});
+	}
+
+	
+</script>
 </head>
 
 <body class="" id="body-pd">
@@ -135,16 +188,15 @@
                 <div class="row m-5">
                     <!-- card header -->
                     <div class="col-12 rounded-top text-white overflow-auto pt-2 fw-bold" style="background-color: rgb(39, 40, 70); height: 40px;"> 
-                        <i class="bi bi-bookmark-fill me-2"></i>교수서비스 <i class="bi bi-chevron-right"></i>학사관리 <i class="bi bi-chevron-right"></i>강의관리 <i class="bi bi-chevron-right"></i>과제관리
+                        <i class="bi bi-bookmark-fill me-2"></i>교수서비스 &gt; 학사관리 &gt; 강의관리 &gt; 과제관리
                     </div>
                     <!-- card content -->  
                     <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
                         <h2>과제관리</h2>
-                        <select class="form-select w-50" aria-label="Default select example">
-							<option selected>Open this select menu</option>
-							<option value="1">One</option>
-							<option value="2">Two</option>
-							<option value="3">Three</option>
+                        <select class="form-select w-50" id="selLec" aria-label="Default select example" onchange="showReport()">
+							<c:forEach var="lecture" items="${lectureList }">
+								<option value="${lecture.id }">${lecture.id }_${lecture.name }_${lecture.grade }</option>
+							</c:forEach>
 						</select>
 						<div>total : <span class="text-danger">999</span></div>
 						<div class="btn btn-danger">점수등록</div>
@@ -164,20 +216,36 @@
 									<th>평가</th>
 								</tr>
 							</thead>
-							<tbody>
-								<tr>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-								</tr>
+							<tbody id="ajaxAppend">
 							</tbody>
 						</table>
+						<nav aria-label="...">
+					  <ul class="pagination" style="margin-left: 40%;">
+					  
+					    <li class="page-item">
+					      <c:if test="${page > 0}">
+						      <a class="page-link" href="myLikeAddress?page=${page-1}">Previous</a>				      
+					      </c:if>
+					      <c:if test= "${page == 0 }">
+					      	  <a class="page-link">Previous</a>
+					      </c:if>
+					    </li>					  
+					
+					  <c:forEach var="i" begin="1" end="${totalPage}">
+					    <li id="page-item${i}" class="page-item" onclick="active(${i})">
+					    <a class="page-link" href="myLikeAddress?page=${i-1 }" >${i }</a></li>
+					  </c:forEach>
+					    <li class="page-item">
+					    	<c:if test="${page < totalPage-1}">
+						      <a class="page-link" href="myLikeAddress?page=${page+1}">Next</a>
+					    	</c:if>
+					      	<c:if test= "${page > totalPage-2}">
+						      <a class="page-link">Next</a>
+					      	</c:if>
+					    </li>
+					  </ul>
+					</nav>
+						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                     </div>
                     <!-- footer -->
                     <footer class="col-12" style="height: 60px;">

@@ -8,6 +8,7 @@ import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.oracle.choongangGroup.changhun.JPA.Member;
 
 import lombok.Data;
@@ -17,12 +18,12 @@ import lombok.Data;
 @Data
 public class Report {
 	@Id
-	@ManyToOne(fetch = FetchType.LAZY) 
+	@ManyToOne(fetch = FetchType.EAGER) 
 	@JoinColumn(name = "userid")
 	private Member member; //사용자코드
 	
 	@Id
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "lec_id")
 	private Lecture lecture; //강의코드
 	
