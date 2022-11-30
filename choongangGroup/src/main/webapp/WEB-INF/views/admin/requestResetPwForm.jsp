@@ -34,6 +34,9 @@
 				var userid = document.getElementById("userid");
 				var email  = document.getElementById("email");
 				var emailResult  = document.getElementById("emailResult");
+				emailResult.innerHTML = '<div class="spinner-border" role="status">' +
+										'<span class="visually-hidden">Loading...</span> ' +
+										'</div>'
 				
 				let member = {};
 				member.userid = userid.value;

@@ -21,9 +21,9 @@ public class ApprovalServiceImpl implements ApprovalService {
 	// ---------------- 결재 리스트 ----------------------
 	// 승인 대기중
 	@Override
-	public List<Approval> waitingListAll(Approval approval) {
-		log.info("waitingListAll start...");
-		List<Approval> list = ad.waitingListAll(approval);
+	public List<Approval> waitListAll(Approval approval) {
+		log.info("waitListAll start...");
+		List<Approval> list = ad.waitListAll(approval);
 		return list;
 	}
 	
@@ -37,9 +37,9 @@ public class ApprovalServiceImpl implements ApprovalService {
 	
 	// 승인 완료
 	@Override
-	public List<Approval> finishListAll(Approval approval) {
-		log.info("finishListAll start...");
-		List<Approval> list = ad.finishListAll(approval);
+	public List<Approval> endListAll(Approval approval) {
+		log.info("endListAll start...");
+		List<Approval> list = ad.endListAll(approval);
 		return list;
 	}
 	
@@ -73,14 +73,6 @@ public class ApprovalServiceImpl implements ApprovalService {
 		List<ApprovalSort> sortList = asd.sortSelect();
 		return sortList;
 	}
-
-	// ---------------- 기안자 정보 ----------------------
-	@Override
-	public MemDept getApprInfo(MemDept memDept) {
-		log.info("getApprInfo start...");
-		MemDept infoAppr = mdd.getApprInfo(memDept);
-		return infoAppr;
-	}
 	
 	// ---------------- 결재자 리스트 ---------------------- 
 	@Override
@@ -90,7 +82,7 @@ public class ApprovalServiceImpl implements ApprovalService {
 		return listAppr;
 	}
 	
-	// ---------------- 새결재저장 ----------------------
+	// ---------------- 새결재저장(파일 있음) ----------------------
 	@Override
 	public int saveAppr(Approval approval) {
 		log.info("saveAppr start...");
@@ -98,7 +90,15 @@ public class ApprovalServiceImpl implements ApprovalService {
 		return result;
 	}
 	
-	// ---------------- 기안진행 상세페이지----------------------
+	// ---------------- 새결재저장(파일 없음) ----------------------
+	@Override
+	public int save(Approval approval) {
+		log.info("save start...");
+		int result = ad.save(approval);
+		return result;
+	}
+	
+	// ---------------- 기안 진행 상세페이지----------------------
 	@Override
 	public Approval processDetail(Approval approval) {
 		log.info("processDetail start...");
@@ -120,5 +120,57 @@ public class ApprovalServiceImpl implements ApprovalService {
 		int result = ad.delete(approval_no);
 		return result;
 	}
+	
+	// ---------------- 결재 완료 상세페이지----------------------
+	@Override
+	public Approval finishDetail(Approval approval) {
+		log.info("finishDetail start...");
+		Approval apprDetail = ad.finishDetail(approval);
+		return apprDetail;
+	}
+	
+	// ---------------- 결재 승인 상세페이지----------------------
+	@Override
+	public Approval waitDetail(Approval approval) {
+		log.info("waitDetail start...");
+		Approval apprDetail = ad.waitDetail(approval);
+		return apprDetail;
+	}
+	
+	
+	
+	// ---------------- 중간결재자 승인--------------------
+	@Override
+	public int midAgree(Approval approval) {
+		log.info("midAgree start...");
+		int result = ad.midAgree(approval);
+		return result;
+	}
+	
+	// ---------------- 최종결재자 승인---------------------
+	@Override
+	public int finAgree(Approval approval) {
+		log.info("finAgree start...");
+		int result = ad.finAgree(approval);
+		return result;
+	}
+	
+	// ---------------- 중간결재자 반려---------------------
+	@Override
+	public int midReject(Approval approval) {
+		log.info("midReject start...");
+		int result = ad.midReject(approval);
+		return result;
+	}
+	
+	// ---------------- 최종결재자 반려---------------------
+	@Override
+	public int finReject(Approval approval) {
+		log.info("finReject start...");
+		int result = ad.finReject(approval);
+		return result;
+	}
+	
+	
 
 }

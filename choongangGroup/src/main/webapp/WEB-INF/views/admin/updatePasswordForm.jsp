@@ -61,7 +61,7 @@
 		
 		$.ajax({
 			type: "post",
-			url: "/admin/updatePassword",
+			url: "/updatePassword",
 			data: member,
 			success: function(data) {
 				alert('비밀번호 변경 성공');

@@ -26,10 +26,10 @@ public class PhoneLike{
 	
 	@Id
 	@Column(name = "my_userid")
-	private String myUserid;
+	private String myUserid;				// 내 아이디
 	
 	@Id
-	private String userid;
+	private String userid;					// 즐겨찾기한 아이디
 	
 	
 	@ManyToOne(fetch = FetchType.LAZY,

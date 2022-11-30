@@ -34,7 +34,6 @@ public class MemberServiceImpl implements MemberService {
 		MemberVo member = null;
 		member = md.detailList(userid);
 		
-		
 		return member;
 	}
 	

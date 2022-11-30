@@ -29,19 +29,33 @@
 		$("#noticeTitle1").hide();
 		$("#noticeContent1").hide();
 		$("#beforeButton").hide();
+		$("#deleteButton").hide();
 		$("#noticeTitle2").show();
 		$("#noticeContent2").show();
 		$("#afterButton").show();
 	}
 	
 	function updateNotice(){
+		alert("수정완료!");
 		var vnoticeNum = $("#noticeNum").val();
 		var vnoticeTitle = $("#noticeTitle2").val();
 		var vnoticeContent = $("#noticeContent2").val();
-		
-		console.log("vnoticeTitle -> " + vnoticeTitle);
+			
 		console.log("vnoticeNum -> " + vnoticeNum);
+		console.log("vnoticeTitle -> " + vnoticeTitle);
+		console.log("vnoticeNum -> " + vnoticeContent);
 		
+		if(vnoticeTitle === null || !vnoticeTitle){
+			alert("제목을 입력하세요.");
+			return false;
+		}
+		if(vnoticeContent === null || !vnoticeContent){
+			alert("내용을 입력하세요.");
+			return false;
+		}
+		
+		
+				
 		$.ajax({
 			url		 : "/updateNotice",
 			data	 : { noticeNum : vnoticeNum , noticeTitle : vnoticeTitle, noticeContent : vnoticeContent},
@@ -57,6 +71,7 @@
 		$("#noticeContent2").hide();
 		$("#beforeButton").show();
 		$("#afterButton").hide();
+		$("#deleteButton").show();
 
 	}
 	
@@ -204,14 +219,14 @@
                 <div class="row m-5">
                     <!-- card header -->
                     <div class="col-12 rounded-top text-white overflow-auto pt-2 fw-bold" style="background-color: rgb(39, 40, 70); height: 40px;"> 
-                        <i class="bi bi-bookmark-fill me-2"></i>공지사항 관리 <i class="bi bi-chevron-right"></i>공지사항
+                        <i class="bi bi-bookmark-fill me-2"></i>공지사항 관리 <i class="bi bi-chevron-right"></i> <a style="text-decoration: none; color: white;"  href="/notice/noticeList">공지사항</a>
                     </div>
                     <!-- card content -->  
                     <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
 		                	<div class="container">
 		                      	<div class="mb-3">                  		
-			                      	<label id="noticeNum1" class="form-label" > 글 번호 ${notice.noticeNum}</label> 
-			                      	<input id="noticeNum" type="hidden" value="${notice.noticeNum}">    
+			                      	<input id="noticeNum" type="hidden" value="${notice.noticeNum}">
+			                      	<input id="noticeHit" type="hidden" value="${notice.noticeHit}">    
 			                   </div>                 	
 		                       <div class="mb-3">
 		                     		<label class="form-label">제목</label>
@@ -224,11 +239,14 @@
 		                     		
 		                     		<textarea id="noticeContent2" class="form-control" rows="3" style="height: 300px; display: none;">${notice.noticeContent}</textarea>            	
 		                      	</div>
+		                      	<c:set value='<%=(String)session.getAttribute("userid") %>' var="userid"/>
+									<c:if test="${notice.userid eq userid}">
 		                      	<div style="margin: 10px;">
 			                        	<button id="beforeButton" type="button" class="btn btn-outline-primary"  onclick="updateFormNotice()">수정</button>
-			                        	<button id="afterButton" type="button" class="btn btn-outline-primary"  onclick="updateNotice()" style="display: none;">수정완료</button>
-			                        	<button id="deleteButton" type="button" class="btn btn-outline-danger" onclick="deleteNotice()">삭제</button>
+			                        	<button id="afterButton" type="button" class="btn btn-outline-primary"  onclick="return updateNotice()" style="display: none;">수정완료</button>
+			                        	<button id="deleteButton" type="button" class="btn btn-outline-danger" onclick="deleteNotice()">삭제</button>	    
 			                    </div>
+			                    </c:if>
 		                  	 </div>
                   	</div>
 

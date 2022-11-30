@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,6 +25,11 @@
 </head>
 
 <body class="" id="body-pd">
+<%
+
+	session = request.getSession();
+
+%>
     <!-- header -->
     <!-- <nav class="navbar navbar-expand-lg navbar-dark bd-navbar bg-light sticky-top position-fixed fixed-top w-100" style="position : absolute">
         <a class="navbar-brand">
@@ -160,12 +166,32 @@
 					    </tr>
 					    </thead>
 					    <tbody>
-					    <c:forEach items="${noticeList}" var="notice">				   
+					    <c:forEach items="${noticeList}" var="notice" varStatus="status">
+					    <c:set value='<%=(String)session.getAttribute("role") %>' var="role"/>
+					    	<c:if test="${notice.noticeType eq role || notice.noticeType eq 'allContent'}">	   
 					    <tr>
-					        <td>${notice.noticeNum}</td>
-					        <td><a href="/noticeDetail?noticeNum=${notice.noticeNum}">${notice.noticeTitle }</a></td>
-					        <td>${notice.noticeContent }</td>
-					        <c:choose>
+					        <td>${status.index+1+(page * 10)}</td>
+					        <td style="display: none;">${notice.noticeType}</td>
+					    <td>
+					    <c:choose>					  
+					        <c:when test="${fn:length(notice.noticeTitle) gt 11}">
+								<a href="/noticeDetail?noticeNum=${notice.noticeNum}">${fn:substring(notice.noticeTitle, 0 , 10)}....</a>	
+					       	</c:when>
+					        <c:otherwise>
+					        	<a href="/noticeDetail?noticeNum=${notice.noticeNum}">${notice.noticeTitle }</a>
+					       	 </c:otherwise>
+					    </c:choose>
+					    </td>
+
+					    <c:choose>
+					    	<c:when test="${fn:length(notice.noticeContent) gt 21}">
+					    		<td>${fn:substring(notice.noticeContent, 0 , 20)}....</td>
+					    	</c:when>
+					    	<c:otherwise>
+					    		<td>${notice.noticeContent}</td>
+					    	</c:otherwise>
+					    </c:choose>
+					     	<c:choose>   
 						        <c:when test="${notice.createdDate != null}">
 							        <c:set var="DateValue" value="${notice.createdDate}"/>
 							        <td>${fn:substring(DateValue,0,10)}</td>
@@ -177,9 +203,39 @@
 					        </c:choose>
 					        <td>${notice.noticeHit}</td>
 					    </tr>
+					    </c:if>
 					    </c:forEach>
-					    </tbody>
-					</table>  
+					    </tbody>					    
+					</table>
+						<form action="/notice/search" method="GET" class="form-inline p-2 bd-highlight" role="search">
+        					<input type="text" name="keyword" class="form-control" id=search placeholder="검색" style="width: 300px;">
+        					<button class="btn btn-success bi bi-search"></button>
+    					</form> 
+					<nav aria-label="...">
+					  <ul class="pagination" style="margin-left: 40%;">
+					  
+					    <li class="page-item">
+					      <c:if test="${page > 0}">
+						      <a class="page-link" href="addressForm?page=${page-1}">Previous</a>				      
+					      </c:if>
+					      <c:if test= "${page == 0 }">
+					      	  <a class="page-link">Previous</a>
+					      </c:if>
+					    </li>					  
+					  <c:forEach var="i" begin="1" end="${noticeTotal}">
+					    <li id="page-item${i}" class="page-item" onclick="active(${i})">
+					    <a class="page-link" href="/notice/noticeList?page=${i-1 }" >${i }</a></li>
+					  </c:forEach>
+					    <li class="page-item">
+					    	<c:if test="${page < noticeTotal-1}">
+						      <a class="page-link" href="/notice/noticeList?page=${page+1}">Next</a>
+					    	</c:if>
+					      	<c:if test= "${page > noticeTotal-2}">
+						      <a class="page-link">Next</a>
+					      	</c:if>
+					    </li>
+					  </ul>
+					</nav>  
                     </div>
                     <!-- footer -->
                     <footer class="col-12" style="height: 60px;">
