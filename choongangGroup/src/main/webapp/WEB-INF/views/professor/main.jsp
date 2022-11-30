@@ -17,18 +17,8 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <!-- CSS -->
 <link rel="stylesheet" href="/css/styles.css">
-<title>전자결재홈</title>
-<style type="text/css">
-	#btnNewAppr {
-		background-color: #0c5df4;
-		border : 0;
-	}
-	
-	.btnProcess {
-		font-size: 12px;
-		color: #7F7F7F;
-	}
-</style>
+
+    <title>SideBar sub menus</title>
 </head>
 
 <body class="" id="body-pd">
@@ -62,7 +52,7 @@
             <div>
                 <div class="nav__brand">
                     <ion-icon name="menu-outline" class="nav__toggle" id="nav-toggle"></ion-icon>
-                    <a href="#" class="nav__logo">Bedimcode</a>
+                    <a href="#" class="nav__logo">학사관리</a>
                 </div>
                 <div class="nav__list">
                     <a href="#" class="nav__link active">
@@ -76,15 +66,32 @@
 
                     <div href="#" class="nav__link collapses">
                         <ion-icon name="folder-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Projects</span>
+                        <span class="nav_name">학사관리</span>
 
                         <ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
+
+                        <ul class="collapse__menu" style="font-size: 0.8em;">
+                            <a href="#" class="collapse__sublink">시간표</a>
+                            <a href="#" class="collapse__sublink">강의관리</a>
+                            <a href="#" class="collapse__sublink">출결관리</a>
+                            <a href="#" class="collapse__sublink">과제관리</a>
+                            <a href="#" class="collapse__sublink">강의정보</a>
+                            <a href="#" class="collapse__sublink">강의관리</a>
+                            <a href="#" class="collapse__sublink">강의계획</a>
+                            <a href="professor/lecCreateList" class="collapse__sublink">강의개설</a>
+                            <a href="#" class="collapse__sublink">성적관리</a>
+                            <a href="#" class="collapse__sublink">휴강신청</a>
+                        </ul>
+                  
+
+
+                     <!--    <ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
 
                         <ul class="collapse__menu">
                             <a href="#" class="collapse__sublink">Data</a>
                             <a href="#" class="collapse__sublink">Group</a>
                             <a href="#" class="collapse__sublink">Members</a>
-                        </ul>
+                        </ul> -->
                     </div>
 
                     <a href="#" class="nav__link">
@@ -122,12 +129,11 @@
     <div class="container-fluid w-100" style=" background-color: rgb(214, 225, 237)">
         <div class="row">
             
-            
             <!-- content header -->
             <div class="col-12 pt-4" style="height: 150px; background-color: rgb(95, 142, 241)">
                 <div class="d-flex flex-row mb-3">
                     <div>
-                        <span class="text-white h4">안녕하세요. <span class="fw-bold">김중앙</span>님!</span>
+                        <span class="text-white h4">안녕하세요. <span class="fw-bold">${name}</span>님!</span>
                     </div>
                     <div class="border border-1 border-white border-bottom rounded-pill text-white px-2 pt-1 ms-2 h6">교수</div>
                     <div>
@@ -135,8 +141,9 @@
                     </div>
                 </div>
                 <div class="row">
+                
                     <div>
-                        <span class="text-white h6">이공대학 컴퓨터공학과 | 정교수</span>
+                        <span class="text-white h6">${major} | ${position} </span>
                     </div>
                 </div>
                 <div class="d-flex flex-low">
@@ -144,174 +151,47 @@
                         <i class="bi bi-envelope-fill text-white"></i>
                     </div>
                     <div>
-                        <span class="text-white ms-3">test123@naver.com</span>
+                        <span class="text-white ms-3">${email}</span>
                     </div>
                 </div>
                 
             </div>
+            
             <main class="col-9 h-100 w-100">
                 <div class="row m-5">
-                    <!-- card header -->
-                    <div class="col-12 rounded-top text-white overflow-auto pt-2 fw-bold" style="background-color: rgb(39, 40, 70); height: 40px;"> 
-                        <i class="bi bi-bookmark-fill me-2"></i>전자결재 
-                    </div>
                     <!-- card content -->  
-                    <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
-                        <div id="titleInBox" style="font-weight: bold; font-size: 19px;">전자결재홈
-							 <a id="btnNewAppr" href="approvalWrite?userid=${userid}" class="btn btn-danger pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light">새 결재 진행</a>
-						</div>
-						<div id="containerBox">
-							<div style="border-top: 1px dashed #c9c9c9; margin: 10px 0;"></div>
+                    <div class="row mb-2">
+                    <div class="col-md-6 rounded-bottom overflow-auto bg-light p-3" style="min-height: 400px;"> 
+                       <h1>강의관리</h1>
+                       <form action="applyform"  method="get">
 							
-							<!-- =================================결재 대기중 문서================================= -->
-							<div class="#">
-								<a href="approvalWait" style="color:black">결재 대기중 문서</a>
-							</div>
-							<div class="btnProcess">승인 해야할 문서가 ${waitTotal}건 있습니다.</div>
-							<table class="table table-hover" style="font-size: 14px; text-align: center;">
-								<thead>
-									<tr>
-										<th>문서번호</th>
-										<th>기안일</th>
-										<th>결재양식</th>
-										<th style="width: 57%;">제목</th>
-										<th>첨부</th>
-										<th>결재상태</th>
-									</tr>
-								</thead>
-								<tbody>
-									<c:forEach var="wait" items="${waitList}">
-										<tr>
-											<td>
-												<a href="apprWaitDetail?approval_no=${wait.approval_no}" style="color: black">${wait.approval_no}</a>
-											</td>
-											<td>${wait.writeday}</td>
-											<td>${wait.approval_sort_name}</td>
-											<td>${wait.title}</td>
-											<c:if test="${wait.file_path ne null }">
-												<td><i class="bi bi-file-earmark"></i></td>
-											</c:if>
-											<c:if test="${wait.file_path eq null }">
-												<td>&nbsp;</td>
-											</c:if>
-											<c:if test="${wait.approval_status eq '0'}">
-												<td>대기중<td>
-											</c:if>
-											<c:if test="${wait.approval_status eq '1'}">
-												<td>승인<td>
-											</c:if>
-											<c:if test="${wait.approval_status eq '2'}">
-												<td>반려<td>
-											</c:if>
-										</tr>
-									</c:forEach>
-								</tbody>
-							</table>
-					
-							<div style="border-top: 1px dashed #c9c9c9; margin: 10px 0;"></div>
-						
-							<!-- =================================기안 진행 문서================================= -->
-							<div class="#">
-								<a href="approvalProcess" style="color:black">기안 진행 문서</a>
-							</div>
-							<table class="table table-hover" style="font-size: 14px; text-align: center;">
-								<thead>
-									<tr>
-										<th>문서번호</th>
-										<th>기안일</th>
-										<th>결재양식</th>
-										<th style="width: 57%;">제목</th>
-										<th>첨부</th>
-										<th>결재상태</th>
-									</tr>
-								</thead>
-								<tbody>
-									<c:forEach var="process" items="${processList}">
-										<tr>
-											<td>
-												<a href="apprProcessDetail?approval_no=${process.approval_no}" style="color: black">${process.approval_no}</a>
-											</td>
-											<td>${process.writeday}</td>
-											<td>${process.approval_sort_name}</td>
-											<td>${process.title}</td>
-											<c:if test="${process.file_path ne null }">
-												<td><i class="bi bi-file-earmark"></i></td>
-											</c:if>
-											<c:if test="${process.file_path eq null }">
-												<td>&nbsp;</td>
-											</c:if>
-											<c:if test="${process.approval_status eq 0}">
-												<td>대기중<td>
-											</c:if>
-											<c:if test="${process.approval_status eq 1}">
-												<td>심사중<td>
-											</c:if>
-											<c:if test="${process.approval_status eq 2}">
-												<td>반려<td>
-											</c:if>
-											<c:if test="${process.approval_status eq 3}">
-												<td>승인<td>
-											</c:if>
-										</tr>
-									</c:forEach>
-								</tbody>
-							</table>
-					
-							<div style="border-top: 1px dashed #c9c9c9; margin: 10px 0;"></div>
-							
-							<!-- =================================기안 완료 문서================================= -->
-							<div class="#">
-								<a href="approvalEnd" style="color:black">기안 완료 문서</a>
-							</div>
-							<table class="table table-hover" style="font-size: 14px; text-align: center;">
-								<thead>
-									<tr>
-										<th>문서번호</th>
-										<th>기안일</th>
-										<th>결재양식</th>
-										<th style="width: 57%;">제목</th>
-										<th>첨부</th>
-										<th>결재상태</th>
-									</tr>
-								</thead>
-								<tbody>
-									<c:forEach var="end" items="${endList}">
-										<tr>
-											<td>
-												<a href="apprEndDetail?approval_no=${end.approval_no}" style="color: black">${end.approval_no}</a>
-											</td>
-											<td>${end.writeday}</td>
-											<td>${end.approval_sort_name}</td>
-											<td>${end.title}</td>
-											<c:if test="${end.file_path ne null }">
-												<td><i class="bi bi-file-earmark"></i></td>
-											</c:if>
-											<c:if test="${end.file_path eq null }">
-												<td>&nbsp;</td>
-											</c:if>
-											<c:if test="${end.approval_status eq 0}">
-												<td>대기중<td>
-											</c:if>
-											<c:if test="${end.approval_status eq 1}">
-												<td>반려<td>
-											</c:if>
-											<c:if test="${end.approval_status eq 2}">
-												<td>승인<td>
-											</c:if>
-										</tr>
-									</c:forEach>
-								</tbody>
-							</table>
-						</div>
-					                    </div>
-					                    <!-- footer -->
-					                    <footer class="col-12" style="height: 60px;">
-					                        
-					                    </footer>    
-					                </div>
-					            </main>
-					        </div>
-					    </div>
+					  </form>
+                    </div>
+                    <div class="col-md-6 rounded-bottom overflow-auto bg-light p-3" style="min-height: 400px;"> 
+                       <h1>메인페이지</h1>
+                       <button type="button" style="width: 30%;" class="btn btn-primary btn-sm me-1" 
+                       		   onclick="location.href='lecCreateList?userid=${userid}'">전자출결</button>
+                       <button type="button" style="width: 30%;" class="btn btn-primary btn-sm me-1" 
+                       		   onclick="location.href='lecCreateList?userid=${userid}'">출결현황</button>
+                       <button type="button" style="width: 30%;" class="btn btn-primary btn-sm me-1" 
+                       		   onclick="location.href='lecCreateList'">강의개설</button>
+                       
+                    </div>
+                    <div class="col-md-6 rounded-bottom overflow-auto bg-light p-3" style="min-height: 60x;"> 
+                    	<div class="col-md-4 rounded-bottom overflow-auto bg-light p-3" style="min-height: 60x;"> 
+	                       
+	                       <button type="button" style="width: 30%;" class="btn btn-danger btn-sm" onclick="location.href=lecCreateList?userid=${userid};">강의개설</button>
+	                      </div>
+                    </div>
+                    </div>
+                    <!-- footer -->
+                    <footer class="col-12" style="height: 60px;">
+                        footer
+                    </footer>    
+                </div>
+            </main>
+        </div>
+    </div>
     <!-- IONICONS -->
     <script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script>
     <!-- JS -->

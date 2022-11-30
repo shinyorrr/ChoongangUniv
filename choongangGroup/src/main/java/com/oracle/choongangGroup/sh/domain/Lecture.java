@@ -61,7 +61,7 @@ public class Lecture {
 	private String status;
 	
 	@Column(name = "lec_max_count")
-	private int maxCount; //강의시수
+	private Long maxCount; //강의시수
 	
 	@Column(name = "lec_type")
 	private String type; //이수구분, [전필,전선,교양]

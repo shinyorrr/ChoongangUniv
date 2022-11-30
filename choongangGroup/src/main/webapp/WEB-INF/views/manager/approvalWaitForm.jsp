@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -142,11 +143,77 @@
                 <div class="row m-5">
                     <!-- card header -->
                     <div class="col-12 rounded-top text-white overflow-auto pt-2 fw-bold" style="background-color: rgb(39, 40, 70); height: 40px;"> 
-                        <i class="bi bi-bookmark-fill me-2"></i>교수서비스 <i class="bi bi-chevron-right"></i>학사관리 <i class="bi bi-chevron-right"></i>강의 시간표 조회
+                        <i class="bi bi-bookmark-fill me-2"></i>전자결재 <i class="bi bi-chevron-right"></i>결재대기문서목록
                     </div>
                     <!-- card content -->  
+                    <!-- card content -->  
                     <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
-                        content
+                        <div id="titleInBox" style="font-weight: bold; font-size: 19px;">결재 대기 문서 목록</div>
+						<div id="containerBox">
+							<div style="border-top: 1px dashed #c9c9c9; margin-top: 10px;"></div>
+                    
+                    	<!----------------------------- 조회 테이블 시작  ---------------------------->
+                        <table class="table table-hover" style="font-size: 14px; text-align: center;">
+								<thead>
+									<tr>
+										<th>문서번호</th>
+										<th>기안일</th>
+										<th>결재양식</th>
+										<th>사번</th>
+										<th style="width: 57%;">제목</th>
+										<th>첨부</th>
+										<th>결재상태</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach var="wait" items="${waitList}">
+										<tr>
+											<td>
+												<a href="apprWaitDetail?approval_no=${wait.approval_no}">${wait.approval_no}</a>
+											</td>
+											<td>${wait.writeday}</td>
+											<td>${wait.approval_sort_name}</td>
+											<td>${wait.userid}</td>
+											<td>${wait.title}</td>
+											<c:if test="${wait.file_path ne null }">
+												<td><i class="bi bi-file-earmark"></i></td>
+											</c:if>
+											<c:if test="${wait.file_path eq null }">
+												<td>&nbsp;</td>
+											</c:if>
+											<c:if test="${wait.approval_status eq 0}">
+												<td>대기중<td>
+											</c:if>
+										</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+							
+							
+							<!-- 페이징 번호 설정 -->
+							<nav aria-label="Page navigation example">
+							  <ul class="pagination pagination-sm justify-content-center">
+							    <li class="page-item">
+							    <c:if test="${page.startPage > page.pageBlock }">	
+							      <a class="page-link" href="approvalWait?currentPage=${page.startPage-page.pageBlock}" aria-label="Previous">
+							        <span aria-hidden="true">&laquo;</span>
+							      </a>
+							    </c:if>  
+							    </li>
+							    <li class="page-item">
+							    <c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
+							    	<a href="approvalWait?currentPage=${i}">${i}</a>
+							    </c:forEach>
+							    </li>
+							    <li class="page-item">
+							    <c:if test="${page.endPage < page.totalPage}">
+							      <a class="page-link" href="approvalWait?currentPage=${page.startPage+page.pageBlock}" aria-label="Next">
+							        <span aria-hidden="true">&raquo;</span>
+							      </a>
+							    </c:if>
+							    </li>
+							  </ul>
+							</nav>
                     </div>
                     <!-- footer -->
                     <footer class="col-12" style="height: 60px;">

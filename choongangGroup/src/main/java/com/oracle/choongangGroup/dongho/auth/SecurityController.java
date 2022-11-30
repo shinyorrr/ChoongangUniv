@@ -2,6 +2,8 @@ package com.oracle.choongangGroup.dongho.auth;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -14,6 +16,7 @@ import java.util.Optional;
 
 import javax.crypto.Cipher;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -21,18 +24,22 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.oracle.choongangGroup.dongho.auth.SecurityService;
+import com.oracle.choongangGroup.dongho.auth.SecuredLoginDto;
 import com.oracle.choongangGroup.changhun.JPA.Member;
 
 import lombok.RequiredArgsConstructor;
@@ -62,8 +69,9 @@ public class SecurityController {
 	}
 	@GetMapping("/professor/main")
 	public String professorMain() {
-		return "/professor/lecMgMain";
+		return "/professor/main";
 	}
+
 	@GetMapping("/admin/main")
 	public String adminMain() {
 		return "/admin/contentSample";
@@ -73,26 +81,118 @@ public class SecurityController {
 	@GetMapping("/")
     public String loginForm(HttpSession session, HttpServletRequest request, HttpServletResponse response, Model model) 
     		throws NoSuchAlgorithmException, InvalidKeySpecException {
+//		KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA");
+//      generator.initialize(2048);
+//      
+//      KeyPair    keyPair = generator.genKeyPair();
+//      KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+//      
+//      PublicKey  publicKey = keyPair.getPublic();
+//      PrivateKey privateKey = keyPair.getPrivate();
+//      session.setAttribute("__rsaPrivateKey__", privateKey);
+//      System.out.println("RsaInterceptor publicKey -> " + publicKey);
+//      System.out.println("RsaInterceptor privateKey -> " + privateKey);
+//      
+//      RSAPublicKeySpec publicKeySpec = keyFactory.<RSAPublicKeySpec>getKeySpec(publicKey, RSAPublicKeySpec.class);
+//      
+//      String publicKeyModulus  = publicKeySpec.getModulus().toString(16);
+//      String publicKeyExponent = publicKeySpec.getPublicExponent().toString(16);
+//      System.out.println("RsaInterceptor publicKeyModulus -> " + publicKeyModulus);
+//      System.out.println("RsaInterceptor publicKeyExponent -> " + publicKeyExponent);
+//      request.setAttribute("publicKeyModulus" , publicKeyModulus);
+//      request.setAttribute("publicKeyExponent", publicKeyExponent);
         return "/loginForm";
     }
+	
+	//로그인 요청
+    @PostMapping("/login")
+    public void login(@RequestParam(value = "securedUsername") String securedUsername, @RequestParam(value = "securedPassword") String securedPassword, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+    	// session에서 개인키 받기(loginForm 요청시 session에 저장해둔 개인키)
+    	HttpSession session = request.getSession();
+        PrivateKey privateKey = (PrivateKey)session.getAttribute("__rsaPrivateKey__");
+        System.out.println("login privateKey -> " + privateKey);
+        // loginForm에서 DTO를 통해 암호화된 아이디, 비밀번호 받기
+        //String securedUsername = securedLoginDto.getSecuredUsername();
+        System.out.println("login : " + securedUsername);
+        //String securedPassword = securedLoginDto.getSecuredPassword();
+        String username = null;
+        String password = null;
+        
+        // 복호화 try
+        try {
+        	username = decryptRSA(privateKey, securedUsername);
+            System.out.println(username);
+            password = decryptRSA(privateKey, securedPassword);
+            System.out.println(password);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        // 복호화된 아이디와 비밀번호로 토큰 생성(memberService의 login은 generateToken method를 통해 TokenInfo(토큰dto)를 리턴한다. )
+        // 토큰dto에는 타입,refreshToken,accessToken이 들어있음
+        TokenInfo tokenInfo = this.securityService.login(username, password);
+        String accessToken = URLEncoder.encode(tokenInfo.getAccessToken(), "utf-8");
+        String refreshToken = URLEncoder.encode(tokenInfo.getRefreshToken(), "utf-8");
+        
+        // DB에 Refresh Token 저장( 추후 Access Token의 유효기간이 끝났을 때 Refresh Token 검증을 위함)
+        securityService.saveRefreshToken(refreshToken, username);
+        
+        // session 에 넣어줄 username setting
+        request.setAttribute("userid", username);
+        
+        // 클라이언트의 쿠키에 넣을 토큰 setting
+        Cookie cookieAT = new Cookie("AccessToken","Bearer" + accessToken);
+        Cookie cookieRT = new Cookie("RefreshToken", "Bearer" + refreshToken);
+        // cookie.setMaxAge(7 * 24 * 60 * 60); // 유효시간을 정하지 않으면 session cookie (휘발성. 브라우저종료시 삭제)
+        cookieAT.setPath("/");
+        cookieAT.setHttpOnly(true);
+        cookieRT.setPath("/");
+        cookieRT.setHttpOnly(true);
+        // response에 담아 쿠키 전송,저장
+        response.addCookie(cookieAT);
+        response.addCookie(cookieRT);
+    }
+	
 	
 	// RSA setting 후 createMemberForm으로 연결
 	@GetMapping("/admin/createMemberForm")
 	public String joinForm(HttpSession session, HttpServletRequest request, HttpServletResponse response, Model model) 
 			throws NoSuchAlgorithmException, InvalidKeySpecException {
+//		KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA");
+//        generator.initialize(2048);
+//        
+//        KeyPair    keyPair = generator.genKeyPair();
+//        KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+//        
+//        PublicKey  publicKey = keyPair.getPublic();
+//        PrivateKey privateKey = keyPair.getPrivate();
+//        session.setAttribute("__rsaPrivateKey__", privateKey);
+//        System.out.println("RsaInterceptor publicKey -> " + publicKey);
+//        System.out.println("RsaInterceptor privateKey -> " + privateKey);
+//        
+//        RSAPublicKeySpec publicKeySpec = keyFactory.<RSAPublicKeySpec>getKeySpec(publicKey, RSAPublicKeySpec.class);
+//        
+//        String publicKeyModulus  = publicKeySpec.getModulus().toString(16);
+//        String publicKeyExponent = publicKeySpec.getPublicExponent().toString(16);
+//        System.out.println("RsaInterceptor publicKeyModulus -> " + publicKeyModulus);
+//        System.out.println("RsaInterceptor publicKeyExponent -> " + publicKeyExponent);
+//        request.setAttribute("publicKeyModulus" , publicKeyModulus);
+//        request.setAttribute("publicKeyExponent", publicKeyExponent);
 		return "/admin/createMemberForm";
 	}
 	
 	@PostMapping("/admin/createMember")
 	public void joinProc(Member member, HttpServletResponse response) throws IOException {
+		System.out.println("joinProc start");
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
 		HttpSession session = request.getSession();
         PrivateKey privateKey = (PrivateKey)session.getAttribute("__rsaPrivateKey__");
-
-        System.out.println("authenticate privateKey -> " + privateKey);
-		String encryptedUsername = member.getUserid();
+        System.out.println("joinProc privateKey -> " + privateKey);
+		
+        String encryptedUsername = member.getUserid();
 		System.out.println("encryptedUsername -> " + encryptedUsername);
 		String encryptedPassword = member.getPassword();
+		System.out.println("encryptedPassword -> " + encryptedPassword);
 		String username = null;
 		String password = null;
 		try {
@@ -102,7 +202,7 @@ public class SecurityController {
 			System.out.println("password -> " + password);
 			
 		} catch (Exception e) {
-			System.out.println("authenticate decryptRSA exception -> " + e.getMessage());
+			System.out.println("joinProc decryptRSA exception -> " + e.getMessage());
 		}
 		String encodedPassword = passwordEncoder.encode(password);
 		member.setUserid(username);
@@ -151,13 +251,15 @@ public class SecurityController {
 	}
 	
 	// RSA setting 후 updatePasswordForm으로 연결
-	@GetMapping("/admin/updatePasswordForm")
+	//@Secured({"ROLE_STUDENT", "ROLE_MANAGER", "ROLE_PROFESSOR", "ROLE_ADMIN"})
+	//@PreAuthorize("isAuthenticated()")
+	@GetMapping("/updatePasswordForm")
 	public String updatePasswordForm(HttpSession session, HttpServletRequest request, HttpServletResponse response, Model model) 
 			throws NoSuchAlgorithmException, InvalidKeySpecException {
 		return "/admin/updatePasswordForm";
 	}
-	
-	@PostMapping("/admin/updatePassword")
+	//@PreAuthorize("isAuthenticated()")
+	@PostMapping("/updatePassword")
 	public void updatePassword(@RequestParam("password") String paramPassword , HttpServletResponse response) throws IOException {
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
 		HttpSession session = request.getSession();

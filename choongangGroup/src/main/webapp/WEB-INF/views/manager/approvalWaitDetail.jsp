@@ -52,63 +52,191 @@
 </style>
 
 <script type="text/javascript">
-	// -------- 상신취소 ----------
-	function getApprDelete() {
-		 if (confirm("상신취소하시겠습니까?") == true) {    //확인
-		 	var selApproNo = $('#approval_no').val();
-		 	var selFilePath = $('#file_path').val();
-		 	var selServerName= $('#server_file_name').val();
-		 	console.log(selApproNo);
-		 	console.log(selFilePath);
-		 	console.log(selServerName);
-			$.ajax(
-					{
-						url:"apprDelete",
-						data:{approval_no 	   : selApproNo,
-							  file_path   	   : selFilePath,
-							  server_file_name : selServerName},
-						dataType:'text',
-						success:function(data) {
-							if(data == '1'){
-								alert("상신취소 되었습니다");
-								window.location.href = "approvalProcess";
-							}
-							else{
-								alert("삭제실패");
-							}
-						}
-					}
-			);
-		  }	else {   //취소
-		      return false;
+	// 결재승인
+	function getAgree() {
+		var id = $('#userid').val(); // 접속한 유저의 아이디
+		var midApprOk = $('#mid_approver_ok').val();
+		var midAppr = $('#mid_approver').val();
+		var finAppr = $('#fin_approver').val();
+		var midOpinion = $('#mid_approver_opinion').val();
+		var finOpinion = $('#fin_approver_opinion').val();
+		var approvalNo = $('#approval_no').val();
+		
+		console.log("유저ID->"+id);
+		console.log("중간결재자->"+midAppr);
+		console.log("최종결재자->"+finAppr);
+		console.log("중간결재자 승인여부->"+midApprOk);
+		console.log("중간결재자 의견->"+midOpinion);
+		console.log("최종결재자 의견->"+finOpinion);
+		console.log("문서번호->"+approvalNo);
+		
+		// 내가 최종결재자이고 중간결재자의 의견이 없을 때
+		if(id == finAppr && midApprOk == '0') {
+			alert("아직 승인할 수 없습니다.");
+			return false;
+			
+		// 내가 최종결재자이고 중간결재자가 이미 결재했을 때
+		} else if(id == finAppr && (midApprOk == '1' || midApprOk == '2')) {
+			if(finOpinion == null || finOpinion == "") {
+				alert("결재자 의견 작성해주세요.");
+				return false;
+			} else {
+				 if (confirm("승인하시겠습니까?") == true) { 
+					 $.ajax(
+								{
+									url:"finAgree",
+									type:'POST',
+									data : {
+											fin_approver_opinion : finOpinion,
+											approval_no			 : approvalNo
+										   },
+									success:function(data) {
+										if(data == 1) {
+											alert("승인완료되었습니다.");
+											window.location.href = 'approvalEnd';
+										} else {
+											alert("결재실패");
+											return false;
+										}
+									}
+								}		
+						
+						);
+				 } else {
+					 return false;
+				 }
+				
+			}
+		// 내가 중간 결재자일때
+		} else if(id == midAppr && midApprOk == '0') {
+			alert("중간 결재자 실행");
+			if(midOpinion == null || midOpinion == "") {
+				alert("결재자 의견 작성해주세요.");
+				return false;
+			} else {
+				if (confirm("승인하시겠습니까?") == true) { 
+					 $.ajax(
+								{
+									url:"midAgree",
+									type:'POST',
+									data : {
+											mid_approver_opinion : midOpinion,
+											approval_no			 : approvalNo
+										   },
+									success:function(data) {
+										if(data == 1) {
+											alert("승인완료되었습니다.");
+											window.location.href = 'approvalWait';
+										} else {
+											alert("결재실패");
+											return false;
+										}
+									}
+								}		
+						
+						);
+					 
+				} else {
+					 return false;
+				}
+			}
 		}
+	
 	}
 	
-	// -------- 파일 다운로드 ----------
-	function fileDownload() {
-		var selFilePath = $('#file_path').val();
-		var selServerName= $('#server_file_name').val();
-		var selOrgName   = $('#org_file_name').val();
-		console.log(selFilePath);
-		console.log(selServerName);
-		console.log(selOrgName);
-		if(selOrgName != null) {
-			
-			$.ajax(
-					{
-						url:"/download",
-						data:{file_path 	  : selFilePath,
-							 server_file_name : selServerName,
-							 org_file_name 	  : selOrgName},
-						dataType:'text',
-						success:function(data) {
-							alert("다운로드 성공")
-						}
-					}	
-			);
-		}
+	// 결재반려
+	function getReject() {
+		var id = $('#userid').val(); // 접속한 유저의 아이디
+		var midApprOk = $('#mid_approver_ok').val();
+		var midAppr = $('#mid_approver').val();
+		var finAppr = $('#fin_approver').val();
+		var midOpinion = $('#mid_approver_opinion').val();
+		var finOpinion = $('#fin_approver_opinion').val();
+		var approvalNo = $('#approval_no').val();
 		
-	} 
+		console.log("유저ID->"+id);
+		console.log("중간결재자->"+midAppr);
+		console.log("최종결재자->"+finAppr);
+		console.log("중간결재자 승인여부->"+midApprOk);
+		console.log("중간결재자 의견->"+midOpinion);
+		console.log("최종결재자 의견->"+finOpinion);
+		console.log("문서번호->"+approvalNo);
+		
+		// 내가 최종결재자이고 중간결재자의 의견이 없을 때
+		if(id == finAppr && midApprOk == '0') {
+			alert("아직 반려할 수 없습니다.");
+			return false;
+			
+		// 내가 최종결재자이고 중간결재자가 이미 결재했을 때
+		} else if(id == finAppr && (midApprOk == '1' || midApprOk == '2')) {
+			if(finOpinion == null || finOpinion == "") {
+				alert("결재자 의견 작성해주세요.");
+				return false;
+			} else {
+				 if (confirm("반려하시겠습니까?") == true) { 
+					 $.ajax(
+								{
+									url:"finReject",
+									type:'POST',
+									data : {
+											fin_approver_opinion : finOpinion,
+											approval_no			 : approvalNo
+										   },
+									success:function(data) {
+										if(data == 1) {
+											alert("반려되었습니다.");
+											window.location.href = 'approvalEnd';
+										} else {
+											alert("결재실패");
+											return false;
+										}
+									}
+								}		
+						
+						);
+				 } else {
+					 return false;
+				 }
+				
+			}
+		// 내가 중간 결재자일때
+		} else if(id == midAppr && midApprOk == '0') {
+			alert("중간 결재자 실행");
+			if(midOpinion == null || midOpinion == "") {
+				alert("결재자 의견 작성해주세요.");
+				return false;
+			} else {
+				if (confirm("반려하시겠습니까?") == true) { 
+					 $.ajax(
+								{
+									url:"midReject",
+									type:'POST',
+									data : {
+											mid_approver_opinion : midOpinion,
+											approval_no			 : approvalNo
+										   },
+									success:function(data) {
+										if(data == 1) {
+											alert("반려되었습니다.");
+											window.location.href = 'approvalWait';
+										} else {
+											alert("결재실패");
+											return false;
+										}
+									}
+								}		
+						
+						);
+					 
+				} else {
+					 return false;
+				}
+			}
+		}
+	
+	}
+	
+	
 </script>
 </head>
 
@@ -208,7 +336,7 @@
             <div class="col-12 pt-4" style="height: 150px; background-color: rgb(95, 142, 241)">
                 <div class="d-flex flex-row mb-3">
                     <div>
-                        <span class="text-white h4">안녕하세요. <span class="fw-bold">{name}</span>님!</span>
+                        <span class="text-white h4">안녕하세요. <span class="fw-bold">김중앙</span>님!</span>
                     </div>
                     <div class="border border-1 border-white border-bottom rounded-pill text-white px-2 pt-1 ms-2 h6">교수</div>
                     <div>
@@ -241,11 +369,10 @@
                         <div id="titleInBox" style="font-weight: bold; font-size: 19px;">진행중인 문서 상세보기</div>
 							<div style="border-top: 1px dashed #c9c9c9; margin-top: 10px;"></div>
 							<div id="containerBox">
-							
-								<form action="" name="processFrm" enctype="multipart/form-data">
-								<!--===================================== 문서선택  ======================================-->
 								<!-- 사용자 아이디값 가져오기 -->
 								<input type="hidden" name="userid" id="userid" value="${userid}">
+								<form action="" name="waitFrm" enctype="multipart/form-data" >
+								<!--===================================== 문서선택  ======================================-->
 								<div class="ApprListTitle" style="margin-top: 10px;">요약</div>
 								<div style="display: inline-block; width: 100%">
 								<div style="float: left; width: 30%">
@@ -259,13 +386,13 @@
 										<tr>
 											<th style="width: 5%; font-size: 14px; display: table-cell; vertical-align: middle; background-color: #dddddd">기안자</th>
 											<td style="width: 5%;">
-												${mem_name }
+												${appr.memDept.name }
 											</td>
 										</tr>
 										<tr>
 											<th style="width: 5%; font-size: 14px; display: table-cell; vertical-align: middle; background-color: #dddddd">소속</th>
 											<td style="width: 5%;">
-												${dname}
+												${appr.memDept.dname }
 											</td>
 										</tr>
 										<tr>
@@ -308,27 +435,29 @@
 											<tr>
 												<th style="width: 5%; font-size: 14px; display: table-cell; vertical-align: middle; background-color: #dddddd">승인여부</th>
 											
-												<c:if test="${appr.mid_approver_ok eq '0' }">
-													<td style="width: 5%;">&nbsp;</td>
-												</c:if>
-												<c:if test="${appr.mid_approver_ok eq '1' }">
-													<td style="width: 5%;">승인</td>
-												</c:if>
-												<c:if test="${appr.mid_approver_ok eq '2' }">
-													<td style="width: 5%;">반려</td>
-												</c:if>
-												<c:if test="${appr.fin_approver_ok eq '0' }">
-													<td style="width: 5%;">&nbsp;</td>
-												</c:if>
-												<c:if test="${appr.fin_approver_ok eq '1' }">
-													<td style="width: 5%;">승인</td>
-												</c:if>
-												<c:if test="${appr.fin_approver_ok eq '2' }">
-													<td style="width: 5%;">반려</td>
-												</c:if>
+												<td>
+													<c:if test="${appr.mid_approver_ok == 1}">
+														승인
+													</c:if>
+													<c:if test="${appr.mid_approver_ok == 2}">
+														반려
+													</c:if>
+												</td>
+												<td>
+													<c:if test="${appr.fin_approver_ok == 1}">
+														승인
+													</c:if>
+													<c:if test="${appr.fin_approver_ok == 2}">
+														반려
+													</c:if>
+												</td>
 											</tr>
 										</tbody>
 									</table>
+									<input type="hidden" name="mid_approver_ok" id="mid_approver_ok" value="${appr.mid_approver_ok }">
+									<input type="hidden" name="fin_approver_ok" id="fin_approver_ok" value="${appr.fin_approver_ok }">
+									<input type="hidden" name="mid_approver" id="mid_approver" value="${appr.mid_approver }">
+									<input type="hidden" name="fin_approver" id="fin_approver" value="${appr.fin_approver }">
 								</div>
 								</div>
 								
@@ -346,7 +475,7 @@
 									    	<tr>
 												<th style="width: 10%; font-size: 14px; display: table-cell; vertical-align: middle; background-color: #dddddd">부서</th>
 												<td>
-													${dname}
+													${appr.memDept.dname }
 												</td>
 												<th style="width: 10%; font-size: 14px; display: table-cell; vertical-align: middle; background-color: #dddddd">기안일</th>
 												<td>
@@ -391,10 +520,29 @@
 									</div>
 								</div>
 								
+								<div>
+									<c:if test="${(not empty appr.midapprvo) and (appr.fin_approver eq userid)}">
+										<div style="margin: 10px 0;">중간결재자 의견</div>
+										<span style="margin: 10px 0; font-weight: bold;">${appr.mid_approver_opinion}</span>
+										<input type="hidden" id="mid_approver_opinion" name="mid_approver_opinion" value="${appr.mid_approver_opinion }">
+									</c:if>
+									
+									<div style="margin: 10px 0;">결재자 의견 작성</div>
+									<c:if test="${appr.mid_approver eq userid}">
+										<input type="text" id="mid_approver_opinion" name="mid_approver_opinion" maxlength="100" style="font-size:11pt; margin: 10px 0; width: 50%" required="required" placeholder="승인/반려 사유를 적어주세요"/>
+									</c:if>
+									
+									
+									<c:if test="${appr.fin_approver eq userid}">
+										<input type="text" id="fin_approver_opinion" name="fin_approver_opinion" maxlength="100" style="font-size:11pt; margin-bottom: 10px; width: 50%" required="required" placeholder="승인/반려 사유를 적어주세요"/>
+									</c:if>
+								</div>
+								
 								<!--======================== 결재완료/취소 =======================-->
 								<div>
-									<button type="submit" class="btn btn-primary btn-sm" onclick="getApprDelete()">상신취소</button>
-									<button type="button" class="btn btn-secondary btn-sm" onclick="location.href='approvalProcess'">목록가기</button>				
+									<button type="submit" class="btn btn-primary btn-sm" onclick="getAgree()">승인</button>
+									<button type="submit" class="btn btn-dark btn-sm" onclick="getReject()">반려</button>
+									<button type="button" class="btn btn-secondary btn-sm" onclick="location.href='approvalWait'">목록가기</button>				
 								</div>
 								</form>
 							</div>

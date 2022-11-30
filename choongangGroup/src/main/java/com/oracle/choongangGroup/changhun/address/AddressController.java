@@ -85,5 +85,29 @@ public class AddressController {
 		return "manager/addressLike";
 	}
 	
+	@RequestMapping(value = "/searchAddress")
+	public String searchAddress(Model model,
+						@RequestParam(value = "search") String name,
+			  			@RequestParam(required = false, defaultValue = "0", value="page") int page) {
+	String userid = "18301001";
+	Page<Member> addressList = null;
+	
+	if(name == null || name.equals("")) {
+		addressList = memberRepository.findAll(PageRequest.of(page, 10, Sort.by(Sort.Direction.ASC,"name")));
+	} else {
+		addressList = memberRepository.findByNameContaining(name, PageRequest.of(page, 10, Sort.by(Sort.Direction.ASC,"name")));
+	}
+	
+	int totalPage = addressList.getTotalPages();
+	
+	System.out.println("totalpage -> " + totalPage);
+	
+	
+	model.addAttribute("page", page);
+	model.addAttribute("totalPage", totalPage);
+	model.addAttribute("addressList",addressList.getContent());
+	
+	return "manager/addressForm";
+	}
 
 }
