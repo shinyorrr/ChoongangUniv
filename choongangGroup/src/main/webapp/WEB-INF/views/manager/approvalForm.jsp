@@ -125,6 +125,9 @@
 		                           html += "<td style='width: 80px; height: 10px; padding-left:2px;' class='mem_dname'>";
 		                           html += item.dname;
 		                           html += "</td>";
+		                           html += "<td style='width: 80px; height: 10px; padding-left:2px;' class='mem_position'>";
+		                           html += item.position || ""+"";
+		                           html += "</td>";
 		                           html += "</tr>";  
 								});
 								
@@ -167,6 +170,9 @@
 		                           html += "</td>";
 		                           html += "<td style='width: 80px; height: 10px; padding-left:2px;' class='mem_dname'>";
 		                           html += item.dname;
+		                           html += "</td>";
+		                           html += "<td style='width: 80px; height: 10px; padding-left:2px;' class='mem_position'>";
+		                           html += item.position || ""+"";
 		                           html += "</td>";
 		                           html += "</tr>";  
 								});
@@ -415,7 +421,7 @@
 								<form action="approvalSave" name="addFrm" enctype="multipart/form-data" method="post">
 								<!--===================================== 문서선택  ======================================-->
 								<!-- 사용자 아이디값 가져오기 -->
-								<input type="hidden" name="userid" id="userid" value="${userid}">
+								<input type="hidden" name="userid" id="userid" value="${apprInfo.userid}">
 								<div class="ApprListTitle">기본설정</div>
 								<div style="display: inline-block; width: 100%">
 								<div style="float: left; width: 45%">
@@ -441,7 +447,7 @@
 										<tr>
 											<th style="width: 10%; font-size: 14px; display: table-cell; vertical-align: middle; background-color: #dddddd">기안자</th>
 											<td style="width: 40%;">
-												${mem_name}
+												${apprInfo.name}
 											</td>
 										</tr>
 									</table>
@@ -516,7 +522,7 @@
 									    	<tr>
 												<th style="width: 10%; font-size: 14px; display: table-cell; vertical-align: middle; background-color: #dddddd">부서</th>
 												<td>
-													${dname}
+													${apprInfo.dname}
 												</td>
 												<th style="width: 10%; font-size: 14px; display: table-cell; vertical-align: middle; background-color: #dddddd">기안일</th>
 												<td>
