@@ -19,7 +19,7 @@ import com.oracle.choongangGroup.sh.domain.Lecture;
 import lombok.RequiredArgsConstructor;
 @Repository
 @RequiredArgsConstructor
-public class ApplyRepositoryImpl implements ApplyRepository {
+public class LikeRepositoryImpl implements LikeRepository {
 
 	private final EntityManager em;
 	
@@ -65,14 +65,16 @@ public class ApplyRepositoryImpl implements ApplyRepository {
 		int lecResult = lecOverlap(applyLec); //강의 중복 조회 / 1-->중복없음, 0-->중복있음
 		int timeResult = timeOverLap(applyLec);//시간 중복 조회 / 1-->중복없음, 2-->중복있음
 		if(lecResult == 1 && timeResult == 1) { //중복된 강의가 없을때만 등록
-			Long count = applyLec.getMember().getCount();
-			Long unitScore = applyLec.getLecture().getUnitScore();
-			applyLec.getMember().setCount(count + unitScore);
-			if(applyLec.getMember().getCount()>21) { //총 신청학점이 21학점 초과시 신청불가
+//			Long count = applyLec.getMember().getCount();
+//			Long unitScore = applyLec.getLecture().getUnitScore();
+//			applyLec.getMember().setCount(count + unitScore);
+//			if(applyLec.getMember().getCount()>21) { //총 신청학점이 21학점 초과시 신청불가
+//				result = 3;
+			int count = 0;
+			count += applyLec.getLecture().getUnitScore();
+			if(count>21) {
 				result = 3;
 			}else {
-				String jpql = "delete from ApplicationLec a where a.member.userid = :userid and a.lecture.id = :id and a.gubun = 1";
-				em.createQuery(jpql,ApplicationLec.class).setParameter("userid", userid).setParameter("id", lecId);
 				em.persist(applyLec); 
 			}
 		}else if(lecResult != 1) {
@@ -80,7 +82,7 @@ public class ApplyRepositoryImpl implements ApplyRepository {
 		}else {
 			result = timeResult;
 		}
-	
+		System.out.println("실제 수강신청 들어갈 결과 --->"+result);
 		return result;
 	}
 	//강의 중복 검사
@@ -96,7 +98,9 @@ public class ApplyRepositoryImpl implements ApplyRepository {
 												.setParameter("userid", userid)
 												.setParameter("lecId", lecId)
 												.setParameter("gubun", gubun)
-												.getResultList();	
+												.getResultList();
+		System.out.println("ApplyRepository lecOverlap lecture List size-->"+list.size());
+		
 		//중복강의 존재
 		if(list.size()>0) {			
 			result = 0;
@@ -104,6 +108,7 @@ public class ApplyRepositoryImpl implements ApplyRepository {
 		}else {			
 			result = 1;
 		}
+		System.out.println("ApplyRepository lecOverlap result-->"+result);
 		return result;
 		
 	}
@@ -183,26 +188,6 @@ public class ApplyRepositoryImpl implements ApplyRepository {
 		return result;
 	}
 
-	
-	//기간 등록
-	@Override
-	public void register(ApplyTime applyTime) {
-		//int result = registerTest(applyTime);
-		if(applyTime.getId() == null) {
-			em.persist(applyTime);
-		}else {
-			em.merge(applyTime);
-		}
-		
-	}
-
-//	public int registerTest(ApplyTime applyTime) {
-//		if(applyTime.getYear() )
-//		return 1;
-//	}
-//	
-
-	
 
 
 

@@ -7,28 +7,17 @@ import com.oracle.choongangGroup.sh.domain.ApplicationLec;
 import com.oracle.choongangGroup.sh.domain.ApplyTime;
 import com.oracle.choongangGroup.sh.domain.Lecture;
 
+public interface LikeRepository {
 
-public interface ApplyRepository {
-	
+	int apply(ApplicationLec applyLec);
+
 	List<Lecture> lectureListAll();
 
-	Member 	memberFindOne(String userid);
+	Member memberFindOne(String userid);
 
 	Lecture lectureFindOne(Long lecId);
-	
-	int 	apply(ApplicationLec applyLec);
 
 	List<ApplicationLec> likeListAll(String userid);
-
-	void register(ApplyTime applyTime);
-
-
-
-
-
-
-
-
 
 
 }
