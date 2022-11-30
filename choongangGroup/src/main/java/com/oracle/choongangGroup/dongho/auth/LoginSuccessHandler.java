@@ -55,6 +55,7 @@ public class LoginSuccessHandler implements HandlerInterceptor{
 		
 		HttpSession session = request.getSession();
 		session.setAttribute("userid", userid);
+		System.out.println("LoginSuccessHandler userid -> " + userid);
 		
 		session.setAttribute("name", member.getName());
 		session.setAttribute("email", member.getEmail());

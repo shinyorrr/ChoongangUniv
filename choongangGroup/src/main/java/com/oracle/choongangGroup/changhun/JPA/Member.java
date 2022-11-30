@@ -20,7 +20,6 @@ import lombok.ToString;
 
 @Data
 @Entity
-@ToString
 public class Member {
 	
 	@Id
@@ -50,6 +49,7 @@ public class Member {
 	private String subMajor; //부전공
 	private String studStatus; //학적상태
 	private String mainProf; //지도교수
+	private Long count; //신청학점
 	
 	@JoinColumn(name = "deptno")
 	@JsonBackReference

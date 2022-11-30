@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,9 +36,11 @@ public class ApprovalRestController {
 	
 	// 회원 전체 조회
 	@RequestMapping("apprList")
-	public List<MemDept> apprList(String userid, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		userid = (String) session.getAttribute("userid");
+	public List<MemDept> apprList(String userid, HttpServletRequest request, @AuthenticationPrincipal User user) {
+		// userid = "12301001";
+		
+		userid = user.getUsername();
+		log.info(userid);
 		log.info("apprList start...");
 		List<MemDept> listAppr = as.apprList(userid);
 		log.info("listAppr.size()->{}",listAppr.size());

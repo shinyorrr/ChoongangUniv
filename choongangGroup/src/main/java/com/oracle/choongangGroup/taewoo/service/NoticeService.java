@@ -2,6 +2,7 @@ package com.oracle.choongangGroup.taewoo.service;
 
 
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.springframework.stereotype.Service;
@@ -23,6 +24,20 @@ public class NoticeService {
 		
 		Notice notice = noticeJpaRepository.findById(noticeNum).orElseThrow(() -> new NoSuchElementException());
 		return notice;
+	}
+
+	public List<Notice> searchNotice(String keyword) {
+		System.out.println("NoticeService searchNotice start....");
+		
+		List<Notice> searchNoticeList = noticeJpaRepository.findBynoticeTitleContaining(keyword);
+		
+		return searchNoticeList;
+	}
+	
+	
+	public int updateHit(Long noticeNum) {
+		System.out.println("noticeNum -->" + noticeNum);
+		return noticeJpaRepository.updateHit(noticeNum);
 	}
 
 
