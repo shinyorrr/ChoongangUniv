@@ -289,20 +289,27 @@ public class SecurityController {
 	// 아이디찾기 form 연결
 	@GetMapping("/anonymous/findIdForm")
 	public String findIdForm() {
+		
 		return "/admin/findIdForm";
 	}
 	
 	// 아이디찾기 실행 ajax
+	@ResponseBody
 	@PostMapping("/anonymous/findId")
-	public void findId(Member member, HttpServletResponse response) throws IOException {
+	public String findId(Member member, HttpServletResponse response, HttpServletRequest request) throws IOException {
+		
 		String searchId    = member.getName();
 		String searchEmail = member.getEmail();
 		Member memberResult = securityService.findByNameAndEmail(searchId , searchEmail);
 		String result = memberResult.getUserid();
-		response.setContentType("text/html");
-		PrintWriter out = response.getWriter();
-		out.append(result);
-		out.close();
+		HttpSession session = request.getSession();
+		String sessionName = (String) session.getAttribute("name");
+		System.out.println("findId session name" + sessionName);
+//		response.setContentType("text/html");
+//		PrintWriter out = response.getWriter();
+//		out.append(result);
+//		out.close();
+		return result;
 	}
 	
 	// 임시 비밀번호 요청 페이지 연결
