@@ -69,7 +69,7 @@ function deleteValue(){
 			<input type="button" value="선택삭제" class="btn btn-outline-info" onclick="deleteValue();">
 		</div>
 		<div>
-			<a href= "<c:url value='/student/createBookForm'/>" class ="btn btn-outline-info">글쓰기</a>
+			<a href="/student/createBookForm" class ="btn btn-outline-info">글쓰기</a>
 		</div>
 		<table border="1">
 		<thead>
@@ -81,7 +81,7 @@ function deleteValue(){
 			<c:forEach var="blist" items="${blist }">
 				<tr>
 					<td class="checkbox"> <input type="checkbox" name="RowCheck" value="${blist.bookid }">
-					<td><a href="student/detailBook?bookid=${blist.bookid }">${blist.bookid }</a></td>
+					<td><a href="/student/detailBook?bookid=${blist.bookid }">${blist.bookid }</a></td>
 					<td>${blist.bookname }</td>
 					<td>${blist.bookprice }</td>
 					<td>${blist.stockQuantity }</td>

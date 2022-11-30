@@ -22,7 +22,7 @@ public class BookController {
 	private final BookService bs;
 	
 	
-	@GetMapping(value = "bookList")
+	@GetMapping(value = "student/bookList")
 	public String BookList(Model model, Book book, String currentPage) {
 		int totalBook = bs.totalBook();
 		Paging page = new Paging(totalBook, currentPage);
@@ -36,23 +36,29 @@ public class BookController {
 		return "student/bookList";
 	}
 	
-	@GetMapping(value = "detailBook")
+	@GetMapping(value = "student/detailBook")
 	public String detailBook(Long bookid, Model model) {
 		Book book = bs.detailBook(bookid);
 		model.addAttribute("book",book);
-
-		return "detailBook";
+		System.out.println("detailBook Start.."+ bookid);
+		return "/student/detailBook";
 
 	}
 	
-	@PostMapping(value = "updateBook")
+	@PostMapping(value = "student/updateBook")
 	public String updateBook(Book book, Model model) {
 		int updateCount = bs.updateBook(book);
 		model.addAttribute("uptcnt", updateCount);
 		return "redirect:bookList";
 	}
 	
-	@PostMapping(value = "bookCreateList")
+	@GetMapping(value = "student/createBookForm")
+	public String createBookForm(Model model) {
+		List<Book> bookList = bs.createList();
+		model.addAttribute(attributeValue)
+	}
+	
+	@PostMapping(value = "student/bookCreateList")
 	public String createBook(Book book, Model model) {
 		int insertResult = bs.insertBook(book);
 		if(insertResult>0) return "redirect:bookList";
@@ -62,7 +68,7 @@ public class BookController {
 		}
 	}
 	
-	@RequestMapping(value = "deleteBook")
+	@RequestMapping(value = "student/deleteBook")
 	public String deleteBook(Long bookid, Model model) {
 		int result = bs.deleteBook(bookid);
 		
