@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ include file="header.jsp"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%-- <%@ include file="header.jsp"%> --%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,6 +18,7 @@
 	<!-- font awesome -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<!-- CSS -->
+	<link rel="stylesheet" href="/css/stylesLec.css">
 	<link rel="stylesheet" href="/css/styles.css">
 	<!-- IONICONS -->
 	<script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script>
@@ -120,14 +122,14 @@
 			<!-- content header -->
 			<div class="col-12 p-4" style="height: 150px; background-color: rgb(95, 142, 241); vertical-align: middle;">
 				<div class="d-flex flex-row" >
-					<div class="text-white h4">안녕하세요. <b>김중앙</b>님!</div>
-					<span class="border border-1 border-white border-bottom rounded-pill text-white px-2 pt-1 pb-0 ms-2 me-3" 
-						  style="font-size: 12px; height: 24px;">교수</span>
+					<div class="text-white h4">안녕하세요. <b>${name }</b>님!</div>
+					<span class="border border-1 border-white border-bottom rounded-pill text-white px-2 pt-1 pb-0 ms-2 me-3"
+							style="font-size: 12px; height: 24px;">교수</span>
 					<i class="text-white bi-gear-fill mx-2" style="height: 18px;"></i>
 				</div>
-				<div class="d-flex text-white" style="font-size: 14px;">이공대학 컴퓨터공학과 | 정교수</div>
+				<div class="d-flex text-white" style="font-size: 14px;">${major} | ${position}</div>
 				<div class="d-flex flex-low text-white" style="font-size: 14px;">
-					<i class="bi bi-envelope-fill me-3 ml-0 "></i>test123@naver.com
+					<i class="bi bi-envelope-fill me-3 ml-0 "></i>${email }
 				</div>
 			</div>
 
@@ -140,21 +142,24 @@
 					<div class="col-12 rounded-top text-white overflow-auto pt-2 fw-bold" style="background-color: rgb(39, 40, 70); height: 40px;">
 						<i class="bi bi-bookmark-fill me-2"></i>부서등록 </div>
 					<!----- card content 내용 ------>
-						<div class="col-12 rounded-bottom overflow-auto bg-light p-5" style="min-height: 550px;">
+						<div class="col-12 rounded-bottom overflow-auto bg-white p-5" style="min-height: 550px;">
 							
-							
-							<h2>출결관리</h2>
+							<h2>출결관리</h2><hr>
 							<br>
-							<div class="mt-3" style="border-collapse: collapse; border: 1px solid grey; padding: 15px;">
-								<h3>컴퓨터 프로그래밍(2학년)</h3>
-								<p style="margin-bottom: 8px;">2022-11-14(월요일) 09:00 ~ 10:50 &nbsp; &nbsp;&nbsp; 공과대학 강의실 305호</p>
-								<div style="float:right; margin-bottom: 10px;">
-									<button type="button" class="btn btn-secondary btn-sm">목록보기</button>
-									<button type="button" class="btn btn-danger btn-sm">출결시작</button>
-									<button type="button" class="btn btn-dark btn-sm">수정하기</button>
+							
+							<div class="mt-1 mb-4 pt-4 px-3" style="border-collapse: collapse; border: 1px solid #BDBDBD;">
+								<div style="font-size: 1.4em;">(${lecture.typeCode}${lecture.id}) ${lecture.name} _ ${lecture.grade}학년</div>
+								
+								<div class="font09 text-start mt-3" style="display:inline; margin-bottom: 8px;">2022-11-14 &nbsp; ${lecture.day1} ${lecture.time1} 
+								<c:if test="${lecture.day1 ne '' || lecture.day1 ne null }">${lecture.day2} ${lecture.time2} </c:if>
+								&nbsp; &nbsp;&nbsp; ${lecture.building} &nbsp; ${lecture.room}</div>
+								<div class="font09 mb-4" style="float:right;">
+									<button type="button" class="btn btn-secondary btn-sm">&nbsp; 목록보기  &nbsp;</button>
+									<button type="button" class="btn btn-danger btn-sm ms-1">&nbsp; 출결시작 &nbsp;</button>
+									<button type="button" class="btn btn-dark btn-sm ms-1">&nbsp; 수정하기 &nbsp;</button>
 								</div>
-								<table class="table table-bordered table-sm" style="text-align: center;">
-									<thead class="table-light">
+								<table class="table table-bordered table-sm font09" style="text-align: center;">
+									<thead class="table-light font09">
 										<tr>
 											<th scope="col">수강생</th>
 											<th scope="col">출석률</th>
@@ -162,46 +167,105 @@
 											<th scope="col">결석률</th>
 										</tr>
 									</thead>
-									<tbody>
+									<tbody >
 										<tr>
-											<td style="font-size: 18px"><b>26</b></td>
-											<td ><b style="font-size: 18px">0</b>%</td>
-											<td ><b style="font-size: 18px">0</b>%</td>
-											<td ><b style="font-size: 18px">0</b>%</td>
+											<td ><b>${lecture.studCount}</b></td>
+											<td ><b>0</b>%</td>
+											<td ><b>0</b>%</td>
+											<td ><b>0</b>%</td>
 										</tr>
 									</tbody>
 								</table>
 							</div>
-							<div style="margin: 16px 0;">
-								<button type="button" class="btn btn-sm" style="background-color: royalblue; color: white;">전체출석</button>
-								<button type="button" class="btn btn-sm" style="background-color: rebeccapurple; color: white;">전체지각</button>
-								<button type="button" class="btn btn-sm btn-danger">전체결석</button>
+							<div class="font09" style="margin: 16px 0;">
+								<button type="button" class="btn btn-sm" style="background-color: royalblue; color: white;">&nbsp; 전체출석 &nbsp;</button>
+								<button type="button" class="btn btn-sm" style="background-color: rebeccapurple; color: white;">&nbsp; 전체지각 &nbsp;</button>
+								<button type="button" class="btn btn-sm btn-danger">&nbsp; 전체결석 &nbsp;</button>
 							</div>
 	
-							<table class="table table-bordered table-sm" >
-								<thead class="table-light">
+							<table class="table table-bordered table-sm font09" >
+								<thead class="table-secondary">
 									<tr style="text-align: center;">
-										<th scope="col" style="vertical-align: middle;">학생정보</th>
-										<th scope="col">월요일 9:00~10:50<p style="font-size: 10px; font-width: light; margin-bottom: 0px;">출석: 0명 &nbsp; &#183 &nbsp; 지각: 0명 &nbsp; &#183 &nbsp; 결석: 0명</p></th>
-										<th scope="col">화요일 16:00~17:50<p style="font-size: 10px; font-width: light; margin-bottom: 0px;">출석: 0명 &nbsp; &#183 &nbsp; 지각: 0명 &nbsp; &#183 &nbsp; 결석: 0명</p></th>
+										<th scope="col" style="vertical-align: middle; width: 3%;">No</th>
+										<th scope="col" style="vertical-align: middle; width: 6%;"></th>
+										<th scope="col" style="vertical-align: middle; width: 20%;">학생정보</th>
+										<th scope="col">${lecture.day1} &nbsp; ${lecture.time1}<p class="font08" style="margin-bottom: 0px;">출석: 0명 &nbsp; &#183 &nbsp; 지각: 0명 &nbsp; &#183 &nbsp; 결석: 0명</p></th>
+										<c:if test="${lecture.day2 ne '' || lecture.day2 ne null}">
+											<th scope="col">${lecture.day2} &nbsp; ${lecture.time2}<p class="font08" style="margin-bottom: 0px;">출석: 0명 &nbsp; &#183 &nbsp; 지각: 0명 &nbsp; &#183 &nbsp; 결석: 0명</p></th>
+										</c:if>
+										
+										<th scope="col">화요일 16:00~17:50<p class="font08" style="margin-bottom: 0px;">출석: 0명 &nbsp; &#183 &nbsp; 지각: 0명 &nbsp; &#183 &nbsp; 결석: 0명</p></th>
 									</tr>
 								</thead>
 								
 								<tbody>
+									
 									<tr>
-										<td style="font-size: 18px display: inline;">
-											<div style="margin: 4px 12px 4px 8px; background-color: deepskyblue; height: 62px; width: 52px; float: left;"></div>
-											<div style="margin: 4px 0px;">
-												<p style="color: grey; margin-bottom: 2px;">강수빈</p>
-												<p style="font-size: 10px; margin:2px;">공과대학 컴퓨터전공</p>
-												<p style="font-size: 10px; margin:2px;">20211101</p>
+									<%-- <c:forEach var="mem" items="${memberList}"> --%>
+										<td  style="text-align: center; vertical-align: middle;" >${i+1}</td>
+										<td  class="d-flex py-2">
+											<div class="m-1 mx-2 bg-secondary align-self-center" style=" height:70px; width: 78%;"></div>
+										</td>
+										<td class="p-3 mb-0">
+											<div class=" px-2" style="font-size:1em; ">${member.name}  
+												<p class="font09 mb-0" style="margin-top:3px;">${member.userid}</p>
+												<p class="font09 mt-0 mb-0">${member.major} <span class="fontColorGr1 mb-0"> &nbsp;&#183; &nbsp; ${mem.grade}학년</span></p>
 											</div>
 										</td>
-										<td style="text-align: center; color: darkgrey; vertical-align: middle;" >출석정보없음</td>
-										<td style="text-align: center; color: darkgrey; vertical-align: middle;" >출석정보없음</td>
+									<%-- </c:forEach> --%>
+										
+									<!-- 	<td class="p-2  text-center " style="vertical-align: middle;" >
+											<div class="form-check  form-check-inline me-3">
+												<input class="form-check-input" type="radio" name="attStatus" id="attendanc" value="2" >
+												<label class="form-check-label" for="flexRadioDefault1">출석</label>
+											</div>
+											<div class="form-check form-check-inline  me-3">
+												<input class="form-check-input" type="radio" name="attStatus" id="late" value="1">
+												<label class="form-check-label" for="flexRadioDefault2">지각</label>
+											</div>
+											<div class="form-check form-check-inline">
+												<input class="form-check-input" type="radio" name="attStatus" id="absent" value="0">
+												<label class="form-check-label" for="flexRadioDefault2">결석</label>
+											</div>
+										</td> -->
+										
+										<c:if test="${lecture.day2 ne '' || lecture.day2 ne null}">
+											<!-- <td class="p-2  text-center " style="vertical-align: middle;" >
+												<div class="form-check  form-check-inline me-3">
+													<input class="form-check-input" type="radio" name="attStatus" id="attendanc" value="2" >
+													<label class="form-check-label" for="flexRadioDefault1">출석</label>
+												</div>
+												<div class="form-check form-check-inline  me-3">
+													<input class="form-check-input" type="radio" name="attStatus" id="late" value="1">
+													<label class="form-check-label" for="flexRadioDefault2">지각</label>
+												</div>
+												<div class="form-check form-check-inline">
+													<input class="form-check-input" type="radio" name="attStatus" id="absent" value="0">
+													<label class="form-check-label" for="flexRadioDefault2">결석</label>
+												</div>
+											</td> -->
+										</c:if>
+										
+										
+										<!-- <td class="p-2 text-center" style="vertical-align: middle;" >
+											<div class="form-check  form-check-inline me-3">
+												<input class="form-check-input" type="radio" name="attStatus" id="2" checked>
+												<label class="form-check-label" for="flexRadioDefault1">출석</label>
+											</div>
+											<div class="form-check form-check-inline  me-3">
+												<input class="form-check-input" type="radio" name="attStatus" id="1">
+												<label class="form-check-label" for="flexRadioDefault2">지각</label>
+											</div>
+											<div class="form-check form-check-inline">
+												<input class="form-check-input" type="radio" name="attStatus" id="0">
+												<label class="form-check-label" for="flexRadioDefault2">결석</label>
+											</div>
+										</td> -->
+										<td  style="text-align: center; color: darkgrey; vertical-align: middle;" >출석정보없음</td>
+<!-- 										<td  style="text-align: center; color: darkgrey; vertical-align: middle;" >출석정보없음</td>
+										<td style="text-align: center; color: darkgrey; vertical-align: middle;" >출석정보없음</td> -->
 									</tr>
 							</table>
-
 						</div>
 					
 					<!-- footer -->
