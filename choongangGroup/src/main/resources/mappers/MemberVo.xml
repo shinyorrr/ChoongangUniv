@@ -5,13 +5,18 @@
 
 <mapper namespace="com.oracle.choongangGroup.hj.model.MemberVoMapper">
  
-<!--  //아이디 받아와서 학적 조회  -->
+<!--  학적 조회  -->
 	<select id="hjMemberSelOne"  parameterType="String" resultType="MemberVo">
 	 SELECT * from member
 	 WHERE userid = #{userid}
 	
 	</select>
 
+<<<<<<< HEAD
+<!--  학적 수정  -->
+=======
+	
+>>>>>>> branch 'hyeonji' of https://github.com/hyeonji22/team-project.git
 	<update id="hjMemberUpdate" parameterType="MemberVo" >
 		UPDATE member SET                       phone 		   = #{phone},
    		                                        address        = #{address},
@@ -23,5 +28,24 @@
 						
 </update>
 
+<!--   이름가져오기   -->
+
+	<select id="hjMemberinfoSelOne" parameterType="String" resultType="MemberVo">
+		 SELECT * from member
+		 WHERE userid = #{userid}
+	  
+	
+	</select>
+
+
+<!--   셀렉트바 년도 학기별로 조회     -->
+<select id="hjysSelList" parameterType="GradeVo" resultType="GradeVo">
+		    select distinct l.lec_year, l.lec_semester 
+			from lecture l, application_lec a
+			WHERE  l.lec_id = a.lec_id
+			and
+			a.userid = #{userid}
+
+</select>
 
 </mapper>

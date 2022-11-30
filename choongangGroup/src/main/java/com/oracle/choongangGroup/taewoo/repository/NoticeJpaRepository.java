@@ -1,11 +1,30 @@
 package com.oracle.choongangGroup.taewoo.repository;
 
+import java.util.List;
+
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.oracle.choongangGroup.taewoo.domain.Notice;
 
 @Repository
-public interface NoticeJpaRepository extends JpaRepository<Notice, Long>, NoticeRepository {
+public interface NoticeJpaRepository extends JpaRepository<Notice, Long> {
+	// 검색기능
+	List<Notice> findBynoticeTitleContaining(String keyword);
+
+	@Modifying
+	@Query("update Notice n set n.noticeHit = n.noticeHit + 1 where n.noticeNum = :noticeNum")
+	int updateHit(@Param(value = "noticeNum") Long noticeNum);
+	
+	
+	
+	
+	
+
+
 
 }

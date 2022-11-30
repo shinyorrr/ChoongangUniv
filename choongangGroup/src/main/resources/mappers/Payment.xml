@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.oracle.choongangGroup.ry.model.Payment">
+
+
+<!-- <resultMap type="paymentMethod" id="paymentMethodResultMap">
+	<id 	column="paymentMethodCode" 		property="paymentMethodCode"/>
+	<result column="paymentMethodName" 		property="paymentMethodName"/>
+	<result column="paymentMethodRegDate" 	property="paymentMethodRegDate"/>
+	<collection property="member" 			resultMap="memberResultMap"></collection>
+</resultMap>
+ 
+<resultMap type="payment" id="paymentResultMap">
+	<id 	column="paymentCode" 			property="paymentCode"/>
+	<result column="paymentGroupCode" 		property="paymentGroupCode"/>
+	<result column="paymentTotalOrderPrice" property="paymentTotalOrderPrice"/>
+	<result column="paymentUsePoint" 		property="paymentUsePoint"/>
+	<result column="paymentTotalPayPrice" 	property="paymentTotalPayPrice"/>
+	<result column="paymentState" 			property="paymentState"/>
+	<result column="paymentRegDate" 		property="paymentRegDate"/>
+	<collection property="member" 			resultMap="memberResultMap"></collection>
+	<collection property="paymentMethod"	resultMap="paymentMethodResultMap"></collection>
+</resultMap>
+ 
+<insert id="addPayment" parameterType="Payment">
+	INSERT INTO payment
+		( 
+		  paymentCode
+		, paymentGroupCode
+		, memberEmail
+		, paymentMethodCode
+		, paymentMethodName
+		, paymentTotalOrderPrice
+		, paymentUsePoint
+		, paymentTotalPayPrice
+		, paymentState
+		, paymentRegDate)
+		VALUES (
+		  #{paymentCode}
+		, #{paymentGroupCode}
+		, #{memberEmail}
+		, #{paymentMethodCode}
+		, #{paymentMethodName}
+		, #{paymentTotalOrderPrice}
+		, #{paymentUsePoint}
+		, #{paymentTotalPayPrice}
+		, '결제완료'
+		, NOW());
+</insert> -->
+</mapper>

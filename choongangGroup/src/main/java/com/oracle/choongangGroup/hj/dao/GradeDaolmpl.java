@@ -1,11 +1,13 @@
 package com.oracle.choongangGroup.hj.dao;
 
+
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.oracle.choongangGroup.hj.model.GradeVo;
+import com.oracle.choongangGroup.sh.domain.Lecture;
 
 import lombok.RequiredArgsConstructor;
 
@@ -34,21 +36,21 @@ public class GradeDaolmpl implements GraderDao {
 		}
 
 		@Override
-		public List<GradeVo> listScore(GradeVo grade) {
-			 List<GradeVo> ListScore =  null;
-			 System.out.println("GradeDaolmpl listScore Start . . .."); 
+		public List<Lecture> findAll() {
+			List<Lecture> yearList = null;
 			try {
+				yearList = session.selectList("hjYearSelect");
+				System.out.println("EmpDaoImpl MemberDaoImpl name-> "+yearList );
 				
-				 ListScore= session.selectList("hjListScoreAll", grade);
-				 System.out.println("GradeDaolmpl listScore empList.size()->  "+ListScore.size()  );
 				
 			} catch (Exception e) {
-				System.out.println("GradeDaolmpl listScore e.getMessage()->  "+e.getMessage()  );
+				System.out.println("GradeDaolmpl gradeList Exception-> "+e.getMessage());
 			}
-			 
-		
 			
-			return ListScore;
+			return yearList;
 		}
+
+
+
 	
 }

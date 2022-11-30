@@ -1,5 +1,6 @@
 package com.oracle.choongangGroup.taewoo.domain;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -37,8 +38,10 @@ public class Notice extends BaseTimeEntity {
 					)
 		private Long noticeNum;					// No.
 		
-		@ManyToOne(fetch = FetchType.LAZY)
-		@JoinColumn(name = "userid")
+		private String userid;
+		
+		@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+		@JoinColumn(name = "userid", insertable = false, updatable = false)
 		private Member writer;					// 작성자
 
 		@Column(name = "notice_title")
