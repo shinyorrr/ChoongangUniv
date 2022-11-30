@@ -23,7 +23,7 @@ public class EvaluationController {
 	
 	
 	
-	//강의평가 버튼ㄹㄹ
+	//강의평가 버튼ㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹ
 	@RequestMapping(value = "evaluation")
 	public String evaluationList(String userid, Model model , HttpServletRequest request) {
 		
