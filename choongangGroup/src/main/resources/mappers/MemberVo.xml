@@ -13,7 +13,9 @@
 	</select>
 
 <!--  학적 수정  -->
+
 	
+
 	<update id="hjMemberUpdate" parameterType="MemberVo" >
 		UPDATE member SET                       phone 		   = #{phone},
    		                                        address        = #{address},
