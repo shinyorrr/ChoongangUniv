@@ -1,9 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,16 +18,11 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <!-- CSS -->
 <link rel="stylesheet" href="/css/styles.css">
-<link href="css/taewooCss.css" rel="stylesheet" type="text/css">
+
     <title>SideBar sub menus</title>
 </head>
 
 <body class="" id="body-pd">
-<%
-
-	session = request.getSession();
-
-%>
     <!-- header -->
     <!-- <nav class="navbar navbar-expand-lg navbar-dark bd-navbar bg-light sticky-top position-fixed fixed-top w-100" style="position : absolute">
         <a class="navbar-brand">
@@ -60,12 +53,12 @@
             <div>
                 <div class="nav__brand">
                     <ion-icon name="menu-outline" class="nav__toggle" id="nav-toggle"></ion-icon>
-                    <a href="#" class="nav__logo">공지사항 관리</a>
+                    <a href="#" class="nav__logo">Bedimcode</a>
                 </div>
                 <div class="nav__list">
-                    <a href="/noticeWrite" class="nav__link active">
+                    <a href="#" class="nav__link active">
                         <ion-icon name="home-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">공지사항 글쓰기</span>
+                        <span class="nav_name">Dashboard</span>
                     </a>
                     <a href="#" class="nav__link">
                         <ion-icon name="chatbubbles-outline" class="nav__icon"></ion-icon>
@@ -125,8 +118,8 @@
             <div class="col-12 pt-4" style="height: 150px; background-color: rgb(95, 142, 241)">
                 <div class="d-flex flex-row mb-3">
                     <div>
-                        <span class="text-white h4">공지사항 조회 <span class="fw-bold">김중앙</span>님!</span>
-                    </div> 
+                        <span class="text-white h4">안녕하세요. <span class="fw-bold">김중앙</span>님!</span>
+                    </div>
                     <div class="border border-1 border-white border-bottom rounded-pill text-white px-2 pt-1 ms-2 h6">교수</div>
                     <div>
                         <i class="text-white bi-gear-fill mx-2"></i>
@@ -151,91 +144,110 @@
                 <div class="row m-5">
                     <!-- card header -->
                     <div class="col-12 rounded-top text-white overflow-auto pt-2 fw-bold" style="background-color: rgb(39, 40, 70); height: 40px;"> 
-                        <i class="bi bi-bookmark-fill me-2"></i>공지사항 관리 <i class="bi bi-chevron-right"></i>공지사항 조회
+                        <i class="bi bi-bookmark-fill me-2"></i>학생서비스 <i class="bi bi-chevron-right"></i>학사관리 <i class="bi bi-chevron-right"></i>강의 시간표 조회
                     </div>
                     <!-- card content -->  
                     <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
-                      <table class="Notice-table table table-striped">
-					    <thead>
-					    <tr>
-					        <th>번호</th>
-					        <th>제목</th>
-					        <th>내용</th>
-					        <th>작성일자</th>
-					        <th>조회수</th>
-					    </tr>
-					    </thead>
-					    <tbody>
-					    <c:forEach items="${noticeList}" var="notice" varStatus="status">
-					    <c:set value='<%=(String)session.getAttribute("role") %>' var="role"/>
-					    	<c:if test="${notice.noticeType eq role || notice.noticeType eq 'allContent'}">	   
-					    <tr>
-					        <td>${status.index+1+(page * 10)}</td>
-					        <td style="display: none;">${notice.noticeType}</td>
-					    <td>
-					    <c:choose>					  
-					        <c:when test="${fn:length(notice.noticeTitle) gt 11}">
-								<a href="/noticeDetail?noticeNum=${notice.noticeNum}">${fn:substring(notice.noticeTitle, 0 , 10)}....</a>	
-					       	</c:when>
-					        <c:otherwise>
-					        	<a href="/noticeDetail?noticeNum=${notice.noticeNum}">${notice.noticeTitle }</a>
-					       	 </c:otherwise>
-					    </c:choose>
-					    </td>
+        <table cellspacing="5" align="center" border="1" bordercolor="#5CD1E5"
+		width="550" height="600">
+		<p></p>
+		<tr align="center">
+			<td width="50"></td>
+			<td width="100" bgcolor="#5CD1E5">월</td>
+			<td width="100" bgcolor="#5CD1E5">화</td>
+			<td width="100" bgcolor="#5CD1E5">수</td>
+			<td width="100" bgcolor="#5CD1E5">목</td>
+			<td width="100" bgcolor="#5CD1E5">금</td>
+		</tr>
 
-					    <c:choose>
-					    	<c:when test="${fn:length(notice.noticeContent) gt 21}">
-					    		<td>${fn:substring(notice.noticeContent, 0 , 20)}....</td>
-					    	</c:when>
-					    	<c:otherwise>
-					    		<td>${notice.noticeContent}</td>
-					    	</c:otherwise>
-					    </c:choose>
-					     	<c:choose>   
-						        <c:when test="${notice.createdDate != null}">
-							        <c:set var="DateValue" value="${notice.createdDate}"/>
-							        <td>${fn:substring(DateValue,0,10)}</td>
-						        </c:when>
-						        <c:when test="${notice.modifiedDate != null}">
-							        <c:set var="DateValue" value="${notice.modifiedDate}"/>
-							        <td>${fn:substring(DateValue,0,10)}</td>
-						        </c:when>
-					        </c:choose>
-					        <td>${notice.noticeHit}</td>
-					    </tr>
-					    </c:if>
-					    </c:forEach>
-					    </tbody>					    
-					</table>
-						<form action="/notice/search" method="GET" class="form-inline p-2 bd-highlight" role="search">
-        					<input type="text" name="keyword" class="form-control" id=search placeholder="검색" style="width: 300px;">
-        					<button class="btn btn-success bi bi-search"></button>
-    					</form> 
-					<nav aria-label="...">
-					  <ul class="pagination" style="margin-left: 40%;">
-					  
-					    <li class="page-item">
-					      <c:if test="${page > 0}">
-						      <a class="page-link" href="addressForm?page=${page-1}">Previous</a>				      
-					      </c:if>
-					      <c:if test= "${page == 0 }">
-					      	  <a class="page-link">Previous</a>
-					      </c:if>
-					    </li>					  
-					  <c:forEach var="i" begin="1" end="${noticeTotal}">
-					    <li id="page-item${i}" class="page-item" onclick="active(${i})">
-					    <a class="page-link" href="/notice/noticeList?page=${i-1 }" >${i }</a></li>
-					  </c:forEach>
-					    <li class="page-item">
-					    	<c:if test="${page < noticeTotal-1}">
-						      <a class="page-link" href="/notice/noticeList?page=${page+1}">Next</a>
-					    	</c:if>
-					      	<c:if test= "${page > noticeTotal-2}">
-						      <a class="page-link">Next</a>
-					      	</c:if>
-					    </li>
-					  </ul>
-					</nav>  
+		<tr align="center">
+			<td bgcolor="#5CD1E5">1</td>
+			<td></td>
+			<td bgcolor="#5CD1E5">전산실무</td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+
+		<tr align="center">
+			<td bgcolor="#5CD1E5"><c:if test="${applicationLec.get }"></c:if> 2</td>
+			<td></td>
+			<td bgcolor="#5CD1E5">포토샾</td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+
+		<tr align="center">
+			<td bgcolor="#5CD1E5">3</td>
+			<td bgcolor="#5CD1E5">플레시</td>
+			<td bgcolor="#5CD1E5">포토샾</td>
+			<td bgcolor="#5CD1E5">플래시</td>
+			<td></td>
+			<td bgcolor="#5CD1E5">컴퓨터그래픽</td>
+		</tr>
+
+		<tr align="center">
+			<td bgcolor="#5CD1E5">4</td>
+			<td bgcolor="#5CD1E5">플래시</td>
+			<td></td>
+			<td></td>
+			<td bgcolor="#5CD1E5">전산개론</td>
+			<td bgcolor="#5CD1E5">컴퓨터그래픽</td>
+		</tr>
+
+		<tr align="center">
+			<td bgcolor="#5CD1E5">5</td>
+			<td></td>
+			<td bgcolor="#5CD1E5">전산개론</td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+
+		<tr align="center">
+			<td bgcolor="#5CD1E5">6</td>
+			<td></td>
+			<td bgcolor="#5CD1E5">전산개론</td>
+			<td bgcolor="#5CD1E5">웹디자인</td>
+			<td></td>
+			<td bgcolor="#5CD1E5">웹디자인</td>
+		</tr>
+
+		<tr align="center">
+			<td bgcolor="#5CD1E5">7</td>
+			<td bgcolor="#5CD1E5">웹디자인</td>
+			<td></td>
+			<td bgcolor="#5CD1E5">웹디자인</td>
+			<td bgcolor="#5CD1E5">운영체제</td>
+			<td></td>
+		</tr>
+
+		<tr align="center">
+			<td bgcolor="#5CD1E5">8</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td bgcolor="#5CD1E5">운영체제</td>
+			<td></td>
+		</tr>
+		
+		<tr align="center">
+			<td bgcolor="#5CD1E5">9</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td bgcolor="#5CD1E5">운영체제</td>
+			<td></td>
+		</tr>
+
+		<tr align="center">
+			<td></td>
+			<td colspan="5" bgcolor="#5CD1E5">충북대학교 청년취업아카데미<br> 담당교수 :
+				강 재 구
+			</td>
+		</tr>
+	</table>
                     </div>
                     <!-- footer -->
                     <footer class="col-12" style="height: 60px;">
