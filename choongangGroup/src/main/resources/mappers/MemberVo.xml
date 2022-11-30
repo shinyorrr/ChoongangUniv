@@ -12,11 +12,8 @@
 	
 	</select>
 
-<<<<<<< HEAD
 <!--  학적 수정  -->
-=======
 	
->>>>>>> branch 'hyeonji' of https://github.com/hyeonji22/team-project.git
 	<update id="hjMemberUpdate" parameterType="MemberVo" >
 		UPDATE member SET                       phone 		   = #{phone},
    		                                        address        = #{address},
