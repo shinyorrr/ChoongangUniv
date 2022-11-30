@@ -8,7 +8,7 @@
 <mapper namespace="com.oracle.choongangGroup.hs.approval.MemDeptMapper">
 
 	<!-- 결재자리스트 -->
-	<select id="hsApprList" parameterType="MemDept" resultType="MemDept">
+	<select id="hsApprList" parameterType="String" resultType="MemDept">
 		select m.*, d.dname
 		from member m , dept d
 		where m.deptno = d.deptno

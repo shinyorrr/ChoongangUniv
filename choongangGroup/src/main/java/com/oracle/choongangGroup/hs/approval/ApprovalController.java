@@ -8,6 +8,8 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
@@ -28,12 +30,14 @@ public class ApprovalController {
 	
 	// --------------결재메인 -----------------------
 	@RequestMapping("approval")
-	public String content(String userid, HttpServletRequest request, Model model) {
+	public String content(String userid, HttpServletRequest request, Model model,  @AuthenticationPrincipal User user) {
 		log.info("approvalMain start...");
 		
-		HttpSession session = request.getSession();
-		userid = (String) session.getAttribute("userid");
+//		HttpSession session = request.getSession();
+//		userid = (String) session.getAttribute("userid");
 		
+		userid = user.getUsername();
+		log.info(userid);
 		List<Approval> approvalWaitingList = null;     // 승인 대기중
 		List<Approval> approvalProcessingList = null;  // 승인 진행중
 		List<Approval> approvalEndList = null;	   // 승인 완료
@@ -57,6 +61,7 @@ public class ApprovalController {
 		model.addAttribute("processList", approvalProcessingList);
 		model.addAttribute("endList", approvalEndList);
 		model.addAttribute("waitTotal", waitTotal);
+		model.addAttribute("userid", userid);
 		
 		return "manager/approvalMain";
 		
@@ -64,27 +69,37 @@ public class ApprovalController {
 	
 	// --------------새결재폼 -----------------------
 	@RequestMapping("approvalWrite")
-	public String form(String userid, Model model) {
+	public String form(Model model, HttpServletRequest request ,  @AuthenticationPrincipal User user) {
 		log.info("approvalWrite start...");
+		
+//		HttpSession session = request.getSession();
+//		String userid = (String) session.getAttribute("userid");
+		
+		String userid = user.getUsername();
+		log.info(userid);
 		// 결재하는 사용자의 이름 출력
 		MemDept memDept = new MemDept();
 		memDept.setUserid(userid);
 		
-		MemDept appr = as.findMem(memDept.getUserid());
-
-		model.addAttribute("appr", appr);
+		MemDept apprInfo = as.findMem(memDept.getUserid());
+		
+//		String mem_name = apprInfo.getName();
+//		String dname = apprInfo.getDname();
+		
+		model.addAttribute("apprInfo", apprInfo);
+//		model.addAttribute("userid", userid);
 		return "manager/approvalForm";
 	}
 	
 	// --------------결재저장 -----------------------
 	@PostMapping("approvalSave")
-	public String save(String userid, Approval approval, HttpServletRequest request, MultipartFile file1, Model model) throws IOException, Exception {
+	public String save(String userid, Approval approval, HttpServletRequest request, MultipartFile file1, Model model, @AuthenticationPrincipal User user) throws IOException, Exception {
 		log.info("approvalSave start...");
 		int result = 0;
 		
-		HttpSession session = request.getSession();
-		userid = (String) session.getAttribute("userid");
-		
+//		HttpSession session = request.getSession();
+//		userid = (String) session.getAttribute("userid");
+		userid = user.getUsername();
 		approval.setUserid(userid);
 		
 		if(!file1.isEmpty()) {
@@ -147,12 +162,12 @@ public class ApprovalController {
 	
 	// --------------결재대기중 목록 이동 -----------------------
 	@GetMapping("approvalWait")
-	public String wait(String userid, String currentPage, HttpServletRequest request, Model model) {
+	public String wait(String userid, String currentPage, HttpServletRequest request, Model model, @AuthenticationPrincipal User user) {
 		log.info("approvalWait start...");
 		
-		HttpSession session = request.getSession();
-		userid = (String) session.getAttribute("userid");
-		
+//		HttpSession session = request.getSession();
+//		userid = (String) session.getAttribute("userid");
+		userid = user.getUsername();
 		Approval approval = new Approval();
 		approval.setUserid(userid);
 		
@@ -176,12 +191,12 @@ public class ApprovalController {
 	
 	// --------------결재대기중 상세폼이동 -----------------------
 	@RequestMapping("apprWaitDetail")
-	public String waitDetail(String userid, Long approval_no, HttpServletRequest request, Model model) {
+	public String waitDetail(String userid, Long approval_no, HttpServletRequest request, Model model, @AuthenticationPrincipal User user) {
 		log.info("waitDetail start...");
 		
-		HttpSession session = request.getSession();
-		userid = (String) session.getAttribute("userid");
-		
+//		HttpSession session = request.getSession();
+//		userid = (String) session.getAttribute("userid");
+		userid = user.getUsername();
 		// 결재상세내용
 		Approval approval = new Approval();
 		approval.setUserid(userid);
@@ -221,17 +236,17 @@ public class ApprovalController {
 		log.info("appr fin->{}",appr.getFinapprvo().getDname());
 
 		model.addAttribute("appr", appr);
-		
+		model.addAttribute("userid", userid);
 		return "manager/approvalWaitDetail";
 	}
 	
 	// --------------기안 진행 목록 이동 -----------------------
 	@GetMapping("approvalProcess")
-	public String process(String userid, String currentPage, HttpServletRequest request, Model model) {
+	public String process(String currentPage, HttpServletRequest request, Model model, @AuthenticationPrincipal User user) {
 		log.info("approvalProcess start...");
-		HttpSession session = request.getSession();
-		userid = (String) session.getAttribute("userid");
-		
+//		HttpSession session = request.getSession();
+//		String userid = (String) session.getAttribute("userid");
+		String userid = user.getUsername();
 		Approval approval = new Approval();
 		approval.setUserid(userid);
 		
@@ -255,12 +270,12 @@ public class ApprovalController {
 	
 	// --------------기안진행 상세폼이동 -----------------------
 	@RequestMapping("apprProcessDetail")
-	public String detail(String userid, Long approval_no, HttpServletRequest request, Model model) {
+	public String detail(Long approval_no, HttpServletRequest request, Model model, @AuthenticationPrincipal User user) {
 		log.info("ProcessDetail start...");
 		
-		HttpSession session = request.getSession();
-		userid = (String) session.getAttribute("userid");
-		
+//		HttpSession session = request.getSession();
+//		String userid = (String) session.getAttribute("userid");
+		String userid = user.getUsername();
 		// 결재하는 사용자의 이름 출력
 		MemDept memDept = new MemDept();
 		memDept.setUserid(userid);
@@ -311,12 +326,12 @@ public class ApprovalController {
 	
 	// --------------결재 완료 목록 이동 -----------------------
 	@GetMapping("approvalEnd")
-	public String end(String userid, String currentPage, HttpServletRequest request, Model model) {
+	public String end(String currentPage, HttpServletRequest request, Model model, @AuthenticationPrincipal User user) {
 		log.info("approvalEnd start...");
 		
-		HttpSession session = request.getSession();
-		userid = (String) session.getAttribute("userid");
-		
+//		HttpSession session = request.getSession();
+//		String userid = (String) session.getAttribute("userid");
+		String userid = user.getUsername();
 		//페이징
 		int endTotal	 = as.finishTotal(userid);  // 승인 완료
 		
@@ -339,12 +354,12 @@ public class ApprovalController {
 	
 	// --------------결재 완료 상세폼이동 -----------------------
 	@RequestMapping("apprEndDetail")
-	public String finishDetail(String userid, Long approval_no, HttpServletRequest request, Model model) {
+	public String finishDetail(Long approval_no, HttpServletRequest request, Model model, @AuthenticationPrincipal User user) {
 		log.info("finishDetail start...");
 		
-		HttpSession session = request.getSession();
-		userid = (String) session.getAttribute("userid");
-		
+//		HttpSession session = request.getSession();
+//		userid = (String) session.getAttribute("userid");
+		String userid = user.getUsername();
 		// 결재상세내용
 		Approval approval = new Approval();
 		approval.setUserid(userid);

@@ -1,0 +1,179 @@
+-- 결재문서
+CREATE TABLE approval (
+	approval_no          NUMBER(4,0)   NOT NULL, -- 결재문서번호
+	approval_sort_no     NUMBER(4,0)   NOT NULL, -- 결재양식번호
+	mid_approver         VARCHAR2(100) NULL,     -- 첫번째결재자
+	fin_approver         VARCHAR2(100) NULL,     -- 두번째결재자
+	title                VARCHAR2(100) NULL,     -- 제목
+	item_need            VARCHAR2(100) NULL,     -- 비품_필요품목
+	item_quantity        NUMBER(4,0)   NULL,     -- 비품_수량
+	approval_content     VARCHAR2(200) NULL,     -- 결재내용
+	item_purpose         VARCHAR2(100) NULL,     -- 비품_용도
+	item_price           VARCHAR2(100) NULL,     -- 비품_예상가격
+	server_file_name     VARCHAR2(100) NULL,     -- 서버파일이름
+	org_file_name        VARCHAR2(100) NULL,     -- 파일이름
+	file_path            VARCHAR2(200) NULL,     -- 파일경로
+	mid_approval_ok      VARCHAR2(100) NULL,     -- 첫번째 결재자 현황
+	fin_approval_ok      VARCHAR2(100) NULL,     -- 두번째 결재자 현황
+	approval_status      VARCHAR2(100) NULL,     -- 결재상태
+	writeday             VARCHAR2(100) NULL,     -- 작성날짜
+	approval_start       VARCHAR2(100) NULL,     -- 시작일
+	approval_end         VARCHAR2(100) NULL,     -- 마지막일
+	mid_approval_opinion VARCHAR2(200) NULL,     -- 첫번째 결재자 의견
+	fin_approval_opinion VARCHAR2(200) NULL,     -- 두번째 결재자 의견
+	userid               VARCHAR2(100) NULL      -- 사용자코드
+);
+
+-- 결재문서 기본키
+CREATE UNIQUE INDEX PK_approval
+	ON approval ( -- 결재문서
+		approval_no      ASC, -- 결재문서번호
+		approval_sort_no ASC  -- 결재양식번호
+	);
+
+-- 결재문서
+ALTER TABLE approval
+	ADD
+		CONSTRAINT PK_approval -- 결재문서 기본키
+		PRIMARY KEY (
+			approval_no,      -- 결재문서번호
+			approval_sort_no  -- 결재양식번호
+		);
+
+-- 결재문서
+COMMENT ON TABLE approval IS '결재문서';
+
+-- 결재문서번호
+COMMENT ON COLUMN approval.approval_no IS '결재문서번호';
+
+-- 결재양식번호
+COMMENT ON COLUMN approval.approval_sort_no IS '결재양식번호';
+
+-- 첫번째결재자
+COMMENT ON COLUMN approval.mid_approver IS '첫번째결재자';
+
+-- 두번째결재자
+COMMENT ON COLUMN approval.fin_approver IS '두번째결재자';
+
+-- 제목
+COMMENT ON COLUMN approval.title IS '제목';
+
+-- 비품_필요품목
+COMMENT ON COLUMN approval.item_need IS '비품_필요품목';
+
+-- 비품_수량
+COMMENT ON COLUMN approval.item_quantity IS '비품_수량';
+
+-- 결재내용
+COMMENT ON COLUMN approval.approval_content IS '결재내용';
+
+-- 비품_용도
+COMMENT ON COLUMN approval.item_purpose IS '비품_용도';
+
+-- 비품_예상가격
+COMMENT ON COLUMN approval.item_price IS '비품_예상가격';
+
+-- 서버파일이름
+COMMENT ON COLUMN approval.server_file_name IS '서버파일이름';
+
+-- 파일이름
+COMMENT ON COLUMN approval.org_file_name IS '파일이름';
+
+-- 파일경로
+COMMENT ON COLUMN approval.file_path IS '파일경로';
+
+-- 첫번째 결재자 현황
+COMMENT ON COLUMN approval.mid_approval_ok IS '첫번째 결재자 현황';
+
+-- 두번째 결재자 현황
+COMMENT ON COLUMN approval.fin_approval_ok IS '두번째 결재자 현황';
+
+-- 결재상태
+COMMENT ON COLUMN approval.approval_status IS '결재상태';
+
+-- 작성날짜
+COMMENT ON COLUMN approval.writeday IS '작성날짜';
+
+-- 시작일
+COMMENT ON COLUMN approval.approval_start IS '시작일';
+
+-- 마지막일
+COMMENT ON COLUMN approval.approval_end IS '마지막일';
+
+-- 첫번째 결재자 의견
+COMMENT ON COLUMN approval.mid_approval_opinion IS '첫번째 결재자 의견';
+
+-- 두번째 결재자 의견
+COMMENT ON COLUMN approval.fin_approval_opinion IS '두번째 결재자 의견';
+
+-- 사용자코드
+COMMENT ON COLUMN approval.userid IS '사용자코드';
+
+-- 결재문서 기본키
+COMMENT ON INDEX PK_approval IS '결재문서 기본키';
+
+-- 결재문서 기본키
+COMMENT ON CONSTRAINT approval.PK_approval IS '결재문서 기본키';
+
+-- 결재양식
+CREATE TABLE approval_sort (
+	approval_sort_no   NUMBER(4,0)   NOT NULL, -- 결재양식번호
+	approval_sort_name VARCHAR2(100) NULL      -- 결재양식이름
+);
+
+-- 결재양식 기본키
+CREATE UNIQUE INDEX PK_approval_sort
+	ON approval_sort ( -- 결재양식
+		approval_sort_no ASC -- 결재양식번호
+	);
+
+-- 결재양식
+ALTER TABLE approval_sort
+	ADD
+		CONSTRAINT PK_approval_sort -- 결재양식 기본키
+		PRIMARY KEY (
+			approval_sort_no -- 결재양식번호
+		);
+
+-- 결재양식
+COMMENT ON TABLE approval_sort IS '결재양식';
+
+-- 결재양식번호
+COMMENT ON COLUMN approval_sort.approval_sort_no IS '결재양식번호';
+
+-- 결재양식이름
+COMMENT ON COLUMN approval_sort.approval_sort_name IS '결재양식이름';
+
+-- 결재양식 기본키
+COMMENT ON INDEX PK_approval_sort IS '결재양식 기본키';
+
+-- 결재양식 기본키
+COMMENT ON CONSTRAINT approval_sort.PK_approval_sort IS '결재양식 기본키';
+
+-- 결재문서
+ALTER TABLE approval
+	ADD
+		CONSTRAINT FK_approval_sort_TO_approval -- 결재양식 -> 결재문서
+		FOREIGN KEY (
+			approval_sort_no -- 결재양식번호
+		)
+		REFERENCES approval_sort ( -- 결재양식
+			approval_sort_no -- 결재양식번호
+		);
+
+-- 결재문서
+ALTER TABLE approval
+	ADD
+		CONSTRAINT FK_Member_TO_approval -- 사용자 -> 결재문서
+		FOREIGN KEY (
+			userid -- 사용자코드
+		)
+		REFERENCES Member ( -- 사용자
+			userid -- 사용자코드
+		);
+
+-- 결재양식 -> 결재문서
+COMMENT ON CONSTRAINT approval.FK_approval_sort_TO_approval IS '결재양식 -> 결재문서';
+
+-- 사용자 -> 결재문서
+COMMENT ON CONSTRAINT approval.FK_Member_TO_approval IS '사용자 -> 결재문서';
