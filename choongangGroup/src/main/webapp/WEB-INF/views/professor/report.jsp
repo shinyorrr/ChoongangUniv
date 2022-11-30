@@ -46,7 +46,8 @@
 			  },
 			success: function(data) {
 					alert('success');
-					$.each(data, function(index, item) {
+						console.log(data);
+					$.each(data.lecReportList, function(index, item) {
 						$("#ajaxAppend").append('<tr>');
 						$("#ajaxAppend").append("<td>" + index + "</td>");
 						$("#ajaxAppend").append('<td><div class="form-check">' +
@@ -218,6 +219,32 @@
 							<tbody id="ajaxAppend">
 							</tbody>
 						</table>
+						<nav aria-label="...">
+					  <ul class="pagination" style="margin-left: 40%;">
+					  
+					    <li class="page-item">
+					      <c:if test="${page > 0}">
+						      <a class="page-link" href="myLikeAddress?page=${page-1}">Previous</a>				      
+					      </c:if>
+					      <c:if test= "${page == 0 }">
+					      	  <a class="page-link">Previous</a>
+					      </c:if>
+					    </li>					  
+					
+					  <c:forEach var="i" begin="1" end="${totalPage}">
+					    <li id="page-item${i}" class="page-item" onclick="active(${i})">
+					    <a class="page-link" href="myLikeAddress?page=${i-1 }" >${i }</a></li>
+					  </c:forEach>
+					    <li class="page-item">
+					    	<c:if test="${page < totalPage-1}">
+						      <a class="page-link" href="myLikeAddress?page=${page+1}">Next</a>
+					    	</c:if>
+					      	<c:if test= "${page > totalPage-2}">
+						      <a class="page-link">Next</a>
+					      	</c:if>
+					    </li>
+					  </ul>
+					</nav>
 						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                     </div>
                     <!-- footer -->
