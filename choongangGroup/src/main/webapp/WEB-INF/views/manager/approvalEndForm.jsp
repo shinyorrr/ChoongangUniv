@@ -195,26 +195,26 @@
 							
 							<!-- 페이징 번호 설정 -->
 							<nav aria-label="Page navigation example">
-							  <ul class="pagination pagination-sm justify-content-center">
+							  <ul class="pagination justify-content-center">
+							  <c:if test="${page.startPage > page.pageBlock }">
 							    <li class="page-item">
-							    <c:if test="${page.startPage > page.pageBlock }">	
-							      <a class="page-link" href="approvalEnd?currentPage=${page.startPage-page.pageBlock}" aria-label="Previous">
+							      <a class="page-link" href="approvalEnd?currentPage=${page.startPage - page.pageBlock}" aria-label="Previous">
 							        <span aria-hidden="true">&laquo;</span>
 							      </a>
+							    </li>
 							    </c:if>  
-							    </li>
-							    <li class="page-item">
 							    <c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
-							    	<a href="approvalEnd?currentPage=${i}">${i}</a>
-							    </c:forEach>
-							    </li>
 							    <li class="page-item">
+								    <a class="page-link" href="approvalEnd?currentPage=${i}">${i}</a>
+							    </li>
+							    </c:forEach>
 							    <c:if test="${page.endPage < page.totalPage}">
-							      <a class="page-link" href="approvalEnd?currentPage=${page.startPage+page.pageBlock}" aria-label="Next">
+							    <li class="page-item">
+							      <a class="page-link" href="approvalEnd?currentPage=${page.startPage + page.pageBlock}" aria-label="Next">
 							        <span aria-hidden="true">&raquo;</span>
 							      </a>
-							    </c:if>
 							    </li>
+							    </c:if>
 							  </ul>
 							</nav>
                     </div>
