@@ -2,6 +2,9 @@ package com.oracle.choongangGroup.hj.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,10 +29,12 @@ public class MemberController {
 
 	// 아이디 받아와서 학적 조회
 	@RequestMapping(value = "listEmp")
-	public String MemberList(String userid, Model model) {
+	public String MemberList(String userid, Model model , HttpServletRequest request) {
 		System.out.println("MemberController MemberList start. . .  . . ");
-		//// 아이디 임시로 받아오기//
-		userid = "22100001";
+	
+		HttpSession session = request.getSession();
+		userid = (String) session.getAttribute("userid");
+		
 		MemberVo member = ms.list(userid);
 		model.addAttribute("member", member);
 		model.addAttribute("userid", userid);
@@ -64,12 +69,12 @@ public class MemberController {
 
 	// 성적조회페이지
 	@GetMapping(value = "gradeList")
-	public String gradeListForm(String userid, Model model) {
+	public String gradeListForm(String userid, Model model, HttpServletRequest request) {
 		System.out.println(" MemberController gradeListForm start . . . ");
 
-		//// 아이디 임시로 받아오기//
-		userid = "22100001";
-
+		//아이디 받아오기 
+		HttpSession session = request.getSession();
+		userid = (String) session.getAttribute("userid");
 		// 이름 가져오기위해서 해줌
 		MemberVo memberinfo = ms.infoList(userid);
 
