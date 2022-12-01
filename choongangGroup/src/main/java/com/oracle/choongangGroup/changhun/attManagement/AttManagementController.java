@@ -2,10 +2,12 @@ package com.oracle.choongangGroup.changhun.attManagement;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.data.domain.Page;
@@ -38,18 +40,19 @@ public class AttManagementController {
 	
 	@RequestMapping(value = "/attForm")
 	public String attMyForm(Model model,
+							HttpServletRequest http,
 							@RequestParam(required = false, defaultValue = "0", value="page")int page) throws ParseException {
 		
 		System.out.println("page --> " + page);
-		HttpSession session;
-//		String userid = (String) session.getAttribute("userid");
-		String userid = "18301001";
+		HttpSession session = http.getSession();
+		String userid = (String) session.getAttribute("userid");
+//		String userid = "18301001";
 		
 		//일주일 근무시간
 		Map<String, String> weekWorkMap = attManagementService.sumWeekWorking(userid);
 		
 		//한달 근무시간
-		String monthTotal = attManagementService.monthTotal(userid); 
+		Map<String, String> monthTotal = attManagementService.monthTotal(userid); 
 		
 		//내 근태내역 리스트
 		Page<Work> workList = repository.findPageByMember_Userid(userid,PageRequest.of(page, 5, Sort.by(Sort.Direction.ASC,"workDate")));
@@ -61,22 +64,57 @@ public class AttManagementController {
 		model.addAttribute("weekSum",weekWorkMap.get("weekTotal"));
 		model.addAttribute("weekOver",weekWorkMap.get("weekOver"));
 		model.addAttribute("vacation",vacation);
-		model.addAttribute("monthTotal",monthTotal);
-		
-		
+		model.addAttribute("monthOver",monthTotal.get("monthOver"));
+		model.addAttribute("monthTotalTime",monthTotal.get("monthTotalTime"));
+		model.addAttribute("lastMonthTotal",monthTotal.get("lastMonthTotal"));
+		model.addAttribute("lastMonthOver",monthTotal.get("lastMonthOver"));
 		
 		return "manager/attManagementForm";
 	}
 	
-	@RequestMapping(value = "attAllMemberForm")
-	public String attAllMemberForm(Model model) throws ParseException {
-		List<Work> attMemberList = attManagementService.attAllList();
+	@RequestMapping(value = "attDeptMemberForm")
+	public String attAllMemberForm(Model model,
+								@RequestParam(value = "deptno",defaultValue = "102") int deptno
+								) throws ParseException {
+		
+		String userid = "18301001";
+		// 현재 날짜에 대한 리스트 출력
+		List<Work> attMemberList = attManagementService.attAllList(deptno);
+		// 주말을 제외한 날짜 출력
 		List<String> monthList = attManagementService.monthList();
-		System.out.println(monthList.get(0));
-		System.out.println(monthList);
+		// 현재 로그인 사용자에 대한 리스트 출력
+		List<String> memberList = attManagementService.memberFormList(deptno);
+		
+		// 현재 달 구하기
+		String today = attManagementService.today();
+		String Month = today.substring(0,7);
+		
+		model.addAttribute("Month" , Month);
 		model.addAttribute("monthList" , monthList);
 		model.addAttribute("attList" , attMemberList);
-		return "manager/attAllMemberForm";
+		model.addAttribute("memberList" , memberList);
+		return "manager/attDeptMemberForm";
 	}
+	
+	@RequestMapping(value = "attMonthChange")
+	public String attMonthChange(Model model,
+			@RequestParam(value = "deptno",defaultValue = "102") int deptno,
+			@RequestParam(value = "month") String month) throws ParseException {
+		String userid = "1";
+		// 현재 날짜에 대한 리스트 출력
+		List<Work> attMemberList = attManagementService.attToMonthAllList(deptno,month);
+		// 주말을 제외한 날짜 출력
+		List<String> monthList = attManagementService.monthChangeList(month);
+		
+		List<String> memberList = attManagementService.memberList(deptno,month);
+		
+		model.addAttribute("Month" , month);
+		model.addAttribute("monthList" , monthList);
+		model.addAttribute("attList" , attMemberList);
+		model.addAttribute("memberList" , memberList);
+		return "manager/attDeptMemberForm";
+	}
+	
+	
 	
 }

@@ -8,6 +8,12 @@
 	.tdwidth{
 		min-width: 150px;
 	}
+
+    #overflow {
+        margin : 0 auto;
+        overflow : hidden;
+        white-space : nowrap; /* 줄바꿈 금지(이미지를 한줄로) */
+    }
 </style>
 <meta charset="UTF-8">
 <!-- bottSTrap CSS only -->
@@ -27,42 +33,73 @@
 </head>
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
-
-
-	/* 주차 Click */
-	var index = 0;
-	function weekWorkClick(vWeek){
-	//	var user= $('#user'+vIndex).val();
-	$('.weekclk').not('#weekWork'+index).text("");
-	/* location.href="${pageContext.request.contextPath}/attForm?page="+vWeek; */
-	vindex = vWeek+1;
-	console.info(index);
- 		$.ajax({
- 			type: 'POST',
-			url : '/attClk',
-			data : {page : vWeek},
-			dataType: 'json',
-			success : function(data){
-				console.log("성공");
-				var str = "<table class='table table-hover'>"
-        				+"<thead><tr><th>일자</th><th>업무시작</th><th>업무종료</th><th>총근무시간</th>"
-        				+"</thead>"
-        				+"<tbody>";
-			 	$.each(data,function(index,item){
-		            	str +=	"<tr>"
-		            			+"<td>"+item.workDate+"</td>"
-		            			+"<td>"+item.attOnTime+"</td>"
-		            			+"<td>"+item.attOffTime+"</td>"
-		            			+"<td>"+item.totalTime+"</td>"
-		            			+"</tr>";
-				});
-				str +="</tbody></table>"
-			 	$('#weekWork'+vindex).append(str) 
-			}
-		}); 
+	
+	function chagedeptSelect(){
+		var selectDept = $("#deptSelect option:selected").val();
+		var yearMonth = $('#month').text();
+		location.href = "/attMonthChange?deptno="+selectDept+"&month="+yearMonth;
 	}
 	
+	function monthChange(add){
+		var selectDept = $("#deptSelect option:selected").val();
+		var yearMonth = $('#month').text();
+		var year = parseInt(yearMonth.substring(0,4));
+		var month = parseInt(yearMonth.substring(5,7));
+		var monthadd = month - add;
+		
+		month = month - add;
+		
+		if(monthadd == 13){
+			month = 1;
+			year++;
+		}
+		if(monthadd == 0){
+			month = 12;
+			year--;
+		}
+		
+		var monthStr = String(month).padStart(2,'0');
+		var result = year + "-" + monthStr;
+		
+		location.href = "/attMonthChange?deptno="+selectDept+"&month="+result;
+
+		
+		
+		console.log(year);
+		console.log(month);
+		
+	}
 	
+	$(document).ready(function(){
+		var str ="";
+		$.ajax({
+			url 	: "/deptList",
+			data	: "json",
+			success	: function(data){
+				console.log("성공");
+				$(data).each(function(){
+					if(this.dname != "교수"){
+						str	+= "<option value='"+this.deptno+"'>"+this.dname+"</option>";
+					}
+				});
+				console.log(str);
+				const urlParams = new URL(location.href).searchParams;
+				var deptno = parseInt(urlParams.get('deptno'));
+				$('.form-select').append(str);
+				if (isNaN(deptno)){
+					$(".form-select option:eq(0)").prop("selected");
+				}
+				if (!isNaN(deptno)){
+					$(".form-select").val(deptno).prop("selected", true);
+				}
+				console.log("deptno --> " + deptno);
+			}
+		});
+	});
+	/* $(".form-select").val(deptno).attr("selected", true); */
+	 function j_test(n){
+	        $('#overflow').scrollLeft( $('#overflow').scrollLeft() + n );
+	 }
 </script>
 
 
@@ -207,29 +244,49 @@
                     </div>
                     <!-- card content -->  
                     <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
-                    	<div>내 근태현황</div><hr>
-                    	<table class="table table-hover">
-                    		<tr>
-                    		<th class="tdwidth">이름</th>
-                     		<c:forEach var="i" begin="0" end="${monthList.size()-1}">
-   	   	              			<th class="tdwidth">${monthList.get(i)}</th>
-                    		</c:forEach>
-                    		<c:forEach var="i" begin="0" end ="${attList.size()-monthList.size()}" step ="${monthList.size()}">
-                    		<tr>
-                    			<td class="tdwidth">${attList.get(i).member.name }</td>
-                    			<td class="tdwidth">출근 : ${attList.get(i).attOnTime} <br> 퇴근 : ${attList.get(i).attOffTime }</td>
-	                    			<c:forEach var="j" begin="1" end="${monthList.size()-1}">
-    	    	            			<td class="tdwidth">출근 : ${attList.get(i+j).attOnTime} <br> 퇴근 : ${attList.get(i+j).attOffTime }</td>
-        	            			</c:forEach>
-<%--                     			<td>출근 : ${attList.get(i+1).attOnTime} <br> 퇴근 : ${attList.get(i+1).attOffTime }</td>
-                    			<td>출근 : ${attList.get(i+2).attOnTime} <br> 퇴근 : ${attList.get(i+2).attOffTime }</td>
-                    			<td>출근 : ${attList.get(i+3).attOnTime} <br> 퇴근 : ${attList.get(i+3).attOffTime }</td>
-                    			<td>출근 : ${attList.get(i+4).attOnTime} <br> 퇴근 : ${attList.get(i+4).attOffTime }</td> --%>
-                    		</tr>
-                    		</c:forEach>
-                    		<tr>
-                    		
-                    	</table>
+                    	<div class="row">
+	                    	<div class ="col-2">부서별 근태현황</div>
+	                    	<div class ="col-8"
+							style=" align-items: center;text-align: center;font-size: 21px;"
+	                		><i class="bi bi-caret-left" onclick="monthChange(1)"></i><span id="month">${Month }</span><i class="bi bi-caret-right" onclick="monthChange(-1)"></i></div>
+	                    	<div class ="col-2"></div>
+                    	</div><hr>
+                    <select class="form-select" id = "deptSelect" name = "deptno" aria-label="Default select example" onchange="chagedeptSelect()">
+					</select>
+						<div class ="row">
+							<div class ="col" onclick="j_test(-1300)" style="display: flex;align-items:center;">
+								<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-caret-left" viewBox="0 0 16 16">
+								  <path d="M10 12.796V3.204L4.519 8 10 12.796zm-.659.753-5.48-4.796a1 1 0 0 1 0-1.506l5.48-4.796A1 1 0 0 1 11 3.204v9.592a1 1 0 0 1-1.659.753z"/>
+								</svg>
+							</div>
+							<div class ="col" style="width: 90%;">
+								<div id = "overflow">
+			                    	<table class="table table-hover">
+			                    		<tr>
+			                    		<th class="tdwidth">이름</th>
+			                     		<c:forEach var="i" begin="0" end="${monthList.size()-1}">
+			   	   	              			<th class="tdwidth">${monthList.get(i)}</th>
+			                    		</c:forEach>
+			                    		<c:if test="${attList.size() != 0 && memberList.size() != 0}">
+					                    		<c:forEach var="i" begin="0" end ="${attList.size()-attList.size()/memberList.size()}" step ="${attList.size()/memberList.size()}">
+					                    		<tr>
+					                    			<td class="tdwidth">${attList.get(i).member.name}(${attList.get(i).member.position}) <br>${attList.get(i).member.dept.dname} </td>
+					                    			<td class="tdwidth">출근 : ${attList.get(i).attOnTime} <br> 퇴근 : ${attList.get(i).attOffTime } <br> ${attList.get(i).attStatus}</td>
+						                     			<c:forEach var="j" begin="1" end="${monthList.size()-1}">
+					    	    	            			<td class="tdwidth">출근 : ${attList.get(i+j).attOnTime} <br> 퇴근 : ${attList.get(i+j).attOffTime }</td>
+					        	            			</c:forEach>
+					                    		</tr>
+					                    		</c:forEach>
+				                    	</c:if>
+			                    	</table>
+			                    </div>
+							</div>
+							<div class="col" onclick="j_test(1300)" style="display: flex;align-items:center;">
+								<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-caret-right" viewBox="0 0 16 16">
+								  <path d="M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z"/>
+								</svg>
+							</div>
+						</div>
            			</div>
            		</div>
           </main>

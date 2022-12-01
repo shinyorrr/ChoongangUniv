@@ -17,6 +17,8 @@ public interface AttCustomRepository {
 
 	long findVacation(String userid);
 
-	List<Work> attAllList();
+	List<Work> attAllList(int deptno, String todayStr);
+
+	List<String> MemberList(int deptno, String month);
 
 }
