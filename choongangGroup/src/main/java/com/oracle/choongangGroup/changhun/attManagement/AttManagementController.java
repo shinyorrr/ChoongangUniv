@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.oracle.choongangGroup.changhun.JPA.Dept;
+import com.oracle.choongangGroup.changhun.JPA.Member;
 import com.oracle.choongangGroup.changhun.JPA.MemberMapping;
 import com.oracle.choongangGroup.changhun.JPA.Work;
 import com.oracle.choongangGroup.changhun.address.MemberRepository;
@@ -37,6 +39,7 @@ public class AttManagementController {
 	
 	private final AttManagementRepository repository;
 	private final AttManagementService attManagementService;
+	private final MemberRepository memRepository;
 	
 	@RequestMapping(value = "/attForm")
 	public String attMyForm(Model model,
@@ -115,6 +118,26 @@ public class AttManagementController {
 		return "manager/attDeptMemberForm";
 	}
 	
+	@RequestMapping(value = "attAllMemberForm")
+	public String attAllMemberForm(Model model) {
+		
+		List<String> deptlist = attManagementService.findBydeptList();
+		List<Member> members = memRepository.findAllByOrderByDept_deptnoAsc();
+		
+		model.addAttribute("deptlist", deptlist );
+		model.addAttribute("members", members );
+		
+		return "manager/attAllMember";
+	}
 	
+	@RequestMapping(value = "memberAttList")
+	public String memberAttList(@RequestParam(value = "name") String name) {
+		
+		name = name.replace(" ", "");
+		System.out.println(name);
+		
+		return null;
+	}
+	 
 	
 }

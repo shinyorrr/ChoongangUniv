@@ -87,7 +87,11 @@ public class AttCustomRepositoryImpl implements AttCustomRepository {
 		String today = todayStr + "%";
 		System.out.println(today);
 //		String query = "select w from Work w order by w.member.userid, w.workDate";
-		String query = "select w from Work w where w.workDate Like : today and w.member.dept.deptno =: deptno order by w.member.userid, w.workDate";
+		String query = "select w "
+					+ " from Work w"
+					+ " where w.workDate Like : today "
+					+ " and w.member.dept.deptno =: deptno "
+					+ " order by w.member.userid, w.workDate";
 		List<Work> attAllList = null;
 		attAllList = em.createQuery(query).setParameter("today", today).setParameter("deptno", deptno).getResultList();
 		
@@ -114,6 +118,15 @@ public class AttCustomRepositoryImpl implements AttCustomRepository {
 //		List<String> memberlist = em.createQuery(query).getResultList();
 		System.out.println("memberlist.size() --> " + memberlist.size());
 		return memberlist;
+	}
+
+	@Override
+	public List<String> findBydeptList() {
+		
+		String query = "select d.dname from Dept d";
+		List<String> deptList = em.createQuery(query).getResultList();
+		
+		return deptList;
 	}
 
 	

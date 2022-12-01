@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.oracle.choongangGroup.changhun.JPA.Member;
 import com.oracle.choongangGroup.changhun.JPA.Work;
+import com.oracle.choongangGroup.changhun.address.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,7 +25,7 @@ public class AttRestController {
 	
 	private final AttManagementRepository repository;
 	private final AttManagementService service;
-	
+	private final MemberRepository memRepository;
 	
 	@RequestMapping(value = "attInsert")
 	public String attInsert() {
@@ -73,6 +75,12 @@ public class AttRestController {
 		
 		return workList.getContent();
 	}
+	
+//	@PostMapping(value = "/memList")
+//	public List<Member> memList(){
+//		List<Member> members = memRepository.findAll();
+//		return members;
+//	}
 	
 	
 }

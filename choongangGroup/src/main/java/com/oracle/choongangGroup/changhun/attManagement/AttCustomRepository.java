@@ -21,4 +21,7 @@ public interface AttCustomRepository {
 
 	List<String> MemberList(int deptno, String month);
 
+	List<String> findBydeptList();
+
+
 }

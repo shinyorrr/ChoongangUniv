@@ -507,6 +507,13 @@ public class AttManagementService {
 		return memberList;
 	}
 
+
+	public List<String> findBydeptList() {
+		List<String> deptList = attCustomRepository.findBydeptList();
+		return deptList;
+	}
+
+
 	
 	
 	
