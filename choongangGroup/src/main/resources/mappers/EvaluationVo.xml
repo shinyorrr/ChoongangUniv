@@ -3,7 +3,7 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 
-<mapper namespace="com.oracle.choongangGroup.hj.model.evaluationVoMapper">
+<mapper namespace="com.oracle.choongangGroup.hj.model.EvaluationVoMapper">
 
 	
 	<select id="hjevaluationSelOne" parameterType="String" resultType="EvaluationVo">
