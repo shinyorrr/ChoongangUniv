@@ -26,6 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @Slf4j
 @RequiredArgsConstructor
+@RequestMapping("/manager")
 public class ApprovalController {
 	
 	private final ApprovalService as;
@@ -125,19 +126,19 @@ public class ApprovalController {
 			result = as.saveAppr(approval);
 			
 			if(result > 0) {
-				return "redirect:/approval";
+				return "redirect:approval";
 			} else {
 				
-				return "forward:/approvalWrite";
+				return "forward:approvalWrite";
 			}
 		} else {
 			result = as.save(approval);
 			
 			if(result > 0) {
-				return "redirect:/approval";
+				return "redirect:approval";
 			} else {
 				
-				return "forward:/approvalWrite";
+				return "forward:approvalWrite";
 			}
 		}	
 	}
