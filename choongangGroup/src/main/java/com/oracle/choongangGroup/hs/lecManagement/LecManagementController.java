@@ -1,7 +1,5 @@
 package com.oracle.choongangGroup.hs.lecManagement;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,8 +9,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import lombok.RequiredArgsConstructor;
@@ -33,16 +31,14 @@ public class LecManagementController {
 		log.info(userid);
 		
 		// 승인해야하는 강의 수
-		int lecTotal = lms.lecTot();
+		int lecAgreeTot = lms.lecAgreeCnt();
 		
 		log.info(year);
 		log.info(semester);
 		log.info(keyword);
 		log.info(status);
 		
-//		lectureVO.setYear(year);
-//		lectureVO.setSemester(semester);
-//		lectureVO.setKeyword(keyword);
+		int lecTotal = lms.lecTot(lectureVO);
 		
 		List<LectureVO> lecList = lms.listLec(lectureVO);
 		log.info("lecList.size()->{}", lecList.size());
@@ -52,6 +48,7 @@ public class LecManagementController {
 		model.addAttribute("keyword", keyword);
 		model.addAttribute("status", status);
 		model.addAttribute("lecList", lecList);
+		model.addAttribute("lecAgreeTot", lecAgreeTot);
 		model.addAttribute("lecTotal", lecTotal);
 		return "manager/lecManagementForm";
 	}
@@ -66,4 +63,31 @@ public class LecManagementController {
 		return lectureVO;
 	}
 	
+	@ResponseBody
+	@RequestMapping("lecDelete")
+	public int detail(Long lec_id) {
+		log.info("lecDelete start...");
+		
+		int result = lms.lecDelete(lec_id);
+		
+		return result;
+	}
+	
+	//@ResponseBody
+	@RequestMapping("lecUpdate")
+	public String update(LectureVO lectureVO) {
+		log.info("lecUpdate start...");
+		
+		log.info("lectureVO->{}", lectureVO);
+		
+		int result = lms.lecUpdate(lectureVO);
+		log.info("result->{}", result);
+		
+		if(result > 0) {
+			return "redirect:/lecManagement";
+		} else {
+			return "forward:/lecManagement";
+		}
+		
+	}
 }

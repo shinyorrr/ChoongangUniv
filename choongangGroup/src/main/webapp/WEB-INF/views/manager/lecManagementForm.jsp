@@ -30,6 +30,7 @@
 	/* 년도 뿌리기 */
 	$(document).ready(function(){
 	    setDateBox();
+		
 	}); 
 
 	 function setDateBox() {
@@ -37,9 +38,11 @@
 		var year = "";
 		var com_year = dt.getFullYear();
 		for(var i = (com_year + 1); i >= (com_year - 10); i--) {
-			$('#year').append("<option value='"+i+"' <c:if test="${year eq '+i+'}">selected</c:if>>"+i+"년"+"</option>");
+			$('#year').append("<option value='"+i+"'>"+i+"년"+"</option>");
 		}
 	}
+	 
+
 	 
 	
 	function lecDetail(id) {
@@ -52,26 +55,67 @@
 				console.log("성공===> " + data );
 				var lec = JSON.parse(data);
 				console.log("==>" + lec.lec_name);
-				document.getElementById("lecName").value=lec.lec_name;
-				document.getElementById("lecGrade").value=lec.lec_target_grade;
-				document.getElementById("lecBuilding").value=lec.lec_building;
-				document.getElementById("lecRoom").value=lec.lec_room;
-				document.getElementById("lecDay1").value=lec.lec_day1;
-				document.getElementById("lecTime1").value=lec.lec_time1;
-				document.getElementById("lecDay2").value=lec.lec_day2;
-				document.getElementById("lecTime2").value=lec.lec_time2;
-				document.getElementById("lecMaxStud").value=lec.lec_max_stud;
-				document.getElementById("lecMaxCount").value=lec.lec_max_count;
-				document.getElementById("lecTypeCode").value=lec.lec_typecode;
-				document.getElementById("lecUnitScore").value=lec.lec_unit_score;
-				document.getElementById("lecYear").value=lec.lec_year;
-				document.getElementById("lecSemester").value=lec.lec_semester;
-				document.getElementById("lecMajor").value=lec.major_gubun;
-				document.getElementById("lecId").value=lec.lec_id;
-				document.getElementById("lecStatus").value=lec.lec_status;
+				document.getElementById("lec_name").value=lec.lec_name;
+				document.getElementById("lec_target_grade").value=lec.lec_target_grade;
+				document.getElementById("lec_building").value=lec.lec_building;
+				document.getElementById("lec_room").value=lec.lec_room;
+				document.getElementById("lec_day1").value=lec.lec_day1;
+				document.getElementById("lec_time1").value=lec.lec_time1;
+				document.getElementById("lec_day2").value=lec.lec_day2;
+				document.getElementById("lec_time2").value=lec.lec_time2;
+				document.getElementById("lec_max_stud").value=lec.lec_max_stud;
+				document.getElementById("lec_max_count").value=lec.lec_max_count;
+				document.getElementById("lec_typecode").value=lec.lec_typecode;
+				document.getElementById("lec_unit_score").value=lec.lec_unit_score;
+				document.getElementById("lec_year").value=lec.lec_year;
+				document.getElementById("lec_semester").value=lec.lec_semester;
+				document.getElementById("major_gubun").value=lec.major_gubun;
+				document.getElementById("lec_id").value=lec.lec_id;
+				document.getElementById("lec_status").value=lec.lec_status;
+				document.getElementById("lec_type").value=lec.lec_type;
+				document.getElementById("prof_name").value=lec.prof_name;
 			}
 		});
-	} 
+	}
+	
+	function lecDelete() {
+		var id = document.getElementById("lec_id").value;
+		console.log("강의 삭제 ===> " + id);
+		 if (confirm("강의를 삭제하시겠습니까?") == true) { 
+			 $.ajax(
+						{
+							url : "lecDelete",
+							data	: {lec_id : id},
+							dataType: 'text',
+							success	: function(data){
+								console.log("성공===> " + data );
+								if(data == '1'){
+									alert("강의가 삭제되었습니다");
+									location.replace("lecManagement");
+								}
+								else{
+									alert("삭제실패");
+								} 
+							}
+						}
+				);
+		 } else {   //취소
+		      return false;
+		}
+	}
+	
+	function lecUpdate() {
+		 if (confirm("강의를 수정하시겠습니까?") == true) {
+			 alert("수정되었습니다.");
+			 document.lecFrm.submit();
+			 return true;
+		 }
+		 else {
+			 alert("취소되었습니다.")
+			 return false;
+		 }
+	}
+	
 </script>
 </head>
 
@@ -202,7 +246,7 @@
                     <!-- card content -->  
                      <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
                         <div id="titleInBox" style="font-weight: bold; font-size: 19px;">강의 전체 목록 <span onclick=" location.href = 'lecManagement';" class="badge text-bg-secondary">전체조회</span></div>
-                        	<div class="btnProcess">승인 해야할 문서가 ${lecTotal }건 있습니다.</div>
+                        	<div class="btnProcess">승인 해야할 문서가 ${lecAgreeTot }건 있습니다.</div>
 							<div style="border-top: 1px dashed #c9c9c9; margin-top: 10px;"></div>
 							<!---------------- 강의 전체 목록 시작 -------------->
 							<div id="containerBox">
@@ -210,7 +254,7 @@
 								<div class="mt-3">
 								<label  class="me-2 pe-0 font09">년도/학기</label>
 								<select class="form-select-sm" name="year" id="year" style="width: 13%;">
-									<option value="" selected>선택 </option>
+									<option value="" selected>선택</option>
 								</select>
 								<select class="ms-2 form-select-sm" style="width: 12%;" name="semester">
 									<option value="" selected>선택</option>
@@ -235,7 +279,8 @@
 								</div>
 							</form>
 							
-							<div class="scroll_wrap" style="height: 200px; overflow: scroll; margin-top: 20px;">
+							<div class="btnProcess" style="text-align: right;">총 강의 수 : ${lecTotal }개</div>
+							<div class="scroll_wrap" style="height: 200px; overflow: scroll;">
 							<table class="table table-hover" style="font-size: 14px; text-align: center; margin-top: 10px;">
 								<thead class="table-secondary">
 									<tr>
@@ -279,33 +324,35 @@
 							<div id="titleInBox" style="font-weight: bold; font-size: 19px; margin-top: 30px;">강의 상세정보</div>
 							<div style="border-top: 1px dashed #c9c9c9; margin: 10px 0;"></div>
 							
-							<form id="lecSave" action="">
-								<input type="hidden" id="lecId" name="lecId">
-								
+							<form name="lecFrm" id="lecFrm" action="lecUpdate" method="post" onsubmit="return lecUpdate()">
+								<input type="hidden" id="lec_id" name="lec_id">
+								<input type="hidden" id="prof_name" name="prof_name">
+								<input type="hidden" id="lec_type" name="lec_type">
+
 								<table class="table font09 text-center">
 									<tr>
 										<th class="table-secondary text-center " scope="col" style="width: 9%; vertical-align:middle;">년도</th>
 										<td class="p-2" style="width:16%;">
 											<input class="form-control text-center mx-0 form-inline form-control-sm " type="text" placeholder="개설년도" 
-													id="lecYear" name="year" >
+													id="lec_year" name="lec_year" >
 										</td>
 										<th class="table-secondary me-0" scope="col" style="vertical-align:middle; width: 9%;">학기</th>
 										<td>
-											<select id="lecSemester" name="semester" class="form-select form-select-sm me-0" >
+											<select id="lec_semester" name="lec_semester" class="form-select form-select-sm me-0" >
 												<option value="1" selected>1</option>
 												<option value="2">2</option>
 											</select>
 										</td>
 										<th class="table-secondary" scope="col" style="width: 9%; vertical-align:middle;">총시수</th>
 										<td>
-											<select id="lecMaxCount" name="maxCount" class="form-select form-select-sm me-0" style="margin: 0;">
+											<select id="lec_max_count" name="lec_max_count" class="form-select form-select-sm me-0" style="margin: 0;">
 												<option value="14">14</option>
 												<option selected value="15">15</option>
 											</select>
 										</td>
 										<th class="table-secondary" scope="col" style="width: 9%; vertical-align:middle;">학점</th>
 										<td>
-											<select id="lecUnitScore" name="unitScore" class="form-select form-select-sm me-0 " style="margin: 0;">
+											<select id="lec_unit_score" name="lec_unit_score" class="form-select form-select-sm me-0 " style="margin: 0;">
 											<!-- <option selected value="1">1 학점</option> -->
 											<option selected value="2">2 힉점</option>
 											<option value="3">3 학점</option>
@@ -317,7 +364,7 @@
 									<tr>
 										<th class="table-secondary text-center" scope="col" style="width: 9%; vertical-align:middle;">이수구분</th>
 										<td class="p-2">
-											<select id="lecTypeCode" name="typeCode" class="form-select form-select-sm me-0 " style="margin-left: 0;">
+											<select id="lec_typecode" name="lec_typecode" class="form-select form-select-sm me-0 " style="margin-left: 0;">
 												<option value="" selected>선택</option>
 												<option value="M">전필</option>
 												<option value="S">전선</option>
@@ -326,7 +373,7 @@
 										</td>
 										<th class="table-secondary me-0" scope="col" style="vertical-align:middle; width: 9%;">전공</th>
 										<td>
-											<select id="lecMajor" name="major" class="form-select form-select-sm " style="margin: 0;">
+											<select id="major_gubun" name="major_gubun" class="form-select form-select-sm " style="margin: 0;">
 												<option value="공통" selected>공통</option>
 												<option value="컴퓨터공학과">컴퓨터공학과</option>
 												<option value="AI학과">AI학과</option>
@@ -335,7 +382,7 @@
 										</td>
 										<th class="table-secondary" scope="col" style="width: 9%; vertical-align:middle;">대상학년</th>
 										<td  style="width:16%;">
-											<select id="lecGrade" name="grade" class="form-select form-select-sm me-0 " style="margin: 0;">
+											<select id="lec_target_grade" name="lec_target_grade" class="form-select form-select-sm me-0 " style="margin: 0;">
 												<option selected value="1">1 학년</option>
 												<option value="2">2 학년</option>
 												<option value="3">3 학년</option>
@@ -344,7 +391,7 @@
 										</td>
 										<th class="table-secondary" scope="col" style="width: 9%; vertical-align:middle;">수강인원</th>
 										<td>
-											<input id="lecMaxStud" name="maxStud" class="form-control form-control-sm text-start" type="text" >
+											<input id="lec_max_stud" name="lec_max_stud" class="form-control form-control-sm text-start" type="text" >
 										</td>
 									</tr>
 					
@@ -352,12 +399,12 @@
 									<tr>
 										<th class="table-secondary text-center" scope="col" style="width: 9%; vertical-align:middle;">강의명</th>
 										<td colspan="3" class="p-2" style="width:16%;">
-											<input id="lecName" name="name" class="form-control form-control-sm text-start " 
+											<input id="lec_name" name="lec_name" class="form-control form-control-sm text-start " 
 												type="text" placeholder="강의명을 입력해주세요" >
 										</td>
 										<th class="table-secondary me-0" scope="col" style="vertical-align:middle;">건물명</th>
 										<td>
-											<select id="lecBuilding" name="building" class="form-select form-select-sm me-0 " style=" margin-right: 0;">
+											<select id="lec_building" name="lec_building" class="form-select form-select-sm me-0 " style=" margin-right: 0;">
 												<option selected value="중앙동 ">중앙동</option>
 												<option value="정보동">정보동</option>
 												<option value="종합강의동">종합강의동</option>
@@ -365,7 +412,7 @@
 										</td>
 										<th class="table-secondary" scope="col" style="width: 9%; vertical-align:middle;">호수</th>
 										<td>
-											<select id="lecRoom" name="room" class="form-select form-select-sm me-0 " style="margin: 0;">
+											<select id="lec_room" name="lec_room" class="form-select form-select-sm me-0 " style="margin: 0;">
 												<option selected value="101호 ">101호</option>
 												<option value="102호">102호</option>
 												<option value="103호">103호</option>
@@ -382,7 +429,7 @@
 										<tr>
 										<th class="table-secondary text-center" scope="col" style="width: 9%; vertical-align:middle;">강의일1</th>
 										<td class="p-2">
-											<select id="lecDay1" name="day1" class="form-select form-select-sm me-0 " 
+											<select id="lec_day1" name="lec_day1" class="form-select form-select-sm me-0 " 
 													style="margin: 0;">
 												<option value="" selected>선택</option>
 												<option value="월">월요일</option>
@@ -394,7 +441,7 @@
 										</td>
 										<th class="table-secondary me-0" scope="col" style="vertical-align:middle;width: 9%;">강의시간1</th>
 										<td style="width: 18%; margin-right: 0;">
-											<select id="lecTime1" name="time1" class=" form-select form-select-sm">
+											<select id="lec_time1" name="lec_time1" class=" form-select form-select-sm">
 												<option selected value="">선택</option>
 												<option value="1교시">1교시 (09:00-09:50)</option>
 												<option value="2교시">2교시 (10:00-10:50)</option>
@@ -409,7 +456,7 @@
 										</td>
 										<th class="table-secondary text-center" scope="col" style="width: 9%; vertical-align:middle;">강의일2</th>
 										<td class="p-2">
-											<select id="lecDay2" name="day2" class="form-select form-select-sm me-0 " 
+											<select id="lec_day2" name="lec_day2" class="form-select form-select-sm me-0 " 
 													style="margin: 0;">
 												<option value="" selected>선택</option>
 												<option value="월">월요일</option>
@@ -421,7 +468,7 @@
 										</td>
 										<th class="table-secondary me-0" scope="col" style="vertical-align:middle; width: 9%;">강의시간2</th>
 										<td style="width: 18%; margin-right: 0;">
-											<select id="lecTime2" name="time2" class=" form-select form-select-sm" >
+											<select id="lec_time2" name="lec_time2" class=" form-select form-select-sm" >
 												<option selected value="">선택</option>
 												<option value="1교시">1교시 (09:00-09:50)</option>
 												<option value="2교시">2교시 (10:00-10:50)</option>
@@ -438,23 +485,23 @@
 								</table>
 								
 								<table class="table font09 text-center">
-										<tr>
+									<tr>
 										<th class="table-secondary text-center" scope="col" style="width: 9%; vertical-align:middle;">승인여부</th>
 										<td class="p-2">
-											<select id="lecStatus" name="lecStatus" class="form-select form-select-sm me-0 " 
+											<select id="lec_status" name="lec_status" class="form-select form-select-sm me-0 " 
 													style="margin: 0;">
 												<option value="" selected>선택</option>
 												<option value="1">미승인</option>
 												<option value="0">승인</option>
 										</select>
 										</td>
-										</tr>
+									</tr>
 								</table>
 								<div class="d-flex justify-content-center">
-									<button type="button" class="btn btn-primary btn-sm" style="font-weight: bold; margin-right: 10px;">수정/승인</button>
-									<button type="button" class="btn btn-secondary btn-sm" style="font-weight: bold;">삭제</button>
+									<button type="button" id="btnUpdate" onclick="lecUpdate()" class="btn btn-primary btn-sm" style="font-weight: bold; margin-right: 10px;">수정/승인</button>
+									<button type="button" onclick="lecDelete()" class="btn btn-secondary btn-sm" style="font-weight: bold;">삭제</button>
 								</div>
-								</form>	
+								</form>
 							</div>
 						</div>
                     </div>

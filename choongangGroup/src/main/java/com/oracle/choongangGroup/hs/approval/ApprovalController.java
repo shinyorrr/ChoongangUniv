@@ -188,6 +188,7 @@ public class ApprovalController {
 		
 		model.addAttribute("waitList", waitList);
 //		model.addAttribute("mem_name", mem_name);
+		model.addAttribute("waitTotal", waitTotal);
 		model.addAttribute("page", page);
 		
 		return "manager/approvalWaitForm";
@@ -268,6 +269,7 @@ public class ApprovalController {
 		
 		model.addAttribute("processList", processList);
 //		model.addAttribute("mem_name", mem_name);
+		model.addAttribute("processTotal", processTotal);
 		model.addAttribute("page", page);
 		
 		return "manager/approvalProcessForm";
@@ -350,6 +352,7 @@ public class ApprovalController {
 		log.info("endList.size()->{}",endList.size());
 		
 		model.addAttribute("endList", endList);
+		model.addAttribute("endTotal", endTotal);
 //		model.addAttribute("mem_name", mem_name);
 		model.addAttribute("page", page);
 		return "manager/approvalEndForm";

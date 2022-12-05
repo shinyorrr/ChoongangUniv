@@ -26,10 +26,10 @@ public class LecManagementServiceImpl implements LecManagementService {
 	}
 
 	@Override
-	public int lecTot() {
-		log.info("lecTot start...");
-		int lecTotal = lmd.lecTot();
-		return lecTotal;
+	public int lecAgreeCnt() {
+		log.info("lecAgreeCnt start...");
+		int lecAgreeTotal = lmd.lecAgreeCnt();
+		return lecAgreeTotal;
 	}
 
 	@Override
@@ -37,5 +37,26 @@ public class LecManagementServiceImpl implements LecManagementService {
 		log.info("lecDetail start...");
 		LectureVO lectureVO = lmd.lecDetail(lec_id);
 		return lectureVO;
+	}
+
+	@Override
+	public int lecTot(LectureVO lectureVO) {
+		log.info("lecAgreeCnt start...");
+		int lecTotal = lmd.lecTot(lectureVO);
+		return lecTotal;
+	}
+
+	@Override
+	public int lecDelete(Long lec_id) {
+		log.info("lecDelte start...");
+		int result = lmd.lecDelete(lec_id);
+		return result;
+	}
+
+	@Override
+	public int lecUpdate(LectureVO lectureVO) {
+		log.info("lecUpdate start...");
+		int result = lmd.lecUpdate(lectureVO);
+		return result;
 	}
 }
