@@ -5,9 +5,12 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.stereotype.Service;
 
+import com.oracle.choongangGroup.sh.domain.ApplicationLec;
 import com.oracle.choongangGroup.sh.domain.Lecture;
 import com.oracle.choongangGroup.sh.domain.Report;
 
@@ -19,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 public class DhProfessorServiceImpl implements DhProfessorService {
 	private final DhProfessorLecRepository lr;
 	private final DhProfessorReportRepository rr;
+	private final DhProfessorAppLecRepository alr;
 	
 	@Override
 	public List<Lecture> findByProf(String profName) {
@@ -26,9 +30,35 @@ public class DhProfessorServiceImpl implements DhProfessorService {
 	}
 
 	@Override
-	public Page<Report> findPageByLecture_Id(Long id, Pageable pageable) {
-		return rr.findPageByLecture_Id(id, pageable);
+	public Page<ApplicationLec> findPageByLecture_IdAndGubun(Long id, Long gubun, Pageable pageable) {
+		return alr.findPageByLecture_IdAndGubun(id ,gubun, pageable);
 	}
 
+	@Override
+	public int updateReportScore(Long id, String score, String grade) {
+		int result = 0;
+		try {
+			System.out.println("service params : id :" + id + ", score : " + score + ", garde : " + grade);
+			result = rr.updateReportScore(id, score, grade);
+		} catch (Exception e) {
+			result = 0;
+		}
+		return result;
+	}
+
+	@Override
+	public Report findByApplicationLec_Member_Userid(String userid) {
+		return rr.findByApplicationLec_Member_Userid(userid);
+	}
+
+	@Override
+	public void save(Report report) {
+		rr.save(report);
+	}
+
+	@Override
+	public List<ApplicationLec> findByLecture_IdAndGubun(Long id, Long gubun) {
+		return alr.findByLecture_IdAndGubun(id, gubun);
+	}
 
 }

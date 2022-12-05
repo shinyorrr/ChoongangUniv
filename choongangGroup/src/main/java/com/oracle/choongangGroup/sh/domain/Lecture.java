@@ -31,7 +31,7 @@ public class Lecture {
 	private String prof;
 
 	@Column(name = "lec_target_grade")
-	private int grade; //null 일때 Long으로 바꾸기
+	private Long grade; //null 일때 Long으로 바꾸기
 	
 	@Column(name = "lec_room")
 	private String room;

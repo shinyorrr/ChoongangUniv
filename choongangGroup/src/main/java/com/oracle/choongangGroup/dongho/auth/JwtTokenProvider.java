@@ -53,7 +53,7 @@ public class JwtTokenProvider {
         long now = (new Date()).getTime();
         // Access Token 생성
         // 만료시간 설정 (현재시간 + 만료기간)
-        Date accessTokenExpiresIn = new Date(now + 60 * 30 * 1000L); // param * 1000L => param 초 (밀리초 단위이므로 1000으로 나누면 초가 된다)
+        Date accessTokenExpiresIn = new Date(now + 30 * 60 * 1000L); // param * 1000L => param 초 (밀리초 단위이므로 1000으로 나누면 초가 된다)
         // Jwts를 이용하여 토큰 생성
         String accessToken = Jwts.builder()
         		//authentication 으로부터 유저정보를 받아 넣는다. getName => memberId , authorites => roles
@@ -67,7 +67,7 @@ public class JwtTokenProvider {
 
         // Refresh Token 생성 (토큰 변조 유무 및 db와 일치 여부만 확인하면 되므로 유저정보는 넣지 않는다)
         String refreshToken = Jwts.builder()
-                .setExpiration(new Date(now + 60 * 60 * 1000L))
+                .setExpiration(new Date(now + 60 * 60 * 1000L)) // 60분
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
         // TokenInfo dto에 토큰 넣기
@@ -95,6 +95,7 @@ public class JwtTokenProvider {
                         .collect(Collectors.toList());
 
         // UserDetails 객체(principal)를 만들어서 Authentication 리턴(jwt토큰에 민감한 정보인 비밀번호를 넣을 필요가 없으므로 credential 은 "")
+        System.out.println("getAuthentication claims.getSubject() : " + claims.getSubject());
         UserDetails principal = new User(claims.getSubject(), "", authorities);
         return new UsernamePasswordAuthenticationToken(principal, "", authorities);
     }
@@ -109,11 +110,13 @@ public class JwtTokenProvider {
         } catch (ExpiredJwtException e) {
         	// 토큰 만료시 Exception catch하면 false 리턴
             log.info("Expired JWT Token", e);
+            System.out.println(e.getMessage());
             return false;
         } catch (UnsupportedJwtException e) {
             log.info("Unsupported JWT Token", e);
         } catch (IllegalArgumentException e) {
             log.info("JWT claims string is empty.", e);
+            System.out.println(e.getMessage());
         }
         return false;
     }
