@@ -236,6 +236,50 @@
 	
 	}
 	
+	//-------- 파일 다운로드 ----------
+	function fileDownload() {
+		var selFilePath = $('#file_path').val();
+		var selServerName= $('#server_file_name').val();
+		var selOrgName = $('#org_file_name').val();
+		console.log(selFilePath);
+		console.log(selServerName);
+		if(selServerName != null && selServerName != '') {
+			
+			$.ajax(
+					{
+						url:"download",
+						data:{file_path 	  : selFilePath,
+							 server_file_name : selServerName,
+							 org_file_name	  : selOrgName},
+						dataType:'text',
+						success:function(data) {
+							alert("다운로드 성공");
+							downloadFile();
+							window.location.reload();
+						}
+					}	
+			);
+		}
+		
+	} 
+
+	 function downloadFile() {
+		  var selFilePath = $('#file_path').val();
+		  var selServerName= $('#server_file_name').val();
+		  var selOrgName = $('#org_file_name').val();
+	      var downloadLink = document.createElement("a");
+	      var uri = '/manager/download?file_path='+selFilePath+'&server_file_name='+selServerName+'&org_file_name='+selOrgName;
+	      downloadLink.href = encodeURI(uri);
+	      downloadLink.download = selServerName;
+	      alert(selServerName);
+	      
+	      document.body.appendChild(downloadLink);
+	      downloadLink.click();
+	      document.body.removeChild(downloadLink);
+	      alert("File 다운로드 성공");
+	   }
+
+	
 	
 </script>
 </head>
