@@ -6,26 +6,28 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedEntityGraph;
+import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreType;
 import com.oracle.choongangGroup.changhun.JPA.Member;
 
 import lombok.Data;
-
 @Entity
-@IdClass(LectureMember.class)
 @Data
 public class Report {
 	@Id
-	@ManyToOne(fetch = FetchType.EAGER) 
-	@JoinColumn(name = "userid")
-	private Member member; //사용자코드
+	@Column(name = "rep_id")
+	private Long id;
 	
-	@Id
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "lec_id")
-	private Lecture lecture; //강의코드
+	@OneToOne
+	@JoinColumns({@JoinColumn(name = "lec_id"),
+				  @JoinColumn(name = "userid") })
+	private ApplicationLec applicationLec; //강의코드
 	
 	@Column(name = "rep_file_name")
 	private String fileName; //파일명

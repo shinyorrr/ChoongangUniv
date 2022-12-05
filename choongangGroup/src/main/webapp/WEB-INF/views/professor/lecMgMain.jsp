@@ -154,7 +154,7 @@
 										<button type="button" class="btn btn-danger btn-sm ms-5 font09"
 												onclick="location.href='lecAttendanceCheck?id=${lec.id}'">&nbsp; 전자출결 &nbsp;</button>
 										<!-- <button type="button" class="btn btn-dark btn-sm">출석현황</button> -->
-										<button type="button" class="btn btn-primary btn-sm font09	">&nbsp; 과제조회 &nbsp;</button>
+										<button type="button" class="btn btn-primary btn-sm font09" onclick="location.href='reportList??id=${lec.id}'">&nbsp; 과제조회 &nbsp;</button>
 									</div>
 									<hr class="my-4">	
 									<!-- <button type="button" class="btn btn-secondary btn-sm">강의평가조회</button> -->

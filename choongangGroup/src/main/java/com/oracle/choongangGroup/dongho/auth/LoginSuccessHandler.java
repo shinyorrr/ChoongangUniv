@@ -27,7 +27,7 @@ public class LoginSuccessHandler implements HandlerInterceptor{
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
 		Authentication authentication =  SecurityContextHolder.getContext().getAuthentication();
-		System.out.println("authentication ==>>" + authentication.getName() + "," + authentication.getPrincipal());
+		System.out.println("authentication ==>>" + authentication.getName() + ", " + authentication.getPrincipal());
 		Collection<? extends GrantedAuthority> roles = authentication.getAuthorities();
 		String targetUrl = "";
 		
@@ -48,7 +48,7 @@ public class LoginSuccessHandler implements HandlerInterceptor{
 			targetUrl = "/admin/main";
 		}
 		
-		//session에 member정보 저장
+//		session에 member정보 저장
 		String userid = (String) authentication.getPrincipal();
 		System.out.println("successHandle userid -> " + userid);
 		Member member = securityService.findByUserid(userid);

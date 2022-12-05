@@ -77,30 +77,10 @@ public class SecurityController {
 		return "/admin/contentSample";
 	}
 	
-	// RSA setting 후 loginForm으로 연결
+	// InterCeptor RSA setting 후 loginForm으로 연결
 	@GetMapping("/")
     public String loginForm(HttpSession session, HttpServletRequest request, HttpServletResponse response, Model model) 
     		throws NoSuchAlgorithmException, InvalidKeySpecException {
-//		KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA");
-//      generator.initialize(2048);
-//      
-//      KeyPair    keyPair = generator.genKeyPair();
-//      KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-//      
-//      PublicKey  publicKey = keyPair.getPublic();
-//      PrivateKey privateKey = keyPair.getPrivate();
-//      session.setAttribute("__rsaPrivateKey__", privateKey);
-//      System.out.println("RsaInterceptor publicKey -> " + publicKey);
-//      System.out.println("RsaInterceptor privateKey -> " + privateKey);
-//      
-//      RSAPublicKeySpec publicKeySpec = keyFactory.<RSAPublicKeySpec>getKeySpec(publicKey, RSAPublicKeySpec.class);
-//      
-//      String publicKeyModulus  = publicKeySpec.getModulus().toString(16);
-//      String publicKeyExponent = publicKeySpec.getPublicExponent().toString(16);
-//      System.out.println("RsaInterceptor publicKeyModulus -> " + publicKeyModulus);
-//      System.out.println("RsaInterceptor publicKeyExponent -> " + publicKeyExponent);
-//      request.setAttribute("publicKeyModulus" , publicKeyModulus);
-//      request.setAttribute("publicKeyExponent", publicKeyExponent);
         return "/loginForm";
     }
 	
@@ -154,30 +134,10 @@ public class SecurityController {
     }
 	
 	
-	// RSA setting 후 createMemberForm으로 연결
+	// InterCeptor RSA setting 후 createMemberForm으로 연결
 	@GetMapping("/admin/createMemberForm")
 	public String joinForm(HttpSession session, HttpServletRequest request, HttpServletResponse response, Model model) 
 			throws NoSuchAlgorithmException, InvalidKeySpecException {
-//		KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA");
-//        generator.initialize(2048);
-//        
-//        KeyPair    keyPair = generator.genKeyPair();
-//        KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-//        
-//        PublicKey  publicKey = keyPair.getPublic();
-//        PrivateKey privateKey = keyPair.getPrivate();
-//        session.setAttribute("__rsaPrivateKey__", privateKey);
-//        System.out.println("RsaInterceptor publicKey -> " + publicKey);
-//        System.out.println("RsaInterceptor privateKey -> " + privateKey);
-//        
-//        RSAPublicKeySpec publicKeySpec = keyFactory.<RSAPublicKeySpec>getKeySpec(publicKey, RSAPublicKeySpec.class);
-//        
-//        String publicKeyModulus  = publicKeySpec.getModulus().toString(16);
-//        String publicKeyExponent = publicKeySpec.getPublicExponent().toString(16);
-//        System.out.println("RsaInterceptor publicKeyModulus -> " + publicKeyModulus);
-//        System.out.println("RsaInterceptor publicKeyExponent -> " + publicKeyExponent);
-//        request.setAttribute("publicKeyModulus" , publicKeyModulus);
-//        request.setAttribute("publicKeyExponent", publicKeyExponent);
 		return "/admin/createMemberForm";
 	}
 	
@@ -251,14 +211,14 @@ public class SecurityController {
 	}
 	
 	// RSA setting 후 updatePasswordForm으로 연결
-	//@Secured({"ROLE_STUDENT", "ROLE_MANAGER", "ROLE_PROFESSOR", "ROLE_ADMIN"})
-	//@PreAuthorize("isAuthenticated()")
+	// @Secured({"ROLE_STUDENT", "ROLE_MANAGER", "ROLE_PROFESSOR", "ROLE_ADMIN"})
+	// @PreAuthorize("isAuthenticated()")
 	@GetMapping("/updatePasswordForm")
 	public String updatePasswordForm(HttpSession session, HttpServletRequest request, HttpServletResponse response, Model model) 
 			throws NoSuchAlgorithmException, InvalidKeySpecException {
 		return "/admin/updatePasswordForm";
 	}
-	//@PreAuthorize("isAuthenticated()")
+	// @PreAuthorize("isAuthenticated()")
 	@PostMapping("/updatePassword")
 	public void updatePassword(@RequestParam("password") String paramPassword , HttpServletResponse response) throws IOException {
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();

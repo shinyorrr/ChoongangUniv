@@ -53,6 +53,7 @@ public class SecurityServiceImpl implements SecurityService {
         
         // SecurityContextHolder에 authenticaton 저장
         SecurityContextHolder.getContext().setAuthentication(authentication);
+        System.out.println("SecurityContextHolder save authentication : " + authentication.getName());
         // authentication 의 정보를 토대로 JWT 생성 및 controller에 반환
         TokenInfo tokenInfo = this.jwtTokenProvider.generateToken(authentication);
         return tokenInfo;
