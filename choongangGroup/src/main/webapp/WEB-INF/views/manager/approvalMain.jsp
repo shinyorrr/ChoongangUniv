@@ -208,7 +208,7 @@
 								</tbody>
 							</table>
 					
-							<div style="border-top: 1px dashed #c9c9c9; margin: 10px 0;"></div>
+							
 						
 							<!-- =================================기안 진행 문서================================= -->
 							<div class="#">
@@ -257,7 +257,7 @@
 								</tbody>
 							</table>
 					
-							<div style="border-top: 1px dashed #c9c9c9; margin: 10px 0;"></div>
+							
 							
 							<!-- =================================기안 완료 문서================================= -->
 							<div class="#">
@@ -293,10 +293,10 @@
 												<td>대기중<td>
 											</c:if>
 											<c:if test="${end.approval_status eq 1}">
-												<td>반려<td>
+												<td>승인<td>
 											</c:if>
 											<c:if test="${end.approval_status eq 2}">
-												<td>승인<td>
+												<td>반려<td>
 											</c:if>
 										</tr>
 									</c:forEach>

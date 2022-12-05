@@ -6,8 +6,14 @@ public interface LecManagementDao {
 
 	List<LectureVO> listLec(LectureVO lectureVO);
 
-	int lecTot();
+	int lecAgreeCnt();
 
 	LectureVO lecDetail(Long lec_id);
+
+	int lecTot(LectureVO lectureVO);
+
+	int lecDelete(Long lec_id);
+
+	int lecUpdate(LectureVO lectureVO);
 
 }

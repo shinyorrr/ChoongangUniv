@@ -29,15 +29,15 @@ public class LecManagementDaoImpl implements LecManagementDao {
 	}
 
 	@Override
-	public int lecTot() {
-		log.info("lecTot start...");
-		int lecTot = 0;
+	public int lecAgreeCnt() {
+		log.info("lecAgreeCnt start...");
+		int lecAgreeTot = 0;
 		try {
-			lecTot = session.selectOne("hsLecTotal");
+			lecAgreeTot = session.selectOne("hsLecAgreeTotal");
 		} catch (Exception e) {
 			log.info("lecTot Exception->{}", e.getMessage());
 		}
-		return lecTot;
+		return lecAgreeTot;
 	}
 
 	@Override
@@ -50,5 +50,41 @@ public class LecManagementDaoImpl implements LecManagementDao {
 			log.info("lecDetail Exception->{}", e.getMessage());
 		}
 		return lectureVO;
+	}
+
+	@Override
+	public int lecTot(LectureVO lectureVO) {
+		log.info("lecTotal start...");
+		int lecTotal = 0;
+		try {
+			lecTotal = session.selectOne("hsLecTotal", lectureVO);
+		} catch (Exception e) {
+			log.info("lecTot Exception->{}", e.getMessage());
+		}
+		return lecTotal;
+	}
+
+	@Override
+	public int lecDelete(Long lec_id) {
+		log.info("lecDelete start...");
+		int result = 0;
+		try {
+			result = session.delete("hslecDelete", lec_id);
+		} catch (Exception e) {
+			log.info("lecDelete Exception->{}", e.getMessage());
+		}
+		return result;
+	}
+
+	@Override
+	public int lecUpdate(LectureVO lectureVO) {
+		log.info("lecUpdate start...");
+		int result = 0;
+		try {
+			result = session.update("hslecUpdate", lectureVO);
+		} catch (Exception e) {
+			log.info("lecUpdate Exception->{}", e.getMessage());
+		}
+		return result;
 	}
 }
