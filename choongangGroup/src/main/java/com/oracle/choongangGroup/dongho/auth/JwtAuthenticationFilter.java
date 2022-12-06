@@ -40,7 +40,6 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
         log.info("AccessToken 유효성 검사 결과 : {}", validateAccessToken);
         boolean validateRefreshToken = jwtTokenProvider.validateToken(refreshToken);
         log.info("RefreshToken 유효성 검사 결과 : {}", validateRefreshToken);
-        
         // 토큰 상태에 따라 로직 수행
         // validateToken 으로 토큰 유효성 검사
         if (accessToken != null && validateAccessToken) {
