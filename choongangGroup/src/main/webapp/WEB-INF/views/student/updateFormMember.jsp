@@ -155,7 +155,7 @@
 
 <form action="updateMember" method="post">
 
-<table border="1">
+<table class="table table-striped"  border="1">
 
 	 <input type="hidden" name="userid" value="${userid }">  
 		

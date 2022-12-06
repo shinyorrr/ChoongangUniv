@@ -3,13 +3,58 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 
-<mapper namespace="com.oracle.choongangGroup.hj.model.EvaluationVoMapper">
+<mapper
+	namespace="com.oracle.choongangGroup.hj.model.EvaluationVoMapper">
 
+	<!--  강의평가 단건 아님, 여러건임. 삭제  yj
+	<select id="hjevaluationSelOne" parameterType="String" resultType="EvaluationVo"> 
+		SELECT * FROM evaluation WHERE userid = ${userid} 
+	</select> 
+	-->
 	
-	<select id="hjevaluationSelOne" parameterType="String" resultType="EvaluationVo">
-      SELECT * FROM evaluation
-     WHERE userid = ${userid}
-	
+	<select id="hjevaluationSelOne" parameterType="EvaluationVo" resultType="EvaluationVo"> 
+		SELECT * FROM evaluation WHERE userid = ${userid} 
+	</select> 
+
+	<select id="hjevSelList" parameterType="String" resultType="EvaluationVo">
+		SELECT l.lec_id , l.prof_name , l.lec_name , g.userid
+		from grade g , lecture l
+		WHERE l.lec_id = g.lec_id
+		and g.userid = ${userid}
+
+
 	</select>
+
+
+<!-- 	<select id="hjcgSelList" resultType="EvaluationVo">
+
+		SELECT c.big_category, c.small_category, search_category(c.big_category)
+		category_content1, c.category_content category_content2, e.userid
+		from (SELECT * FROM category WHERE small_category != '99' ) c ,
+		evaluation e
+		WHERE c.big_category = e.big_category(+)
+		and c.small_category = e.small_category(+)
+
+	</select> -->
 	
-	</mapper>
+	<select id="hjcgSelList" resultType="EvaluationVo">
+		SELECT * from category
+	</select>
+
+
+	<insert id="insertScore" parameterType="EvaluationVo">
+
+		insert into evaluation (userid,lec_id ,big_category,small_category,score
+		,review )
+		values(#{userid}, #{lec_id}, #{big_category} , #{small_category} ,#{score} ,#{review})
+
+
+
+
+	</insert>
+
+
+
+
+
+</mapper>
