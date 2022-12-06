@@ -15,7 +15,9 @@ import com.oracle.choongangGroup.sh.domain.Lecture;
 import com.oracle.choongangGroup.sh.domain.Report;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -38,7 +40,7 @@ public class DhProfessorServiceImpl implements DhProfessorService {
 	public int updateReportScore(Long id, String score, String grade) {
 		int result = 0;
 		try {
-			System.out.println("service params : id :" + id + ", score : " + score + ", garde : " + grade);
+			log.info("service params : id : {}, score : {}, garde : {}", id, score, grade);
 			result = rr.updateReportScore(id, score, grade);
 		} catch (Exception e) {
 			result = 0;

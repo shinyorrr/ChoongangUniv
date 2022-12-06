@@ -15,7 +15,9 @@ import com.oracle.choongangGroup.changhun.JPA.Member;
 import com.oracle.choongangGroup.dongho.auth.SecurityRepository;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @Transactional
 //@RequiredArgsConstructor
@@ -35,38 +37,37 @@ public class SecurityServiceImpl implements SecurityService {
     // login method
     public TokenInfo login(String username, String password) {
     	// controller에서 복호화한 username, password
-        System.out.println("tokenInfo(login) username -> " + username);
-        System.out.println("tokenInfo(login) password -> " + password);
+    	log.info("tokenInfo(login) username : {}", username);
+    	log.info("tokenInfo(login) password : {}", password);
         
         // authentication token 만들기 (JWT아님, spring security의 authentication token)
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
-        System.out.println("tokenInfo login authenticationToken -> " + authenticationToken);
+        log.info("tokenInfo login authenticationToken : {}", authenticationToken);
         
         Authentication authentication = null;
         try {
         	// authenticationToken 의 정보를 토대로 Authentication manager 의 authenticate method를 통해 유저정보 검증후 authentication 생성, 받기
         	authentication = ((AuthenticationManager)this.authenticationManagerBuilder.getObject()).authenticate((Authentication)authenticationToken);
-			
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
         
         // SecurityContextHolder에 authenticaton 저장
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        System.out.println("SecurityContextHolder save authentication : " + authentication.getName());
+        log.info("SecurityContextHolder save authentication : {}", authentication.getName());
         // authentication 의 정보를 토대로 JWT 생성 및 controller에 반환
         TokenInfo tokenInfo = this.jwtTokenProvider.generateToken(authentication);
         return tokenInfo;
     }
     // DB에 refresh Token 저장 method
  	public void saveRefreshToken(String refreshToken, String username) {
- 		System.out.println("saveRefreshToken start");
- 		System.out.println("saveRefreshToken refreshToken : " + refreshToken);
- 		System.out.println("saveRefreshToken memberId : " + username);
+ 		log.info("===saveRefreshToken start===");
+ 		log.info("saveRefreshToken refreshToken : {}", refreshToken);
+ 		log.info("saveRefreshToken username : {}", username);
  		
  		// 호출한 class에서 받은 memberId로 member받기( JpaRepository 의 save 가 merge하므로 memberId에 해당하는 member를 받아서 save함)
  		Member member = securityRepository.findByUserid(username);
- 		System.out.println("saveRefreshToken member.getUserid : " + member.getUserid());
+ 		log.info("saveRefreshToken member.getUserid : {}", member.getUserid());
  		member.setRefreshToken(refreshToken);
  		// refresh Token DB에 저장
  		securityRepository.save(member);		

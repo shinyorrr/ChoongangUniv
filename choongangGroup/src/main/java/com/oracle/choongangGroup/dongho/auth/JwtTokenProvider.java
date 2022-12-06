@@ -43,8 +43,8 @@ public class JwtTokenProvider {
 
     // 유저 정보를 가지고 AccessToken, RefreshToken 을 생성하는 메서드
     public TokenInfo generateToken(Authentication authentication) {
-    	System.out.println("===generateToken start===");
-        System.out.println("generateToken authentication.getName() -> " + authentication.getName());
+    	log.info("===generateToken start===");
+    	log.info("generateToken authentication.getName() : {}", authentication.getName());
     	// 권한 가져오기
         String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
@@ -95,7 +95,7 @@ public class JwtTokenProvider {
                         .collect(Collectors.toList());
 
         // UserDetails 객체(principal)를 만들어서 Authentication 리턴(jwt토큰에 민감한 정보인 비밀번호를 넣을 필요가 없으므로 credential 은 "")
-        System.out.println("getAuthentication claims.getSubject() : " + claims.getSubject());
+        log.info("getAuthentication claims.getSubject() : {}", claims.getSubject());
         UserDetails principal = new User(claims.getSubject(), "", authorities);
         return new UsernamePasswordAuthenticationToken(principal, "", authorities);
     }
@@ -110,13 +110,11 @@ public class JwtTokenProvider {
         } catch (ExpiredJwtException e) {
         	// 토큰 만료시 Exception catch하면 false 리턴
             log.info("Expired JWT Token", e);
-            System.out.println(e.getMessage());
             return false;
         } catch (UnsupportedJwtException e) {
             log.info("Unsupported JWT Token", e);
         } catch (IllegalArgumentException e) {
             log.info("JWT claims string is empty.", e);
-            System.out.println(e.getMessage());
         }
         return false;
     }
@@ -133,14 +131,15 @@ public class JwtTokenProvider {
 	public boolean existsRefreshToken(String refreshToken, String userid) {
 		//클라이언트로부터 받은 accessToken 에 포함된 유저정보 memberId 와 refresh 토큰을 받아와서
 		//memberId 해당하는 member의 refresh 토큰(DB)과 클라이언트로부터 받은 refresh 토큰과 비교한다.
-		System.out.println("existsRefreshToken start");
+		
+		log.info("====existsRefreshToken start====");
 		// 받은 memberId로 DB의 refresh 토큰 받기
 		String DbRrefreshToken = securityRepository.findByUserid(userid).getRefreshToken();
-		System.out.println("existsRefreshToken DbRrefreshToken : " + DbRrefreshToken);
-		System.out.println("existsRefreshToken refreshToken : " + refreshToken);
+		log.info("existsRefreshToken DbRrefreshToken : {}", DbRrefreshToken);
+		log.info("existsRefreshToken refreshToken : {}", refreshToken);
 		if (refreshToken.equals(DbRrefreshToken)) {
 			// 비교후 같다면 true를 리턴
-			System.out.println("refreshToken equals DbRrefreshToken");
+			log.info("refreshToken equals DbRrefreshToken");
 			return true;
 		}
 		return false;
