@@ -4,14 +4,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.security.KeyFactory;
-import java.security.KeyPair;
-import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
-import java.security.PublicKey;
 import java.security.spec.InvalidKeySpecException;
-import java.security.spec.RSAPublicKeySpec;
+import java.util.Collection;
 import java.util.Optional;
 
 import javax.crypto.Cipher;
@@ -24,28 +20,24 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.oracle.choongangGroup.dongho.auth.SecurityService;
-import com.oracle.choongangGroup.dongho.auth.SecuredLoginDto;
 import com.oracle.choongangGroup.changhun.JPA.Member;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import oracle.jdbc.proxy.annotation.GetProxy;
-import oracle.jdbc.proxy.annotation.Post;
 
 @Slf4j
 @Controller
@@ -53,9 +45,9 @@ import oracle.jdbc.proxy.annotation.Post;
 public class SecurityController {
 	
 	private final SecurityService securityService;
-	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 	private final PasswordEncoder passwordEncoder;
 	private final JavaMailSender mailSender;
+	private final JwtTokenProvider jwtp;
 	
 	@Value("${spring.mail.username}")
 	private String MAIL_USERNAME;
@@ -83,7 +75,37 @@ public class SecurityController {
 	@GetMapping("/")
     public String loginForm(HttpSession session, HttpServletRequest request, HttpServletResponse response, Model model) 
     		throws NoSuchAlgorithmException, InvalidKeySpecException {
-        return "/loginForm";
+		String targetUrl = "";
+		// Request Header cookie 에서 JWT 토큰 추출
+        String accessToken = resolveAccessToken((HttpServletRequest) request);
+        String refreshToken = resolveRefreshToken((HttpServletRequest) request);
+        
+        
+        Authentication authentication =  SecurityContextHolder.getContext().getAuthentication();
+        Collection<? extends GrantedAuthority> roles = authentication.getAuthorities();
+    if (accessToken != null && refreshToken != null) {
+        	if (roles != null && roles.stream().anyMatch(a -> a.getAuthority().equals("ROLE_STUDENT"))) {
+    			//response.sendRedirect("/student/main");
+    			targetUrl = "/student/main";
+    		}
+    		else if (roles != null && roles.stream().anyMatch(a -> a.getAuthority().equals("ROLE_MANAGER"))) {
+    			//response.sendRedirect("/manager/main");
+    			targetUrl = "/manager/main";
+    		}
+    		else if (roles != null && roles.stream().anyMatch(a -> a.getAuthority().equals("ROLE_PROFESSOR"))) {
+    			//response.sendRedirect("/professor/main");
+    			targetUrl = "/professor/main";
+    		}
+    		else if (roles != null && roles.stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
+    			//response.sendRedirect("/admin/main");
+    			targetUrl = "/admin/main";
+    		}
+		} else {
+			targetUrl = "/loginForm";
+		}
+        
+
+        return targetUrl;
     }
 	
 	//로그인 요청
@@ -343,5 +365,40 @@ public class SecurityController {
             bytes[(int)Math.floor((i / 2))] = value;
         }
         return bytes;
+    }
+    
+    // Request Header (cookie) 에서 access토큰 정보 추출
+    private String resolveAccessToken(HttpServletRequest request) {
+        Cookie[] list = request.getCookies();
+        String bearerToken = "";
+        if (list != null) {
+        	for (Cookie cookie : list) {
+    			if (cookie != null && cookie.getName().equals("AccessToken")) {
+    				bearerToken = cookie.getValue();
+    				if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer")) {
+    					// 쿠키 value에서 bearer 부분 제외한 token만 추출
+    		            return bearerToken.substring(6);
+    		        }
+    			}
+    		}
+		}
+		return null;
+    }
+    // Request Header (cookie) 에서 refresh토큰 정보 추출
+    private String resolveRefreshToken(HttpServletRequest request) {
+    	Cookie[] list = request.getCookies();
+    	String bearerToken = "";
+    	if (list != null) {
+    		for (Cookie cookie : list) {
+    			if (cookie != null && cookie.getName().equals("RefreshToken")) {
+    				bearerToken = cookie.getValue();
+    				if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer")) {
+    					// 쿠키 value에서 bearer 부분 제외한 token만 추출
+    					return bearerToken.substring(6);
+    				}
+    			}
+    		}
+    	}
+    	return null;
     }
 }
