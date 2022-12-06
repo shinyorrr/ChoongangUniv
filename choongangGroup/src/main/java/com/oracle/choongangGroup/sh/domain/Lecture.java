@@ -87,4 +87,7 @@ public class Lecture {
 	@Column(name = "major_gubun")
 	private String major; //전공구분
 	
+	@Column(name = "lec_start")
+	private String start; 
+	
 }

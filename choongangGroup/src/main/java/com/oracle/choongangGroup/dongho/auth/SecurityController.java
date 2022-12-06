@@ -43,9 +43,11 @@ import com.oracle.choongangGroup.dongho.auth.SecuredLoginDto;
 import com.oracle.choongangGroup.changhun.JPA.Member;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import oracle.jdbc.proxy.annotation.GetProxy;
 import oracle.jdbc.proxy.annotation.Post;
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 public class SecurityController {
@@ -88,22 +90,19 @@ public class SecurityController {
     @PostMapping("/login")
     public void login(@RequestParam(value = "securedUsername") String securedUsername, @RequestParam(value = "securedPassword") String securedPassword, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
     	// session에서 개인키 받기(loginForm 요청시 session에 저장해둔 개인키)
+    	log.info("====login Start====");
     	HttpSession session = request.getSession();
         PrivateKey privateKey = (PrivateKey)session.getAttribute("__rsaPrivateKey__");
-        System.out.println("login privateKey -> " + privateKey);
-        // loginForm에서 DTO를 통해 암호화된 아이디, 비밀번호 받기
-        //String securedUsername = securedLoginDto.getSecuredUsername();
-        System.out.println("login : " + securedUsername);
-        //String securedPassword = securedLoginDto.getSecuredPassword();
+        log.info("login securedUsername : {}", securedUsername);
         String username = null;
         String password = null;
         
         // 복호화 try
         try {
         	username = decryptRSA(privateKey, securedUsername);
-            System.out.println(username);
+        	log.info("복호화 try username : {}", username);
             password = decryptRSA(privateKey, securedPassword);
-            System.out.println(password);
+            log.info("복호화 try username : {}", password);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -143,26 +142,25 @@ public class SecurityController {
 	
 	@PostMapping("/admin/createMember")
 	public void joinProc(Member member, HttpServletResponse response) throws IOException {
-		System.out.println("joinProc start");
+		log.info("===joinProc start===");
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
 		HttpSession session = request.getSession();
         PrivateKey privateKey = (PrivateKey)session.getAttribute("__rsaPrivateKey__");
-        System.out.println("joinProc privateKey -> " + privateKey);
-		
+        log.info("joinProc privateKey : {}", privateKey);
         String encryptedUsername = member.getUserid();
-		System.out.println("encryptedUsername -> " + encryptedUsername);
+		log.info("joinProc encryptedUsername : {}", encryptedUsername);
 		String encryptedPassword = member.getPassword();
-		System.out.println("encryptedPassword -> " + encryptedPassword);
+		log.info("joinProc encryptedPassword : {}", encryptedPassword);
 		String username = null;
 		String password = null;
 		try {
 			username = decryptRSA(privateKey, encryptedUsername);
-			System.out.println("username -> " + username);
+			log.info("joinProc 복호화 try username : {}", username);
 			password = decryptRSA(privateKey, encryptedPassword);
-			System.out.println("password -> " + password);
+			log.info("joinProc 복호화 try password : {}", password);
 			
 		} catch (Exception e) {
-			System.out.println("joinProc decryptRSA exception -> " + e.getMessage());
+			log.error(e.getMessage());
 		}
 		String encodedPassword = passwordEncoder.encode(password);
 		member.setUserid(username);
@@ -198,7 +196,8 @@ public class SecurityController {
 		String userid = (String) session.getAttribute("userid");
 		Member member = securityService.findByUserid(userid);
 		String dbPassword = member.getPassword();
-		System.out.println("dbPassword -> " + dbPassword);
+		
+		log.info("pwCheck dbPassword : {}", dbPassword);
 		if(member != null && passwordEncoder.matches(password, member.getPassword())) {
 			result = "1";
 		} else {
@@ -224,15 +223,14 @@ public class SecurityController {
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
 		HttpSession session = request.getSession();
         PrivateKey privateKey = (PrivateKey)session.getAttribute("__rsaPrivateKey__");
-
-        System.out.println("authenticate privateKey -> " + privateKey);
+        log.info("updatePassword authenticate privateKey : {}", privateKey);
 		String password = null;
 		try {
 			password = decryptRSA(privateKey, paramPassword);
-			System.out.println("password -> " + password);
+			log.info("updatePassword rsa 복호화 try password : {}", password);
 			
 		} catch (Exception e) {
-			System.out.println("authenticate decryptRSA exception -> " + e.getMessage());
+			log.error(e.getMessage());
 		}
 		String userid = (String) session.getAttribute("userid");
 		Member member = securityService.findByUserid(userid);
@@ -262,9 +260,6 @@ public class SecurityController {
 		String searchEmail = member.getEmail();
 		Member memberResult = securityService.findByNameAndEmail(searchId , searchEmail);
 		String result = memberResult.getUserid();
-		HttpSession session = request.getSession();
-		String sessionName = (String) session.getAttribute("name");
-		System.out.println("findId session name" + sessionName);
 //		response.setContentType("text/html");
 //		PrintWriter out = response.getWriter();
 //		out.append(result);
@@ -298,13 +293,13 @@ public class SecurityController {
 	@ResponseBody
 	@GetMapping("/anonymous/sendEmail")
 	public void sendEmail(HttpServletRequest request, Member member) {
-		System.out.println("sendEmail Start");
+		log.info("sendEmail Start");
 		String userid = member.getUserid();
-		System.out.println("sendEmail userid : " + userid);
+		log.info("sendEmail userid : {}", userid);
 		String tomail = member.getEmail();
-		System.out.println("sendEmail tomail : " + tomail);
+		log.info("sendEmail tomail : {}", tomail);
 		String setfrom = MAIL_USERNAME;
-		System.out.println("sendEmail setfrom : " + setfrom);
+		log.info("sendEmail setfrom : {}", setfrom);
 		String title = "임시비밀번호입니다";
 		try {
 			MimeMessage message = mailSender.createMimeMessage();
@@ -313,18 +308,18 @@ public class SecurityController {
 			messageHelper.setTo(tomail);
 			messageHelper.setSubject(title);
 			String tempPassword = (int) (Math.random() * 999999) + 1 + "";
-			System.out.println("sendEmail tempPassword : " + tempPassword);
+			log.info("sendEmail tempPassword : {}", tempPassword);
 			messageHelper.setText("임시 비밀번호입니다 : " + tempPassword);
 			mailSender.send(message);
 			
 			Member memberToUpdate = securityService.findByUserid(userid);
 			String encodedPassword = passwordEncoder.encode(tempPassword);
-			System.out.println("sendMail encodedPassword : " + encodedPassword);
+			log.info("sendEmail encodedPassword : {}", encodedPassword);
 			memberToUpdate.setPassword(encodedPassword);
 			securityService.save(memberToUpdate);
 			
 		} catch (Exception e) {
-			System.out.println("sendEmail exception : " + e.getMessage());
+			log.error("sendEmail exception : " + e.getMessage());
 		}
 	}
 	

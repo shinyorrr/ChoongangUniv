@@ -159,6 +159,9 @@
 	
 	// 선택된 과제 다운로드 function
 	function downloadFileSel() {
+		if($('input:checkbox[name=fileCheckBox]:checked').length == 0) {
+			return;
+		}
 		var fileList = new Array();
 		var filePath;
 	    filePath = $('input:checkbox[name=fileCheckBox]:checked').val();
@@ -167,7 +170,7 @@
 		console.log(filePathSplit);
 		var fileName = filePathSplit[1];
 		console.log(fileName);
-		alert($('input:checkbox[name=fileCheckBox]:checked').length);
+		
 		//1개만 체크되어 있으면 file 1개 다운로드
 		if($('input:checkbox[name=fileCheckBox]:checked').length == 1) {
 			$.ajax({

@@ -22,7 +22,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import com.oracle.choongangGroup.dongho.auth.SecurityRepository;
 
 import lombok.RequiredArgsConstructor;
-
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class CustomAuthenticationProvider implements AuthenticationProvider {
@@ -35,7 +36,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 		String username = authentication.getName();
 		String password = (String) authentication.getCredentials();
-		System.out.println("CustomAuthenticationProvider authentication.getName username -> " + username);
+		log.info("authentication.getName username : {}" + username);
 		PrincipalDetails principalDetails = (PrincipalDetails) principalDetailsService.loadUserByUsername(username);
 		if (principalDetails == null) {
 			System.out.println("CustomAuthenticationProvider authenticate : principalDetails == null");
@@ -43,7 +44,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 		}
 		
 		if (isNotMatches(password, principalDetails.getPassword())) {
-			System.out.println("CustomAuthenticationProvider authenticate : isNotMatches(password, principalDetails.getPassword())");
+			log.info("authenticate : isNotMatches(password, principalDetails.getPassword())");
 			throw new BadCredentialsException("비밀번호가 일치하지 않습니다.");
 		}
 		

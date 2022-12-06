@@ -1,6 +1,7 @@
 	package com.oracle.choongangGroup.dongho.auth;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.net.URLEncoder;
-
+@Slf4j
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends GenericFilterBean {
 
@@ -29,45 +30,45 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
-    	System.out.println("====JwtAuthenticationFilter Start====");
+    	log.info("====JwtAuthenticationFilter Start====");
         // Request Header cookie 에서 JWT 토큰 추출
         String accessToken = resolveAccessToken((HttpServletRequest) request);
         String refreshToken = resolveRefreshToken((HttpServletRequest) request);
         
         // 토큰 검사 및 결과값 저장
         boolean validateAccessToken = jwtTokenProvider.validateToken(accessToken);
-        System.out.println("AccessToken 유효성 검사 결과 : " + validateAccessToken);
+        log.info("AccessToken 유효성 검사 결과 : {}", validateAccessToken);
         boolean validateRefreshToken = jwtTokenProvider.validateToken(refreshToken);
-        System.out.println("RefreshToken 유효성 검사 결과 : " + validateRefreshToken);
+        log.info("RefreshToken 유효성 검사 결과 : {}", validateRefreshToken);
         
         // 토큰 상태에 따라 로직 수행
         // validateToken 으로 토큰 유효성 검사
         if (accessToken != null && validateAccessToken) {
-        	System.out.println("JwtAuthenticationFilter validateToken1 start");
+        	log.info("===JwtAuthenticationFilter validateToken1 start===");
             // 토큰이 유효할 경우 토큰에서 Authentication 객체를 가지고 와서 SecurityContext 에 저장
             Authentication authentication = jwtTokenProvider.getAuthentication(accessToken);
-            System.out.println("JwtAuthenticationFilter jwtTokenProvider.getAuthentication : " + authentication.getName());
+            log.info("JwtAuthenticationFilter jwtTokenProvider.getAuthentication : {}", authentication.getName());
             SecurityContextHolder.getContext().setAuthentication(authentication);
-        
-        // AT 유효기간 지나고 RT가 null이 아니면 RT 검증후 AT,RT 재발급
+
+            // AT 유효기간 지나고 RT가 null이 아니면 RT 검증후 AT,RT 재발급
         } else if (accessToken != null && !validateAccessToken && refreshToken != null) {
-        	System.out.println("JwtAuthenticationFilter validateToken2 start");
-        	System.out.println("====accessToken 만료, refreshToken 유효성 검사 시작====");
+        	log.info("===JwtAuthenticationFilter validateToken2 start===");
+        	log.info("====accessToken 만료, refreshToken 유효성 검사 시작====");
         	// AT로부터 memberId 받기
         	Claims claims = jwtTokenProvider.parseClaims(accessToken);
         	String userid = claims.getSubject();
-        	System.out.println("JwtAuthenticationFilter val2 userid : " + userid);
+        	log.info("JwtAuthenticationFilter validateToken2 userid : {}", userid);
         	// AT로부터 authentication 객체 받기
         	Authentication authentication = jwtTokenProvider.getAuthentication(accessToken);
-        	System.out.println("JwtAuthenticationFilter val2 getAuthentication Done");
+        	log.info("JwtAuthenticationFilter validateToken2 getAuthentication Done");
         	// RT db에 있는 RT 와 일치하는지 검사
         	boolean equalRefreshToken = jwtTokenProvider.existsRefreshToken(refreshToken , userid);
-        	System.out.println("JwtAuthenticationFilter val2 RefreshToken DB값 일치 : " + equalRefreshToken);
+        	log.info("JwtAuthenticationFilter validateToken2 RefreshToken DB값 일치 : {}", equalRefreshToken);
         	
         	// RT가 만료되지 않고 DB RT 와 일치하는 경우
         	if (validateRefreshToken && equalRefreshToken) {
-        		System.out.println("validateRefreshToken && equalRefreshToken start");
-        		System.out.println("===AccessToken 만료, RefreshToken 유효하므로 토큰 재발급===");
+        		log.info("===validateRefreshToken && equalRefreshToken start===");
+        		log.info("===AccessToken 만료, RefreshToken 유효하므로 토큰 재발급===");
         		// 새 AT, RT 생성
 				TokenInfo newTokenInfo = jwtTokenProvider.generateToken(authentication);
 				String newAT = URLEncoder.encode(newTokenInfo.getAccessToken(), "utf-8");
@@ -91,8 +92,9 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 		        cookieRT.setHttpOnly(true);
 		        httpResponse.addCookie(cookieAT);
 		        httpResponse.addCookie(cookieRT);
+		        log.info("");
 			} else if(!validateAccessToken && !validateRefreshToken) {
-				System.out.println("======AccessToken ,refreshToken 만료! 로그인 페이지로 이동======");
+				log.info("======AccessToken ,refreshToken 만료! 로그인 페이지로 이동======");
 			}
         }
         chain.doFilter(request, response);

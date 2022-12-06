@@ -41,6 +41,7 @@ import com.oracle.choongangGroup.sh.domain.Report;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+// 과제 기능 controller
 @Slf4j
 @Controller
 @RequiredArgsConstructor
@@ -48,7 +49,7 @@ import lombok.extern.slf4j.Slf4j;
 public class DhProfessorController {
 	private final DhProfessorService dhprofessorService;
 	private final GetMember getMember;
-	
+
 	// 과제 리스트 페이지 요청
 	@GetMapping("/reportList")
 	public String reportList(Model model) {
@@ -64,7 +65,7 @@ public class DhProfessorController {
 	@PostMapping("/lecReportList")
 	public Map<String, Object> lecReportList(@RequestParam("id") Long id, 
 											 @RequestParam(required = false, defaultValue = "0", value="page") int page) {
-		System.out.println("======lecReportList Start======");
+		log.info("======lecReportList Start======");
 		Map<String, Object> map = new HashMap<String, Object>();
 		Long gubun = (long) 1; // 신청한 강의 테이블 구분값 (신청한 강의 : gubun = 1)
 		// 과제List Paging
@@ -86,7 +87,7 @@ public class DhProfessorController {
 	@ResponseBody
 	@PostMapping("/updateReportScore")
 	public void updateReportScore(@RequestBody List<ReportUpdateDto> reportUpdateDtoList) {
-		System.out.println("====updateReportScore start====");
+		log.info("====updateReportScore start====");
 		ArrayList<Integer> results = new ArrayList<Integer>();
 		int result = 0;
 		Long id = (long) 0;
@@ -102,7 +103,7 @@ public class DhProfessorController {
 				results.add(result);
 			}
 		}
-		System.out.println("update Results : " + results);
+		log.info("update Results : {}", results);
 	}
 	
 	// 과제 파일 업로드 form (test용)
@@ -283,4 +284,6 @@ public class DhProfessorController {
 			log.error("file download server error : " + e.getMessage());
 		}
 	}
+	
+	//===================================과제 기능 끝===================================
 }
