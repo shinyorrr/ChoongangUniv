@@ -36,6 +36,11 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
         String refreshToken = resolveRefreshToken((HttpServletRequest) request);
         
         // 토큰 검사 및 결과값 저장
+        try {
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
         boolean validateAccessToken = jwtTokenProvider.validateToken(accessToken);
         log.info("AccessToken 유효성 검사 결과 : {}", validateAccessToken);
         boolean validateRefreshToken = jwtTokenProvider.validateToken(refreshToken);
