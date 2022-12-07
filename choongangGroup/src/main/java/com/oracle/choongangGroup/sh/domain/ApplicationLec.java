@@ -3,6 +3,7 @@ package com.oracle.choongangGroup.sh.domain;
 
 import java.io.Serializable;
 
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -20,6 +21,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreType;
 import com.oracle.choongangGroup.changhun.JPA.Member;
 
 import lombok.Data;
+
+@NamedEntityGraph(name = "applicationLec")
 @Entity  
 @Data 
 @IdClass(LectureMember.class)
@@ -42,6 +45,12 @@ public class ApplicationLec {
 	@OneToOne(mappedBy = "applicationLec")
 	private Report report;
 	
+	@OneToOne(mappedBy = "applicationLec")
+	private Attendance attendance;
+
+	@OneToOne(mappedBy = "applicationLec")
+	private Grade grade;
+
 	public ApplicationLec() {}
 	
 	public static ApplicationLec apply(Member member, Lecture lecture, Long gubun) {

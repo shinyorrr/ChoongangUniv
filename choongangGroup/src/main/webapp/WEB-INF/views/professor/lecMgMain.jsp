@@ -55,13 +55,33 @@
 				<div class="nav__brand">
 					<ion-icon name="menu-outline" class="nav__toggle" id="nav-toggle"></ion-icon>
 				</div>
-				<div class="nav__list">
+				<div class="nav__link collapses active">
 					<a href="#" class="nav__link active">
-						<div style="width: 20px; height: 20px;">
-							<i class="bi bi-mortarboard nav__icon "></i>
-						</div>
+						<!-- <div style="width: 20px; height: 20px;"> -->
+							<i name="folder-outline" class="bi bi-mortarboard nav__icon "></i>
+						<!-- </div> -->
 						<span class="nav_name">학사관리</span>
+						
+						
+						<ion-icon name="chevron-down-outline" class="collapse__link md hydrated" 
+									role="img" aria-label="chevron down outline"></ion-icon>
+						
+						
+						
+						<ul class="collapse__menu">
+							<a href="#" class="collapse__sublink">강의시간표</a>
+                            <a href="#" class="collapse__sublink">강의관리</a>
+                            <a href="#" class="collapse__sublink">출결관리</a>
+                            <a href="#" class="collapse__sublink">과제관리</a>
+                            <a href="#" class="collapse__sublink">강의계획서</a>
+                            <a href="#" class="collapse__sublink">강의개설</a>
+                            <a href="#" class="collapse__sublink">성적관리</a>
+                        </ul>
+						
+						
+						
 					</a>
+					</div>
 					<a href="#" class="nav__link">
 						<div style="width: 20px; height: 20px;">
 							<i class="bi bi-file-earmark-text nav__icon "></i>
@@ -93,6 +113,9 @@
 	
 						<ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
 	
+					
+	
+	
 						<ul class="collapse__menu">
 							<a href="#" class="collapse__sublink">Data</a>
 							<a href="#" class="collapse__sublink">Group</a>
@@ -109,6 +132,7 @@
 					<ion-icon name="log-out-outline" class="nav__icon"></ion-icon>
 					<span class="nav_name">Log out</span>
 				</a>
+				
 			</div>
 		</nav>
 	</div>
@@ -134,7 +158,7 @@
 
 			<!------------- card header  컨텐츠 폼------------->
 			<main class="col-9 h-100 w-100">
-			
+				<input type="hidden" name="gubun" value="1">
 				
 				<div class="row m-5">
 					<!------------- 컨텐츠 경로 ------------->
@@ -152,9 +176,9 @@
 									<div class="font09">총 수업시간 : <b style="color: red">6</b>/${lec.maxCount}
 										&nbsp; &#183; &nbsp; 휴강 : <b>${statusCnt1}</b> &nbsp; &#183; &nbsp; 보강 : <b>${statusCnt2}</b>
 										<button type="button" class="btn btn-danger btn-sm ms-5 font09"
-												onclick="location.href='lecAttendanceCheck?id=${lec.id}'">&nbsp; 전자출결 &nbsp;</button>
-										<!-- <button type="button" class="btn btn-dark btn-sm">출석현황</button> -->
-										<button type="button" class="btn btn-primary btn-sm font09" onclick="location.href='reportList??id=${lec.id}'">&nbsp; 과제조회 &nbsp;</button>
+												onclick="location.href='lecAttendanceCheck?id=${lec.id}'">&nbsp; 출결관리  &nbsp;</button>
+										<button type="button" class="btn btn-primary btn-sm font09"	
+												onclick="location.href='reportList?id=${lec.id}'">&nbsp; 과제조회  &nbsp;</button>
 									</div>
 									<hr class="my-4">	
 									<!-- <button type="button" class="btn btn-secondary btn-sm">강의평가조회</button> -->

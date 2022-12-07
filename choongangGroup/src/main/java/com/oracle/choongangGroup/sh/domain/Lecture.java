@@ -46,10 +46,16 @@ public class Lecture {
 	private String day2;
 	
 	@Column(name = "lec_time1")
-	private String time1;
+	private String time1;	// 강의 수업교시 
 	
 	@Column(name = "lec_time2")
 	private String time2;
+	
+	@Column(name = "lec_hour1")
+	private String hour1;	// 강의 수업시간 
+
+	@Column(name = "lec_hour2")
+	private String hour2;
 	
 	@Column(name = "lec_count_stud")
 	private Long studCount; //수강인원
@@ -88,6 +94,9 @@ public class Lecture {
 	private String major; //전공구분
 	
 	@Column(name = "lec_start")
-	private String start; 
+	private String start; // 강의 시작일
+	
+	@Column(name = "lec_sco_status")
+	private String scoreStatus; // 성적입력상태 미입력(기본):0 / 완료:1
 	
 }
