@@ -144,7 +144,8 @@ public class SecurityController {
         // 클라이언트의 쿠키에 넣을 토큰 setting
         Cookie cookieAT = new Cookie("AccessToken","Bearer" + accessToken);
         Cookie cookieRT = new Cookie("RefreshToken", "Bearer" + refreshToken);
-        // cookie.setMaxAge(7 * 24 * 60 * 60); // 유효시간을 정하지 않으면 session cookie (휘발성. 브라우저종료시 삭제)
+        cookieAT.setMaxAge(60 * 30); // 유효시간을 정하지 않으면 session cookie (휘발성. 브라우저종료시 삭제)
+        cookieRT.setMaxAge(60 * 30); // 유효시간을 정하지 않으면 session cookie (휘발성. 브라우저종료시 삭제)
         cookieAT.setPath("/");
         cookieAT.setHttpOnly(true);
         cookieRT.setPath("/");

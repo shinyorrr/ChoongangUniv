@@ -61,8 +61,29 @@ function deleteValue(){
 	}
 }	
 </script>
+<<<<<<< HEAD
+=======
+<style type="text/css">
+	#container_box table td { width:100px; }
+	section#container { padding:20px 0; border-top:2px solid #eee; border-bottom:2px solid #eee; }
+	section#container::after { content:""; display:block; clear:both; }
+	aside { float:left; width:200px; }
+	div#container_box { float:right; width:calc(100% - 200px - 20px); }
+	aside { float : left; width 200px;}	
+	aside ul li { text-align:center; margin-bottom:10px; }
+	aside ul li a { display:block; width:100%; padding:10px 0;}
+ 	aside ul li a:hover { background:#eee; }
+	.inputArea { margin:10px 0; }
+	select { width:100px; }
+	label { display:inline-block; width:70px; padding:5px; }
+	label[for='bookInfo'] { display:block; }
+	input { width:150px; }
+	textarea#bookInfo { width:400px; height:180px; }
+</style>
+>>>>>>> refs/heads/RyeYeong
 </head>
 <body>
+<<<<<<< HEAD
 <h1>책 목록</h1>
 	중앙대학교 교재 관리  	
 		<div>
@@ -118,5 +139,46 @@ function deleteValue(){
 					</div>
 				</div>
 		</form>
+=======
+<section id="container">
+	<aside>
+		<%@include file="include/aside.jsp" %>
+	</aside>
+	<div id="container_box">
+		<h2>교재 목록</h2>
+			<table>
+				<thead>
+					<tr>
+						<th>책 이미지</th>
+						<th>책 번호</th>
+						<th>책 이름</th>
+						<th>저자</th>
+						<th>카테고리</th>
+						<th>가격</th>
+						<th>재고</th>
+						<th>등록날짜</th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:forEach var="list" items="${list}">
+					<tr>
+						<td>
+						<img alt="" src="${list.bookThumbImg }" style="width: 200px; height: 150px; object-fit: contain;" >
+						</td>
+						<td>
+						<a href="/student/detailBookList?bookId=${list.bookId }">${list.bookId }</a></td>
+						<td>${list.bookName }</td>
+						<td>${list.publisher }</td>
+						<td>${list.cateCode }</td>
+						<td><fmt:formatNumber value="${list.bookPrice }" pattern="###,###,###"/></td>
+						<td>${list.bookStock }</td>
+						<td><fmt:formatDate value="${list.regDate }" pattern="yyyy-MM-dd"/></td>
+					</c:forEach>
+				</tbody>
+			</table>
+			</div>
+</section>
+
+>>>>>>> refs/heads/RyeYeong
 </body>
 </html>
