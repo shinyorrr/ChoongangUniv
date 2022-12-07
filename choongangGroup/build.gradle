@@ -39,12 +39,18 @@ dependencies {
 	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
 	implementation 'io.jsonwebtoken:jjwt-impl:0.11.5'
 	implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
-	implementation 'net.sf.json-lib:json-lib:2.4:'
- 	implementation 'net.coobird:thumbnailator:0.4.18'		
- 	implementation 'commons-fileupload:commons-fileupload:1.4'
+	implementation 'org.json:json:20211205'
+	
+    //bootpay
+	implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '+'
+	implementation group: 'com.google.code.gson', name: 'gson', version: '+'
+	implementation group: 'commons-io', name: 'commons-io', version: '+'
 
 	//objectMapper
 	implementation group: 'com.konghq', name: 'unirest-objectmapper-jackson', version: '4.0.0-RC1'
+	
+	//hibernate5
+	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-hibernate5'
 }
 
 tasks.named('test') {

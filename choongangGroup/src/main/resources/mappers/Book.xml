@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ======= mapper 기본설정 ======= -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- ==== 루트 엘리먼트 & 네임스페이스 설정(프로젝트 전체 내에서 유일해야 한다.) ==== -->
+<mapper namespace="com.oracle.choongangGroup.ry.model.BookMapper">
+
+	<select id="bookTotal" resultType="int">
+		SELECT Count(*) FROM book
+	</select>
+	
+	<select id="BookList" parameterType="Book" resultType="Book">
+		SELECT * 
+		FROM
+		(
+			SELECT rownum rn, a.*
+			FROM 
+				(SELECT * FROM book ORDER BY bookid)a
+		)
+		WHERE rn BETWEEN #{start} and #{end}
+	</select>
+	
+	<select id="BookSelOne" parameterType="Long" resultType="Book">
+		SELECT * 
+        FROM  book 
+        WHERE bookid =#{bookid}
+	</select>
+	
+	<update id="BookUpdate" parameterType="Book">
+		UPDATE book SET bookname =#{bookname}, bookprice=#{bookprice}, stockQuantity=#{stockQuantity}
+		WHERE bookid=#{bookid} 
+	</update>
+	
+	<insert id="BookInsert" parameterType="Book">
+		Insert into book values(#{bookid}, #{bookname}, #{bookprice}, #{stockQuantity})
+	</insert>
+	
+	<delete id="BookDelete" parameterType="Long">
+		Delete from Book where bookid=#{bookid}
+	</delete>
+	 
+</mapper>
