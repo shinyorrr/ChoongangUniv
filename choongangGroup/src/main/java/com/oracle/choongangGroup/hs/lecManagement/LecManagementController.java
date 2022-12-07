@@ -2,16 +2,12 @@ package com.oracle.choongangGroup.hs.lecManagement;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.oracle.choongangGroup.dongho.auth.GetMember;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,12 +19,13 @@ import lombok.extern.slf4j.Slf4j;
 public class LecManagementController {
 	
 	private final LecManagementService lms;
+	private final GetMember gm;
 	
 	@RequestMapping("lecManagement")
 	public String form(LectureVO lectureVO, String year, String semester, String keyword,
-					   String status, Model model, @AuthenticationPrincipal User user) {
+					   String status, Model model) {
 		log.info("lecManagement start...");
-		String userid = user.getUsername();
+		String userid = gm.getMember().getUserid();
 		log.info(userid);
 		
 		// 승인해야하는 강의 수
@@ -74,7 +71,6 @@ public class LecManagementController {
 		return result;
 	}
 	
-	//@ResponseBody
 	@RequestMapping("lecUpdate")
 	public String update(LectureVO lectureVO) {
 		log.info("lecUpdate start...");
@@ -85,9 +81,9 @@ public class LecManagementController {
 		log.info("result->{}", result);
 		
 		if(result > 0) {
-			return "redirect:/lecManagement";
+			return "redirect:lecManagement";
 		} else {
-			return "forward:/lecManagement";
+			return "forward:lecManagement";
 		}
 		
 	}

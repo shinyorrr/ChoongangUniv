@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,18 +19,36 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <!-- CSS -->
 <link rel="stylesheet" href="/css/styles.css">
-<title>전자결재홈</title>
-<style type="text/css">
-	#btnNewAppr {
-		background-color: #0c5df4;
-		border : 0;
+
+    <title>SideBar sub menus</title>
+
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+window.onload = function(){
+    document.getElementById("address_kakao").addEventListener("click", function(){ //주소입력칸을 클릭하면
+        //카카오 지도 발생
+        new daum.Postcode({
+            oncomplete: function(data) { //선택시 입력값 세팅
+                document.getElementById("address").value = data.address; // 주소 넣기
+                document.querySelector("input[name=address]").focus(); //상세입력 포커싱
+            }
+        }).open();
+    });
+}
+
+
+const autoHyphen = (target) => {
+	 target.value = target.value
+	   .replace(/[^0-9]/g, '')
+	  .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3").replace(/(\-{1,2})$/g, "");
 	}
 	
-	.btnProcess {
-		font-size: 12px;
-		color: #7F7F7F;
+const autoHyphen2 = (target) => {
+	 target.value = target.value
+	   .replace(/[^0-9]/g, '')
+	  .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3").replace(/(\-{1,2})$/g, "");
 	}
-</style>
+</script>
 </head>
 
 <body class="" id="body-pd">
@@ -153,162 +173,69 @@
                 <div class="row m-5">
                     <!-- card header -->
                     <div class="col-12 rounded-top text-white overflow-auto pt-2 fw-bold" style="background-color: rgb(39, 40, 70); height: 40px;"> 
-                        <i class="bi bi-bookmark-fill me-2"></i>전자결재 
+                        <i class="bi bi-bookmark-fill me-2"></i>교직원서비스 <i class="bi bi-chevron-right"></i>마이페이지
                     </div>
                     <!-- card content -->  
                     <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
-                        <div id="titleInBox" style="font-weight: bold; font-size: 19px;">전자결재홈
-							 <a id="btnNewAppr" href="approvalWrite" class="btn btn-danger pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light">새 결재 진행</a>
+                        <div class="card mt-5" style="width: 20%; float: left;">
+						  <img src="..." class="card-img-top" alt="...">
+						  <ul class="list-group list-group-flush" style="text-align: center;">
+						    <li class="list-group-item">${member.name}</li>
+						    <li class="list-group-item">${member.dept.dname}</li>
+						    <li class="list-group-item">${member.position}</li>
+						  </ul>
 						</div>
-						<div id="containerBox">
-							<div style="border-top: 1px dashed #c9c9c9; margin: 10px 0;"></div>
-							
-							<!-- =================================결재 대기중 문서================================= -->
-							<div class="#">
-								<a href="approvalWait" style="color:black">결재 대기중 문서</a>
-							</div>
-							<div class="btnProcess">승인 해야할 문서가 ${waitTotal}건 있습니다.</div>
-							<table class="table table-hover" style="font-size: 14px; text-align: center;">
-								<thead>
-									<tr>
-										<th>문서번호</th>
-										<th>기안일</th>
-										<th>결재양식</th>
-										<th style="width: 57%;">제목</th>
-										<th>첨부</th>
-										<th>결재상태</th>
-									</tr>
-								</thead>
-								<tbody>
-									<c:forEach var="wait" items="${waitList}">
-										<tr>
-											<td>
-												<a href="apprWaitDetail?approval_no=${wait.approval_no}" style="color: black">${wait.approval_no}</a>
-											</td>
-											<td>${wait.writeday}</td>
-											<td>${wait.approval_sort_name}</td>
-											<td>${wait.title}</td>
-											<c:if test="${wait.file_path ne null }">
-												<td><i class="bi bi-file-earmark"></i></td>
-											</c:if>
-											<c:if test="${wait.file_path eq null }">
-												<td>&nbsp;</td>
-											</c:if>
-											<c:if test="${wait.approval_status eq '0'}">
-												<td>대기중<td>
-											</c:if>
-											<c:if test="${wait.approval_status eq '1'}">
-												<td>승인<td>
-											</c:if>
-											<c:if test="${wait.approval_status eq '2'}">
-												<td>반려<td>
-											</c:if>
-										</tr>
-									</c:forEach>
-								</tbody>
-							</table>
-					
-							
-						
-							<!-- =================================기안 진행 문서================================= -->
-							<div class="#">
-								<a href="approvalProcess" style="color:black">기안 진행 문서</a>
-							</div>
-							<table class="table table-hover" style="font-size: 14px; text-align: center;">
-								<thead>
-									<tr>
-										<th>문서번호</th>
-										<th>기안일</th>
-										<th>결재양식</th>
-										<th style="width: 57%;">제목</th>
-										<th>첨부</th>
-										<th>결재상태</th>
-									</tr>
-								</thead>
-								<tbody>
-									<c:forEach var="process" items="${processList}">
-										<tr>
-											<td>
-												<a href="apprProcessDetail?approval_no=${process.approval_no}" style="color: black">${process.approval_no}</a>
-											</td>
-											<td>${process.writeday}</td>
-											<td>${process.approval_sort_name}</td>
-											<td>${process.title}</td>
-											<c:if test="${process.file_path ne null }">
-												<td><i class="bi bi-file-earmark"></i></td>
-											</c:if>
-											<c:if test="${process.file_path eq null }">
-												<td>&nbsp;</td>
-											</c:if>
-											<c:if test="${process.approval_status eq 0}">
-												<td>대기중<td>
-											</c:if>
-											<c:if test="${process.approval_status eq 1}">
-												<td>승인<td>
-											</c:if>
-											<c:if test="${process.approval_status eq 2}">
-												<td>반려<td>
-											</c:if>
-										</tr>
-									</c:forEach>
-								</tbody>
-							</table>
-					
-							
-							
-							<!-- =================================기안 완료 문서================================= -->
-							<div class="#">
-								<a href="approvalEnd" style="color:black">기안 완료 문서</a>
-							</div>
-							<table class="table table-hover" style="font-size: 14px; text-align: center;">
-								<thead>
-									<tr>
-										<th>문서번호</th>
-										<th>기안일</th>
-										<th>결재양식</th>
-										<th style="width: 57%;">제목</th>
-										<th>첨부</th>
-										<th>결재상태</th>
-									</tr>
-								</thead>
-								<tbody>
-									<c:forEach var="end" items="${endList}">
-										<tr>
-											<td>
-												<a href="apprEndDetail?approval_no=${end.approval_no}" style="color: black">${end.approval_no}</a>
-											</td>
-											<td>${end.writeday}</td>
-											<td>${end.approval_sort_name}</td>
-											<td>${end.title}</td>
-											<c:if test="${end.file_path ne null }">
-												<td><i class="bi bi-file-earmark"></i></td>
-											</c:if>
-											<c:if test="${end.file_path eq null }">
-												<td>&nbsp;</td>
-											</c:if>
-											<c:if test="${end.approval_status eq 0}">
-												<td>대기중<td>
-											</c:if>
-											<c:if test="${end.approval_status eq 1}">
-												<td>승인<td>
-											</c:if>
-											<c:if test="${end.approval_status eq 2}">
-												<td>반려<td>
-											</c:if>
-										</tr>
-									</c:forEach>
-								</tbody>
-							</table>
+						<div style="display: flex; width: 75%; height: 100%; margin-left: 10px">
+							<form class="row g-3" style="width: 80%; margin: 0 0 0 50px;">
+							  <div class="col-md-3">
+							    <label for="inputUserid" class="form-label">사번</label>
+							    <input type="text" class="form-control" id="userid" value="${member.userid }" readonly="readonly">
+							  </div>
+							  <div class="col-md-3">
+							     <label for="inputHiredate" class="form-label">입사일</label>
+							    <input type="text" class="form-control" id="hiredate" value="${member.hiredate }" readonly="readonly">
+							  </div>
+							  <div class="col-md-3">
+							    <label for="inputGender" class="form-label">성별</label>
+							    <input type="text" class="form-control" id="gender" value="${member.gender }" readonly="readonly">
+							  </div>
+							  <div class="col-md-3">
+							    <label for="inputBirth" class="form-label">생년월일</label>
+							    <input type="text" class="form-control" id="gender" value="${member.birth }" readonly="readonly">
+							  </div>
+							  <div class="col-md-6">
+							    <label for="inputEmail" class="form-label">이메일</label>
+							    <input type="email" class="form-control" id="email" value="${member.email }" required="required">
+							  </div>
+							  <div class="col-md-6">
+							    <label for="inputAddress" class="form-label">주소</label>
+							    <div class="input-group mb-3">
+								  <input type="text" class="form-control" value="${member.address }" id="address" name="address" aria-label="Recipient's username" aria-describedby="button-addon2" required="required">
+								  <button class="btn btn-outline-secondary" type="button" id="address_kakao">주소찾기</button>
+								</div>
+							  </div>
+							  <div class="col-md-6">
+							    <label for="inputPhone" class="form-label">연락처</label>
+							    <input type="text" class="form-control" value="${member.phone }" id="phone" oninput="autoHyphen(this)" maxlength="13"  required="required">
+							  </div>
+							  <div class="col-md-6">
+							    <label for="inputSubphone" class="form-label">비상연락처</label>
+							    <input type="text" class="form-control" value="${member.subphone }" id="subphone" oninput="autoHyphen2(this)" maxlength="13" required="required">
+							  </div>
+							  <div class="col-md-6 justify-content-md-end"">
+							    <button type="button" class="btn btn-secondary" >변경사항 저장</button>
+							  </div>
+							</form>
 						</div>
-					                    </div>
-					                    <!-- footer -->
-					                    <footer class="col-12" style="height: 60px;">
-					                        
-					                    </footer>    
-					                </div>
-					            </main>
-					        </div>
-					    </div>
+                    </div>
+                    <!-- footer -->
+                    <footer class="col-12" style="height: 60px;">
+                        footer
+                    </footer>    
+                </div>
+            </main>
+        </div>
+    </div>
     <!-- IONICONS -->
     <script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script>
     <!-- JS -->
