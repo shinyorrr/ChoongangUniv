@@ -334,25 +334,25 @@
 										<th class="table-secondary text-center " scope="col" style="width: 9%; vertical-align:middle;">년도</th>
 										<td class="p-2" style="width:16%;">
 											<input class="form-control text-center mx-0 form-inline form-control-sm " type="text" placeholder="개설년도" 
-													id="lec_year" name="lec_year" >
+													id="lec_year" name="lec_year" required="required">
 										</td>
 										<th class="table-secondary me-0" scope="col" style="vertical-align:middle; width: 9%;">학기</th>
 										<td>
-											<select id="lec_semester" name="lec_semester" class="form-select form-select-sm me-0" >
+											<select id="lec_semester" name="lec_semester" class="form-select form-select-sm me-0" required="required">
 												<option value="1" selected>1</option>
 												<option value="2">2</option>
 											</select>
 										</td>
 										<th class="table-secondary" scope="col" style="width: 9%; vertical-align:middle;">총시수</th>
 										<td>
-											<select id="lec_max_count" name="lec_max_count" class="form-select form-select-sm me-0" style="margin: 0;">
+											<select id="lec_max_count" name="lec_max_count" class="form-select form-select-sm me-0" style="margin: 0;" required="required">
 												<option value="14">14</option>
 												<option selected value="15">15</option>
 											</select>
 										</td>
 										<th class="table-secondary" scope="col" style="width: 9%; vertical-align:middle;">학점</th>
 										<td>
-											<select id="lec_unit_score" name="lec_unit_score" class="form-select form-select-sm me-0 " style="margin: 0;">
+											<select id="lec_unit_score" name="lec_unit_score" class="form-select form-select-sm me-0 " style="margin: 0;" required="required">
 											<!-- <option selected value="1">1 학점</option> -->
 											<option selected value="2">2 힉점</option>
 											<option value="3">3 학점</option>
@@ -364,7 +364,7 @@
 									<tr>
 										<th class="table-secondary text-center" scope="col" style="width: 9%; vertical-align:middle;">이수구분</th>
 										<td class="p-2">
-											<select id="lec_typecode" name="lec_typecode" class="form-select form-select-sm me-0 " style="margin-left: 0;">
+											<select id="lec_typecode" name="lec_typecode" class="form-select form-select-sm me-0 " style="margin-left: 0;" required="required">
 												<option value="" selected>선택</option>
 												<option value="M">전필</option>
 												<option value="S">전선</option>
@@ -373,7 +373,7 @@
 										</td>
 										<th class="table-secondary me-0" scope="col" style="vertical-align:middle; width: 9%;">전공</th>
 										<td>
-											<select id="major_gubun" name="major_gubun" class="form-select form-select-sm " style="margin: 0;">
+											<select id="major_gubun" name="major_gubun" class="form-select form-select-sm " style="margin: 0;" required="required">
 												<option value="공통" selected>공통</option>
 												<option value="컴퓨터공학과">컴퓨터공학과</option>
 												<option value="AI학과">AI학과</option>
@@ -382,7 +382,7 @@
 										</td>
 										<th class="table-secondary" scope="col" style="width: 9%; vertical-align:middle;">대상학년</th>
 										<td  style="width:16%;">
-											<select id="lec_target_grade" name="lec_target_grade" class="form-select form-select-sm me-0 " style="margin: 0;">
+											<select id="lec_target_grade" name="lec_target_grade" class="form-select form-select-sm me-0 " style="margin: 0;" required="required">
 												<option selected value="1">1 학년</option>
 												<option value="2">2 학년</option>
 												<option value="3">3 학년</option>
@@ -391,7 +391,7 @@
 										</td>
 										<th class="table-secondary" scope="col" style="width: 9%; vertical-align:middle;">수강인원</th>
 										<td>
-											<input id="lec_max_stud" name="lec_max_stud" class="form-control form-control-sm text-start" type="text" >
+											<input id="lec_max_stud" name="lec_max_stud" class="form-control form-control-sm text-start" type="text" required="required">
 										</td>
 									</tr>
 					
@@ -400,11 +400,11 @@
 										<th class="table-secondary text-center" scope="col" style="width: 9%; vertical-align:middle;">강의명</th>
 										<td colspan="3" class="p-2" style="width:16%;">
 											<input id="lec_name" name="lec_name" class="form-control form-control-sm text-start " 
-												type="text" placeholder="강의명을 입력해주세요" >
+												type="text" placeholder="강의명을 입력해주세요" required="required">
 										</td>
 										<th class="table-secondary me-0" scope="col" style="vertical-align:middle;">건물명</th>
 										<td>
-											<select id="lec_building" name="lec_building" class="form-select form-select-sm me-0 " style=" margin-right: 0;">
+											<select id="lec_building" name="lec_building" class="form-select form-select-sm me-0 " style=" margin-right: 0;" required="required">
 												<option selected value="중앙동 ">중앙동</option>
 												<option value="정보동">정보동</option>
 												<option value="종합강의동">종합강의동</option>
@@ -412,7 +412,7 @@
 										</td>
 										<th class="table-secondary" scope="col" style="width: 9%; vertical-align:middle;">호수</th>
 										<td>
-											<select id="lec_room" name="lec_room" class="form-select form-select-sm me-0 " style="margin: 0;">
+											<select id="lec_room" name="lec_room" class="form-select form-select-sm me-0 " style="margin: 0;" required="required">
 												<option selected value="101호 ">101호</option>
 												<option value="102호">102호</option>
 												<option value="103호">103호</option>
@@ -429,8 +429,7 @@
 										<tr>
 										<th class="table-secondary text-center" scope="col" style="width: 9%; vertical-align:middle;">강의일1</th>
 										<td class="p-2">
-											<select id="lec_day1" name="lec_day1" class="form-select form-select-sm me-0 " 
-													style="margin: 0;">
+											<select id="lec_day1" name="lec_day1" class="form-select form-select-sm me-0 " style="margin: 0;" required="required">
 												<option value="" selected>선택</option>
 												<option value="월">월요일</option>
 												<option value="화">화요일</option>
@@ -441,7 +440,7 @@
 										</td>
 										<th class="table-secondary me-0" scope="col" style="vertical-align:middle;width: 9%;">강의시간1</th>
 										<td style="width: 18%; margin-right: 0;">
-											<select id="lec_time1" name="lec_time1" class=" form-select form-select-sm">
+											<select id="lec_time1" name="lec_time1" class=" form-select form-select-sm" required="required">
 												<option selected value="">선택</option>
 												<option value="1교시">1교시 (09:00-09:50)</option>
 												<option value="2교시">2교시 (10:00-10:50)</option>
@@ -456,8 +455,7 @@
 										</td>
 										<th class="table-secondary text-center" scope="col" style="width: 9%; vertical-align:middle;">강의일2</th>
 										<td class="p-2">
-											<select id="lec_day2" name="lec_day2" class="form-select form-select-sm me-0 " 
-													style="margin: 0;">
+											<select id="lec_day2" name="lec_day2" class="form-select form-select-sm me-0 " style="margin: 0;" required="required">
 												<option value="" selected>선택</option>
 												<option value="월">월요일</option>
 												<option value="화">화요일</option>
@@ -468,7 +466,7 @@
 										</td>
 										<th class="table-secondary me-0" scope="col" style="vertical-align:middle; width: 9%;">강의시간2</th>
 										<td style="width: 18%; margin-right: 0;">
-											<select id="lec_time2" name="lec_time2" class=" form-select form-select-sm" >
+											<select id="lec_time2" name="lec_time2" class=" form-select form-select-sm" required="required">
 												<option selected value="">선택</option>
 												<option value="1교시">1교시 (09:00-09:50)</option>
 												<option value="2교시">2교시 (10:00-10:50)</option>
@@ -488,8 +486,7 @@
 									<tr>
 										<th class="table-secondary text-center" scope="col" style="width: 9%; vertical-align:middle;">승인여부</th>
 										<td class="p-2">
-											<select id="lec_status" name="lec_status" class="form-select form-select-sm me-0 " 
-													style="margin: 0;">
+											<select id="lec_status" name="lec_status" class="form-select form-select-sm me-0 " style="margin: 0;" required="required">
 												<option value="" selected>선택</option>
 												<option value="1">미승인</option>
 												<option value="0">승인</option>
