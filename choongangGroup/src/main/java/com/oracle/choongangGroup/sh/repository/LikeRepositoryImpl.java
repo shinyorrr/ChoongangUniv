@@ -92,7 +92,7 @@ public class LikeRepositoryImpl implements LikeRepository {
 		int result = 0;
 		String userid = applyLec.getMember().getUserid();
 		Long lecId = applyLec.getLecture().getId();
-		int gubun = applyLec.getGubun();
+		Long gubun = applyLec.getGubun();
 		String jpql = "select a from ApplicationLec a where a.member.userid = :userid and a.lecture.id = :lecId and a.gubun = :gubun";
 		List<ApplicationLec> list = em.createQuery(jpql,ApplicationLec.class)
 												.setParameter("userid", userid)
@@ -117,7 +117,7 @@ public class LikeRepositoryImpl implements LikeRepository {
 		//result = 1 --> 중복없음
 		//result = 2 --> 시간 중복됨
 		int result = 1;
-		int gubun = applyLec.getGubun(); //장바구니,수강신청 구분
+		Long gubun = applyLec.getGubun(); //장바구니,수강신청 구분
 		String userid = applyLec.getMember().getUserid();
 		String jpql = "select a from ApplicationLec a where a.member.userid = :userid and a.gubun = :gubun";
 		//기존강의들의 시간을 list에 담기

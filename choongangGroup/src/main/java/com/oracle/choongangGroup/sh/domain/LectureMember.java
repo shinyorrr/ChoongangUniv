@@ -8,6 +8,7 @@ import com.oracle.choongangGroup.changhun.JPA.Member;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 
