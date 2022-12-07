@@ -1,8 +1,6 @@
 package com.oracle.choongangGroup.changhun.dept;
 
 
-import java.util.List;
-
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,12 +29,6 @@ public class DeptRestCotroller {
 	public String deptUpdate(Dept dept) {
 		dp.save(dept);
 		return null;
-	}
-	
-	@RequestMapping(value = "deptList")
-	public List<Dept> deptList(){
-		List<Dept> deptList = dp.findAll();
-		return deptList;
 	}
 
 }

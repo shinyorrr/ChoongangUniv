@@ -1,7 +1,6 @@
 package com.oracle.choongangGroup.changhun.address;
 
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.data.domain.Page;
@@ -67,14 +66,10 @@ public class AddressController {
 //		return "manager/addressLike";
 //	}
 	@RequestMapping(value = "/myLikeAddress")
-	public String likeAddress(HttpServletRequest request,Model model,
+	public String likeAddress(HttpSession session,Model model,
 							  @RequestParam(required = false, defaultValue = "0", value="page") int page) {
 		
-		HttpSession session = request.getSession();
-		String userid = (String) session.getAttribute("userid");
-		
-		
-//		String userid = "18301001";
+		String userid = "18301001";
 		
 		Page<PhoneLike> like = addressRepository.findByMyUserid(userid, PageRequest.of(page, 2, Sort.by(Sort.Direction.ASC,"member.name")));
 		
@@ -91,14 +86,10 @@ public class AddressController {
 	}
 	
 	@RequestMapping(value = "/searchAddress")
-	public String searchAddress(Model model,HttpServletRequest request,
+	public String searchAddress(Model model,
 						@RequestParam(value = "search") String name,
 			  			@RequestParam(required = false, defaultValue = "0", value="page") int page) {
-		
-	HttpSession session = request.getSession();
-	String userid = (String) session.getAttribute("userid");
-		
-//	String userid = "18301001";
+	String userid = "18301001";
 	Page<Member> addressList = null;
 	
 	if(name == null || name.equals("")) {

@@ -11,11 +11,9 @@ import org.springframework.stereotype.Repository;
 import com.oracle.choongangGroup.changhun.JPA.Work;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Repository
 @RequiredArgsConstructor
-@Slf4j
 public class AttCustomRepositoryImpl implements AttCustomRepository {
 
 	public final EntityManager em;
@@ -80,40 +78,6 @@ public class AttCustomRepositoryImpl implements AttCustomRepository {
 		}
 		
 		return vacation;
-	}
-
-	@Override
-	public List<Work> attAllList(int deptno,String todayStr) {
-		String today = todayStr + "%";
-		System.out.println(today);
-//		String query = "select w from Work w order by w.member.userid, w.workDate";
-		String query = "select w from Work w where w.workDate Like : today and w.member.dept.deptno =: deptno order by w.member.userid, w.workDate";
-		List<Work> attAllList = null;
-		attAllList = em.createQuery(query).setParameter("today", today).setParameter("deptno", deptno).getResultList();
-		
-		
-//		try {
-//		} catch (Exception e) {
-//			System.out.println("=======================================================");
-//			System.out.println("AttCustomRepositoryImpl attAllList 오류 --> " + e.getMessage());
-//			System.out.println("=======================================================");
-//		}
-		System.out.println("attAllList --> " + attAllList.size());
-		return attAllList;
-	}
-
-	@Override
-	public List<String> MemberList(int deptno, String month) {
-		String today = month + "%";
-		String query = "select distinct w.member.userid"
-					 + " from Work w "
-					 + " where w.workDate Like : today"
-					 + " and w.member.dept.deptno =: deptno";
-//		String query = "select distinct w.member.userid from Work w";
-		List<String> memberlist = em.createQuery(query).setParameter("today", today).setParameter("deptno", deptno).getResultList();
-//		List<String> memberlist = em.createQuery(query).getResultList();
-		System.out.println("memberlist.size() --> " + memberlist.size());
-		return memberlist;
 	}
 
 	

@@ -13,14 +13,12 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 public class RsaInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		log.info("===RsaInterceptor preHandle start===");
+		
+		System.out.println("===RsaInterceptor preHandle start===");
 //		if (request.getAttribute("publicKeyModulus") != "" && request.getAttribute("publicKeyExponent") != "") {
 //			return true;
 //		}
@@ -34,15 +32,18 @@ public class RsaInterceptor implements HandlerInterceptor {
         PrivateKey privateKey = keyPair.getPrivate();
         HttpSession session = request.getSession();
         session.setAttribute("__rsaPrivateKey__", privateKey);
+        System.out.println("RsaInterceptor publicKey -> " + publicKey);
+        System.out.println("RsaInterceptor privateKey -> " + privateKey);
         
         RSAPublicKeySpec publicKeySpec = keyFactory.<RSAPublicKeySpec>getKeySpec(publicKey, RSAPublicKeySpec.class);
         
         String publicKeyModulus  = publicKeySpec.getModulus().toString(16);
         String publicKeyExponent = publicKeySpec.getPublicExponent().toString(16);
-        log.info("RsaInterceptor publicKeyModulus : {} ", publicKeyModulus);
-        log.info("RsaInterceptor publicKeyExponent : {} ", publicKeyExponent);
+        System.out.println("RsaInterceptor publicKeyModulus -> " + publicKeyModulus);
+        System.out.println("RsaInterceptor publicKeyExponent -> " + publicKeyExponent);
         request.setAttribute("publicKeyModulus" , publicKeyModulus);
         request.setAttribute("publicKeyExponent", publicKeyExponent);
+		
         return true;
 	}
 }

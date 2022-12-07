@@ -13,7 +13,7 @@ import com.oracle.choongangGroup.sh.domain.Lecture;
 public interface ApplyService {
 
 	List<Lecture> 	lectureListAll();
-	int 			apply(Long lecId, String userid, Long gubun);
+	int 			apply(Long lecId, String userid, int gubun);
 	List<ApplicationLec> likeListAll(String userid);
 	void register(ApplyTime applyTime);
 	

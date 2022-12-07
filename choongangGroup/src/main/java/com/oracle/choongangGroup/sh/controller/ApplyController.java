@@ -62,7 +62,7 @@ public class ApplyController {
 	public int like(Long lecId, String userid, Model model) {
 		
 		//장바구니 구분
-		Long gubun = (long) 1;
+		int gubun = 1;
 		int result = as.apply(lecId, userid, gubun);
 		return result;
 	}
@@ -96,7 +96,7 @@ public class ApplyController {
 	public int apply(Long lecId, String userid, Model model) {
 		System.out.println("Applycontroller apply start...");
 		//수강신청 구분
-		Long gubun = (long) 2;
+		int gubun = 2;
 		int result = as.apply(lecId, userid, gubun);
 		System.out.println("수강신청 결과------->"+result);
 		return result;

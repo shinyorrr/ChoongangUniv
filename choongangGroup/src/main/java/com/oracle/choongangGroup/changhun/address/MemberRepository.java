@@ -17,9 +17,9 @@ import com.oracle.choongangGroup.changhun.JPA.PhoneLike;
 
 public interface MemberRepository extends JpaRepository<Member, String>{
 
-   Member findByUserid(String userid);
+	Member findByUserid(String userid);
 
-   Page<Member> findByNameContaining(String name, PageRequest of);
+	Page<Member> findByNameContaining(String name, PageRequest of);
 
 
 

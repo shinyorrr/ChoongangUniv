@@ -24,7 +24,6 @@ public class AttRestController {
 	private final AttManagementRepository repository;
 	private final AttManagementService service;
 	
-	
 	@RequestMapping(value = "attInsert")
 	public String attInsert() {
 		String msg = null;

@@ -63,7 +63,7 @@ public class SecurtiyConfig {
 			.antMatchers("/professor/**").hasRole("PROFESSOR")
 			.antMatchers("/admin/**").permitAll()//.hasRole("ADMIN")
             // 권한이 없어도 모두 허용
-			.antMatchers("/",
+			.antMatchers(
             			 "/login", 
             			 "/anonymous/**"
             			 ).permitAll()
@@ -114,7 +114,8 @@ public class SecurtiyConfig {
                             "/images/**",
                             "/js/**",
                             "/css/**",
-                            "/favicon.ico"
+                            "/favicon.ico",
+                            "/ryImgUpload/**"
                     );
         };
     }

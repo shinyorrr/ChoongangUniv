@@ -40,7 +40,7 @@ public class ApplyServiceImpl implements ApplyService {
 
 	//장바구니신청
 	@Override
-	public int apply(Long lecId, String userid, Long gubun) {
+	public int apply(Long lecId, String userid, int gubun) {
 		int result = 0;
 		Member member = ar.memberFindOne(userid);
 		Lecture lecture = ar.lectureFindOne(lecId);

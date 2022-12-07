@@ -11,9 +11,7 @@ import org.springframework.stereotype.Service;
 import com.oracle.choongangGroup.dongho.auth.SecurityRepository;
 import com.oracle.choongangGroup.changhun.JPA.Member;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -23,9 +21,9 @@ public class PrincipalDetailsService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		log.info("====loadUserByUsername start====");
+		System.out.println("loadUserByUsername start ");
 		Member member = securityRepository.findByUserid(username);
-		log.info("loadUserByUsername : {}", member.getUserid());
+		System.out.println("loadUserByUsername -> " + member.getUserid());
 		if (member == null) {return (UserDetails) new UsernameNotFoundException("아이디를 찾을 수 없습니다. : " + username);} 
 		else                {return new PrincipalDetails(member);}
 	}
