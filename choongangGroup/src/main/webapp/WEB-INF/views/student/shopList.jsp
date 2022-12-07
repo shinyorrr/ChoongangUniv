@@ -19,7 +19,22 @@
 	a:hover { text-decoration:underline; }
 	h1, h2, h3, h4, h5, h6 { margin:0; padding:0; }
 	ul, lo, li { margin:0; padding:0; list-style:none; }
-	
+	#container_box table td { width:100px; }
+	section#container { padding:20px 0; border-top:2px solid #eee; border-bottom:2px solid #eee; }
+	section#container::after { content:""; display:block; clear:both; }
+	aside { float:left; width:200px; }
+	div#container_box { float:right; width:calc(100% - 200px - 20px); }
+	aside { float : left; width 200px;}	
+	aside ul li { text-align:center; margin-bottom:10px; }
+	aside ul li a { display:block; width:100%; padding:10px 0;}
+ 	aside ul li a:hover { background:#eee; }
+	.inputArea { margin:10px 0; }
+	select { width:100px; }
+	label { display:inline-block; width:70px; padding:5px; }
+	label[for='bookInfo'] { display:block; }
+	input { width:150px; }
+	textarea#bookInfo { width:400px; height:180px; }
+	ul li {list-style-type: none; float: left; margin-left: 20px; }	
 	aside#aside h3 { font-size:22px; margin-bottom:20px; text-align:center; }
 	aside#aside li { font-size:16px; text-align:center; }
 	aside#aside li a { color:#000; display:block; padding:10px 0; }
@@ -36,54 +51,28 @@
 </head>
 <body>
 <section id="container">
-	<div id="container_box"> 
-	<section id="content">
+	<aside>
+		<%@include file="include/aside.jsp" %>
+	</aside>
+	<div id="container_box">
+	<h2>교재 구입 목록</h2>
 	<ul>
-		 <c:forEach items="${bookList}" var="list">
+		 <c:forEach items="${bookList}" var="bookList">
 		 <li>
 		  <div class="bookThumb">
-		   <img src="${list.bookThumbImg}">
+		  	<a href="/student/shopDetailList?bookId='${bookList.bookId}'">
+		   <img style="width: 200px; height: 150px; object-fit: contain;" src="${bookList.bookThumbImg}">
+		   </a>
 		  </div> 
 		  <div class="bookName">
-		   <a href="/student/bookList?bookId='${list.bookId}'">${list.bookName}</a>
+		   <a href="/student/shopDetailList?bookId='${bookList.bookId}'">${bookList.bookName}</a>
+		  </div>
+		  <div class="bookPrice">
+		   ${bookList.bookPrice} 원
 		  </div>
 		 </li>
 		 </c:forEach>
 	</ul>
-	
-	</section>
-	<aside>
-	<h3> 교재 목록 </h3>
-	<div class="btn-group">
-	  <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-	    전공
-	  </button>
-	  <ul class="dropdown-menu">
-	    <li><a class="dropdown-item" href="#">컴퓨터</a></li>
-	    <li><a class="dropdown-item" href="#">정보통신</a></li>
-	    <li><a class="dropdown-item" href="#">AI</a></li>
-	    <li><hr class="dropdown-divider"></li>
-	    <li><a class="dropdown-item" href="#">알고리즘</a></li>
-	  </ul>
-	</div>
-	<ul>
-	<!--  	<li><a href="/student/shopList?cateCode=100&tier=1">전공</a> -->
- 	<li><a href="/student/shopDetailList?cateCode=100&tier=1">전공</a>
-		<ul class="low">
-			<li><a href="/student/shopDetailList?cateCode=101&tier=2">컴퓨터</a>
-			<li><a href="/student/shopDetailList?cateCode=102&tier=2">정보통신</a>
-			<li><a href="/student/shopDetailList?cateCode=103&tier=2">AI</a>
-			<li><a href="/student/shopDetailList?cateCode=104&tier=2">알고리즘</a>
-		</ul>
-	</li>
-	<li><a href="/student/shopDetailList?cateCode=200&tier=1">교양</a>
-		<ul class="low">
-			<li><a href="/student/shopDetailList?cateCode=201&tier=2">토익</a>
-			<li><a href="/student/shopDetailList?cateCode=202&tier=2">중국어</a>
-		</ul>
-	</li> 
-</ul>
-	</aside>
 	</div>
 </section>
 </body>

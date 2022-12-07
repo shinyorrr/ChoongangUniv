@@ -542,13 +542,31 @@
 											<tr>
 												<th style="width: 10%; font-size: 14px; display: table-cell; vertical-align: middle; background-color: #dddddd">연차신청기간</th>
 												<td colspan="5">
-													<input type="date" name="approval_start" id="approval_start" style="width: 20%; margin-left:10px; margin-right: 1%; border-radius:3px; border: none; float: left" oninput="getStartDate()" required="required">
+													<input type="date" name="approval_start" id="approval_start" style="width: 20%; margin-left:10px; margin-right: 1%; border-radius:3px; border: none; float: left" oninput="getStartDate()" >
 													<i class="bi bi-dash" style="float: left"></i>
-													<input type="date" name="approval_end" id="approval_end" style="width: 20%; margin-left:10px; margin-right: 1%; border-radius:3px; border: none; float: left" oninput="getEndDate()" required="required">
+													<input type="date" name="approval_end" id="approval_end" style="width: 20%; margin-left:10px; margin-right: 1%; border-radius:3px; border: none; float: left" oninput="getEndDate()" >
 												</td>
 											</tr>
 											<tr>
-												<td colspan="6">
+												<th style="width: 10%; font-size: 14px; display: table-cell; vertical-align: middle; background-color: #dddddd">필요품목</th>
+												<td>
+													<input type="text" name="item_need" id="item_need" style="width: 50%; margin-left:10px; margin-right: 1%; border-radius:3px; border: none;">
+												</td>
+												<th style="width: 10%; font-size: 14px; display: table-cell; vertical-align: middle; background-color: #dddddd">수량</th>
+												<td>
+													<input type="text" name="item_quantity" id="item_quantity" style="width: 50%; margin-left:10px; margin-right: 1%; border-radius:3px; border: none;">
+												</td>
+												<th style="width: 10%; font-size: 14px; display: table-cell; vertical-align: middle; background-color: #dddddd">용도</th>
+												<td>
+													<input type="text" name="item_purpose" id="item_purpose" style="width: 50%; margin-left:10px; margin-right: 1%; border-radius:3px; border: none;">
+												</td>
+												<th style="width: 10%; font-size: 14px; display: table-cell; vertical-align: middle; background-color: #dddddd">예상가격</th>
+												<td>
+													<input type="text" name="item_price" id="item_price" style="width: 50%; margin-left:10px; margin-right: 1%; border-radius:3px; border: none;">
+												</td>
+											</tr>
+											<tr>
+												<td colspan="8">
 													<div class="mb-3">
 														<textarea name="approval_content" class="form-control" id="exampleFormControlTextarea1" maxlength="200" placeholder="상세 내용을 입력하세요" rows="3" required="required"></textarea>
 													</div>
@@ -556,7 +574,7 @@
 											</tr>
 											<tr>
 												<th style="width: 10%; font-size: 14px; display: table-cell; vertical-align: middle; background-color: #dddddd">파일선택</th>
-												<td colspan="5">
+												<td colspan="8">
 													<input type="file" name="file1" id="file1" style="width: 50%; margin-left:10px; margin-right: 1%; border-radius:3px; border: none;">
 												</td>
 											</tr>
@@ -589,7 +607,7 @@
 						       <!--  사원리스트 불러오기 -->
 						        <div>
 						        	<!-- 사원검색 -->
-						        	<div>
+						        	<!-- <div>
 						        		<form class="mid_search" action="midApprSearch" method="get">
 						        			<select class="form-select" aria-label="Default select example" name="search" style="width: 20%; display: inline-block;">
 											  <option selected>선택</option>
@@ -599,7 +617,7 @@
 						        			<input id="searchWord" class="search" type="text" placeholder="이름, 부서" name="keyWord" style="height: 30px;">
 						        			<button type="button" onclick="getMidList();" class="btn btn-info btnSearch" style="border-radius: 3px; color: white; margin: 0px;">검색</button>   
 						        		</form>
-						        	</div>
+						        	</div> -->
 						        	
 						        	<div class="scroll_wrap" style="height: 360px; overflow: scroll">
 						        		<table class="table table-striped" style="width: 400px; height: 366px; border: 0px; overflow-y: auto;">
@@ -611,6 +629,7 @@
 						        					 <th style="padding-left:2px;">이름</th>
 						        					 <th style="padding-left:2px;">사번</th>
 					                                 <th style="padding-left:2px;">부서</th>
+					                                 <th style="padding-left:2px;">직급</th>
 						        				</tr>
 						        			</thead>
 						        			<tbody id="MidApprList">
@@ -642,7 +661,7 @@
 						        <!-- 사원리스트 불러오기 -->
 						        <div>
 						        	<!-- 사원검색 -->
-						        	<div>
+						        	<!-- <div>
 						        		<form class="mid_search" action="midApprSearch" method="get">
 						        			<select class="form-select" aria-label="Default select example" name="search" style="width: 20%; display: inline-block;">
 											  <option selected>선택</option>
@@ -652,7 +671,7 @@
 						        			<input id="searchWord" class="search" type="text" placeholder="이름, 부서" name="keyWord" style="height: 30px;">
 						        			<button type="button" onclick="getFinList();" class="btn btn-info btnSearch" style="border-radius: 3px; color: white; margin: 0px;">검색</button>   
 						        		</form>
-						        	</div>
+						        	</div> -->
 						        	
 						        	<div class="scroll_wrap" style="height: 360px; overflow: scroll">
 						        		<table class="table table-striped" style="width: 400px; height: 366px; border: 0px; overflow-y: auto;">
@@ -664,6 +683,7 @@
 						        					 <th style="padding-left:2px;">이름</th>
 						        					 <th style="padding-left:2px;">사번</th>
 					                                 <th style="padding-left:2px;">부서</th>
+					                                 <th style="padding-left:2px;">직급</th>
 						        				</tr>
 						        			</thead>
 						        			<tbody id="FinApprList">

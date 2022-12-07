@@ -20,6 +20,7 @@ for(var i = 0; i < jsonData.length; i++) {
 	if(jsonData[i].tier == "1") {
 		cate1Obj = new Object();  //초기화
 		cate1Obj.cateCode = jsonData[i].cateCode;
+		cate1Obj.cateParent = jsonData[i].cateParent;
 		cate1Obj.cateName = jsonData[i].cateName;
 		cate1Arr.push(cate1Obj);
 	}
@@ -27,7 +28,7 @@ for(var i = 0; i < jsonData.length; i++) {
 // 1차 분류 셀렉트 박스에 데이터 삽입
 var cate1Select = $(".category1")
 for(var i = 0; i < cate1Arr.length; i++) {
-	cate1Select.append("<option value='" + cate1Arr[i].cateCode + "'>"
+	cate1Select.append("<option value='" + cate1Arr[i].cateParent + "'>"
 						+ cate1Arr[i].cateName + "</option>");
 }
 $(document).on("change", ".category1", function(){

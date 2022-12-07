@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.oracle.choongangGroup.ry.model.BookCateVo;
 import com.oracle.choongangGroup.ry.model.BookVo;
 import com.oracle.choongangGroup.ry.service.AdminBookService;
 import com.oracle.choongangGroup.ry.service.ShopService;
@@ -24,15 +25,21 @@ public class ShopController {
 	private final ShopService ss;
 	
 	@GetMapping(value = "/student/shopList")
-	public void shopMain() {
-		
+	public void shopMain(Model model) {
+		List<BookVo> bookList = ss.bookList();
+		model.addAttribute("bookList", bookList);
 	}
 	
-	@RequestMapping(value = "/student/shopDetailList", method = RequestMethod.GET)
-	public void ShopList(Long cateCode,Long tier, Model model) throws Exception {
-		System.out.println("cateCode"+ cateCode);
-		List<BookVo> bookList = null;
-		bookList = ss.bookList(cateCode);
-		model.addAttribute("bookList", bookList);
+//	@RequestMapping(value = "/student/shopDetailList", method = RequestMethod.GET)
+//	public void ShopListGet(Model model) throws Exception {
+//		List<BookVo> bookList = ss.bookList();
+//		model.addAttribute("bookList", bookList);
+//	}
+	
+	@RequestMapping(value = "student/shopDetailList")
+	public void detailBookList(int bookId, Model model, BookCateVo category) {
+		BookVo books = ss.shopDetailList(bookId);
+		model.addAttribute("books", books);
+		model.addAttribute("category", category);
 	}
 }

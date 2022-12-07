@@ -88,9 +88,9 @@ $(document).on("change", ".category1", function(){
 	.inputArea { margin:10px 0; }
 	select { width:100px; }
 	label { display:inline-block; width:70px; padding:5px; }
-	label[for='gdsDes'] { display:block; }
+	label[for='bookInfo'] { display:block; }
 	input { width:150px; }
-	textarea#gdsDes { width:400px; height:180px; }
+	textarea#bookInfo { width:400px; height:180px; }
 </style>
 </head>
 <body>
@@ -98,6 +98,7 @@ $(document).on("change", ".category1", function(){
 	<aside>
 		<%@include file="include/aside.jsp" %>
 	</aside>
+	<div id="container_box">
 		<h2>교재 목록</h2>
 			<table>
 				<thead>
@@ -129,6 +130,7 @@ $(document).on("change", ".category1", function(){
 					</c:forEach>
 				</tbody>
 			</table>
+			</div>
 </section>
 
 </body>

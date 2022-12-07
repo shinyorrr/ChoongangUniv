@@ -16,9 +16,15 @@ public class ShopDaoImpl implements ShopDao {
 	private final SqlSession session;
 
 	@Override
-	public List<BookVo> bookList(Long cateCode) {
-		List<BookVo> bookList = session.selectList("ShopList", cateCode);
+	public List<BookVo> bookList() {
+		List<BookVo> bookList = session.selectList("ShopList");
 		return bookList;
+	}
+
+	@Override
+	public BookVo detailBookList(int bookId) {
+		BookVo book = session.selectOne("BookDetail", bookId);
+		return book;
 	}
 	
 	

@@ -10,7 +10,7 @@
 
 <input type="submit" value="강의평가" onclick="location.href='evaluationList?userid=${evaluation.userid}'">
 
-
+ ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ
 
 
 

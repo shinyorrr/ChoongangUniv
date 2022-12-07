@@ -189,7 +189,7 @@ public class ApprovalDaoImpl implements ApprovalDao {
 		int result = 0;
 		log.info("midAgree Start...");
 		try {
-			result = session.delete("hsMidAgree", approval);
+			result = session.update("hsMidAgree", approval);
 		} catch (Exception e) {
 			log.info("midAgree Exception->{}",e.getMessage());
 		}
@@ -202,7 +202,7 @@ public class ApprovalDaoImpl implements ApprovalDao {
 		int result = 0;
 		log.info("finAgree Start...");
 		try {
-			result = session.delete("hsFinAgree", approval);
+			result = session.update("hsFinAgree", approval);
 		} catch (Exception e) {
 			log.info("finAgree Exception->{}",e.getMessage());
 		}
@@ -215,7 +215,7 @@ public class ApprovalDaoImpl implements ApprovalDao {
 		int result = 0;
 		log.info("midReject Start...");
 		try {
-			result = session.delete("hsMidReject", approval);
+			result = session.update("hsMidReject", approval);
 		} catch (Exception e) {
 			log.info("midReject Exception->{}",e.getMessage());
 		}
@@ -228,7 +228,7 @@ public class ApprovalDaoImpl implements ApprovalDao {
 		int result = 0;
 		log.info("finReject Start...");
 		try {
-			result = session.delete("hsFinReject", approval);
+			result = session.update("hsFinReject", approval);
 		} catch (Exception e) {
 			log.info("finReject Exception->{}",e.getMessage());
 		}

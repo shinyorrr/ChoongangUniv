@@ -21,9 +21,15 @@ public class ShopServiceImpl implements ShopService {
 	private final ShopDao sd;
 
 	@Override
-	public List<BookVo> bookList(Long cateCode) {
-		List<BookVo> bookList = sd.bookList(cateCode);
+	public List<BookVo> bookList() {
+		List<BookVo> bookList = sd.bookList();
 		return bookList;
+	}
+
+	@Override
+	public BookVo shopDetailList(int bookId) {
+		BookVo book = sd.detailBookList(bookId);
+		return book;
 	}
 
 }
