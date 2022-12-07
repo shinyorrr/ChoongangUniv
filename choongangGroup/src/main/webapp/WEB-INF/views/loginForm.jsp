@@ -56,7 +56,7 @@
 			data: {securedUsername:securedUsername , securedPassword:securedPassword},
 			//contentType: "json",
 			success: function(data) {
-				alert('성공');
+				console.log("로그인 성공");
 				console.log(data);
 				location.href = data;
 				

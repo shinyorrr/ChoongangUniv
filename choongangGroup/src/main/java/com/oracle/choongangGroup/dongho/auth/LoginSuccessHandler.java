@@ -17,7 +17,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.oracle.choongangGroup.changhun.JPA.Member;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Transactional
 @RequiredArgsConstructor
 public class LoginSuccessHandler implements HandlerInterceptor{
@@ -26,8 +28,9 @@ public class LoginSuccessHandler implements HandlerInterceptor{
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
+		log.info("====LoginSuccessHandler postHandle Start====");
 		Authentication authentication =  SecurityContextHolder.getContext().getAuthentication();
-		System.out.println("authentication ==>>" + authentication.getName() + "," + authentication.getPrincipal());
+		log.info("postHandle authentication.getName() : {}", authentication.getName());
 		Collection<? extends GrantedAuthority> roles = authentication.getAuthorities();
 		String targetUrl = "";
 		
@@ -48,14 +51,14 @@ public class LoginSuccessHandler implements HandlerInterceptor{
 			targetUrl = "/admin/main";
 		}
 		
-		//session에 member정보 저장
+//		session에 member정보 저장
 		String userid = (String) authentication.getPrincipal();
-		System.out.println("successHandle userid -> " + userid);
+		log.info("authentication.getPrincipal() : {}", userid);
 		Member member = securityService.findByUserid(userid);
 		
 		HttpSession session = request.getSession();
 		session.setAttribute("userid", userid);
-		System.out.println("LoginSuccessHandler userid -> " + userid);
+		log.info("set session userid : {}", userid);
 		
 		session.setAttribute("name", member.getName());
 		session.setAttribute("email", member.getEmail());
@@ -72,7 +75,6 @@ public class LoginSuccessHandler implements HandlerInterceptor{
 		case "ROLE_MANAGER":
 			session.setAttribute("position", member.getPosition());
 			session.setAttribute("dname", member.getDept().getDname());
-			System.out.println(member.getDept().getDname());
 			break;
 		default:
 			break;
