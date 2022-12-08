@@ -72,10 +72,10 @@ public class LoginSuccessHandler implements HandlerInterceptor{
 			session.setAttribute("major", member.getMajor());
 			session.setAttribute("position", member.getPosition());
 			break;
-		case "ROLE_MANAGER":
-			session.setAttribute("position", member.getPosition());
-			session.setAttribute("dname", member.getDept().getDname());
-			break;
+//		case "ROLE_MANAGER":
+//			session.setAttribute("position", member.getPosition());
+//			session.setAttribute("dname", member.getDept().getDname());
+//			break;
 		default:
 			break;
 		}

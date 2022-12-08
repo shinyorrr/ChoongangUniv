@@ -88,44 +88,27 @@
 	function fileDownload() {
 		var selFilePath = $('#file_path').val();
 		var selServerName= $('#server_file_name').val();
-		var selOrgName = $('#org_file_name').val();
+		var selOrgName   = $('#org_file_name').val();
 		console.log(selFilePath);
 		console.log(selServerName);
-		if(selServerName != null && selServerName != '') {
+		console.log(selOrgName);
+		if(selOrgName != null) {
 			
 			$.ajax(
 					{
-						url:"download",
+						url:"/download",
 						data:{file_path 	  : selFilePath,
 							 server_file_name : selServerName,
-							 org_file_name	  : selOrgName},
+							 org_file_name 	  : selOrgName},
 						dataType:'text',
 						success:function(data) {
-							alert("다운로드 성공");
-							downloadFile();
-							window.location.reload();
+							alert("다운로드 성공")
 						}
 					}	
 			);
 		}
 		
 	} 
-	
-	 function downloadFile() {
-		  var selFilePath = $('#file_path').val();
-		  var selServerName= $('#server_file_name').val();
-		  var selOrgName = $('#org_file_name').val();
-	      var downloadLink = document.createElement("a");
-	      var uri = '/manager/download?file_path='+selFilePath+'&server_file_name='+selServerName+'&org_file_name='+selOrgName;
-	      downloadLink.href = encodeURI(uri);
-	      downloadLink.download = selServerName;
-	      alert(selServerName);
-	      
-	      document.body.appendChild(downloadLink);
-	      downloadLink.click();
-	      document.body.removeChild(downloadLink);
-	      alert("File 다운로드 성공");
-	   }
 </script>
 </head>
 
@@ -388,30 +371,7 @@
 												</td>
 											</tr>
 											<tr>
-												<th style="width: 10%; font-size: 14px; display: table-cell; vertical-align: middle; background-color: #dddddd">필요품목</th>
-												<td>
-													<input type="text" name="item_need" id="item_need" value="${appr.item_need }" style="width: 50%; margin-left:10px; margin-right: 1%; border-radius:3px; border: none;" readonly="readonly">
-												</td>
-												<th style="width: 10%; font-size: 14px; display: table-cell; vertical-align: middle; background-color: #dddddd">수량</th>
-												<c:if test="${appr.item_quantity eq  0}">
-													<td>&nbsp;</td>
-												</c:if>
-												<c:if test="${appr.item_quantity ne  0}">
-													<td>
-														<input type="text" name="item_quantity" id="item_quantity" value="${appr.item_quantity }" style="width: 50%; margin-left:10px; margin-right: 1%; border-radius:3px; border: none;" readonly="readonly">
-													</td>
-												</c:if>
-												<th style="width: 10%; font-size: 14px; display: table-cell; vertical-align: middle; background-color: #dddddd">용도</th>
-												<td>
-													<input type="text" name="item_purpose" id="item_purpose" value="${appr.item_purpose }" style="width: 50%; margin-left:10px; margin-right: 1%; border-radius:3px; border: none;" readonly="readonly">
-												</td>
-												<th style="width: 10%; font-size: 14px; display: table-cell; vertical-align: middle; background-color: #dddddd">예상가격</th>
-												<td>
-													<input type="text" name="item_price" id="item_price" value="${appr.item_price }" style="width: 50%; margin-left:10px; margin-right: 1%; border-radius:3px; border: none;" readonly="readonly">
-												</td>
-											</tr>
-											<tr>
-												<td colspan="8">
+												<td colspan="6">
 													<div class="mb-3">
 														<textarea name="approval_content" class="form-control" id="exampleFormControlTextarea1" maxlength="200" rows="3" readonly="readonly" style="resize: none;">${appr.approval_content }</textarea>
 													</div>
@@ -419,7 +379,7 @@
 											</tr>
 											<tr>
 												<th style="width: 10%; font-size: 14px; display: table-cell; vertical-align: middle; background-color: #dddddd">파일선택</th>
-												<td colspan="8">
+												<td colspan="5">
 													<a onclick="fileDownload()"><input type="text" name="org_file_name" id="org_file_name" value="${appr.org_file_name}" style="width: 50%; margin-left:10px; margin-right: 1%; border-radius:3px; border: none;" readonly="readonly"></a>
 												</td>
 											</tr>

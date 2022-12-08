@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseCookie;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.Authentication;
@@ -141,17 +142,34 @@ public class SecurityController {
         // session 에 넣어줄 username setting
         request.setAttribute("userid", username);
         
-        // 클라이언트의 쿠키에 넣을 토큰 setting
-        Cookie cookieAT = new Cookie("AccessToken","Bearer" + accessToken);
-        Cookie cookieRT = new Cookie("RefreshToken", "Bearer" + refreshToken);
-        // cookie.setMaxAge(7 * 24 * 60 * 60); // 유효시간을 정하지 않으면 session cookie (휘발성. 브라우저종료시 삭제)
-        cookieAT.setPath("/");
-        cookieAT.setHttpOnly(true);
-        cookieRT.setPath("/");
-        cookieRT.setHttpOnly(true);
-        // response에 담아 쿠키 전송,저장
-        response.addCookie(cookieAT);
-        response.addCookie(cookieRT);
+//        // 클라이언트의 쿠키에 넣을 토큰 setting
+//        Cookie cookieAT = new Cookie("AccessToken","Bearer" + accessToken);
+//        Cookie cookieRT = new Cookie("RefreshToken", "Bearer" + refreshToken);
+//        cookieAT.setMaxAge(60 * 30); // 유효시간을 정하지 않으면 session cookie (휘발성. 브라우저종료시 삭제)
+//        cookieRT.setMaxAge(60 * 30); // 유효시간을 정하지 않으면 session cookie (휘발성. 브라우저종료시 삭제)
+//        cookieAT.setPath("/");
+//        cookieAT.setHttpOnly(true);
+//        cookieRT.setPath("/");
+//        cookieRT.setHttpOnly(true);
+//        // response에 담아 쿠키 전송,저장
+//        response.addCookie(cookieAT);
+//        response.addCookie(cookieRT);
+        ResponseCookie cookieAT = ResponseCookie.from("AccessToken","Bearer" + accessToken)
+                .path("/")
+                //.sameSite("None")
+                .httpOnly(true)
+                .domain("localhost")
+                //.secure(true)
+                .build();
+          response.addHeader("Set-Cookie", cookieAT.toString());
+          ResponseCookie cookieRT = ResponseCookie.from("RefreshToken","Bearer" + refreshToken)
+                .path("/")
+                //.sameSite("None")
+                .httpOnly(true)
+                .domain("localhost")
+                //.secure(true)
+                .build();
+          response.addHeader("Set-Cookie", cookieRT.toString());
     }
 	
 	
