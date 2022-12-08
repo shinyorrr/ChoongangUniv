@@ -156,7 +156,7 @@
                         <!-- 공지사항 -->
                         <div>
 	                      	<div class=" float-start col-12">
-								<div class="fw-bold fs-5 border rounded-top p-2" style="background-color:#EAEAEA; height: 45px;">&nbsp; <i class="bi bi-diamond-fill fs-6" style="color: rgb(39, 40, 70);"></i> &nbsp;공지사항</div>
+								<div class="fw-bold fs-5 border rounded-top p-2" style="background-color:#EAEAEA; height: 45px;">&nbsp; <i class="bi bi-bell-fill" style="color: rgb(39, 40, 70);"></i> &nbsp;공지사항</div>
 								<div class=" fs-6 fw-bold border p-4" style="height: 230px;">									
 									<p> ※ 수강신청 장바구니 유의사항 안내</p>
 									<p class="px-3"> 
