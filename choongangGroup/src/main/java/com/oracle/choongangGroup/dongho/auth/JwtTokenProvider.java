@@ -2,6 +2,7 @@ package com.oracle.choongangGroup.dongho.auth;
 
 
 import io.jsonwebtoken.*;
+
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
@@ -42,8 +43,8 @@ public class JwtTokenProvider {
 
     // 유저 정보를 가지고 AccessToken, RefreshToken 을 생성하는 메서드
     public TokenInfo generateToken(Authentication authentication) {
-    	System.out.println("===generateToken start===");
-        System.out.println("generateToken authentication.getName() -> " + authentication.getName());
+    	log.info("===generateToken start===");
+    	log.info("generateToken authentication.getName() : {}", authentication.getName());
     	// 권한 가져오기
         String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
@@ -52,7 +53,7 @@ public class JwtTokenProvider {
         long now = (new Date()).getTime();
         // Access Token 생성
         // 만료시간 설정 (현재시간 + 만료기간)
-        Date accessTokenExpiresIn = new Date(now + 60 * 30 * 1000L); // param * 1000L => param 초 (밀리초 단위이므로 1000으로 나누면 초가 된다)
+        Date accessTokenExpiresIn = new Date(now + 30 * 60 * 1000L); // param * 1000L => param 초 (밀리초 단위이므로 1000으로 나누면 초가 된다)
         // Jwts를 이용하여 토큰 생성
         String accessToken = Jwts.builder()
         		//authentication 으로부터 유저정보를 받아 넣는다. getName => memberId , authorites => roles
@@ -66,7 +67,7 @@ public class JwtTokenProvider {
 
         // Refresh Token 생성 (토큰 변조 유무 및 db와 일치 여부만 확인하면 되므로 유저정보는 넣지 않는다)
         String refreshToken = Jwts.builder()
-                .setExpiration(new Date(now + 60 * 60 * 1000L))
+                .setExpiration(new Date(now + 60 * 60 * 1000L)) // 60분
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
         // TokenInfo dto에 토큰 넣기
@@ -94,12 +95,17 @@ public class JwtTokenProvider {
                         .collect(Collectors.toList());
 
         // UserDetails 객체(principal)를 만들어서 Authentication 리턴(jwt토큰에 민감한 정보인 비밀번호를 넣을 필요가 없으므로 credential 은 "")
+        log.info("getAuthentication claims.getSubject() : {}", claims.getSubject());
         UserDetails principal = new User(claims.getSubject(), "", authorities);
         return new UsernamePasswordAuthenticationToken(principal, "", authorities);
     }
 
     // 토큰 정보를 검증하는 메서드
     public boolean validateToken(String token) {
+    	if(token == null) {
+    		log.info("token 이 존재하지 않습니다.");
+    		return false;
+    	}
         try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
@@ -129,14 +135,15 @@ public class JwtTokenProvider {
 	public boolean existsRefreshToken(String refreshToken, String userid) {
 		//클라이언트로부터 받은 accessToken 에 포함된 유저정보 memberId 와 refresh 토큰을 받아와서
 		//memberId 해당하는 member의 refresh 토큰(DB)과 클라이언트로부터 받은 refresh 토큰과 비교한다.
-		System.out.println("existsRefreshToken start");
+		
+		log.info("====existsRefreshToken start====");
 		// 받은 memberId로 DB의 refresh 토큰 받기
 		String DbRrefreshToken = securityRepository.findByUserid(userid).getRefreshToken();
-		System.out.println("existsRefreshToken DbRrefreshToken : " + DbRrefreshToken);
-		System.out.println("existsRefreshToken refreshToken : " + refreshToken);
+		log.info("existsRefreshToken DbRrefreshToken : {}", DbRrefreshToken);
+		log.info("existsRefreshToken refreshToken : {}", refreshToken);
 		if (refreshToken.equals(DbRrefreshToken)) {
 			// 비교후 같다면 true를 리턴
-			System.out.println("refreshToken equals DbRrefreshToken");
+			log.info("refreshToken equals DbRrefreshToken");
 			return true;
 		}
 		return false;

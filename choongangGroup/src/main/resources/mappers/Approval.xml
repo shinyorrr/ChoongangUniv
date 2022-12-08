@@ -16,12 +16,14 @@
 			SELECT rownum rn, a.*
 			FROM
 			(
-				select a.*, s.approval_sort_name 
-				from approval a, approval_sort s
-				where a.approval_sort_no  = s.approval_sort_no
-                and #{userid} = any(mid_approver, fin_approver)
-				and approval_status = 0
-				order by approval_no desc
+				select a.*, s.approval_sort_name
+                from approval a, approval_sort s
+				 where a.approval_sort_no  = s.approval_sort_no
+                and 
+                ((a.mid_approver = #{userid} and a.mid_approver_ok = 0)
+                or (a.approval_status = 0 and a.fin_approver = #{userid} and a.mid_approver_ok = 0)
+				or (a.approval_status = 0 and a.fin_approver = #{userid} and a.mid_approver_ok = 1))
+				order by a.approval_no desc
 			) a
 		)
 		where rn between #{start} and #{end}
@@ -71,9 +73,22 @@
 	<!-- =====================결재 Cnt===================== -->
 	<select id="waitTotal" parameterType="String" resultType="int">
 			<![CDATA[
-			select count(*) from approval
-			where #{userid} = any(mid_approver, fin_approver)
-			and approval_status = 0 
+			SELECT count(*)
+			FROM
+			(
+				SELECT rownum rn, a.*
+				FROM
+				(
+					select a.*, s.approval_sort_name
+	                from approval a, approval_sort s
+					 where a.approval_sort_no  = s.approval_sort_no
+	                and 
+	                ((a.mid_approver = #{userid} and a.mid_approver_ok = 0)
+	                or (a.approval_status = 0 and a.fin_approver = #{userid} and a.mid_approver_ok = 0)
+					or (a.approval_status = 0 and a.fin_approver = #{userid} and a.mid_approver_ok = 1))
+					order by a.approval_no desc
+				) a
+			)
 			]]>
 	</select>
 	
@@ -114,8 +129,8 @@
 									, NVL(#{fin_approver_ok, jdbcType=VARCHAR}, '0')
 									, NVL(#{approval_status, jdbcType=VARCHAR}, '0')
 									, #{writeday}
-									, #{approval_start}
-									, #{approval_end}
+									, #{approval_start, jdbcType=VARCHAR}
+									, #{approval_end, jdbcType=VARCHAR}
 									, #{mid_approver_opinion, jdbcType=VARCHAR}
 									, #{fin_approver_opinion, jdbcType=VARCHAR}
 									, #{userid}

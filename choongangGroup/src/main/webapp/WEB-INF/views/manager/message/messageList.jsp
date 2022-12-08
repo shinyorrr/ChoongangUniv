@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ include file="../header.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,12 +20,15 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <!-- CSS -->
 <link rel="stylesheet" href="/css/styles.css">
-
     <title>SideBar sub menus</title>
 </head>
 
-
 <body class="" id="body-pd">
+<%
+
+	session = request.getSession();
+
+%>
     <!-- header -->
     <!-- <nav class="navbar navbar-expand-lg navbar-dark bd-navbar bg-light sticky-top position-fixed fixed-top w-100" style="position : absolute">
         <a class="navbar-brand">
@@ -38,7 +44,7 @@
           </a>
     
           <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-            <li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>
+            <li><a href="/manager/main" class="nav-link px-2 link-secondary">Home</a></li>
             <li><a href="#" class="nav-link px-2 link-dark">Features</a></li>
             <li><a href="#" class="nav-link px-2 link-dark">Pricing</a></li>
             <li><a href="#" class="nav-link px-2 link-dark">FAQs</a></li>
@@ -53,12 +59,12 @@
             <div>
                 <div class="nav__brand">
                     <ion-icon name="menu-outline" class="nav__toggle" id="nav-toggle"></ion-icon>
-                    <a href="#" class="nav__logo">Bedimcode</a>
+                    <a href="/message/messageList" class="nav__logo">쪽지 관리</a>
                 </div>
                 <div class="nav__list">
-                    <a href="#" class="nav__link active">
+                    <a href="/messageWriteForm" class="nav__link active">
                         <ion-icon name="home-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Dashboard</span>
+                        <span class="nav_name">쪽지 쓰기</span>
                     </a>
                     <a href="#" class="nav__link">
                         <ion-icon name="chatbubbles-outline" class="nav__icon"></ion-icon>
@@ -118,8 +124,8 @@
             <div class="col-12 pt-4" style="height: 150px; background-color: rgb(95, 142, 241)">
                 <div class="d-flex flex-row mb-3">
                     <div>
-                        <span class="text-white h4">안녕하세요. <span class="fw-bold">김중앙</span>님!</span>
-                    </div>
+                        <span class="text-white h4">공지사항 조회 <span class="fw-bold">김중앙</span>님!</span>
+                    </div> 
                     <div class="border border-1 border-white border-bottom rounded-pill text-white px-2 pt-1 ms-2 h6">교수</div>
                     <div>
                         <i class="text-white bi-gear-fill mx-2"></i>
@@ -144,174 +150,92 @@
                 <div class="row m-5">
                     <!-- card header -->
                     <div class="col-12 rounded-top text-white overflow-auto pt-2 fw-bold" style="background-color: rgb(39, 40, 70); height: 40px;"> 
-                        <i class="bi bi-bookmark-fill me-2"></i>교수서비스 <i class="bi bi-chevron-right"></i>학사관리 <i class="bi bi-chevron-right"></i>강의 시간표 조회
+                        <i class="bi bi-bookmark-fill me-2"></i>받은 편지함
                     </div>
                     <!-- card content -->  
-                    <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
-                       
-                       
-          <!--  ***************************성적조회 ************************************************** -->                       
-                       
-        
-<h1>성적조회(누적)</h1>
-<div>
-김중앙 (1925051)  4학년 재학
+                    <%-- <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
+                      <table class="Notice-table table table-striped">
+					    <thead>
+					    <tr>
+					      <!--   <th>번호</th> -->
+					        <th>제목</th>
+					        <th>내용</th>
+					        <th>작성일자</th>
+					        <th>조회수</th>
+					    </tr>
+					    </thead>
+					    <tbody>
+					    <c:forEach items="${noticeList}" var="notice" varStatus="status">
+					    <c:set value='<%=(String)session.getAttribute("role") %>' var="role"/>
+					    	<c:if test="${notice.noticeType eq role || notice.noticeType eq 'allContent'}">	   
+					    <tr>
+					        <td>${status.index+1+(page * 10)}</td>
+					        <td style="display: none;">${notice.noticeType}</td>
+					    <td>
+					    <c:choose>					  
+					        <c:when test="${fn:length(notice.noticeTitle) gt 11}">
+								<a href="/noticeDetail?noticeNum=${notice.noticeNum}">${fn:substring(notice.noticeTitle, 0 , 10)}....</a>	
+					       	</c:when>
+					        <c:otherwise>
+					        	<a href="/noticeDetail?noticeNum=${notice.noticeNum}">${notice.noticeTitle }</a>
+					       	 </c:otherwise>
+					    </c:choose>
+					    </td>
 
-</div>
-
-<div>
-<h4>총 성적 내역 </h4>
-
-<table class="table table-striped table-hover" style = "width : 700px">	
-						<thead >
-							<tr>
-								<th>신청학점</th>
-								<th>취득학점</th>
-								<th>평점총계</th>
-								<th >평균평점</th>
-								<th>백분위</th>
-								<th >전필</th>
-								<th>전선</th>
-								<th>교양</th>
-							<tr>
-							
-							<tr>
-								<th > </th>
-								<th ></th>
-								<th ></th>
-								<th ></th>
-								<th ></th>
-								<th ></th>
-								<th ></th>
-								<th ></th>
-							<tr>
-						
-						
-						
-						
-						</thead>
-
-</table>
-
-
-
-
-</div>
-
-
-
-<div>
-
-<select class="select"  aria-label="Default select example">
-  <option selected>학기선택</option>
-  <option value="1">2022년1학기</option>
-  <option value="2">2021년2학기</option>
-  <option value="3">2021년1학기</option>
-</select>
-
-
-
-</div>
-
-
-<div>
-<table class="table table-striped table-hover" style = "width : 700px">	
-						<thead >
-							<tr>
-								<th>신청학점</th>
-								<th>취득학점</th>
-								<th>평점총계</th>
-								<th >평균평점</th>
-								<th>백분위</th>
-							</tr>
-							
-							
-						</thead>
-						<tbody>
-							<tr>
-								<th ></th>
-								<th ></th>
-								<th ></th>
-								<th ></th>
-								<th ></th>
-		
-						</tr>
-				
-						</tbody>
-						
-						
-
-</table>
-
-
-
-</div>
-
-
-
-<div>
-<table class="table table-striped table-hover" style = "width : 700px">	
-						<thead >
-							<tr>
-								<th>구분</th>
-								<th>교과명</th>
-								<th>교과코드</th>
-								<th >학점</th>
-								<th>성적</th>
-							<tr>
-							
-						
-							<c:forEach var="grade" items="${grades }" >
-							<tr>
-							
-								<th >${grade.type} </th>
-								<th >${grade.name} </th>
-								<th >${grade.id}</th>
-								<th >${grade.unitScore}</th>
-								<th > </th>
-							<tr>
-						
-						 </c:forEach>
-							
-						
-						</thead>
-
-</table>
-
-</div>
-
-
-
-        <!--  ************************************************************************************ -->               
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                    </div>
+					    <c:choose>
+					    	<c:when test="${fn:length(notice.noticeContent) gt 21}">
+					    		<td>${fn:substring(notice.noticeContent, 0 , 20)}....</td>
+					    	</c:when>
+					    	<c:otherwise>
+					    		<td>${notice.noticeContent}</td>
+					    	</c:otherwise>
+					    </c:choose>
+					     	<c:choose>   
+						        <c:when test="${notice.createdDate != null}">
+							        <c:set var="DateValue" value="${notice.createdDate}"/>
+							        <td>${fn:substring(DateValue,0,10)}</td>
+						        </c:when>
+						        <c:when test="${notice.modifiedDate != null}">
+							        <c:set var="DateValue" value="${notice.modifiedDate}"/>
+							        <td>${fn:substring(DateValue,0,10)}</td>
+						        </c:when>
+					        </c:choose>
+					        <td>${notice.noticeHit}</td>
+					    </tr>
+					    </c:if>
+					    </c:forEach>
+					    </tbody>					    
+					</table>
+						<form action="/notice/search" method="GET" class="form-inline p-2 bd-highlight" role="search" style="display: block;" >
+        					<input type="text" name="keyword" class="form-control" id=search placeholder="검색" style="width: 300px; float: left;">
+        					<button class="btn btn-success bi bi-search" style="float: left;"></button>
+    					</form> 
+					<nav aria-label="...">
+					  <ul class="pagination" style="margin-left: 40%;">
+					  
+					    <li class="page-item">
+					      <c:if test="${page > 0}">
+						      <a class="page-link" href="/notice/noticeList?page=${page-1}">Previous</a>				      
+					      </c:if>
+					      <c:if test= "${page == 0 }">
+					      	  <a class="page-link">Previous</a>
+					      </c:if>
+					    </li>					  
+					  <c:forEach var="i" begin="1" end="${noticeTotal}">
+					    <li id="page-item${i}" class="page-item" onclick="active(${i})">
+					    <a class="page-link" href="/notice/noticeList?page=${i-1 }" >${i }</a></li>
+					  </c:forEach>
+					    <li class="page-item">
+					    	<c:if test="${page < noticeTotal-1}">
+						      <a class="page-link" href="/notice/noticeList?page=${page+1}">Next</a>
+					    	</c:if>
+					      	<c:if test= "${page > noticeTotal-2}">
+						      <a class="page-link">Next</a>
+					      	</c:if>
+					    </li>
+					  </ul>
+					</nav>  
+                    </div> --%>
                     <!-- footer -->
                     <footer class="col-12" style="height: 60px;">
                         footer

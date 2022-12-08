@@ -10,13 +10,14 @@ import com.oracle.choongangGroup.sh.domain.Lecture;
 
 public interface LecRepository  extends JpaRepository<Lecture, String>{
 
-	List<Lecture> findByProf(String name);
+	List<Lecture> findByProfOrderByIdAsc(String name);
 	Lecture findById(Long id);
-	
 	@Transactional
 	void deleteById(Long id);
- 
+	List<Lecture> findByProfAndStatusOrderByIdAsc(String name, String string);
+
+//	List<Lecture> searchLec(Lecture lecture);
 }
 
-
+	
 

@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,30 +15,35 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.oracle.choongangGroup.changhun.JPA.Member;
+import com.oracle.choongangGroup.dongho.auth.GetMember;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Slf4j
 @RequiredArgsConstructor
+@RequestMapping("/manager")
 public class ApprovalController {
 	
 	private final ApprovalService as;
+	private final GetMember gm;
 	
 	// --------------결재메인 -----------------------
 	@RequestMapping("approval")
-	public String content(String userid, HttpServletRequest request, Model model) {
+	public String content(Model model) {
 		log.info("approvalMain start...");
 		
-		HttpSession session = request.getSession();
-		userid = (String) session.getAttribute("userid");
+		String userid = gm.getMember().getUserid();
+		log.info(userid);
 		
 		List<Approval> approvalWaitingList = null;     // 승인 대기중
 		List<Approval> approvalProcessingList = null;  // 승인 진행중
-		List<Approval> approvalEndList = null;	   // 승인 완료
+		List<Approval> approvalEndList = null;	   	   // 승인 완료
 		
 		// 결재 페이징
-		int waitTotal	 = as.waitTotal(userid);	  // 승인 대기중
+		int waitTotal	 = as.waitTotal(userid);	  	  // 승인 대기중
 		// int processTotal = as.processTotal(userid);	  // 승인 진행중
 		// int finishTotal  = as.finishTotal(userid);	  // 승인 완료
 		
@@ -49,14 +53,15 @@ public class ApprovalController {
 		approval.setStart(1);
 		approval.setEnd(3);
 		
-		approvalWaitingList    = as.waitListAll(approval); // 승인 대기중
+		approvalWaitingList    = as.waitListAll(approval); 	  // 승인 대기중
 		approvalProcessingList = as.processListAll(approval); // 승인 진행중
-		approvalEndList   	   = as.endListAll(approval);  // 승인 완료
+		approvalEndList   	   = as.endListAll(approval); 	  // 승인 완료
 		
 		model.addAttribute("waitList", approvalWaitingList);
 		model.addAttribute("processList", approvalProcessingList);
 		model.addAttribute("endList", approvalEndList);
 		model.addAttribute("waitTotal", waitTotal);
+		model.addAttribute("userid", userid);
 		
 		return "manager/approvalMain";
 		
@@ -64,15 +69,21 @@ public class ApprovalController {
 	
 	// --------------새결재폼 -----------------------
 	@RequestMapping("approvalWrite")
-	public String form(String userid, Model model) {
+	public String form(Model model) {
 		log.info("approvalWrite start...");
+		
+		String userid = gm.getMember().getUserid();
+		log.info(userid);
 		// 결재하는 사용자의 이름 출력
+		Member member = gm.getMember();
+		
 		MemDept memDept = new MemDept();
 		memDept.setUserid(userid);
 		
-		MemDept appr = as.findMem(memDept.getUserid());
-
-		model.addAttribute("appr", appr);
+		MemDept apprInfo = as.findMem(memDept.getUserid());
+		
+		model.addAttribute("apprInfo", apprInfo);
+		model.addAttribute("member", member);
 		return "manager/approvalForm";
 	}
 	
@@ -82,9 +93,8 @@ public class ApprovalController {
 		log.info("approvalSave start...");
 		int result = 0;
 		
-		HttpSession session = request.getSession();
-		userid = (String) session.getAttribute("userid");
-		
+		userid =  gm.getMember().getUserid();
+		log.info(userid);
 		approval.setUserid(userid);
 		
 		if(!file1.isEmpty()) {
@@ -105,19 +115,19 @@ public class ApprovalController {
 			result = as.saveAppr(approval);
 			
 			if(result > 0) {
-				return "redirect:/approval";
+				return "redirect:approval";
 			} else {
 				
-				return "forward:/approvalWrite";
+				return "forward:approvalWrite";
 			}
 		} else {
 			result = as.save(approval);
 			
 			if(result > 0) {
-				return "redirect:/approval";
+				return "redirect:approval";
 			} else {
 				
-				return "forward:/approvalWrite";
+				return "forward:approvalWrite";
 			}
 		}	
 	}
@@ -147,12 +157,11 @@ public class ApprovalController {
 	
 	// --------------결재대기중 목록 이동 -----------------------
 	@GetMapping("approvalWait")
-	public String wait(String userid, String currentPage, HttpServletRequest request, Model model) {
+	public String wait(String userid, String currentPage, Model model) {
 		log.info("approvalWait start...");
 		
-		HttpSession session = request.getSession();
-		userid = (String) session.getAttribute("userid");
-		
+		userid =  gm.getMember().getUserid();
+		log.info(userid);
 		Approval approval = new Approval();
 		approval.setUserid(userid);
 		
@@ -168,6 +177,7 @@ public class ApprovalController {
 		
 		model.addAttribute("waitList", waitList);
 //		model.addAttribute("mem_name", mem_name);
+		model.addAttribute("waitTotal", waitTotal);
 		model.addAttribute("page", page);
 		
 		return "manager/approvalWaitForm";
@@ -176,12 +186,11 @@ public class ApprovalController {
 	
 	// --------------결재대기중 상세폼이동 -----------------------
 	@RequestMapping("apprWaitDetail")
-	public String waitDetail(String userid, Long approval_no, HttpServletRequest request, Model model) {
+	public String waitDetail(String userid, Long approval_no, Model model) {
 		log.info("waitDetail start...");
 		
-		HttpSession session = request.getSession();
-		userid = (String) session.getAttribute("userid");
-		
+		userid =  gm.getMember().getUserid();
+		log.info(userid);
 		// 결재상세내용
 		Approval approval = new Approval();
 		approval.setUserid(userid);
@@ -221,17 +230,16 @@ public class ApprovalController {
 		log.info("appr fin->{}",appr.getFinapprvo().getDname());
 
 		model.addAttribute("appr", appr);
-		
+		model.addAttribute("userid", userid);
 		return "manager/approvalWaitDetail";
 	}
 	
 	// --------------기안 진행 목록 이동 -----------------------
 	@GetMapping("approvalProcess")
-	public String process(String userid, String currentPage, HttpServletRequest request, Model model) {
+	public String process(String currentPage, Model model) {
 		log.info("approvalProcess start...");
-		HttpSession session = request.getSession();
-		userid = (String) session.getAttribute("userid");
-		
+		String userid = gm.getMember().getUserid();
+		log.info(userid);
 		Approval approval = new Approval();
 		approval.setUserid(userid);
 		
@@ -248,6 +256,7 @@ public class ApprovalController {
 		
 		model.addAttribute("processList", processList);
 //		model.addAttribute("mem_name", mem_name);
+		model.addAttribute("processTotal", processTotal);
 		model.addAttribute("page", page);
 		
 		return "manager/approvalProcessForm";
@@ -255,12 +264,11 @@ public class ApprovalController {
 	
 	// --------------기안진행 상세폼이동 -----------------------
 	@RequestMapping("apprProcessDetail")
-	public String detail(String userid, Long approval_no, HttpServletRequest request, Model model) {
+	public String detail(Long approval_no, Model model) {
 		log.info("ProcessDetail start...");
 		
-		HttpSession session = request.getSession();
-		userid = (String) session.getAttribute("userid");
-		
+		String userid = gm.getMember().getUserid();
+		log.info(userid);
 		// 결재하는 사용자의 이름 출력
 		MemDept memDept = new MemDept();
 		memDept.setUserid(userid);
@@ -311,12 +319,11 @@ public class ApprovalController {
 	
 	// --------------결재 완료 목록 이동 -----------------------
 	@GetMapping("approvalEnd")
-	public String end(String userid, String currentPage, HttpServletRequest request, Model model) {
+	public String end(String currentPage, Model model) {
 		log.info("approvalEnd start...");
 		
-		HttpSession session = request.getSession();
-		userid = (String) session.getAttribute("userid");
-		
+		String userid =  gm.getMember().getUserid();
+		log.info(userid);
 		//페이징
 		int endTotal	 = as.finishTotal(userid);  // 승인 완료
 		
@@ -330,21 +337,20 @@ public class ApprovalController {
 		log.info("endList.size()->{}",endList.size());
 		
 		model.addAttribute("endList", endList);
+		model.addAttribute("endTotal", endTotal);
 //		model.addAttribute("mem_name", mem_name);
 		model.addAttribute("page", page);
-		
 		return "manager/approvalEndForm";
 		
 	}
 	
 	// --------------결재 완료 상세폼이동 -----------------------
 	@RequestMapping("apprEndDetail")
-	public String finishDetail(String userid, Long approval_no, HttpServletRequest request, Model model) {
+	public String finishDetail(Long approval_no, Model model) {
 		log.info("finishDetail start...");
 		
-		HttpSession session = request.getSession();
-		userid = (String) session.getAttribute("userid");
-		
+		String userid =  gm.getMember().getUserid();
+		log.info(userid);
 		// 결재상세내용
 		Approval approval = new Approval();
 		approval.setUserid(userid);

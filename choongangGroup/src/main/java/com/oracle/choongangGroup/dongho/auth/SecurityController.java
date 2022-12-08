@@ -4,14 +4,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.security.KeyFactory;
-import java.security.KeyPair;
-import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
-import java.security.PublicKey;
 import java.security.spec.InvalidKeySpecException;
-import java.security.spec.RSAPublicKeySpec;
+import java.util.Collection;
 import java.util.Optional;
 
 import javax.crypto.Cipher;
@@ -24,36 +20,34 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.oracle.choongangGroup.dongho.auth.SecurityService;
-import com.oracle.choongangGroup.dongho.auth.SecuredLoginDto;
 import com.oracle.choongangGroup.changhun.JPA.Member;
 
 import lombok.RequiredArgsConstructor;
-import oracle.jdbc.proxy.annotation.GetProxy;
-import oracle.jdbc.proxy.annotation.Post;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 public class SecurityController {
 	
 	private final SecurityService securityService;
-	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 	private final PasswordEncoder passwordEncoder;
 	private final JavaMailSender mailSender;
+	private final JwtTokenProvider jwtp;
 	
 	@Value("${spring.mail.username}")
 	private String MAIL_USERNAME;
@@ -65,7 +59,7 @@ public class SecurityController {
 	}
 	@GetMapping("/manager/main")
 	public String managerMain() {
-		return "/manager/test";
+		return "/manager/main";
 	}
 	@GetMapping("/professor/main")
 	public String professorMain() {
@@ -77,53 +71,60 @@ public class SecurityController {
 		return "/admin/contentSample";
 	}
 	
-	// RSA setting 후 loginForm으로 연결
+	// InterCeptor RSA setting 후 loginForm으로 연결
 	@GetMapping("/")
     public String loginForm(HttpSession session, HttpServletRequest request, HttpServletResponse response, Model model) 
     		throws NoSuchAlgorithmException, InvalidKeySpecException {
-//		KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA");
-//      generator.initialize(2048);
-//      
-//      KeyPair    keyPair = generator.genKeyPair();
-//      KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-//      
-//      PublicKey  publicKey = keyPair.getPublic();
-//      PrivateKey privateKey = keyPair.getPrivate();
-//      session.setAttribute("__rsaPrivateKey__", privateKey);
-//      System.out.println("RsaInterceptor publicKey -> " + publicKey);
-//      System.out.println("RsaInterceptor privateKey -> " + privateKey);
-//      
-//      RSAPublicKeySpec publicKeySpec = keyFactory.<RSAPublicKeySpec>getKeySpec(publicKey, RSAPublicKeySpec.class);
-//      
-//      String publicKeyModulus  = publicKeySpec.getModulus().toString(16);
-//      String publicKeyExponent = publicKeySpec.getPublicExponent().toString(16);
-//      System.out.println("RsaInterceptor publicKeyModulus -> " + publicKeyModulus);
-//      System.out.println("RsaInterceptor publicKeyExponent -> " + publicKeyExponent);
-//      request.setAttribute("publicKeyModulus" , publicKeyModulus);
-//      request.setAttribute("publicKeyExponent", publicKeyExponent);
-        return "/loginForm";
+		String targetUrl = "";
+		// Request Header cookie 에서 JWT 토큰 추출
+        String accessToken = resolveAccessToken((HttpServletRequest) request);
+        String refreshToken = resolveRefreshToken((HttpServletRequest) request);
+        
+        
+        Authentication authentication =  SecurityContextHolder.getContext().getAuthentication();
+        Collection<? extends GrantedAuthority> roles = authentication.getAuthorities();
+    if (accessToken != null && refreshToken != null) {
+        	if (roles != null && roles.stream().anyMatch(a -> a.getAuthority().equals("ROLE_STUDENT"))) {
+    			//response.sendRedirect("/student/main");
+    			targetUrl = "/student/main";
+    		}
+    		else if (roles != null && roles.stream().anyMatch(a -> a.getAuthority().equals("ROLE_MANAGER"))) {
+    			//response.sendRedirect("/manager/main");
+    			targetUrl = "/manager/main";
+    		}
+    		else if (roles != null && roles.stream().anyMatch(a -> a.getAuthority().equals("ROLE_PROFESSOR"))) {
+    			//response.sendRedirect("/professor/main");
+    			targetUrl = "/professor/main";
+    		}
+    		else if (roles != null && roles.stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
+    			//response.sendRedirect("/admin/main");
+    			targetUrl = "/admin/main";
+    		}
+		} else {
+			targetUrl = "/loginForm";
+		}
+        
+
+        return targetUrl;
     }
 	
 	//로그인 요청
     @PostMapping("/login")
     public void login(@RequestParam(value = "securedUsername") String securedUsername, @RequestParam(value = "securedPassword") String securedPassword, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
     	// session에서 개인키 받기(loginForm 요청시 session에 저장해둔 개인키)
+    	log.info("====login Start====");
     	HttpSession session = request.getSession();
         PrivateKey privateKey = (PrivateKey)session.getAttribute("__rsaPrivateKey__");
-        System.out.println("login privateKey -> " + privateKey);
-        // loginForm에서 DTO를 통해 암호화된 아이디, 비밀번호 받기
-        //String securedUsername = securedLoginDto.getSecuredUsername();
-        System.out.println("login : " + securedUsername);
-        //String securedPassword = securedLoginDto.getSecuredPassword();
+        log.info("login securedUsername : {}", securedUsername);
         String username = null;
         String password = null;
         
         // 복호화 try
         try {
         	username = decryptRSA(privateKey, securedUsername);
-            System.out.println(username);
+        	log.info("복호화 try username : {}", username);
             password = decryptRSA(privateKey, securedPassword);
-            System.out.println(password);
+            log.info("복호화 try username : {}", password);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -154,55 +155,34 @@ public class SecurityController {
     }
 	
 	
-	// RSA setting 후 createMemberForm으로 연결
+	// InterCeptor RSA setting 후 createMemberForm으로 연결
 	@GetMapping("/admin/createMemberForm")
 	public String joinForm(HttpSession session, HttpServletRequest request, HttpServletResponse response, Model model) 
 			throws NoSuchAlgorithmException, InvalidKeySpecException {
-//		KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA");
-//        generator.initialize(2048);
-//        
-//        KeyPair    keyPair = generator.genKeyPair();
-//        KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-//        
-//        PublicKey  publicKey = keyPair.getPublic();
-//        PrivateKey privateKey = keyPair.getPrivate();
-//        session.setAttribute("__rsaPrivateKey__", privateKey);
-//        System.out.println("RsaInterceptor publicKey -> " + publicKey);
-//        System.out.println("RsaInterceptor privateKey -> " + privateKey);
-//        
-//        RSAPublicKeySpec publicKeySpec = keyFactory.<RSAPublicKeySpec>getKeySpec(publicKey, RSAPublicKeySpec.class);
-//        
-//        String publicKeyModulus  = publicKeySpec.getModulus().toString(16);
-//        String publicKeyExponent = publicKeySpec.getPublicExponent().toString(16);
-//        System.out.println("RsaInterceptor publicKeyModulus -> " + publicKeyModulus);
-//        System.out.println("RsaInterceptor publicKeyExponent -> " + publicKeyExponent);
-//        request.setAttribute("publicKeyModulus" , publicKeyModulus);
-//        request.setAttribute("publicKeyExponent", publicKeyExponent);
 		return "/admin/createMemberForm";
 	}
 	
 	@PostMapping("/admin/createMember")
 	public void joinProc(Member member, HttpServletResponse response) throws IOException {
-		System.out.println("joinProc start");
+		log.info("===joinProc start===");
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
 		HttpSession session = request.getSession();
         PrivateKey privateKey = (PrivateKey)session.getAttribute("__rsaPrivateKey__");
-        System.out.println("joinProc privateKey -> " + privateKey);
-		
+        log.info("joinProc privateKey : {}", privateKey);
         String encryptedUsername = member.getUserid();
-		System.out.println("encryptedUsername -> " + encryptedUsername);
+		log.info("joinProc encryptedUsername : {}", encryptedUsername);
 		String encryptedPassword = member.getPassword();
-		System.out.println("encryptedPassword -> " + encryptedPassword);
+		log.info("joinProc encryptedPassword : {}", encryptedPassword);
 		String username = null;
 		String password = null;
 		try {
 			username = decryptRSA(privateKey, encryptedUsername);
-			System.out.println("username -> " + username);
+			log.info("joinProc 복호화 try username : {}", username);
 			password = decryptRSA(privateKey, encryptedPassword);
-			System.out.println("password -> " + password);
+			log.info("joinProc 복호화 try password : {}", password);
 			
 		} catch (Exception e) {
-			System.out.println("joinProc decryptRSA exception -> " + e.getMessage());
+			log.error(e.getMessage());
 		}
 		String encodedPassword = passwordEncoder.encode(password);
 		member.setUserid(username);
@@ -238,7 +218,8 @@ public class SecurityController {
 		String userid = (String) session.getAttribute("userid");
 		Member member = securityService.findByUserid(userid);
 		String dbPassword = member.getPassword();
-		System.out.println("dbPassword -> " + dbPassword);
+		
+		log.info("pwCheck dbPassword : {}", dbPassword);
 		if(member != null && passwordEncoder.matches(password, member.getPassword())) {
 			result = "1";
 		} else {
@@ -251,28 +232,27 @@ public class SecurityController {
 	}
 	
 	// RSA setting 후 updatePasswordForm으로 연결
-	//@Secured({"ROLE_STUDENT", "ROLE_MANAGER", "ROLE_PROFESSOR", "ROLE_ADMIN"})
-	//@PreAuthorize("isAuthenticated()")
+	// @Secured({"ROLE_STUDENT", "ROLE_MANAGER", "ROLE_PROFESSOR", "ROLE_ADMIN"})
+	// @PreAuthorize("isAuthenticated()")
 	@GetMapping("/updatePasswordForm")
 	public String updatePasswordForm(HttpSession session, HttpServletRequest request, HttpServletResponse response, Model model) 
 			throws NoSuchAlgorithmException, InvalidKeySpecException {
 		return "/admin/updatePasswordForm";
 	}
-	//@PreAuthorize("isAuthenticated()")
+	// @PreAuthorize("isAuthenticated()")
 	@PostMapping("/updatePassword")
 	public void updatePassword(@RequestParam("password") String paramPassword , HttpServletResponse response) throws IOException {
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
 		HttpSession session = request.getSession();
         PrivateKey privateKey = (PrivateKey)session.getAttribute("__rsaPrivateKey__");
-
-        System.out.println("authenticate privateKey -> " + privateKey);
+        log.info("updatePassword authenticate privateKey : {}", privateKey);
 		String password = null;
 		try {
 			password = decryptRSA(privateKey, paramPassword);
-			System.out.println("password -> " + password);
+			log.info("updatePassword rsa 복호화 try password : {}", password);
 			
 		} catch (Exception e) {
-			System.out.println("authenticate decryptRSA exception -> " + e.getMessage());
+			log.error(e.getMessage());
 		}
 		String userid = (String) session.getAttribute("userid");
 		Member member = securityService.findByUserid(userid);
@@ -302,9 +282,6 @@ public class SecurityController {
 		String searchEmail = member.getEmail();
 		Member memberResult = securityService.findByNameAndEmail(searchId , searchEmail);
 		String result = memberResult.getUserid();
-		HttpSession session = request.getSession();
-		String sessionName = (String) session.getAttribute("name");
-		System.out.println("findId session name" + sessionName);
 //		response.setContentType("text/html");
 //		PrintWriter out = response.getWriter();
 //		out.append(result);
@@ -338,13 +315,13 @@ public class SecurityController {
 	@ResponseBody
 	@GetMapping("/anonymous/sendEmail")
 	public void sendEmail(HttpServletRequest request, Member member) {
-		System.out.println("sendEmail Start");
+		log.info("sendEmail Start");
 		String userid = member.getUserid();
-		System.out.println("sendEmail userid : " + userid);
+		log.info("sendEmail userid : {}", userid);
 		String tomail = member.getEmail();
-		System.out.println("sendEmail tomail : " + tomail);
+		log.info("sendEmail tomail : {}", tomail);
 		String setfrom = MAIL_USERNAME;
-		System.out.println("sendEmail setfrom : " + setfrom);
+		log.info("sendEmail setfrom : {}", setfrom);
 		String title = "임시비밀번호입니다";
 		try {
 			MimeMessage message = mailSender.createMimeMessage();
@@ -353,18 +330,18 @@ public class SecurityController {
 			messageHelper.setTo(tomail);
 			messageHelper.setSubject(title);
 			String tempPassword = (int) (Math.random() * 999999) + 1 + "";
-			System.out.println("sendEmail tempPassword : " + tempPassword);
+			log.info("sendEmail tempPassword : {}", tempPassword);
 			messageHelper.setText("임시 비밀번호입니다 : " + tempPassword);
 			mailSender.send(message);
 			
 			Member memberToUpdate = securityService.findByUserid(userid);
 			String encodedPassword = passwordEncoder.encode(tempPassword);
-			System.out.println("sendMail encodedPassword : " + encodedPassword);
+			log.info("sendEmail encodedPassword : {}", encodedPassword);
 			memberToUpdate.setPassword(encodedPassword);
 			securityService.save(memberToUpdate);
 			
 		} catch (Exception e) {
-			System.out.println("sendEmail exception : " + e.getMessage());
+			log.error("sendEmail exception : " + e.getMessage());
 		}
 	}
 	
@@ -388,5 +365,40 @@ public class SecurityController {
             bytes[(int)Math.floor((i / 2))] = value;
         }
         return bytes;
+    }
+    
+    // Request Header (cookie) 에서 access토큰 정보 추출
+    private String resolveAccessToken(HttpServletRequest request) {
+        Cookie[] list = request.getCookies();
+        String bearerToken = "";
+        if (list != null) {
+        	for (Cookie cookie : list) {
+    			if (cookie != null && cookie.getName().equals("AccessToken")) {
+    				bearerToken = cookie.getValue();
+    				if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer")) {
+    					// 쿠키 value에서 bearer 부분 제외한 token만 추출
+    		            return bearerToken.substring(6);
+    		        }
+    			}
+    		}
+		}
+		return null;
+    }
+    // Request Header (cookie) 에서 refresh토큰 정보 추출
+    private String resolveRefreshToken(HttpServletRequest request) {
+    	Cookie[] list = request.getCookies();
+    	String bearerToken = "";
+    	if (list != null) {
+    		for (Cookie cookie : list) {
+    			if (cookie != null && cookie.getName().equals("RefreshToken")) {
+    				bearerToken = cookie.getValue();
+    				if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer")) {
+    					// 쿠키 value에서 bearer 부분 제외한 token만 추출
+    					return bearerToken.substring(6);
+    				}
+    			}
+    		}
+    	}
+    	return null;
     }
 }

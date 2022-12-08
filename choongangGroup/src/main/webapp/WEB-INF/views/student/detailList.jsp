@@ -169,15 +169,15 @@
 
 
 
-<table border="1">
+<table class="table table-striped"  border="1">
 
 			<tr><th>성명</th><td>${member.name } </td> 			<th>학번</th><td>${member.userid }</td>          <th>국적</th><td>${member.nation }</td></tr>
 			<tr><th>휴대전화</th><td> ${member.phone }</td>			<th>학년</th><td>${member.grade}</td>          <th>주소</th><td>${member.address }</td></tr>
-			<tr><th>성별</th><td>${member.gender }</td> 			<%-- <th>학적상태</th><td>${member.studStatus }</td> --%>       <th>E-Mail</th><td>${member.email }</td></tr>
-			<tr><th>입학 일자</th><td>${member.admission}</td>          <th>졸업여부</th><td>${member.graduate }</td>       <%-- <th>지도교수</th><td>${member.mainProf }</td></tr> --%>
+			<tr><th>성별</th><td>${member.gender }</td> 			 <th>학적상태</th><td>${member.stud_status }</td>       <th>E-Mail</th><td>${member.email }</td></tr>
+			<tr><th>입학 일자</th><td>${member.admission}</td>          <th>졸업여부</th><td>${member.graduate }</td>      <th>지도교수</th><td>${member.main_prof }</td></tr> 
 			<tr><th>계좌번호</th><td>${member.account}</td> 			<th>입학전형</th><td>${member.adm_type}</td>         <th>비상연락망</th><td>${member.subphone }</td></tr> 
-			<tr><th>입금은행</th><td>${member.bank }</td> 			<th>전공(소속학과)</th><td>${member.major }</td>          <th></th><td></td></tr>
-			<tr><th>졸업여부</th><td>${member.graduate}</td>			<%-- <th>부전공</th><td>${member.subMajor }</td>  --%>        <th></th><td></td></tr>
+			<tr><th>입금은행</th><td>${member.bank }</td> 			<th>전공(소속학과)</th><td>${member.major }</td>        <th>부전공</th><td>${member.sub_major }</td>     
+	
 	
 
 </table>

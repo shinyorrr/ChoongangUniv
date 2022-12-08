@@ -1,6 +1,8 @@
 package com.oracle.choongangGroup.changhun.address;
 
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,9 +13,12 @@ import com.oracle.choongangGroup.changhun.JPA.PhoneLike;
 
 public interface MemberRepository extends JpaRepository<Member, String>{
 
-	Member findByUserid(String userid);
+   Member findByUserid(String userid);
 
-	Page<Member> findByNameContaining(String name, PageRequest of);
+   Page<Member> findByNameContaining(String name, PageRequest of);
+
+   List<Member> findAllByOrderByDept_deptnoAsc();
+
 
 
 }

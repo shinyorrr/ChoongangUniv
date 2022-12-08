@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.oracle.choongangGroup.changhun.JPA.Member;
 import com.oracle.choongangGroup.sh.domain.ApplicationLec;
+import com.oracle.choongangGroup.sh.domain.ApplyTime;
 import com.oracle.choongangGroup.sh.domain.Lecture;
 
 
@@ -16,8 +17,13 @@ public interface ApplyRepository {
 	Lecture lectureFindOne(Long lecId);
 	
 	int 	apply(ApplicationLec applyLec);
+	
+	List<ApplicationLec> likeListAll(String userid);
 
-	List<ApplicationLec> applicationLecList(String userid, int gubun);
+	void register(ApplyTime applyTime);
+
+
+
 
 
 

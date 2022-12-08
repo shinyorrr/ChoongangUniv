@@ -11,9 +11,11 @@ import org.springframework.stereotype.Repository;
 import com.oracle.choongangGroup.changhun.JPA.Work;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Repository
 @RequiredArgsConstructor
+@Slf4j
 public class AttCustomRepositoryImpl implements AttCustomRepository {
 
 	public final EntityManager em;
@@ -78,6 +80,65 @@ public class AttCustomRepositoryImpl implements AttCustomRepository {
 		}
 		
 		return vacation;
+	}
+
+	@Override
+	public List<Work> attAllList(int deptno,String todayStr) {
+		String today = todayStr + "%";
+		System.out.println(today);
+//		String query = "select w from Work w order by w.member.userid, w.workDate";
+		String query = "select w "
+					+ " from Work w"
+					+ " where w.workDate Like : today "
+					+ " and w.member.dept.deptno =: deptno "
+					+ " order by w.member.userid, w.workDate";
+		List<Work> attAllList = null;
+		attAllList = em.createQuery(query).setParameter("today", today).setParameter("deptno", deptno).getResultList();
+		
+		
+//		try {
+//		} catch (Exception e) {
+//			System.out.println("=======================================================");
+//			System.out.println("AttCustomRepositoryImpl attAllList 오류 --> " + e.getMessage());
+//			System.out.println("=======================================================");
+//		}
+		System.out.println("attAllList --> " + attAllList.size());
+		return attAllList;
+	}
+
+	@Override
+	public List<String> MemberList(int deptno, String month) {
+		String today = month + "%";
+		String query = "select distinct w.member.userid"
+					 + " from Work w "
+					 + " where w.workDate Like : today"
+					 + " and w.member.dept.deptno =: deptno";
+//		String query = "select distinct w.member.userid from Work w";
+		List<String> memberlist = em.createQuery(query).setParameter("today", today).setParameter("deptno", deptno).getResultList();
+//		List<String> memberlist = em.createQuery(query).getResultList();
+		System.out.println("memberlist.size() --> " + memberlist.size());
+		return memberlist;
+	}
+
+	@Override
+	public List<String> findBydeptList() {
+		
+		String query = "select d.dname from Dept d";
+		List<String> deptList = em.createQuery(query).getResultList();
+		
+		return deptList;
+	}
+
+	@Override
+	public void updateWork(String attOntime, String attOfftime, String workDate, String userid) {
+		
+		String jpql = "update Work w set att_on_time = ?1 , att_off_time =?2 where userid =?3 and workDate =?4";
+		
+		em.createQuery(jpql).setParameter(1, attOntime)
+							.setParameter(2, attOfftime)
+							.setParameter(3, userid)
+							.setParameter(4, workDate)
+							.executeUpdate();
 	}
 
 	
