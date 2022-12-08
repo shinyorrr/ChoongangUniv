@@ -4,13 +4,17 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.OutputStream;
+import java.net.URLEncoder;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,6 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
+@RequestMapping("/manager")
 public class ApprovalRestController {
 	
 	private final ApprovalService as;
@@ -34,9 +39,11 @@ public class ApprovalRestController {
 	
 	// 회원 전체 조회
 	@RequestMapping("apprList")
-	public List<MemDept> apprList(String userid, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		userid = (String) session.getAttribute("userid");
+	public List<MemDept> apprList(String userid, HttpServletRequest request, @AuthenticationPrincipal User user) {
+		// userid = "12301001";
+		
+		userid = user.getUsername();
+		log.info(userid);
 		log.info("apprList start...");
 		List<MemDept> listAppr = as.apprList(userid);
 		log.info("listAppr.size()->{}",listAppr.size());
@@ -82,14 +89,16 @@ public class ApprovalRestController {
 	}
 	
 	// 첨부파일 다운로드
-	@RequestMapping("/download")
+	@RequestMapping("download")
 	public void download(String file_path, String server_file_name, String org_file_name, HttpServletResponse response) {
 		try {
 			String path = file_path+server_file_name;
+			log.info("path->{}",path);
 			File file = new File(path);
-			response.setHeader("Content-Disposition", "attachment;filename=" + file.getName());
+			response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(org_file_name, "utf-8"));
+			log.info(org_file_name);// 다운로드 되거나 로컬에 저장되는 용도로 쓰이는지를 알려주는 헤더
 			
-			FileInputStream fileInputStream = new FileInputStream(file_path);
+			FileInputStream fileInputStream = new FileInputStream(path);
 			OutputStream out = response.getOutputStream();
 			
 			int read = 0;

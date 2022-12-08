@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import com.oracle.choongangGroup.changhun.JPA.Member;
 import com.oracle.choongangGroup.sh.domain.ApplicationLec;
+import com.oracle.choongangGroup.sh.domain.ApplyTime;
 import com.oracle.choongangGroup.sh.domain.Lecture;
 
 import lombok.RequiredArgsConstructor;
@@ -32,9 +33,7 @@ public class ApplyRepositoryImpl implements ApplyRepository {
 	//사용자코드로 사용자정보불러오기
 	@Override
 	public Member memberFindOne(String userid) {
-		System.out.println("repository memberFindOne start...");
 		Member member = em.find(Member.class, userid);
-		System.out.println("Repository Member memberFindOne member.getName()-->"+member.getName());
 		return member;
 	}
 
@@ -42,44 +41,62 @@ public class ApplyRepositoryImpl implements ApplyRepository {
 	@Override
 	public Lecture lectureFindOne(Long lecId) {
 		Lecture lecture = em.find(Lecture.class, lecId);
-		System.out.println("Repository lecture lectureFindOne lecture.getName()-->"+lecture.getName());
 		return lecture;
+	}
+	
+	//장바구니 강의 리스트 조회
+	@Override
+	public List<ApplicationLec> likeListAll(String userid) {
+		String jpql = "select a from ApplicationLec a where a.member.userid = :userid and a.gubun = 1";
+		List<ApplicationLec> list = em.createQuery(jpql,ApplicationLec.class)
+									.setParameter("userid", userid)
+									.getResultList();
+		return list;
 	}
 	
 	//장바구니, 수강신청
 	@Override
 	public int apply(ApplicationLec applyLec) {
 		System.out.println("Apply repository apply start...");
-		int result = 1;
+		int result = 1; //0:강의중복, 1:성공, 2:시간중복, 3:학점초과
 		String userid = applyLec.getMember().getUserid();
 		Long lecId = applyLec.getLecture().getId();
-		
-		
-		
+			
 		int lecResult = lecOverlap(applyLec); //강의 중복 조회 / 1-->중복없음, 0-->중복있음
 		int timeResult = timeOverLap(applyLec);//시간 중복 조회 / 1-->중복없음, 2-->중복있음
 		if(lecResult == 1 && timeResult == 1) { //중복된 강의가 없을때만 등록
-			em.persist(applyLec); 
+			Long count = applyLec.getMember().getCount();
+			Long unitScore = applyLec.getLecture().getUnitScore();
+			applyLec.getMember().setCount(count + unitScore);
+			if(applyLec.getMember().getCount()>21) { //총 신청학점이 21학점 초과시 신청불가
+				result = 3;
+			}else {
+				String jpql = "delete from ApplicationLec a where a.member.userid = :userid and a.lecture.id = :id and a.gubun = 1";
+				em.createQuery(jpql,ApplicationLec.class).setParameter("userid", userid).setParameter("id", lecId);
+				em.persist(applyLec); 
+			}
 		}else if(lecResult != 1) {
 			result = lecResult;
 		}else {
 			result = timeResult;
 		}
+	
 		return result;
 	}
-	//중복 검사
+	//강의 중복 검사
 	public int lecOverlap(ApplicationLec applyLec) {
 		//result = 1 --> 중복없음
 		//result = 0 --> 중복존재
 		int result = 0;
 		String userid = applyLec.getMember().getUserid();
 		Long lecId = applyLec.getLecture().getId();
-		String jpql = "select a from ApplicationLec a where a.member.userid = :userid and a.lecture.id = :lecId";
+		Long gubun = applyLec.getGubun();
+		String jpql = "select a from ApplicationLec a where a.member.userid = :userid and a.lecture.id = :lecId and a.gubun = :gubun";
 		List<ApplicationLec> list = em.createQuery(jpql,ApplicationLec.class)
 												.setParameter("userid", userid)
 												.setParameter("lecId", lecId)
-												.getResultList();
-		System.out.println("ApplyRepository lecOverlap lecture List size-->"+list.size());
+												.setParameter("gubun", gubun)
+												.getResultList();	
 		//중복강의 존재
 		if(list.size()>0) {			
 			result = 0;
@@ -87,7 +104,6 @@ public class ApplyRepositoryImpl implements ApplyRepository {
 		}else {			
 			result = 1;
 		}
-		System.out.println("ApplyRepository lecOverlap result-->"+result);
 		return result;
 		
 	}
@@ -96,9 +112,13 @@ public class ApplyRepositoryImpl implements ApplyRepository {
 		//result = 1 --> 중복없음
 		//result = 2 --> 시간 중복됨
 		int result = 1;
-		
+		Long gubun = applyLec.getGubun(); //장바구니,수강신청 구분
+		String userid = applyLec.getMember().getUserid();
+		String jpql = "select a from ApplicationLec a where a.member.userid = :userid and a.gubun = :gubun";
 		//기존강의들의 시간을 list에 담기
-		List<ApplicationLec> applyList = em.createQuery("select a from ApplicationLec a",ApplicationLec.class).getResultList();
+		List<ApplicationLec> applyList = em.createQuery(jpql,ApplicationLec.class)
+											.setParameter("userid", userid)
+											.setParameter("gubun", gubun).getResultList();
 		List<String> timetable = new ArrayList<String>();
 		
 		
@@ -159,9 +179,32 @@ public class ApplyRepositoryImpl implements ApplyRepository {
 				}
 			}
 		}
-		
+		System.out.println("ApplyRepository timeOverlap result-->"+result);
 		return result;
 	}
+
+	
+	//기간 등록
+	@Override
+	public void register(ApplyTime applyTime) {
+		//int result = registerTest(applyTime);
+		if(applyTime.getId() == null) {
+			em.persist(applyTime);
+		}else {
+			em.merge(applyTime);
+		}
+		
+	}
+
+//	public int registerTest(ApplyTime applyTime) {
+//		if(applyTime.getYear() )
+//		return 1;
+//	}
+//	
+
+	
+
+
 
 
 

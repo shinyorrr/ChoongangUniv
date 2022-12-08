@@ -30,7 +30,7 @@
             </button>
         </a>
     </nav> -->
-    <nav class="navbar navbar-expand-lg navbar-dark bd-navbar bg-light sticky-top position-fixed fixed-top w-100" style="position : absolute">
+   <nav class="navbar navbar-expand-lg navbar-dark bd-navbar bg-light sticky-top position-fixed fixed-top w-100" style="position : absolute">
         <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between">
           <a href="/" class="navbar-brand">
             <img class="img-fluid" src="/images/logo2.png" alt="logo2" style="height: 40px;"><use xlink:href="#bootstrap"></use></svg>
@@ -52,8 +52,25 @@
             <div>
                 <div class="nav__brand">
                     <ion-icon name="menu-outline" class="nav__toggle" id="nav-toggle"></ion-icon>
-                    <a href="#" class="nav__logo">학사관리</a>
+                    <a href="#" class="nav__logo">Bedimcode</a>
                 </div>
+                
+                
+                <div href="#" class="nav__link collapses active">
+                        <ion-icon name="folder-outline" class="nav__icon md hydrated" role="img" aria-label="folder outline"></ion-icon>
+                        <span class="nav_name">학사관리</span>
+
+                        <ion-icon name="chevron-down-outline" class="collapse__link md hydrated rotate" role="img" aria-label="chevron down outline"></ion-icon>
+
+                        <ul class="collapse__menu showCollapse">
+                            <a href="#" class="collapse__sublink">강의시간표</a>
+                            <a href="#" class="collapse__sublink">Group</a>
+                            <a href="#" class="collapse__sublink">Members</a>
+                        </ul>
+                </div>
+                
+                
+                
                 <div class="nav__list">
                     <a href="#" class="nav__link active">
                         <ion-icon name="home-outline" class="nav__icon"></ion-icon>
@@ -64,35 +81,7 @@
                         <span class="nav_name">Messenger</span>
                     </a>
 
-                    <div href="#" class="nav__link collapses">
-                        <ion-icon name="folder-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">학사관리</span>
-
-                        <ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
-
-                        <ul class="collapse__menu" style="font-size: 0.8em;">
-                            <a href="#" class="collapse__sublink">시간표</a>
-                            <a href="#" class="collapse__sublink">강의관리</a>
-                            <a href="#" class="collapse__sublink">출결관리</a>
-                            <a href="#" class="collapse__sublink">과제관리</a>
-                            <a href="#" class="collapse__sublink">강의정보</a>
-                            <a href="#" class="collapse__sublink">강의관리</a>
-                            <a href="#" class="collapse__sublink">강의계획</a>
-                            <a href="professor/lecCreateList" class="collapse__sublink">강의개설</a>
-                            <a href="#" class="collapse__sublink">성적관리</a>
-                            <a href="#" class="collapse__sublink">휴강신청</a>
-                        </ul>
-                  
-
-
-                     <!--    <ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
-
-                        <ul class="collapse__menu">
-                            <a href="#" class="collapse__sublink">Data</a>
-                            <a href="#" class="collapse__sublink">Group</a>
-                            <a href="#" class="collapse__sublink">Members</a>
-                        </ul> -->
-                    </div>
+              
 
                     <a href="#" class="nav__link">
                         <ion-icon name="pie-chart-outline" class="nav__icon"></ion-icon>
@@ -124,6 +113,7 @@
             </div>
         </nav>
     </div>
+    
     <!-- /side nav bar -->
     <!-- main content -->
     <div class="container-fluid w-100" style=" background-color: rgb(214, 225, 237)">
@@ -170,9 +160,10 @@
                     <div class="col-md-6 rounded-bottom overflow-auto bg-light p-3" style="min-height: 400px;"> 
                        <h1>메인페이지</h1>
                        <button type="button" style="width: 30%;" class="btn btn-primary btn-sm me-1" 
-                       		   onclick="location.href='lecCreateList?userid=${userid}'">전자출결</button>
+                       		   onclick="location.href='lecMgMain?userid=${userid}'">강의관리</button>
                        <button type="button" style="width: 30%;" class="btn btn-primary btn-sm me-1" 
-                       		   onclick="location.href='lecCreateList?userid=${userid}'">출결현황</button>
+                       		   onclick="location.href='lecScore'">성적관리</button>
+                       		   
                        <button type="button" style="width: 30%;" class="btn btn-primary btn-sm me-1" 
                        		   onclick="location.href='lecCreateList'">강의개설</button>
                        

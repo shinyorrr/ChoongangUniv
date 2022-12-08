@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,7 +21,6 @@
 
     <title>SideBar sub menus</title>
 </head>
-
 
 <body class="" id="body-pd">
     <!-- header -->
@@ -144,173 +144,110 @@
                 <div class="row m-5">
                     <!-- card header -->
                     <div class="col-12 rounded-top text-white overflow-auto pt-2 fw-bold" style="background-color: rgb(39, 40, 70); height: 40px;"> 
-                        <i class="bi bi-bookmark-fill me-2"></i>교수서비스 <i class="bi bi-chevron-right"></i>학사관리 <i class="bi bi-chevron-right"></i>강의 시간표 조회
+                        <i class="bi bi-bookmark-fill me-2"></i>학생서비스 <i class="bi bi-chevron-right"></i>학사관리 <i class="bi bi-chevron-right"></i>강의 시간표 조회
                     </div>
                     <!-- card content -->  
                     <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
-                       
-                       
-          <!--  ***************************성적조회 ************************************************** -->                       
-                       
-        
-<h1>성적조회(누적)</h1>
-<div>
-김중앙 (1925051)  4학년 재학
+        <table cellspacing="5" align="center" border="1" bordercolor="#5CD1E5"
+		width="550" height="600">
+		<p></p>
+		<tr align="center">
+			<td width="50"></td>
+			<td width="100" bgcolor="#5CD1E5">월</td>
+			<td width="100" bgcolor="#5CD1E5">화</td>
+			<td width="100" bgcolor="#5CD1E5">수</td>
+			<td width="100" bgcolor="#5CD1E5">목</td>
+			<td width="100" bgcolor="#5CD1E5">금</td>
+		</tr>
 
-</div>
+		<tr align="center">
+			<td bgcolor="#5CD1E5">1</td>
+			<td></td>
+			<td bgcolor="#5CD1E5">전산실무</td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
 
-<div>
-<h4>총 성적 내역 </h4>
+		<tr align="center">
+			<td bgcolor="#5CD1E5"><c:if test="${applicationLec.get }"></c:if> 2</td>
+			<td></td>
+			<td bgcolor="#5CD1E5">포토샾</td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
 
-<table class="table table-striped table-hover" style = "width : 700px">	
-						<thead >
-							<tr>
-								<th>신청학점</th>
-								<th>취득학점</th>
-								<th>평점총계</th>
-								<th >평균평점</th>
-								<th>백분위</th>
-								<th >전필</th>
-								<th>전선</th>
-								<th>교양</th>
-							<tr>
-							
-							<tr>
-								<th > </th>
-								<th ></th>
-								<th ></th>
-								<th ></th>
-								<th ></th>
-								<th ></th>
-								<th ></th>
-								<th ></th>
-							<tr>
-						
-						
-						
-						
-						</thead>
+		<tr align="center">
+			<td bgcolor="#5CD1E5">3</td>
+			<td bgcolor="#5CD1E5">플레시</td>
+			<td bgcolor="#5CD1E5">포토샾</td>
+			<td bgcolor="#5CD1E5">플래시</td>
+			<td></td>
+			<td bgcolor="#5CD1E5">컴퓨터그래픽</td>
+		</tr>
 
-</table>
+		<tr align="center">
+			<td bgcolor="#5CD1E5">4</td>
+			<td bgcolor="#5CD1E5">플래시</td>
+			<td></td>
+			<td></td>
+			<td bgcolor="#5CD1E5">전산개론</td>
+			<td bgcolor="#5CD1E5">컴퓨터그래픽</td>
+		</tr>
 
+		<tr align="center">
+			<td bgcolor="#5CD1E5">5</td>
+			<td></td>
+			<td bgcolor="#5CD1E5">전산개론</td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
 
+		<tr align="center">
+			<td bgcolor="#5CD1E5">6</td>
+			<td></td>
+			<td bgcolor="#5CD1E5">전산개론</td>
+			<td bgcolor="#5CD1E5">웹디자인</td>
+			<td></td>
+			<td bgcolor="#5CD1E5">웹디자인</td>
+		</tr>
 
+		<tr align="center">
+			<td bgcolor="#5CD1E5">7</td>
+			<td bgcolor="#5CD1E5">웹디자인</td>
+			<td></td>
+			<td bgcolor="#5CD1E5">웹디자인</td>
+			<td bgcolor="#5CD1E5">운영체제</td>
+			<td></td>
+		</tr>
 
-</div>
-
-
-
-<div>
-
-<select class="select"  aria-label="Default select example">
-  <option selected>학기선택</option>
-  <option value="1">2022년1학기</option>
-  <option value="2">2021년2학기</option>
-  <option value="3">2021년1학기</option>
-</select>
-
-
-
-</div>
-
-
-<div>
-<table class="table table-striped table-hover" style = "width : 700px">	
-						<thead >
-							<tr>
-								<th>신청학점</th>
-								<th>취득학점</th>
-								<th>평점총계</th>
-								<th >평균평점</th>
-								<th>백분위</th>
-							</tr>
-							
-							
-						</thead>
-						<tbody>
-							<tr>
-								<th ></th>
-								<th ></th>
-								<th ></th>
-								<th ></th>
-								<th ></th>
+		<tr align="center">
+			<td bgcolor="#5CD1E5">8</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td bgcolor="#5CD1E5">운영체제</td>
+			<td></td>
+		</tr>
 		
-						</tr>
-				
-						</tbody>
-						
-						
+		<tr align="center">
+			<td bgcolor="#5CD1E5">9</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td bgcolor="#5CD1E5">운영체제</td>
+			<td></td>
+		</tr>
 
-</table>
-
-
-
-</div>
-
-
-
-<div>
-<table class="table table-striped table-hover" style = "width : 700px">	
-						<thead >
-							<tr>
-								<th>구분</th>
-								<th>교과명</th>
-								<th>교과코드</th>
-								<th >학점</th>
-								<th>성적</th>
-							<tr>
-							
-						
-							<c:forEach var="grade" items="${grades }" >
-							<tr>
-							
-								<th >${grade.type} </th>
-								<th >${grade.name} </th>
-								<th >${grade.id}</th>
-								<th >${grade.unitScore}</th>
-								<th > </th>
-							<tr>
-						
-						 </c:forEach>
-							
-						
-						</thead>
-
-</table>
-
-</div>
-
-
-
-        <!--  ************************************************************************************ -->               
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
+		<tr align="center">
+			<td></td>
+			<td colspan="5" bgcolor="#5CD1E5">충북대학교 청년취업아카데미<br> 담당교수 :
+				강 재 구
+			</td>
+		</tr>
+	</table>
                     </div>
                     <!-- footer -->
                     <footer class="col-12" style="height: 60px;">

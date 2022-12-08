@@ -16,14 +16,16 @@
 			dataType:'text',
 			success:function(data){
 				const result = $.trim(data);
-				alert("result---->"+result)
+
 				if(result == 1){
 				alert("성공")
 				location.reload();
 				}else if(result == 0){
 					alert("중복된 강의입니다.")
-				}else{
+				}else if(result == 2){
 					alert("시간이 중복되었습니다.")
+				}else{
+					alert("최대학점을 초과했습니다 [신청가능 최대학점 : 21학점]")
 				}
 			}		
 		});	
@@ -38,7 +40,7 @@
 				<th>강의코드</th><th>강의명</th><th>학년</th><th>강의시간</th><th>교수명</th>
 				<th>이수구분</th><th>전공</th><th>학점</th><th>&nbsp;&nbsp;</th>
 			</tr>
-			<c:forEach var="lec" items="${list }">
+			<c:forEach var="book" items="${list }">
 				<tr>
 					<td>${lec.id }</td><td>${lec.name }</td><td>${lec.grade }</td>
 					<td>${lec.day1}${lec.time1}, ${lec.day2}${lec.time2}</td><td>${lec.prof }</td><td>${lec.type }</td>
