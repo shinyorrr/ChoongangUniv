@@ -59,7 +59,7 @@ public class SecurityController {
 	}
 	@GetMapping("/manager/main")
 	public String managerMain() {
-		return "/manager/test";
+		return "/manager/main";
 	}
 	@GetMapping("/professor/main")
 	public String professorMain() {

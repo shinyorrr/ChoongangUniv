@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-
+<%@ include file="../header.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,7 +20,6 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <!-- CSS -->
 <link rel="stylesheet" href="/css/styles.css">
-<link href="css/taewooCss.css" rel="stylesheet" type="text/css">
     <title>SideBar sub menus</title>
 </head>
 
@@ -158,7 +157,7 @@
                       <table class="Notice-table table table-striped">
 					    <thead>
 					    <tr>
-					        <th>번호</th>
+					      <!--   <th>번호</th> -->
 					        <th>제목</th>
 					        <th>내용</th>
 					        <th>작성일자</th>
@@ -170,7 +169,7 @@
 					    <c:set value='<%=(String)session.getAttribute("role") %>' var="role"/>
 					    	<c:if test="${notice.noticeType eq role || notice.noticeType eq 'allContent'}">	   
 					    <tr>
-					        <td>${status.index+1+(page * 10)}</td>
+					        <%-- <td>${status.index+1+(page * 10)}</td> --%>
 					        <td style="display: none;">${notice.noticeType}</td>
 					    <td>
 					    <c:choose>					  
@@ -207,16 +206,16 @@
 					    </c:forEach>
 					    </tbody>					    
 					</table>
-						<form action="/notice/search" method="GET" class="form-inline p-2 bd-highlight" role="search">
-        					<input type="text" name="keyword" class="form-control" id=search placeholder="검색" style="width: 300px;">
-        					<button class="btn btn-success bi bi-search"></button>
+						<form action="/notice/search" method="GET" class="form-inline p-2 bd-highlight" role="search" style="display: block;" >
+        					<input type="text" name="keyword" class="form-control" id=search placeholder="검색" style="width: 300px; float: left;">
+        					<button class="btn btn-success bi bi-search" style="float: left;"></button>
     					</form> 
 					<nav aria-label="...">
 					  <ul class="pagination" style="margin-left: 40%;">
 					  
 					    <li class="page-item">
 					      <c:if test="${page > 0}">
-						      <a class="page-link" href="addressForm?page=${page-1}">Previous</a>				      
+						      <a class="page-link" href="/notice/noticeList?page=${page-1}">Previous</a>				      
 					      </c:if>
 					      <c:if test= "${page == 0 }">
 					      	  <a class="page-link">Previous</a>
