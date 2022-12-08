@@ -76,7 +76,8 @@ public class SecurityController {
 	@GetMapping("/")
     public String loginForm(HttpSession session, HttpServletRequest request, HttpServletResponse response, Model model) 
     		throws NoSuchAlgorithmException, InvalidKeySpecException {
-		String targetUrl = "";
+		log.info("====-loginForm 요청 시작=====");
+		String targetUrl = "/";
 		// Request Header cookie 에서 JWT 토큰 추출
         String accessToken = resolveAccessToken((HttpServletRequest) request);
         String refreshToken = resolveRefreshToken((HttpServletRequest) request);
@@ -85,6 +86,7 @@ public class SecurityController {
         Authentication authentication =  SecurityContextHolder.getContext().getAuthentication();
         Collection<? extends GrantedAuthority> roles = authentication.getAuthorities();
     if (accessToken != null && refreshToken != null) {
+    		log.info("토큰있음! role별 mainPage 요청 시작");
         	if (roles != null && roles.stream().anyMatch(a -> a.getAuthority().equals("ROLE_STUDENT"))) {
     			//response.sendRedirect("/student/main");
     			targetUrl = "/student/main";
@@ -102,6 +104,7 @@ public class SecurityController {
     			targetUrl = "/admin/main";
     		}
 		} else {
+			log.info("토큰없음! 로그인 페이지로 이동");
 			targetUrl = "/loginForm";
 		}
         
@@ -145,31 +148,33 @@ public class SecurityController {
 //        // 클라이언트의 쿠키에 넣을 토큰 setting
 //        Cookie cookieAT = new Cookie("AccessToken","Bearer" + accessToken);
 //        Cookie cookieRT = new Cookie("RefreshToken", "Bearer" + refreshToken);
-//        cookieAT.setMaxAge(60 * 30); // 유효시간을 정하지 않으면 session cookie (휘발성. 브라우저종료시 삭제)
-//        cookieRT.setMaxAge(60 * 30); // 유효시간을 정하지 않으면 session cookie (휘발성. 브라우저종료시 삭제)
+//        // cookie.setMaxAge(7 * 24 * 60 * 60); // 유효시간을 정하지 않으면 session cookie (휘발성. 브라우저종료시 삭제)
 //        cookieAT.setPath("/");
+//        cookieAT.setSecure(true);
+//        cookieAT.
 //        cookieAT.setHttpOnly(true);
 //        cookieRT.setPath("/");
 //        cookieRT.setHttpOnly(true);
 //        // response에 담아 쿠키 전송,저장
 //        response.addCookie(cookieAT);
 //        response.addCookie(cookieRT);
+        
         ResponseCookie cookieAT = ResponseCookie.from("AccessToken","Bearer" + accessToken)
-                .path("/")
-                //.sameSite("None")
-                .httpOnly(true)
-                .domain("localhost")
-                //.secure(true)
-                .build();
-          response.addHeader("Set-Cookie", cookieAT.toString());
-          ResponseCookie cookieRT = ResponseCookie.from("RefreshToken","Bearer" + refreshToken)
-                .path("/")
-                //.sameSite("None")
-                .httpOnly(true)
-                .domain("localhost")
-                //.secure(true)
-                .build();
-          response.addHeader("Set-Cookie", cookieRT.toString());
+        		.path("/")
+        		//.sameSite("None")
+        		.httpOnly(true)
+        		.domain("localhost")
+        		//.secure(true)
+        		.build();
+        response.addHeader("Set-Cookie", cookieAT.toString());
+        ResponseCookie cookieRT = ResponseCookie.from("RefreshToken","Bearer" + refreshToken)
+        		.path("/")
+        		//.sameSite("None")
+        		.httpOnly(true)
+        		.domain("localhost")
+        		//.secure(true)
+        		.build();
+        response.addHeader("Set-Cookie", cookieRT.toString());
     }
 	
 	
