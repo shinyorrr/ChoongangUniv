@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper
+	namespace="com.oracle.choongangGroup.hj.model.EvaluationVoMapper">
+
+	
+	<select id="hjevaluationSelOne" parameterType="EvaluationVo" resultType="EvaluationVo"> 
+		SELECT * FROM evaluation WHERE userid = ${userid} 
+	</select> 
+
+	<select id="hjevSelList" parameterType="String" resultType="EvaluationVo">
+		SELECT l.lec_id , l.prof_name , l.lec_name , g.userid
+		from grade g , lecture l
+		WHERE l.lec_id = g.lec_id
+		and g.userid = ${userid}
+
+
+	</select>
+	
+<!-- 강의평가 항목가져오기  -->	
+	<select id="hjcgSelList" resultType="EvaluationVo">
+		SELECT * from category
+	</select>
+
+<!-- 강의평가 insert  -->
+	<insert id="insertScore" parameterType="EvaluationVo">
+
+
+		insert into evaluation (userid,lec_id ,big_category,small_category,score,review )
+		values(#{userid}, #{lec_id}, #{big_category} , #{small_category} ,#{scoreList1} ,#{review})
+      
+
+	</insert>
+
+
+
+
+
+</mapper>

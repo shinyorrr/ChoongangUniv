@@ -48,7 +48,55 @@ const autoHyphen2 = (target) => {
 	   .replace(/[^0-9]/g, '')
 	  .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3").replace(/(\-{1,2})$/g, "");
 	}
+	
+function readURL(input) {
+	  if (input.files && input.files[0]) {
+	    var reader = new FileReader();
+	    reader.onload = function(e) {
+	      document.getElementById('preview').src = e.target.result;
+	    };
+	    reader.readAsDataURL(input.files[0]);
+	  } else {
+	    document.getElementById('preview').src = "";
+	  }
+	}
 </script>
+
+<style type="text/css">
+.btn-upload {
+  width: 100px;
+  height: 30px;
+  background: #fff;
+  border: 1px solid rgb(77,77,77);
+  border-radius: 10px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: right;
+  margin : 10px 0 10px 10px;
+  
+  &:hover {
+    background: rgb(77,77,77);
+    color: #fff;
+  }
+}
+
+.card-img-top {
+  width: 100%;
+  height: 250px;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-color: #e0e0e0;
+
+  &.contain {
+    background-size: contain;
+  }
+  
+}
+
+</style>
 </head>
 
 <body class="" id="body-pd">
@@ -177,35 +225,38 @@ const autoHyphen2 = (target) => {
                     </div>
                     <!-- card content -->  
                     <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
-                        <div class="card mt-5" style="width: 20%; float: left;">
-						  <img src="..." class="card-img-top" alt="...">
+						<div class="card mt-5" style="width: 20%; position: static; float: left;">
+						  <img id="preview" src="${member.image}" class="card-img-top" alt="..." >
+						  <label for="file1">
+							  <div class="btn-upload">이미지 변경</div>
+						  </label>
 						  <ul class="list-group list-group-flush" style="text-align: center;">
 						    <li class="list-group-item">${member.name}</li>
 						    <li class="list-group-item">${member.dept.dname}</li>
 						    <li class="list-group-item">${member.position}</li>
 						  </ul>
 						</div>
-						<div style="display: flex; width: 75%; height: 100%; margin-left: 10px">
-							<form class="row g-3" style="width: 80%; margin: 0 0 0 50px;">
+						<div style="display: flex; width: 75%; height: 100%; margin-left: 10px;">
+							<form action="mypageSave" class="row g-3" style="width: 80%; margin: 30px 0 0 50px;" method="post" enctype="multipart/form-data">
 							  <div class="col-md-3">
 							    <label for="inputUserid" class="form-label">사번</label>
-							    <input type="text" class="form-control" id="userid" value="${member.userid }" readonly="readonly">
+							    <input type="text" class="form-control" id="userid" name="userid" value="${member.userid }" readonly="readonly">
 							  </div>
 							  <div class="col-md-3">
 							     <label for="inputHiredate" class="form-label">입사일</label>
-							    <input type="text" class="form-control" id="hiredate" value="${member.hiredate }" readonly="readonly">
+							    <input type="text" class="form-control" id="hiredate" name="hiredate" value="${member.hiredate }" readonly="readonly">
 							  </div>
 							  <div class="col-md-3">
 							    <label for="inputGender" class="form-label">성별</label>
-							    <input type="text" class="form-control" id="gender" value="${member.gender }" readonly="readonly">
+							    <input type="text" class="form-control" id="gender" name="gender" value="${member.gender }" readonly="readonly">
 							  </div>
 							  <div class="col-md-3">
 							    <label for="inputBirth" class="form-label">생년월일</label>
-							    <input type="text" class="form-control" id="gender" value="${member.birth }" readonly="readonly">
+							    <input type="text" class="form-control" id="birth" name="birth" value="${member.birth }" readonly="readonly">
 							  </div>
 							  <div class="col-md-6">
 							    <label for="inputEmail" class="form-label">이메일</label>
-							    <input type="email" class="form-control" id="email" value="${member.email }" required="required">
+							    <input type="email" class="form-control" id="email" name="email" value="${member.email }" required="required">
 							  </div>
 							  <div class="col-md-6">
 							    <label for="inputAddress" class="form-label">주소</label>
@@ -216,14 +267,17 @@ const autoHyphen2 = (target) => {
 							  </div>
 							  <div class="col-md-6">
 							    <label for="inputPhone" class="form-label">연락처</label>
-							    <input type="text" class="form-control" value="${member.phone }" id="phone" oninput="autoHyphen(this)" maxlength="13"  required="required">
+							    <input type="text" class="form-control" value="${member.phone }" name="phone" id="phone" oninput="autoHyphen(this)" maxlength="13"  required="required">
 							  </div>
 							  <div class="col-md-6">
 							    <label for="inputSubphone" class="form-label">비상연락처</label>
-							    <input type="text" class="form-control" value="${member.subphone }" id="subphone" oninput="autoHyphen2(this)" maxlength="13" required="required">
+							    <input type="text" class="form-control" value="${member.subphone }" name="subphone" id="subphone" oninput="autoHyphen2(this)" maxlength="13" required="required">
 							  </div>
-							  <div class="col-md-6 justify-content-md-end"">
-							    <button type="button" class="btn btn-secondary" >변경사항 저장</button>
+							  <div class="col-md-10">
+								<input type="file" name="file1" id="file1" value="${member.image }" style="display: none;" onchange="readURL(this)">
+							  </div>
+							  <div class="col-md-3">
+							    <button type="submit" class="btn btn-secondary" style="margin: auto;">변경사항 저장</button>
 							  </div>
 							</form>
 						</div>

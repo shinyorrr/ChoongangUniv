@@ -20,7 +20,7 @@ public interface ApplyRepository {
 
 	List<ApplicationLec> likeListAll(String userid);
 
-	void register(ApplyTime applyTime);
+
 
 
 
