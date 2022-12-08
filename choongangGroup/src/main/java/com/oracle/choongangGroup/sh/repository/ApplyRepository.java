@@ -17,10 +17,11 @@ public interface ApplyRepository {
 	Lecture lectureFindOne(Long lecId);
 	
 	int 	apply(ApplicationLec applyLec);
-	
+
 	List<ApplicationLec> likeListAll(String userid);
 
-	void register(ApplyTime applyTime);
+
+
 
 
 

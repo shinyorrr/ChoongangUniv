@@ -53,6 +53,10 @@ public class ApplyTime {
 		this.end = end;
 		
 	}
+
+	public ApplyTime() {
+		
+	}
 	
 
 }
