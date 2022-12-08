@@ -154,7 +154,8 @@
 								<c:if test="${lecture.day1 ne '' || lecture.day1 ne null }">${lecture.day2} ${lecture.time2} </c:if>
 								&nbsp; &nbsp;&nbsp; ${lecture.building} &nbsp; ${lecture.room}</div>
 								<div class="font09 mb-4" style="float:right;">
-									<button type="button" class="btn btn-secondary btn-sm">&nbsp; 목록보기  &nbsp;</button>
+									<button type="button" class="btn btn-secondary btn-sm"
+											onclick="location.href='lecMemberCheck?id=${lec.id}'" >&nbsp; 목록보기  &nbsp;</button>
 									<button type="button" class="btn btn-danger btn-sm ms-1">&nbsp; 출결시작 &nbsp;</button>
 									<button type="button" class="btn btn-dark btn-sm ms-1">&nbsp; 수정하기 &nbsp;</button>
 								</div>
@@ -190,81 +191,49 @@
 										<th scope="col" style="vertical-align: middle; width: 6%;"></th>
 										<th scope="col" style="vertical-align: middle; width: 20%;">학생정보</th>
 										<th scope="col">${lecture.day1} &nbsp; ${lecture.time1}<p class="font08" style="margin-bottom: 0px;">출석: 0명 &nbsp; &#183 &nbsp; 지각: 0명 &nbsp; &#183 &nbsp; 결석: 0명</p></th>
-										<c:if test="${lecture.day2 ne '' || lecture.day2 ne null}">
-											<th scope="col">${lecture.day2} &nbsp; ${lecture.time2}<p class="font08" style="margin-bottom: 0px;">출석: 0명 &nbsp; &#183 &nbsp; 지각: 0명 &nbsp; &#183 &nbsp; 결석: 0명</p></th>
-										</c:if>
-										
-										<th scope="col">화요일 16:00~17:50<p class="font08" style="margin-bottom: 0px;">출석: 0명 &nbsp; &#183 &nbsp; 지각: 0명 &nbsp; &#183 &nbsp; 결석: 0명</p></th>
+								<c:if test="${lecture.day2 ne '' && lecture.day2 ne null && lecture.time2 ne '' && lecture.time2 ne null}">
+										<th scope="col">${lecture.day2} &nbsp; ${lecture.time2}<p class="font08" style="margin-bottom: 0px;">출석: 0명 &nbsp; &#183 &nbsp; 지각: 0명 &nbsp; &#183 &nbsp; 결석: 0명</p></th>
+								</c:if>
 									</tr>
 								</thead>
-								
 								<tbody>
 									
-									<tr>
-									<%-- <c:forEach var="mem" items="${memberList}"> --%>
-										<td  style="text-align: center; vertical-align: middle;" >${i+1}</td>
-										<td  class="d-flex py-2">
-											<div class="m-1 mx-2 bg-secondary align-self-center" style=" height:70px; width: 78%;"></div>
-										</td>
-										<td class="p-3 mb-0">
-											<div class=" px-2" style="font-size:1em; ">${member.name}  
-												<p class="font09 mb-0" style="margin-top:3px;">${member.userid}</p>
-												<p class="font09 mt-0 mb-0">${member.major} <span class="fontColorGr1 mb-0"> &nbsp;&#183; &nbsp; ${mem.grade}학년</span></p>
-											</div>
-										</td>
-									<%-- </c:forEach> --%>
-										
-									<!-- 	<td class="p-2  text-center " style="vertical-align: middle;" >
-											<div class="form-check  form-check-inline me-3">
-												<input class="form-check-input" type="radio" name="attStatus" id="attendanc" value="2" >
-												<label class="form-check-label" for="flexRadioDefault1">출석</label>
-											</div>
-											<div class="form-check form-check-inline  me-3">
-												<input class="form-check-input" type="radio" name="attStatus" id="late" value="1">
-												<label class="form-check-label" for="flexRadioDefault2">지각</label>
-											</div>
-											<div class="form-check form-check-inline">
-												<input class="form-check-input" type="radio" name="attStatus" id="absent" value="0">
-												<label class="form-check-label" for="flexRadioDefault2">결석</label>
-											</div>
-										</td> -->
-										
+									
 										<c:if test="${lecture.day2 ne '' || lecture.day2 ne null}">
-											<!-- <td class="p-2  text-center " style="vertical-align: middle;" >
-												<div class="form-check  form-check-inline me-3">
-													<input class="form-check-input" type="radio" name="attStatus" id="attendanc" value="2" >
-													<label class="form-check-label" for="flexRadioDefault1">출석</label>
-												</div>
-												<div class="form-check form-check-inline  me-3">
-													<input class="form-check-input" type="radio" name="attStatus" id="late" value="1">
-													<label class="form-check-label" for="flexRadioDefault2">지각</label>
-												</div>
-												<div class="form-check form-check-inline">
-													<input class="form-check-input" type="radio" name="attStatus" id="absent" value="0">
-													<label class="form-check-label" for="flexRadioDefault2">결석</label>
-												</div>
-											</td> -->
+									<c:forEach var="mem" items="${memList}">
+									<c:set var="i" value="${i+1}"></c:set>
+											<tr>
+												<td  style="text-align: center; vertical-align: middle;" >${i}</td>
+												<td  class="d-flex py-2">
+													<div class="m-1 mx-2 bg-secondary align-self-center" style=" height:70px; width: 78%;"></div>
+												</td>
+												<td class="p-3 mb-0">
+													<div class=" px-2" style="font-size:1em; ">${mem.name}  
+														<p class="font09 mb-0" style="margin-top:3px;">${mem.userid}</p>
+														<p class="font09 mt-0 mb-0">${mem.major} <span class="fontColorGr1 mb-0"> &nbsp;&#183; &nbsp; ${mem.grade}학년</span></p>
+													</div>
+												</td>
+												
+												<td class="p-2  text-center " style="vertical-align: middle;" >
+													<div class="form-check  form-check-inline me-3">
+														<input class="form-check-input" type="radio" name="attStatus" id="attendanc" value="2" >
+														<label class="form-check-label" for="flexRadioDefault1">출석</label>
+													</div>
+													<div class="form-check form-check-inline  me-3">
+														<input class="form-check-input" type="radio" name="attStatus" id="late" value="1">
+														<label class="form-check-label" for="flexRadioDefault2">지각</label>
+													</div>
+													<div class="form-check form-check-inline">
+														<input class="form-check-input" type="radio" name="attStatus" id="absent" value="0">
+														<label class="form-check-label" for="flexRadioDefault2">결석</label>
+													</div>
+												</td> 
+												<c:if test="${lecture.day2 ne '' && lecture.day2 ne null && lecture.time2 ne '' && lecture.time2 ne null}">
+													<td  style="text-align: center; color: darkgrey; vertical-align: middle;" >출석정보없음</td>
+												</c:if>
+											</tr>
+										</c:forEach>
 										</c:if>
-										
-										
-										<!-- <td class="p-2 text-center" style="vertical-align: middle;" >
-											<div class="form-check  form-check-inline me-3">
-												<input class="form-check-input" type="radio" name="attStatus" id="2" checked>
-												<label class="form-check-label" for="flexRadioDefault1">출석</label>
-											</div>
-											<div class="form-check form-check-inline  me-3">
-												<input class="form-check-input" type="radio" name="attStatus" id="1">
-												<label class="form-check-label" for="flexRadioDefault2">지각</label>
-											</div>
-											<div class="form-check form-check-inline">
-												<input class="form-check-input" type="radio" name="attStatus" id="0">
-												<label class="form-check-label" for="flexRadioDefault2">결석</label>
-											</div>
-										</td> -->
-										<td  style="text-align: center; color: darkgrey; vertical-align: middle;" >출석정보없음</td>
-<!-- 										<td  style="text-align: center; color: darkgrey; vertical-align: middle;" >출석정보없음</td>
-										<td style="text-align: center; color: darkgrey; vertical-align: middle;" >출석정보없음</td> -->
-									</tr>
 							</table>
 						</div>
 					
