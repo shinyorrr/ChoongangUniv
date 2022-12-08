@@ -18,9 +18,10 @@ public class ManagerPageServiceImpl implements ManagerPageService {
 	private final ManagerPageRepository mr;
 
 	@Override
-	public Member memberFindOne(String userid) {
+	public Member findByUserid(String userid) {
 		log.info("mypage Start...");
-		Member member = mr.memberFindOne(userid);
+		Member member = mr.findByUserid(userid);
 		return member;
 	}
+
 }

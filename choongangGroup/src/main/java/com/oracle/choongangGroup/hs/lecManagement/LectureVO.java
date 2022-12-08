@@ -32,6 +32,7 @@ public class LectureVO {
 	private Long   lec_unit_score;
 	private String lec_year;
 	private String subject_gubun;
+	private String lec_start;
 	
 	// 조회용
 	private String year;
