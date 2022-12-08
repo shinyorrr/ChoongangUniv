@@ -86,7 +86,8 @@
 						lec_type = #{lec_type, jdbcType=VARCHAR},
 						lec_typecode = #{lec_typecode},
 						lec_unit_score = #{lec_unit_score},
-						lec_year = #{lec_year}
+						lec_year = #{lec_year},
+						lec_start = #{lec_start}
 		where lec_id = #{lec_id}
 	</update>
 </mapper>

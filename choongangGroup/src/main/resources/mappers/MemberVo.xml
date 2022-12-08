@@ -11,8 +11,6 @@
 	 WHERE userid = #{userid}
 	
 	</select>
-
-
 <!--  학적 수정  -->
 
 	

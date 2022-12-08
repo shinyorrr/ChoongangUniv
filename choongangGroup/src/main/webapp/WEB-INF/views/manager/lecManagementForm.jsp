@@ -74,6 +74,7 @@
 				document.getElementById("lec_status").value=lec.lec_status;
 				document.getElementById("lec_type").value=lec.lec_type;
 				document.getElementById("prof_name").value=lec.prof_name;
+				document.getElementById("lec_start").value=lec.lec_start;
 			}
 		});
 	}
@@ -94,7 +95,7 @@
 									location.replace("lecManagement");
 								}
 								else{
-									alert("삭제실패");
+									alert("승인된 강의는 삭제할 수 없습니다.");
 								} 
 							}
 						}
@@ -115,6 +116,7 @@
 			 return false;
 		 }
 	}
+	
 	
 </script>
 </head>
@@ -491,6 +493,11 @@
 												<option value="1">미승인</option>
 												<option value="0">승인</option>
 										</select>
+										</td>
+										
+										<th class="table-secondary" scope="col" style="width: 9%; vertical-align:middle;">개강일</th>
+										<td>
+											<input id="lec_start" name="lec_start" class="form-control form-control-sm text-start" type="date" required="required">
 										</td>
 									</tr>
 								</table>
