@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.oracle.choongangGroup.dongho.auth.GetMember;
 import com.oracle.choongangGroup.hj.model.GradeVo;
 import com.oracle.choongangGroup.hj.model.MemberVo;
 import com.oracle.choongangGroup.hj.service.MemberService;
@@ -26,12 +27,15 @@ import lombok.extern.slf4j.Slf4j;
 public class MemberController {
 
 	private final MemberService ms;
+	private final GetMember gm;
 
 	// 아이디 받아와서 학적 조회
 	@RequestMapping(value = "listEmp")
 	public String MemberList(String userid, Model model , HttpServletRequest request) {
 		System.out.println("MemberController MemberList start. . .  . . ");
 	
+		//String userid = gm.getMember().getUserid();
+				
 		HttpSession session = request.getSession();
 		userid = (String) session.getAttribute("userid");
 		
@@ -116,6 +120,7 @@ public class MemberController {
 	String lec_year = ys.substring(0,4);    //2022
 	String lec_semester= ys.substring(5,6);    //2
 	
+
 	System.out.println(" lec_year짜름 ---------->"+lec_year);
 	System.out.println(" lec_semester짜름 ------->"+lec_semester);
 	
