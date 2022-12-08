@@ -35,7 +35,7 @@
 	<div id="container_box"> 
 	<h2>교재 내용</h2>
 		<form role="form" method="post" autocomplete="off">
-			<input type="hidden" name="bookId" value="books.bookId"/>
+			<input type="hidden" name="bookId" value="${books.bookId}"/>
 			
 			<div class="inputArea"> 
 			 <label style="width: auto;">교재 카테고리 코드</label>

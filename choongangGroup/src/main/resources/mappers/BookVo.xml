@@ -54,11 +54,4 @@
 		From Book
 		Order By bookId
 	</select>
-<!-- 	<select id="ShopList" resultType="BookVo">
-	select b.bookId, b.bookName, b.publisher, b.bookPrice, b.bookStock, b.bookInfo , b.bookImg , b.bookThumbImg ,b.cateCode, c.cateParent,c.cateName
-		From book b
-			inner join book_cate c
-				on b.cateCode = c.cateCode
-		where b.cateCode=#{cateCode}
-	</select> -->
 </mapper>

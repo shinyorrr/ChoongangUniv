@@ -207,9 +207,6 @@
 							  		<c:if test="${like.member.dept.upDeptno == 200}">
 								  		<td>교수</td>							  		
 							  		</c:if>
-							  		<c:if test="${like.member.dept.upDeptno == null}">
-								  		<td></td>							  		
-							  		</c:if>
 							  		<td>${like.member.dept.dname}</td>
 							  		<td>${like.member.phone}</td>
 							  		<td>

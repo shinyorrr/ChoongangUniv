@@ -7,7 +7,6 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-<script src="https://cdn.ckeditor.com/ckeditor5/26.0.0/classic/ckeditor.js"></script>
 <script type="text/javascript">
 $(function(){
 var jsonData = JSON.parse('${category}');
@@ -20,7 +19,6 @@ for(var i = 0; i < jsonData.length; i++) {
 	if(jsonData[i].tier == "1") {
 		cate1Obj = new Object();  //초기화
 		cate1Obj.cateCode = jsonData[i].cateCode;
-		cate1Obj.cateParent = jsonData[i].cateParent;
 		cate1Obj.cateName = jsonData[i].cateName;
 		cate1Arr.push(cate1Obj);
 	}
@@ -28,7 +26,7 @@ for(var i = 0; i < jsonData.length; i++) {
 // 1차 분류 셀렉트 박스에 데이터 삽입
 var cate1Select = $(".category1")
 for(var i = 0; i < cate1Arr.length; i++) {
-	cate1Select.append("<option value='" + cate1Arr[i].cateParent + "'>"
+	cate1Select.append("<option value='" + cate1Arr[i].cateCode + "'>"
 						+ cate1Arr[i].cateName + "</option>");
 }
 $(document).on("change", ".category1", function(){
@@ -97,12 +95,8 @@ function readURL(input) {
 	    document.getElementById('preview').src = "";
 	  }
 	}
-	/* 위지웍 적용 */
-ClassicEditor.create(document.querySelector('#bookInfo')).catch(error=>{
-	console.error(error);
-});
-</script>
 
+</script>
 <style type="text/css">
 	section#container { padding:20px 0; border-top:2px solid #eee; border-bottom:2px solid #eee; }
 	section#container::after { content:""; display:block; clear:both; }
@@ -115,10 +109,10 @@ ClassicEditor.create(document.querySelector('#bookInfo')).catch(error=>{
 	.inputArea { margin:10px 0; }
 	select { width:100px; }
 	label { display:inline-block; width:70px; padding:5px; }
-	label[for='bookInfo'] { display:block; }
+	label[for='gdsDes'] { display:block; }
 	input { width:150px; }
-	input:invalid {	border: 3px solid red; background-color: red;}
-	textarea#bookInfo { width:400px; height:180px; }
+	input:invalid {	border: 3px solid red;}
+	textarea#gdsDes { width:400px; height:180px; }
 	.select_img img{margin: 20px 0;}
 </style>
 </head>
@@ -187,11 +181,7 @@ ClassicEditor.create(document.querySelector('#bookInfo')).catch(error=>{
 					<div class="inputArea">
 						<label for="bookImg">이미지</label>
 						<input type="file" id="bookImg" name="file" accept=".png, .jpeg, .gif" onchange="readURL(this)" style="height: 30px;" />
-						<div class="select_img">
-						<c:if test="${bookImg eq null }">
-						<img id="preview" style="height: 500px;" src="https://i0.wp.com/adventure.co.kr/wp-content/uploads/2020/09/no-image.jpg" />
-						</c:if>
-						</div>
+						<div class="select_img"><img id="preview" style="height: 500px;" src="https://i0.wp.com/adventure.co.kr/wp-content/uploads/2020/09/no-image.jpg" /></div>
 					</div>
 					<%=request.getRealPath("/") %>
 					<div class="inputArea">

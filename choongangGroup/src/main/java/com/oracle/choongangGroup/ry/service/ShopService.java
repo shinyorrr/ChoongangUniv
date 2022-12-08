@@ -9,7 +9,7 @@ public interface ShopService {
 
 	List<BookVo> bookList();
 
-	BookVo shopDetailList(int bookId);
+	BookVo bookDetailList(int bookId);
 
 
 }

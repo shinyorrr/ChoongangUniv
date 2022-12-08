@@ -8,6 +8,4 @@ public interface ShopDao {
 
 	List<BookVo> bookList();
 
-	BookVo detailBookList(int bookId);
-
 }

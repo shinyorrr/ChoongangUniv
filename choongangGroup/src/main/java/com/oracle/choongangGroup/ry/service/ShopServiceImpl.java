@@ -27,9 +27,9 @@ public class ShopServiceImpl implements ShopService {
 	}
 
 	@Override
-	public BookVo shopDetailList(int bookId) {
-		BookVo book = sd.detailBookList(bookId);
-		return book;
+	public BookVo bookDetailList(int bookId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

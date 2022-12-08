@@ -20,12 +20,6 @@ public class ShopDaoImpl implements ShopDao {
 		List<BookVo> bookList = session.selectList("ShopList");
 		return bookList;
 	}
-
-	@Override
-	public BookVo detailBookList(int bookId) {
-		BookVo book = session.selectOne("BookDetail", bookId);
-		return book;
-	}
 	
 	
 }

@@ -149,7 +149,6 @@
                     <!-- card content -->  
                     <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
                         <div id="titleInBox" style="font-weight: bold; font-size: 19px;">결재완료홈</div>
-                        <div class="btnProcess" style="font-size: 12px; color: #7F7F7F; text-align: right;">총 문서 : ${endTotal}건</div>
 						<div id="containerBox">
 							<div style="border-top: 1px dashed #c9c9c9; margin-top: 10px;"></div>
                     
@@ -196,26 +195,26 @@
 							
 							<!-- 페이징 번호 설정 -->
 							<nav aria-label="Page navigation example">
-							  <ul class="pagination justify-content-center">
-							  <c:if test="${page.startPage > page.pageBlock }">
+							  <ul class="pagination pagination-sm justify-content-center">
 							    <li class="page-item">
-							      <a class="page-link" href="approvalEnd?currentPage=${page.startPage - page.pageBlock}" aria-label="Previous">
+							    <c:if test="${page.startPage > page.pageBlock }">	
+							      <a class="page-link" href="approvalEnd?currentPage=${page.startPage-page.pageBlock}" aria-label="Previous">
 							        <span aria-hidden="true">&laquo;</span>
 							      </a>
-							    </li>
 							    </c:if>  
-							    <c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
-							    <li class="page-item">
-								    <a class="page-link" href="approvalEnd?currentPage=${i}">${i}</a>
 							    </li>
-							    </c:forEach>
-							    <c:if test="${page.endPage < page.totalPage}">
 							    <li class="page-item">
-							      <a class="page-link" href="approvalEnd?currentPage=${page.startPage + page.pageBlock}" aria-label="Next">
+							    <c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
+							    	<a href="approvalEnd?currentPage=${i}">${i}</a>
+							    </c:forEach>
+							    </li>
+							    <li class="page-item">
+							    <c:if test="${page.endPage < page.totalPage}">
+							      <a class="page-link" href="approvalEnd?currentPage=${page.startPage+page.pageBlock}" aria-label="Next">
 							        <span aria-hidden="true">&raquo;</span>
 							      </a>
-							    </li>
 							    </c:if>
+							    </li>
 							  </ul>
 							</nav>
                     </div>

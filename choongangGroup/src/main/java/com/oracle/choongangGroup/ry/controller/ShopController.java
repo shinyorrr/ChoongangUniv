@@ -25,21 +25,18 @@ public class ShopController {
 	private final ShopService ss;
 	
 	@GetMapping(value = "/student/shopList")
-	public void shopMain(Model model) {
-		List<BookVo> bookList = ss.bookList();
+	public String shopMain(Model model) {
+		List<BookVo> bookList = null;
+		bookList = ss.bookList();
 		model.addAttribute("bookList", bookList);
+		return "/student/shopList";
 	}
 	
-//	@RequestMapping(value = "/student/shopDetailList", method = RequestMethod.GET)
-//	public void ShopListGet(Model model) throws Exception {
-//		List<BookVo> bookList = ss.bookList();
-//		model.addAttribute("bookList", bookList);
-//	}
-	
-	@RequestMapping(value = "student/shopDetailList")
-	public void detailBookList(int bookId, Model model, BookCateVo category) {
-		BookVo books = ss.shopDetailList(bookId);
+	@RequestMapping(value = "/student/shopDetailList", method = RequestMethod.GET)
+	public void ShopList(int bookId, Model model, BookCateVo category) throws Exception {
+		BookVo books = ss.bookDetailList(bookId);
 		model.addAttribute("books", books);
 		model.addAttribute("category", category);
+		
 	}
 }
