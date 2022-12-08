@@ -11,5 +11,6 @@
 </head>
 <body>
 <a href="/notice/noticeList">공지사항 조회</a>
+<a href="/message/messageList">쪽지함</a>
 </body>
 </html>
