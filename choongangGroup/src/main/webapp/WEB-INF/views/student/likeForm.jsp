@@ -181,10 +181,10 @@
 			
 								<!-- 2022학년도 2학기 수강신청 개설강좌     과목명 조회  	 -->
 								<table class="table table-striped">
-									<tr>
+									<thead>
 										<th>강의코드</th><th>강의명</th><th>학년</th><th>강의시간</th><th>교수명</th>
 										<th>이수구분</th><th>전공</th><th>학점</th><th>&nbsp;&nbsp;</th>
-									</tr>
+									</thead>
 									<c:forEach var="lec" items="${lectureList.content }">
 										<tr>
 											<td>${lec.id }</td><td>${lec.name }</td><td>${lec.grade }</td>
@@ -203,8 +203,8 @@
 										<c:choose>
 											<c:when test="${lectureList.first}"></c:when>
 											<c:otherwise>
-												<li class="page-item"><a class="page-link" href="likeForm/?page=0">처음</a></li>
-												<li class="page-item"><a class="page-link" href="likeForm/?page=${lectureList.number-1}">&larr;</a></li>
+												<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/likeForm/?userid=${userid }">처음</a></li>
+												<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/likeForm/?page=${lectureList.number-1}">&larr;</a></li>
 											</c:otherwise>
 										</c:choose>
 							
@@ -212,10 +212,10 @@
 										<c:forEach begin="${startBlockPage}" end="${endBlockPage}" var="i">
 											<c:choose>
 												<c:when test="${lectureList.pageable.pageNumber+1 == i}">
-													<li class="page-item disabled"><a class="page-link" href="likeForm/?userid=${userid }&page=${i-1}">${i}</a></li>
+													<li class="page-item disabled"><a class="page-link" href="${pageContext.request.contextPath}/likeForm/?userid=${userid }&page=${i-1}">${i}</a></li>
 												</c:when>
 												<c:otherwise>
-													<li class="page-item"><a class="page-link" href="likeForm/?userid=${userid }&page=${i-1}">${i}</a></li>
+													<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/likeForm/?userid=${userid }&page=${i-1}">${i}</a></li>
 												</c:otherwise>
 											</c:choose>
 										</c:forEach>
@@ -224,8 +224,8 @@
 										<c:choose>
 											<c:when test="${lectureList.last}"></c:when>
 											<c:otherwise>
-												<li class="page-item "><a class="page-link" href="likeForm/?page=${lectureList.number+1}">&rarr;</a></li>
-												<li class="page-item "><a class="page-link" href="likeForm/?page=${lectureList.totalPages-1}">마지막</a></li>
+												<li class="page-item "><a class="page-link" href="${pageContext.request.contextPath}/likeForm/?page=${lectureList.number+1}&userid=${userid }">&rarr;</a></li>
+												<li class="page-item "><a class="page-link" href="${pageContext.request.contextPath}/likeForm/?page=${lectureList.totalPages-1}&userid=${userid }">마지막</a></li>
 											</c:otherwise>
 										</c:choose>
 									</ul>
@@ -243,10 +243,12 @@
 							
 							
 								<table class="table table-striped">
+										<thead>
 										<tr>
 											<th>강의코드</th><th>강의명</th><th>학년</th><th>강의시간</th><th>교수명</th>
 											<th>이수구분</th><th>전공</th><th>학점</th><th>&nbsp;&nbsp;</th>
 										</tr>
+										</thead>
 										<c:forEach var="lec" items="${likeList }">
 											<tr>
 												<td>${lec.lecture.id }</td><td>${lec.lecture.name }</td><td>${lec.lecture.grade }</td>
