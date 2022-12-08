@@ -169,7 +169,7 @@
 
 
 
-<table border="1">
+<table class="table table-striped"  border="1">
 
 			<tr><th>성명</th><td>${member.name } </td> 			<th>학번</th><td>${member.userid }</td>          <th>국적</th><td>${member.nation }</td></tr>
 			<tr><th>휴대전화</th><td> ${member.phone }</td>			<th>학년</th><td>${member.grade}</td>          <th>주소</th><td>${member.address }</td></tr>

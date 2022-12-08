@@ -8,9 +8,17 @@
 </head>
 <body>
 
-<input type="submit" value="강의평가" onclick="location.href='evaluationList?userid=${evaluation.userid}'">
 
- ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ
+
+<%--<input type="submit" value="강의평가" onclick="location.href='evaluationList?userid=${evaluation.userid}'">--%>
+<input type="submit" value="강의평가" onclick="location.href='evaluationList?userid=${userid}'">
+<%-- <input type="hidden" name="userid" id="userid" value="${evaluation.userid}"> --%>
+
+
+
+
+
+
 
 
 
