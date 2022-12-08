@@ -54,7 +54,6 @@ public class JwtTokenProvider {
         // Access Token 생성
         // 만료시간 설정 (현재시간 + 만료기간)
         Date accessTokenExpiresIn = new Date(now + 30 * 60 * 1000L); // param * 1000L => param 초 (밀리초 단위이므로 1000으로 나누면 초가 된다)
-        //Date accessTokenExpiresIn = new Date(now + 5 * 1000L); // param * 1000L => param 초 (밀리초 단위이므로 1000으로 나누면 초가 된다)
         // Jwts를 이용하여 토큰 생성
         String accessToken = Jwts.builder()
         		//authentication 으로부터 유저정보를 받아 넣는다. getName => memberId , authorites => roles
@@ -69,7 +68,6 @@ public class JwtTokenProvider {
         // Refresh Token 생성 (토큰 변조 유무 및 db와 일치 여부만 확인하면 되므로 유저정보는 넣지 않는다)
         String refreshToken = Jwts.builder()
                 .setExpiration(new Date(now + 60 * 60 * 1000L)) // 60분
-                //.setExpiration(new Date(now + 10 * 1000L)) // 60분
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
         // TokenInfo dto에 토큰 넣기
