@@ -2,6 +2,9 @@ package com.oracle.choongangGroup.taewoo.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -74,11 +77,11 @@ public class NoticeController {
 	
 	// 상세화면
 	@RequestMapping(value = "/noticeDetail")
-	public String detail( Long noticeNum, Model model) {
+	public String detail( Long noticeNum, Model model, HttpServletRequest request, HttpServletResponse response) {
 		log.info("Detail start...");
 		System.out.println("noticeNum -> " + noticeNum);
 		model.addAttribute("notice", noticeService.findById(noticeNum));
-		noticeService.updateHit(noticeNum);
+		noticeService.updateHit(noticeNum,request,response);
 		return "/manager/notice/noticeDetail";
 	}
 	

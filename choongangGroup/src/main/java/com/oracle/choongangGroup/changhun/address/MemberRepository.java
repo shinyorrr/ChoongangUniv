@@ -1,11 +1,7 @@
 package com.oracle.choongangGroup.changhun.address;
 
 
-
-
-
-
-
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,6 +16,8 @@ public interface MemberRepository extends JpaRepository<Member, String>{
    Member findByUserid(String userid);
 
    Page<Member> findByNameContaining(String name, PageRequest of);
+
+   List<Member> findAllByOrderByDept_deptnoAsc();
 
 
 

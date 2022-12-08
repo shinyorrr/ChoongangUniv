@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ include file="../header.jsp" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ include file="../header.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,14 +20,15 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <!-- CSS -->
 <link rel="stylesheet" href="/css/styles.css">
-
     <title>SideBar sub menus</title>
 </head>
-<%
-	String context = request.getContextPath();
-%>
 
 <body class="" id="body-pd">
+<%
+
+	session = request.getSession();
+
+%>
     <!-- header -->
     <!-- <nav class="navbar navbar-expand-lg navbar-dark bd-navbar bg-light sticky-top position-fixed fixed-top w-100" style="position : absolute">
         <a class="navbar-brand">
@@ -40,7 +44,7 @@
           </a>
     
           <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-            <li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>
+            <li><a href="/manager/main" class="nav-link px-2 link-secondary">Home</a></li>
             <li><a href="#" class="nav-link px-2 link-dark">Features</a></li>
             <li><a href="#" class="nav-link px-2 link-dark">Pricing</a></li>
             <li><a href="#" class="nav-link px-2 link-dark">FAQs</a></li>
@@ -55,12 +59,12 @@
             <div>
                 <div class="nav__brand">
                     <ion-icon name="menu-outline" class="nav__toggle" id="nav-toggle"></ion-icon>
-                    <a href="/notice/noticeList" class="nav__logo">공지사항 관리</a>
+                    <a href="/message/messageList" class="nav__logo">쪽지 관리</a>
                 </div>
                 <div class="nav__list">
-                    <a href="/noticeWrite" class="nav__link active">
+                    <a href="/messageWriteForm" class="nav__link active">
                         <ion-icon name="home-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">공지사항 글쓰기</span>
+                        <span class="nav_name">쪽지 쓰기</span>
                     </a>
                     <a href="#" class="nav__link">
                         <ion-icon name="chatbubbles-outline" class="nav__icon"></ion-icon>
@@ -120,7 +124,7 @@
             <div class="col-12 pt-4" style="height: 150px; background-color: rgb(95, 142, 241)">
                 <div class="d-flex flex-row mb-3">
                     <div>
-                        <span class="text-white h4">안녕하세요.<span class="fw-bold">김중앙</span>님!</span>
+                        <span class="text-white h4">공지사항 조회 <span class="fw-bold">김중앙</span>님!</span>
                     </div> 
                     <div class="border border-1 border-white border-bottom rounded-pill text-white px-2 pt-1 ms-2 h6">교수</div>
                     <div>
@@ -146,36 +150,92 @@
                 <div class="row m-5">
                     <!-- card header -->
                     <div class="col-12 rounded-top text-white overflow-auto pt-2 fw-bold" style="background-color: rgb(39, 40, 70); height: 40px;"> 
-                        <i class="bi bi-bookmark-fill me-2"></i>공지사항관리 <i class="bi bi-chevron-right"></i> 공지사항 작성 
+                        <i class="bi bi-bookmark-fill me-2"></i>받은 편지함
                     </div>
                     <!-- card content -->  
-                    <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
-                        <h3>공지사항 작성</h3><hr>
-	                    <form action="<%=context%>/notice/noticeSave" method="post">
-	                    	<input type="hidden" id=userid name="userid" value="<%=session.getAttribute("userid") %>">
-		                	<div style="margin: 10px;">
-		                		<label for="exampleFormControlInput1" class="form-label">글제목</label>
-		                		<input type="text" class="form-control" id="noticeTitle exampleFormControlInput1" name="noticeTitle" placeholder="제목을 입력하세요." required="required">
-		                	</div>
-		                    <div style="margin: 10px;">
-		                    	 <label for="exampleFormControlTextarea1" class="form-label">내용</label>
-		                    	 <textarea class="form-control" rows="3" id="noticeContent exampleFormControlTextarea1" name="noticeContent" style="height: 300px;" required="required"></textarea>
-		                    </div>
-		                    <div style="margin: 10px; width: 100px;">
-		                    	<select class="form-select" aria-label="Default select example" id="noticeType" name="noticeType">
-		                    		<option selected disabled="disabled">구분</option>
-		                    		<option value="allContent">통합</option>
-		                    		<option value="ROLE_STUDENT">학생</option>
-		                    		<option value="ROLE_PROFESSOR">교수</option>
-		                    		<option value="ROLE_MANAGER">교직원</option>
+                    <%-- <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
+                      <table class="Notice-table table table-striped">
+					    <thead>
+					    <tr>
+					      <!--   <th>번호</th> -->
+					        <th>제목</th>
+					        <th>내용</th>
+					        <th>작성일자</th>
+					        <th>조회수</th>
+					    </tr>
+					    </thead>
+					    <tbody>
+					    <c:forEach items="${noticeList}" var="notice" varStatus="status">
+					    <c:set value='<%=(String)session.getAttribute("role") %>' var="role"/>
+					    	<c:if test="${notice.noticeType eq role || notice.noticeType eq 'allContent'}">	   
+					    <tr>
+					        <td>${status.index+1+(page * 10)}</td>
+					        <td style="display: none;">${notice.noticeType}</td>
+					    <td>
+					    <c:choose>					  
+					        <c:when test="${fn:length(notice.noticeTitle) gt 11}">
+								<a href="/noticeDetail?noticeNum=${notice.noticeNum}">${fn:substring(notice.noticeTitle, 0 , 10)}....</a>	
+					       	</c:when>
+					        <c:otherwise>
+					        	<a href="/noticeDetail?noticeNum=${notice.noticeNum}">${notice.noticeTitle }</a>
+					       	 </c:otherwise>
+					    </c:choose>
+					    </td>
 
-		                    	</select>
-		                    </div>
-		                    <div style="margin: 10px;">
-	                        	<button type="submit" class="btn btn-outline-primary" >등록</button>
-	                        </div>
-                    	</form>
-                    </div>
+					    <c:choose>
+					    	<c:when test="${fn:length(notice.noticeContent) gt 21}">
+					    		<td>${fn:substring(notice.noticeContent, 0 , 20)}....</td>
+					    	</c:when>
+					    	<c:otherwise>
+					    		<td>${notice.noticeContent}</td>
+					    	</c:otherwise>
+					    </c:choose>
+					     	<c:choose>   
+						        <c:when test="${notice.createdDate != null}">
+							        <c:set var="DateValue" value="${notice.createdDate}"/>
+							        <td>${fn:substring(DateValue,0,10)}</td>
+						        </c:when>
+						        <c:when test="${notice.modifiedDate != null}">
+							        <c:set var="DateValue" value="${notice.modifiedDate}"/>
+							        <td>${fn:substring(DateValue,0,10)}</td>
+						        </c:when>
+					        </c:choose>
+					        <td>${notice.noticeHit}</td>
+					    </tr>
+					    </c:if>
+					    </c:forEach>
+					    </tbody>					    
+					</table>
+						<form action="/notice/search" method="GET" class="form-inline p-2 bd-highlight" role="search" style="display: block;" >
+        					<input type="text" name="keyword" class="form-control" id=search placeholder="검색" style="width: 300px; float: left;">
+        					<button class="btn btn-success bi bi-search" style="float: left;"></button>
+    					</form> 
+					<nav aria-label="...">
+					  <ul class="pagination" style="margin-left: 40%;">
+					  
+					    <li class="page-item">
+					      <c:if test="${page > 0}">
+						      <a class="page-link" href="/notice/noticeList?page=${page-1}">Previous</a>				      
+					      </c:if>
+					      <c:if test= "${page == 0 }">
+					      	  <a class="page-link">Previous</a>
+					      </c:if>
+					    </li>					  
+					  <c:forEach var="i" begin="1" end="${noticeTotal}">
+					    <li id="page-item${i}" class="page-item" onclick="active(${i})">
+					    <a class="page-link" href="/notice/noticeList?page=${i-1 }" >${i }</a></li>
+					  </c:forEach>
+					    <li class="page-item">
+					    	<c:if test="${page < noticeTotal-1}">
+						      <a class="page-link" href="/notice/noticeList?page=${page+1}">Next</a>
+					    	</c:if>
+					      	<c:if test= "${page > noticeTotal-2}">
+						      <a class="page-link">Next</a>
+					      	</c:if>
+					    </li>
+					  </ul>
+					</nav>  
+                    </div> --%>
                     <!-- footer -->
                     <footer class="col-12" style="height: 60px;">
                         footer

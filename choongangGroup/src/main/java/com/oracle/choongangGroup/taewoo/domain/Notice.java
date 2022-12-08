@@ -47,7 +47,7 @@ public class Notice extends BaseTimeEntity {
 		@Column(name = "notice_title")
 		private String noticeTitle;				// 제목
 		
-		@Column(name = "notice_content")
+		@Column(name = "notice_content", length = 50000)
 		private String noticeContent;			// 내용
 		
 		@Column(name = "notice_type")
