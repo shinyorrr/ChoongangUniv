@@ -152,7 +152,6 @@ public class DhProfessorController {
 		}
 		return result;
 	}
-	
 	// 모든 과제 파일 압축파일 생성
 	@ResponseBody
 	@PostMapping("/createZipAll/{id}")
