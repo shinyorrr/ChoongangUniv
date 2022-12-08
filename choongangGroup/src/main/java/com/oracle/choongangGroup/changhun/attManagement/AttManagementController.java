@@ -1,6 +1,7 @@
 package com.oracle.choongangGroup.changhun.attManagement;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -48,8 +49,12 @@ public class AttManagementController {
 		
 		System.out.println("page --> " + page);
 		HttpSession session = http.getSession();
-		String userid = (String) session.getAttribute("userid");
-//		String userid = "18301001";
+//		String userid = (String) session.getAttribute("userid");
+		String userid = "18301001";
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+		Date now = new Date();
+		String nowDate = sdf.format(now);
 		
 		//일주일 근무시간
 		Map<String, String> weekWorkMap = attManagementService.sumWeekWorking(userid);
@@ -57,8 +62,10 @@ public class AttManagementController {
 		//한달 근무시간
 		Map<String, String> monthTotal = attManagementService.monthTotal(userid); 
 		
+		
+		
 		//내 근태내역 리스트
-		Page<Work> workList = repository.findPageByMember_Userid(userid,PageRequest.of(page, 5, Sort.by(Sort.Direction.ASC,"workDate")));
+		Page<Work> workList = repository.findPageByMember_UseridAndWorkDateContaining(userid,nowDate,PageRequest.of(page, 5, Sort.by(Sort.Direction.ASC,"workDate")));
 		
 		//연차 갯수 표시
 		long vacation = attManagementService.vacation(userid);
@@ -130,14 +137,6 @@ public class AttManagementController {
 		return "manager/attAllMember";
 	}
 	
-	@RequestMapping(value = "memberAttList")
-	public String memberAttList(@RequestParam(value = "name") String name) {
-		
-		name = name.replace(" ", "");
-		System.out.println(name);
-		
-		return null;
-	}
 	 
 	
 }

@@ -514,6 +514,15 @@ public class AttManagementService {
 	}
 
 
+	public void updateWork(String attOntime, String attOfftime, String workDate, String userid) {
+		
+		attCustomRepository.updateWork(attOntime,attOfftime,workDate,userid);
+		
+	}
+
+
+
+
 	
 	
 	

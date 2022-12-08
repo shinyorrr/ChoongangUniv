@@ -23,5 +23,7 @@ public interface AttCustomRepository {
 
 	List<String> findBydeptList();
 
+	void updateWork(String attOntime, String attOfftime, String workDate, String userid);
+
 
 }

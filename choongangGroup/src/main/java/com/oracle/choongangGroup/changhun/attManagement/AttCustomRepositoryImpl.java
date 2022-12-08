@@ -129,5 +129,17 @@ public class AttCustomRepositoryImpl implements AttCustomRepository {
 		return deptList;
 	}
 
+	@Override
+	public void updateWork(String attOntime, String attOfftime, String workDate, String userid) {
+		
+		String jpql = "update Work w set att_on_time = ?1 , att_off_time =?2 where userid =?3 and workDate =?4";
+		
+		em.createQuery(jpql).setParameter(1, attOntime)
+							.setParameter(2, attOfftime)
+							.setParameter(3, userid)
+							.setParameter(4, workDate)
+							.executeUpdate();
+	}
+
 	
 }

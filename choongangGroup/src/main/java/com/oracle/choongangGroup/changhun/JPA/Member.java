@@ -53,7 +53,7 @@ public class Member {
 	
 	@JoinColumn(name = "deptno")
 	@JsonBackReference
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	private Dept dept;
 	
 	@Column(name = "mem_role")
