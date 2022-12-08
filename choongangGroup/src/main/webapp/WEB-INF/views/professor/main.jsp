@@ -160,7 +160,7 @@
                     <div class="col-md-6 rounded-bottom overflow-auto bg-light p-3" style="min-height: 400px;"> 
                        <h1>메인페이지</h1>
                        <button type="button" style="width: 30%;" class="btn btn-primary btn-sm me-1" 
-                       		   onclick="location.href='lecMgMain?userid=${userid}'">강의관리</button>
+                       		   onclick="location.href='/professor/lecMgMain?userid=${userid}'">강의관리</button>
                        <button type="button" style="width: 30%;" class="btn btn-primary btn-sm me-1" 
                        		   onclick="location.href='lecScore'">성적관리</button>
                        		   
