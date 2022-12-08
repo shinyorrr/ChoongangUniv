@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ======= mapper 기본설정 ======= -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- ==== 루트 엘리먼트 & 네임스페이스 설정(프로젝트 전체 내에서 유일해야 한다.) ==== -->
+<mapper namespace="com.oracle.choongangGroup.hs.lecManagement.LectureVOMapper">
+	
+	<select id="hsLecList" parameterType="lectureVO" resultType="LectureVO">
+		select *
+		from 
+		(
+		        select rownum rn, a.*
+		        from
+		        (select * from lecture order by lec_status desc, lec_id desc, lec_year desc) a
+		)
+		<if test="status != null and status != ''">
+			where lec_status Like '%' || #{status} || '%'
+		</if>
+		<if test="keyword != null and keyword != ''">
+			and lec_name Like '%' || #{keyword} || '%'
+		</if>
+		<if test="year != null and year != ''">
+			and lec_year Like '%' || #{year} || '%'
+		</if>
+		<if test="semester != null and semester != ''">
+			and lec_semester Like '%' || #{semester} || '%'
+		</if>
+	</select>
+	
+	<select id="hsLecAgreeTotal" resultType="int">
+		select count(*)
+		from lecture
+		where lec_status = 1
+	</select>
+	
+	<select id="hsLecTotal" parameterType="lectureVO" resultType="int">
+		select count(*)
+		from 
+		(
+		        select rownum rn, a.*
+		        from
+		        (select * from lecture order by lec_status desc, lec_id desc, lec_year desc) a
+		)
+		<if test="status != null and status != ''">
+			where lec_status Like '%' || #{status} || '%'
+		</if>
+		<if test="keyword != null and keyword != ''">
+			and lec_name Like '%' || #{keyword} || '%'
+		</if>
+		<if test="year != null and year != ''">
+			and lec_year Like '%' || #{year} || '%'
+		</if>
+		<if test="semester != null and semester != ''">
+			and lec_semester Like '%' || #{semester} || '%'
+		</if>
+	</select>
+	
+	<select id="hsLecDetail" parameterType="Long" resultType="LectureVO">
+		select * from lecture
+		where lec_id = #{lec_id}
+	</select>
+	
+	<delete id="hslecDelete" parameterType="Long">
+		delete from lecture where lec_id = #{lec_id}
+	</delete>
+	
+	<update id="hslecUpdate" parameterType="LectureVO">
+		update lecture set
+						lec_building = #{lec_building},
+						lec_day1 = #{lec_day1},
+						lec_day2 = #{lec_day2},
+						lec_target_grade = #{lec_target_grade},
+						major_gubun = #{major_gubun},
+						lec_max_count = #{lec_max_count},
+						lec_max_stud = #{lec_max_stud},
+						lec_name = #{lec_name},
+						prof_name = #{prof_name, jdbcType=VARCHAR},
+						lec_room = #{lec_room},
+						lec_semester = #{lec_semester},
+						lec_status = #{lec_status},
+						lec_count_stud = #{lec_count_stud, jdbcType=INTEGER},
+						lec_time1 = #{lec_time1},
+						lec_time2 = #{lec_time2},
+						lec_type = #{lec_type, jdbcType=VARCHAR},
+						lec_typecode = #{lec_typecode},
+						lec_unit_score = #{lec_unit_score},
+						lec_year = #{lec_year}
+		where lec_id = #{lec_id}
+	</update>
+</mapper>

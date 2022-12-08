@@ -18,15 +18,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.oracle.choongangGroup.dongho.auth.GetMember;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Slf4j
 @RequiredArgsConstructor
+@RequestMapping("/manager")
 public class ApprovalController {
 	
 	private final ApprovalService as;
+	private final GetMember gm;
 	
 	// --------------결재메인 -----------------------
 	@RequestMapping("approval")
@@ -38,12 +42,14 @@ public class ApprovalController {
 		
 		userid = user.getUsername();
 		log.info(userid);
+//		gm.getMember().getName();
+		
 		List<Approval> approvalWaitingList = null;     // 승인 대기중
 		List<Approval> approvalProcessingList = null;  // 승인 진행중
-		List<Approval> approvalEndList = null;	   // 승인 완료
+		List<Approval> approvalEndList = null;	   	   // 승인 완료
 		
 		// 결재 페이징
-		int waitTotal	 = as.waitTotal(userid);	  // 승인 대기중
+		int waitTotal	 = as.waitTotal(userid);	  	  // 승인 대기중
 		// int processTotal = as.processTotal(userid);	  // 승인 진행중
 		// int finishTotal  = as.finishTotal(userid);	  // 승인 완료
 		
@@ -53,9 +59,9 @@ public class ApprovalController {
 		approval.setStart(1);
 		approval.setEnd(3);
 		
-		approvalWaitingList    = as.waitListAll(approval); // 승인 대기중
+		approvalWaitingList    = as.waitListAll(approval); 	  // 승인 대기중
 		approvalProcessingList = as.processListAll(approval); // 승인 진행중
-		approvalEndList   	   = as.endListAll(approval);  // 승인 완료
+		approvalEndList   	   = as.endListAll(approval); 	  // 승인 완료
 		
 		model.addAttribute("waitList", approvalWaitingList);
 		model.addAttribute("processList", approvalProcessingList);
@@ -120,19 +126,19 @@ public class ApprovalController {
 			result = as.saveAppr(approval);
 			
 			if(result > 0) {
-				return "redirect:/approval";
+				return "redirect:approval";
 			} else {
 				
-				return "forward:/approvalWrite";
+				return "forward:approvalWrite";
 			}
 		} else {
 			result = as.save(approval);
 			
 			if(result > 0) {
-				return "redirect:/approval";
+				return "redirect:approval";
 			} else {
 				
-				return "forward:/approvalWrite";
+				return "forward:approvalWrite";
 			}
 		}	
 	}
@@ -183,6 +189,7 @@ public class ApprovalController {
 		
 		model.addAttribute("waitList", waitList);
 //		model.addAttribute("mem_name", mem_name);
+		model.addAttribute("waitTotal", waitTotal);
 		model.addAttribute("page", page);
 		
 		return "manager/approvalWaitForm";
@@ -263,6 +270,7 @@ public class ApprovalController {
 		
 		model.addAttribute("processList", processList);
 //		model.addAttribute("mem_name", mem_name);
+		model.addAttribute("processTotal", processTotal);
 		model.addAttribute("page", page);
 		
 		return "manager/approvalProcessForm";
@@ -345,9 +353,9 @@ public class ApprovalController {
 		log.info("endList.size()->{}",endList.size());
 		
 		model.addAttribute("endList", endList);
+		model.addAttribute("endTotal", endTotal);
 //		model.addAttribute("mem_name", mem_name);
 		model.addAttribute("page", page);
-		
 		return "manager/approvalEndForm";
 		
 	}

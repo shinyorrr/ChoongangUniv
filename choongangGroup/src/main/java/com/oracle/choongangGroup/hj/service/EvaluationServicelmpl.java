@@ -80,13 +80,26 @@ public class EvaluationServicelmpl implements EvaluationService {
 		return rsList;
 	}
 
-	@Override
-	public int insertscore(EvaluationVo evaluation) {
-		int result = 0;
-		result = ed.insertscore(evaluation);
-		System.out.println("result ->" + result);
 
-		return result;
+	 //강의평가 insert 
+	@Override
+	public int insertscore(List<EvaluationVo> scoreList) {
+		int result = 0;
+		
+		//강의평가 결과값 하나씩 넣어줌 
+		 for( int i =0 ; i <scoreList.size() ; i++) {
+			 System.out.println("scoreList 하나만 꺼냄 "+scoreList.get(i));
+			 
+			 result = ed.insertscore(scoreList.get(i));
+			
+		    
+	  }
+		
+		
+		System.out.println("result ->" + result);
+		return 0;
 	}
 
 }
+
+

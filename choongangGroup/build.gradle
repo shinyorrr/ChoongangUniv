@@ -48,6 +48,9 @@ dependencies {
 
 	//objectMapper
 	implementation group: 'com.konghq', name: 'unirest-objectmapper-jackson', version: '4.0.0-RC1'
+	
+	//hibernate5
+	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-hibernate5'
 }
 
 tasks.named('test') {

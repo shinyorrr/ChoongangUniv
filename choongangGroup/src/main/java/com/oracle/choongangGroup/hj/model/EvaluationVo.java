@@ -1,5 +1,7 @@
 package com.oracle.choongangGroup.hj.model;
 
+import java.util.List;
+
 import lombok.Data;
 
 @Data
@@ -23,6 +25,19 @@ public class EvaluationVo {
 	
 	private String gubun;  //구분
 	private String text;   //평가항목
+	
+	// evaluation score
+	private Long  score1;   // 수업내용 절절
+	private Long  score2;   // 수업방법 참고자료
+	private Long  score3;   // 수업방법 상호작용
+	private Long  score4;   // 수업내용 유익
+	private Long  score5;   // 수업유형 체계적
+	private Long  score6;   // 수업내용 수업준비 
+	public Long scoreList1;
+	//private String evScore;
+	
+	
+	
 	
 	
 }

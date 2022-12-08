@@ -6,19 +6,20 @@
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
 	
-function getEvaluationList(vuserId)
-	 {
+//function getEvaluationList(vuserId)
+	// {
 	 
-	var value = (selectOp.options[selectOp.selectedIndex].value);
+	//var value = (selectOp.options[selectOp.selectedIndex].value);
 	
-	alert("성공 ");
+	//alert("성공 ");
 	
-	alert("selectOp.selectedIndex-->"+selectOp.options[selectOp.selectedIndex].value);
+	//alert("selectOp.selectedIndex-->"+selectOp.options[selectOp.selectedIndex].value);
 	
+	//alert("lec_id-->"+lec_id);
 	
-/*  	$.ajax({
+/* 	$.ajax({
 	
-	 url : "/saveEvaluation",
+	 url : "/saveEvaluation2",
 	 type : 'post',
 	 data:{'userid' : vuserId , 'lec_id' : value},
 	 success:function(data){
@@ -40,7 +41,7 @@ function getEvaluationList(vuserId)
         raido_name_val[radio_name[i]] = $('input[name="' + radio_name[i] + '"] :checked').val();
     }
     console.log(raido_name_val);//예시   */
-}
+//}
   
  	</script>
 	
@@ -55,19 +56,21 @@ function getEvaluationList(vuserId)
 <body>
 	<h3>강의평가</h3>
 
-	<form action="saveEvaluation" method="post" >
+	<form action="saveEvaluation"  method="post"  name="frm">
+	<div>userid : ${userid }</div>
+	
+	<input type="hidden"  name="userid"  value="${userid}">
 		<!--  과목 교수  셀렉트바   -->
 		<div>
-		<!-- 	<select id="selectOp" class="form-select form-select-lg mb-3 "
+		<!-- 	 <select id="selectOp" class="form-select form-select-lg mb-3 "
 				aria-label=".form-select-lg example"> -->
 				 <select class="form-select form-select-lg mb-3 "
-				aria-label=".form-select-lg example" name="selectvalue">
+				aria-label=".form-select-lg example" name="lec_id">
 
 				<option selected disabled>평가과목선택</option>
-				<c:forEach var="ev" items="${evList}">
-					<option value="${ev.lec_name},${ev.prof_name}">${ev.lec_name}/
-						${ev.prof_name}교수님</option>
-					<%-- 	<option value="${ev.lec_id}">${ev.lec_name}/ ${ev.prof_name}교수님</option> --%>
+				<c:forEach var="ev" items="${evList}" >
+	<%-- 				<option value="${ev.lec_name},${ev.prof_name}">${ev.lec_name}/${ev.prof_name}교수님</option> --%>
+				<option value="${ev.lec_id}">${ev.lec_name}/ ${ev.prof_name}교수님</option> 
 
 				</c:forEach>
 
@@ -121,20 +124,23 @@ function getEvaluationList(vuserId)
 				</tr>
 
 				<!-- 설문내용 -->
-				<c:set var="cnt" value="1" />
+				<c:set var="cnt" value="0" />
 				<c:forEach var="cg" items="${cgList }">
 					<%--  순번 (자동으로 1부터  숫자 메겨지게하기위해서 적어줌)--%>
 					<c:set var="sum" value="${sum+1 }" />
+					<c:set var="cnt" value="${cnt+1 }" />
 					<tr>
 						<%--  순번 (자동으로 1부터  숫자 메겨지게하기위해서 적어줌)--%>
 						<th rowspan="2">${sum}</th>
 						<th rowspan="2" scope="rowgroup">${cg.gubun}</th>
 						<td colspan="4">${cg.text}</td>
-						<td><input type="radio" name="${cg.text}" id = "score" value="1"></td>
-						<td><input type="radio" name="${cg.text}" id = "score" checked value="2"></td>
-						<td><input type="radio" name="${cg.text}" id = "score" value="3"></td>
-						<td><input type="radio" name="${cg.text}" id = "score" value="4"></td>
-						<td><input type="radio" name="${cg.text}" id = "score" value="5"></td>
+						<input type="hidden"  name="big_category"    value="${cg.big_category}" >
+						<input type="hidden"  name="small_category"   value="${cg.small_category}" >
+						<td><input type="radio" name="score${cnt}" id = "score" value="1"></td>
+						<td><input type="radio" name="score${cnt}" id = "score" checked value="2"></td>
+						<td><input type="radio" name="score${cnt}" id = "score" value="3"></td>
+						<td><input type="radio" name="score${cnt}" id = "score" value="4"></td>
+						<td><input type="radio" name="score${cnt}" id = "score" value="5"></td>
 					</tr>
 					<tr>
 				</c:forEach>
@@ -149,15 +155,31 @@ function getEvaluationList(vuserId)
 		</div>
 
 		<div>
-<%--  <input type="submit" value="제출" onclick="getEvaluationList(${userid})">   --%>
+ <%-- <input type="submit" value="제출" onclick="getEvaluationList(${userid})">  --%>   
 	
 
-		 	<input type="submit" value="제출"  >  
+		  <input type="submit" value="제출" onclick="chk();" >  
 
 		</div>
 
 	</form>
+<!-- 
+<script type="text/javascript">
 
+    function chk(){
+    	if(!frm.score.value){
+    		alert("제출실패 ")
+    		frm.score.focus();
+    		return false;
+    	}else location.href ="confirm?score="+frm.score.value;
+    	
+    	
+    }
+
+ -->
+
+
+</script>
 
 
 

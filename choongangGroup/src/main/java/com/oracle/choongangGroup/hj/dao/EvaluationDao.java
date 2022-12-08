@@ -12,7 +12,7 @@ public interface EvaluationDao {
 
 	List<EvaluationVo> findcg(String userid);
 
-	int insertscore(EvaluationVo evaluation);
+	int insertscore(EvaluationVo evaluationVo);
 
 
 

@@ -76,12 +76,14 @@ public class EvaluationDaolmpl implements EvaluationDao {
 		return cgList;
 	}
 
+
+	  //강의평가 insert 
 	@Override
-	public int insertscore(EvaluationVo evaluation) {
-		int result =0;
+	public int insertscore(EvaluationVo evaluationVo) {
+	int result =0;
 		
 		try {
-			result=session.insert("insertScore", evaluation);
+			result=session.insert("insertScore", evaluationVo );
 			
 			
 		} catch (Exception e) {
@@ -89,7 +91,6 @@ public class EvaluationDaolmpl implements EvaluationDao {
 
 			
 		}
-		
 		return result;
 	}
 

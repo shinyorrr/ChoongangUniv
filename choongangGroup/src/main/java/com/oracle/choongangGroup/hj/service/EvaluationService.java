@@ -12,7 +12,8 @@ public interface EvaluationService {
 
 	List<EvaluationVo> findcg(String userid);
 
-	int insertscore(EvaluationVo evaluation);
+
+	int insertscore(List<EvaluationVo> scoreList);
 
 
 	
