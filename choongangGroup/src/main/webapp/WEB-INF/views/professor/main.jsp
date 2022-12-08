@@ -171,6 +171,7 @@
                        <h1>메인페이지</h1>
                        <button type="button" style="width: 30%;" class="btn btn-primary btn-sm me-1" 
                        		   onclick="location.href='lecMgMain?userid=${userid}'">전자출결</button>
+
                        <button type="button" style="width: 30%;" class="btn btn-primary btn-sm me-1" 
                        		   onclick="location.href='lecCreateList?userid=${userid}'">출결현황</button>
                        <button type="button" style="width: 30%;" class="btn btn-primary btn-sm me-1" 

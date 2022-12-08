@@ -36,11 +36,6 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
         String refreshToken = resolveRefreshToken((HttpServletRequest) request);
         
         // 토큰 검사 및 결과값 저장
-        try {
-			
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
         boolean validateAccessToken = jwtTokenProvider.validateToken(accessToken);
         log.info("AccessToken 유효성 검사 결과 : {}", validateAccessToken);
         boolean validateRefreshToken = jwtTokenProvider.validateToken(refreshToken);
@@ -96,9 +91,21 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 		        cookieRT.setHttpOnly(true);
 		        httpResponse.addCookie(cookieAT);
 		        httpResponse.addCookie(cookieRT);
-		        log.info("");
 			} else if(!validateAccessToken && !validateRefreshToken) {
-				log.info("======AccessToken ,refreshToken 만료! 로그인 페이지로 이동======");
+				// 쿠키에 새로운 AT , RT 저장
+		        Cookie cookieAT = new Cookie("AccessToken","Bearer");
+		        Cookie cookieRT = new Cookie("RefreshToken", "Bearer");
+		        cookieAT.setMaxAge(0); // 유효시간을 정하지 않으면 session cookie (휘발성. 브라우저종료시 삭제)
+		        cookieAT.setPath("/");
+		        // httpOnly true -> javascript에 의한 토큰탈취 XSS공격 방지 (Cross Site Scripting)
+		        // http통신에서만 사용되게 하므로 클라이언트단 javascript(document.cookie)로 cookie정보 확인 불가
+		        cookieAT.setHttpOnly(true);
+		        cookieRT.setMaxAge(0);
+		        cookieRT.setPath("/");
+		        cookieRT.setHttpOnly(true);
+		        httpResponse.addCookie(cookieAT);
+		        httpResponse.addCookie(cookieRT);
+				log.info("======AccessToken ,refreshToken 만료! 쿠키삭제 완료!======");
 			}
         }
         chain.doFilter(request, response);
