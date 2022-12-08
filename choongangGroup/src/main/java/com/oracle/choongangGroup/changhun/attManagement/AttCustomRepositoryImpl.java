@@ -87,7 +87,11 @@ public class AttCustomRepositoryImpl implements AttCustomRepository {
 		String today = todayStr + "%";
 		System.out.println(today);
 //		String query = "select w from Work w order by w.member.userid, w.workDate";
-		String query = "select w from Work w where w.workDate Like : today and w.member.dept.deptno =: deptno order by w.member.userid, w.workDate";
+		String query = "select w "
+					+ " from Work w"
+					+ " where w.workDate Like : today "
+					+ " and w.member.dept.deptno =: deptno "
+					+ " order by w.member.userid, w.workDate";
 		List<Work> attAllList = null;
 		attAllList = em.createQuery(query).setParameter("today", today).setParameter("deptno", deptno).getResultList();
 		
@@ -114,6 +118,27 @@ public class AttCustomRepositoryImpl implements AttCustomRepository {
 //		List<String> memberlist = em.createQuery(query).getResultList();
 		System.out.println("memberlist.size() --> " + memberlist.size());
 		return memberlist;
+	}
+
+	@Override
+	public List<String> findBydeptList() {
+		
+		String query = "select d.dname from Dept d";
+		List<String> deptList = em.createQuery(query).getResultList();
+		
+		return deptList;
+	}
+
+	@Override
+	public void updateWork(String attOntime, String attOfftime, String workDate, String userid) {
+		
+		String jpql = "update Work w set att_on_time = ?1 , att_off_time =?2 where userid =?3 and workDate =?4";
+		
+		em.createQuery(jpql).setParameter(1, attOntime)
+							.setParameter(2, attOfftime)
+							.setParameter(3, userid)
+							.setParameter(4, workDate)
+							.executeUpdate();
 	}
 
 	

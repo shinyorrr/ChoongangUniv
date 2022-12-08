@@ -507,6 +507,22 @@ public class AttManagementService {
 		return memberList;
 	}
 
+
+	public List<String> findBydeptList() {
+		List<String> deptList = attCustomRepository.findBydeptList();
+		return deptList;
+	}
+
+
+	public void updateWork(String attOntime, String attOfftime, String workDate, String userid) {
+		
+		attCustomRepository.updateWork(attOntime,attOfftime,workDate,userid);
+		
+	}
+
+
+
+
 	
 	
 	

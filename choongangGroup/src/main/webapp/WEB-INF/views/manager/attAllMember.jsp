@@ -4,17 +4,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<style type="text/css">
-	.tdwidth{
-		min-width: 150px;
-	}
-
-    #overflow {
-        margin : 0 auto;
-        overflow : hidden;
-        white-space : nowrap; /* 줄바꿈 금지(이미지를 한줄로) */
-    }
-</style>
 <meta charset="UTF-8">
 <!-- bottSTrap CSS only -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">		
@@ -33,15 +22,168 @@
 </head>
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
-	
-	function chagedeptSelect(){
-		var selectDept = $("#deptSelect option:selected").val();
-		var yearMonth = $('#month').text();
-		location.href = "/attMonthChange?deptno="+selectDept+"&month="+yearMonth;
+
+
+
+	var isShow = true;
+	function hide(index){
+		if(isShow){
+			$('.deptUser'+index).show();
+			isShow = false;
+		} else{
+			$('.deptUser'+index).hide();
+			isShow = true;
+		}
 	}
 	
-	function monthChange(add){
-		var selectDept = $("#deptSelect option:selected").val();
+	function attUpdateForm(index){
+		$('#onTime'+index).hide();
+		$('#offTime'+index).hide();
+		$('#vacation'+index).hide();
+		$('#button'+index).hide();
+		
+		$('#inOnTime'+index).show();
+		$('#inOffTime'+index).show();
+		$('#inVacation'+index).show();
+		$('#buttonAfter'+index).show();
+	}
+	
+	function attUpdate(index){
+		var attOntime  = $('#inOnTime'+index).val();
+		var attOfftime = $('#inOffTime'+index).val();
+		var vacation   = $('#inVacation'+index).val();
+		var userid = $('#userid'+index).val();
+		var workDate = $('#workDate'+index).val();
+		var name = $('#name'+index).val();
+		
+		$.ajax({
+			url  : '/updateMemAtt',
+			data : {attOntime : attOntime,
+					attOfftime : attOfftime ,
+					vacation : vacation,
+					userid : userid,
+					workDate : workDate},
+			success : function(data){
+				
+			}
+		});		
+		
+		$('#inOnTime'+index).hide();
+		$('#inOffTime'+index).hide();
+		$('#inVacation'+index).hide();
+		$('#buttonAfter'+index).hide();
+		
+		memberUpdate(name);
+	}
+	
+	
+	
+	/* 유저 클릭시 근태정보 조회 */
+ 	function memberUpdate(name){
+		$('#userAttList').text("");
+		var name1  = name;
+		var month = $('#month').text();
+		var str = "<table class= 'table table-hover'>"
+		$.ajax({
+	 		url : '/memberAttList',
+	 		data: {name : name1, month : month},
+	 		success	 : function(data){
+	 			if(data.length == 0){
+	 				$('#userAttList').text("");
+	 			} else{	
+	 			$.each(data, function(index,item){
+	 				str += "<tr><td>"+item.workDate +"</td>" 
+	 					+ "<td><span id ='onTime"+index+"'>"
+	 					+ item.attOnTime + "</span>" 
+	 					+ "<input type='text' id = 'inOnTime"+index
+	 					+ "'  value='"+item.attOnTime+"'style ='display : none'>"
+	 					+ "<td><span id ='offTime"+index+"'>"
+	 					+ item.attOffTime + "</span>" 
+	 					+ "<input type='text' id = 'inOffTime"+index
+	 					+ "'  value='"+item.attOffTime+"'style ='display : none'>"
+	 					+ "<td><span id ='vacation"+index+"'>"
+	 					+ item.member.vacation + "</span>" 
+	 					+ "<input type='text' id = 'inVacation"+index
+	 					+ "'  value='"+item.member.vacation+"'style ='display : none'>"
+	 					+ "</td><td><button type='button' + id = 'button"+index+"'"
+	 					+ " class='btn btn-primary' onclick='attUpdateForm("+index+")'>수정</button></td>" 
+	 					+ "</td><td><button type='button' + id = 'buttonAfter"+index+"'"
+	 					+ " class='btn btn-primary' onclick='attUpdate("+index+")' style ='display : none'>수정완료</button>"
+	 					+ " <input type = 'text' id = 'userid"+index+"'value = '"+item.member.userid+"' hidden = 'true'></td>" 
+	 					+ " <input type = 'text' id = 'name"+index+"'value = '"+item.member.name+"' hidden = 'true'></td>" 
+	 					+ " <input type = 'text' id = 'workDate"+index+"'value = '"+item.workDate+"' hidden = 'true'></td>" 
+	 					+ " </tr>";
+		 			console.log("성공했다");
+	 			});
+		 		str += "</table>";
+		 		$('#userAttList').append(str);
+	 			}
+	 		}
+	 		
+	 	});
+	} 
+	/* 유저 클릭시 근태정보 조회 */
+ 	function memberSearch(index){
+		var name  = $('#dept'+index).text();
+		$('.confirm').not(this).css("border","0px");
+		$('#dept'+index).css("border","2px solid red");
+		var name1 = name.trim();
+		var month = $('#month').text();
+		console.log(name1);
+		console.log("mont-->" + month);
+		var str = "<table class= 'table table-hover'>"
+		$.ajax({
+	 		url : '/memberAttList',
+	 		data: {name : name1, month : month},
+	 		success	 : function(data){
+	 			if(data.length == 0){
+	 				$('#userAttList').text("");
+	 			} else{	
+	 			$.each(data, function(index,item){
+	 				str += "<tr><td>"+item.workDate +"</td>" 
+	 					+ "<td><span id ='onTime"+index+"'>"
+	 					+ item.attOnTime + "</span>" 
+	 					+ "<input type='text' id = 'inOnTime"+index
+	 					+ "'  value='"+item.attOnTime+"'style ='display : none'>"
+	 					+ "<td><span id ='offTime"+index+"'>"
+	 					+ item.attOffTime + "</span>" 
+	 					+ "<input type='text' id = 'inOffTime"+index
+	 					+ "'  value='"+item.attOffTime+"'style ='display : none'>"
+	 					+ "<td><span id ='vacation"+index+"'>"
+	 					+ item.member.vacation + "</span>" 
+	 					+ "<input type='text' id = 'inVacation"+index
+	 					+ "'  value='"+item.member.vacation+"'style ='display : none'>"
+	 					+ "</td><td><button type='button' + id = 'button"+index+"'"
+	 					+ " class='btn btn-primary' onclick='attUpdateForm("+index+")'>수정</button></td>" 
+	 					+ "</td><td><button type='button' + id = 'buttonAfter"+index+"'"
+	 					+ " class='btn btn-primary' onclick='attUpdate("+index+")' style ='display : none'>수정완료</button>"
+	 					+ " <input type = 'text' id = 'userid"+index+"'value = '"+item.member.userid+"' hidden = 'true'></td>" 
+	 					+ " <input type = 'text' id = 'name"+index+"'value = '"+item.member.name+"' hidden = 'true'></td>" 
+	 					+ " <input type = 'text' id = 'workDate"+index+"'value = '"+item.workDate+"' hidden = 'true'></td>" 
+	 					+ " </tr>";
+		 			console.log("성공했다");
+	 			});
+		 		str += "</table>";
+		 		$('#userAttList').append(str);
+	 			}
+	 		}
+	 		
+	 	});
+	} 
+ 	
+ 	/* 현재 속한 달 출력 */
+ 	$(document).ready(function(){
+ 		var today = new Date();
+ 		var year = today.getFullYear();
+ 		var month = today.getMonth()+1;
+ 		
+ 		$('#month').text(year+"-"+month);
+ 		console.log(year + "-" + month);
+ 	});
+ 	
+ 	
+ 	/* 달력 이동 */
+ 	function monthChange(add){
 		var yearMonth = $('#month').text();
 		var year = parseInt(yearMonth.substring(0,4));
 		var month = parseInt(yearMonth.substring(5,7));
@@ -61,46 +203,15 @@
 		var monthStr = String(month).padStart(2,'0');
 		var result = year + "-" + monthStr;
 		
-		location.href = "/attMonthChange?deptno="+selectDept+"&month="+result;
-
 		
+		$('#month').text(year+"-"+month);
 		
 		console.log(year);
 		console.log(month);
-		
 	}
 	
-	$(document).ready(function(){
-		var str ="";
-		$.ajax({
-			url 	: "/deptList",
-			data	: "json",
-			success	: function(data){
-				console.log("성공");
-				$(data).each(function(){
-					if(this.dname != "교수"){
-						str	+= "<option value='"+this.deptno+"'>"+this.dname+"</option>";
-					}
-				});
-				console.log(str);
-				const urlParams = new URL(location.href).searchParams;
-				var deptno = parseInt(urlParams.get('deptno'));
-				$('.form-select').append(str);
-				if (isNaN(deptno)){
-					$(".form-select option:eq(0)").prop("selected");
-				}
-				if (!isNaN(deptno)){
-					$(".form-select").val(deptno).prop("selected", true);
-				}
-				console.log("deptno --> " + deptno);
-			}
-		});
-	});
-	/* $(".form-select").val(deptno).attr("selected", true); */
-	 function j_test(n){
-	        $('#overflow').scrollLeft( $('#overflow').scrollLeft() + n );
-	 }
 </script>
+
 
 
 <body class="" id="body-pd" onload="printClock()">
@@ -238,58 +349,72 @@
                 <div class="row m-5">
                     <!-- card header -->
                     <div class="col-12 rounded-top text-white overflow-auto pt-2 fw-bold" style="background-color: rgb(39, 40, 70); height: 40px;"> 
-                        <i class="bi bi-bookmark-fill me-2"></i>근태관리<i class="bi bi-chevron-right"></i>부서별 근태조회 
-                        <button class="btn btn-danger" onclick="location.href='${pageContext.request.contextPath}/attForm'"
-                        	style="margin-left: 64%;line-height: 11px;">내 근태관리</button>
+                        <i class="bi bi-bookmark-fill me-2"></i>근태관리<i class="bi bi-chevron-right"></i>전체근태관리
+                        <button class="btn btn-danger" onclick="location.href='${pageContext.request.contextPath}/attDeptMemberForm'"
+                        	style="margin-left: 64%;line-height: 11px;">부서별 근태관리</button>
                     </div>
                     <!-- card content -->  
                     <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
-                    	<div class="row">
-	                    	<div class ="col-2">부서별 근태현황</div>
-	                    	<div class ="col-8"
-							style=" align-items: center;text-align: center;font-size: 21px;"
-	                		><i class="bi bi-caret-left" onclick="monthChange(1)"></i><span id="month">${Month }</span><i class="bi bi-caret-right" onclick="monthChange(-1)"></i></div>
-	                    	<div class ="col-2"></div>
-                    	</div><hr>
-                    <select class="form-select" id = "deptSelect" name = "deptno" aria-label="Default select example" onchange="chagedeptSelect()">
-					</select>
-						<div class ="row">
-							<div class ="col" onclick="j_test(-1300)" style="display: flex;align-items:center;">
-								<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-caret-left" viewBox="0 0 16 16">
-								  <path d="M10 12.796V3.204L4.519 8 10 12.796zm-.659.753-5.48-4.796a1 1 0 0 1 0-1.506l5.48-4.796A1 1 0 0 1 11 3.204v9.592a1 1 0 0 1-1.659.753z"/>
-								</svg>
-							</div>
-							<div class ="col" style="width: 90%;">
-								<div id = "overflow">
-			                    	<table class="table table-hover">
-			                    		<tr>
-			                    		<th class="tdwidth">이름</th>
-			                     		<c:forEach var="i" begin="0" end="${monthList.size()-1}">
-			   	   	              			<th class="tdwidth">${monthList.get(i)}</th>
-			                    		</c:forEach>
-			                    		<c:if test="${attList.size() != 0 && memberList.size() != 0}">
-					                    		<c:forEach var="i" begin="0" end ="${attList.size()-attList.size()/memberList.size()}" step ="${attList.size()/memberList.size()}">
-					                    		<tr>
-					                    			<td class="tdwidth">${attList.get(i).member.name}(${attList.get(i).member.position}) <br>${attList.get(i).member.dept.dname} </td>
-					                    			<td class="tdwidth">출근 : ${attList.get(i).attOnTime} <br> 퇴근 : ${attList.get(i).attOffTime } <br> ${attList.get(i).attStatus}</td>
-						                     			<c:forEach var="j" begin="1" end="${monthList.size()-1}">
-					    	    	            			<td class="tdwidth">출근 : ${attList.get(i+j).attOnTime} <br> 퇴근 : ${attList.get(i+j).attOffTime }</td>
-					        	            			</c:forEach>
-					                    		</tr>
-					                    		</c:forEach>
-				                    	</c:if>
-			                    	</table>
-			                    </div>
-							</div>
-							<div class="col" onclick="j_test(1300)" style="display: flex;align-items:center;">
-								<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-caret-right" viewBox="0 0 16 16">
-								  <path d="M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z"/>
-								</svg>
-							</div>
-						</div>
-           			</div>
-           		</div>
-          </main>
+                    
+                    <div style=" align-items: center;text-align: center;font-size: 21px;">
+                    	<i class="bi bi-caret-left" onclick="monthChange(1)"></i>
+                    	<span id="month"></span>
+                    	<i class="bi bi-caret-right" onclick="monthChange(-1)">
+                    	</i>
+                    </div>
+                    
+                    	<div class = "row">
+                    		<div class = "col-1">
+		                    	<c:set var="cdeptno" value="12345"></c:set>
+		                    	<c:set var="deptCnt" value="0"/>
+		                    	<c:set var="nameCnt" value="0"/>
+		                    	<c:forEach var="member" items="${members}" varStatus="status">
+		                    	<c:if test="${member.dept.dname ne null && member.dept.dname ne '교수'}">
+			                    	<c:if test="${deptCnt == 0 }">
+				                    	<div id="deptMain${nameCnt}" onclick="hide(${nameCnt+1})"
+				                    		style="font-style: italic;font-size: 16px;font-weight: bold;">
+				                    		${member.dept.dname}
+				                    		<i class="bi bi-caret-down"></i>
+				                    	</div>
+			                    		<c:set var="cdeptno" value="${member.dept.dname }"/>
+				                    	<c:set var="nameCnt" value="${nameCnt+1}"/>
+			                    	</c:if>
+			                    	<c:set var="deptCnt" value="1"/>
+			                    	<c:if test="${deptCnt == 1}">
+			                    			<c:if test="${cdeptno == member.dept.dname }">
+						                    	<div class="deptUser${nameCnt }" 
+						                    	style="display: none;" id = "dept${status.index}"
+						        				onclick = "memberSearch(${status.index})">
+			                    				<span style="margin-left: 15px;"></span>
+						                    	${member.name}
+						                    	</div>
+			                    			</c:if>
+			                    			<c:if test="${cdeptno != member.dept.dname }">
+			                    				<c:set var="deptCnt" value="0"></c:set>
+			                    			</c:if>
+			                    	</c:if>
+		                    	</c:if>
+		                    	</c:forEach>
+                    		</div>
+                    		<div class="col">
+                    			<table class= "table table-hover">
+        							<tr>
+        								<th>날짜</th><th>출근시간</th><th>퇴근시간</th><th>연차갯수</th><th>수정</th>
+        							</tr>
+                    			</table>
+       							<div id = "userAttList">
+       								
+       							</div>
+                    		</div>
+                    	</div>
+                    </div>
+                    <!-- footer -->
+                    <footer class="col-12" style="height: 60px;">
+                        footer
+                    </footer>    
+                </div>
+            </main>
+        </div>
     </div>
     <!-- IONICONS -->
     <script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script>

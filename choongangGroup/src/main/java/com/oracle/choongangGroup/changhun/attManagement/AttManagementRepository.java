@@ -12,14 +12,16 @@ import com.oracle.choongangGroup.changhun.JPA.WorkPK;
 public interface AttManagementRepository extends JpaRepository<Work, WorkPK>{
 
 	Work findAllBy();
-
-//	Page<Work> findByUserid(String userid, PageRequest pageRequest);
-
-//	Page<Work> findPageByUserid(String userid, PageRequest of);
-
+	
 	List<Work> findByMember_UseridAndWorkDate(String userid, String nowDate);
 
 	Page<Work> findPageByMember_Userid(String userid, PageRequest of);
+
+	List<Work> findByMember_name(String name);
+
+	List<Work> findByMember_nameAndWorkDateContaining(String name, String month);
+
+	Page<Work> findPageByMember_UseridAndWorkDateContaining(String userid, String nowDate, PageRequest of);
 
 
 
