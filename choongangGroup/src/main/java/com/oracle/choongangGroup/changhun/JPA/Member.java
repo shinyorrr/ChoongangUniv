@@ -46,11 +46,14 @@ public class Member {
 	private String bank;
 	private String extention;
 	private String lab;
-	private Long vacation;
+	private Long vacation; //연차
+	private String subMajor; //부전공
+	private String studStatus; //학적상태
+	private String mainProf; //지도교수
 	
 	@JoinColumn(name = "deptno")
 	@JsonBackReference
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	private Dept dept;
 	
 	@Column(name = "mem_role")
@@ -63,4 +66,6 @@ public class Member {
 	@OneToMany(mappedBy = "writer", fetch = FetchType.LAZY)
 	private List<Notice> notices = new ArrayList<>();
 	
+	private String refreshToken;
 	}
+	

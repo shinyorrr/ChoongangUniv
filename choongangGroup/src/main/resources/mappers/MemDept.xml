@@ -6,17 +6,20 @@
 
 <!-- ==== 루트 엘리먼트 & 네임스페이스 설정(프로젝트 전체 내에서 유일해야 한다.) ==== -->
 <mapper namespace="com.oracle.choongangGroup.hs.approval.MemDeptMapper">
-	<select id="hsApprInfo" parameterType="MemDept" resultType="MemDept">
-		select m.userid, m.name, d.dname
-		from member m , dept d
-		where m.deptno = d.deptno
-		and userid = ${userid}
-	</select>
-	
+
 	<!-- 결재자리스트 -->
 	<select id="hsApprList" parameterType="MemDept" resultType="MemDept">
 		select m.*, d.dname
 		from member m , dept d
 		where m.deptno = d.deptno
+		and userid != ${userid}
+	</select>
+	
+	<!-- =====================직원 상세 정보===================== -->
+	<select id="hsMemDetail" parameterType="String" resultType="MemDept">
+		select m.userid, m.name, d.dname
+		from member m , dept d
+		where m.deptno = d.deptno
+		and userid = ${userid}
 	</select>
 </mapper>

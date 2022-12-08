@@ -4,8 +4,8 @@ import java.util.List;
 
 public interface MemDeptDao {
 
-	MemDept getApprInfo(MemDept memDept);
+	List<MemDept> getApprList(String userid);
 
-	List<MemDept> getApprList();
+	MemDept findMem(String userid);
 
 }

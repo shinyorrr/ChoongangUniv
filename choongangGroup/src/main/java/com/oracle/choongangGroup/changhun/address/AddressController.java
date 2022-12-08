@@ -1,6 +1,7 @@
 package com.oracle.choongangGroup.changhun.address;
 
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.data.domain.Page;
@@ -66,10 +67,14 @@ public class AddressController {
 //		return "manager/addressLike";
 //	}
 	@RequestMapping(value = "/myLikeAddress")
-	public String likeAddress(HttpSession session,Model model,
+	public String likeAddress(HttpServletRequest request,Model model,
 							  @RequestParam(required = false, defaultValue = "0", value="page") int page) {
 		
-		String userid = "18301001";
+		HttpSession session = request.getSession();
+		String userid = (String) session.getAttribute("userid");
+		
+		
+//		String userid = "18301001";
 		
 		Page<PhoneLike> like = addressRepository.findByMyUserid(userid, PageRequest.of(page, 2, Sort.by(Sort.Direction.ASC,"member.name")));
 		
@@ -85,5 +90,33 @@ public class AddressController {
 		return "manager/addressLike";
 	}
 	
+	@RequestMapping(value = "/searchAddress")
+	public String searchAddress(Model model,HttpServletRequest request,
+						@RequestParam(value = "search") String name,
+			  			@RequestParam(required = false, defaultValue = "0", value="page") int page) {
+		
+	HttpSession session = request.getSession();
+	String userid = (String) session.getAttribute("userid");
+		
+//	String userid = "18301001";
+	Page<Member> addressList = null;
+	
+	if(name == null || name.equals("")) {
+		addressList = memberRepository.findAll(PageRequest.of(page, 10, Sort.by(Sort.Direction.ASC,"name")));
+	} else {
+		addressList = memberRepository.findByNameContaining(name, PageRequest.of(page, 10, Sort.by(Sort.Direction.ASC,"name")));
+	}
+	
+	int totalPage = addressList.getTotalPages();
+	
+	System.out.println("totalpage -> " + totalPage);
+	
+	
+	model.addAttribute("page", page);
+	model.addAttribute("totalPage", totalPage);
+	model.addAttribute("addressList",addressList.getContent());
+	
+	return "manager/addressForm";
+	}
 
 }

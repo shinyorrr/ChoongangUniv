@@ -216,7 +216,7 @@
 							<input  type = "text"  name = "search" class="form-control" placeholder="search">
 						</div>
 					</div> -->
-					</form>
+					
                     	<table class="table table-hover">
                     		 <thead>
 							    <tr><th>이름</th><th>직위</th><th>부서</th><th>연락처</th><th>즐겨찾기</th></tr>
@@ -231,6 +231,9 @@
 							  		<c:if test="${address.dept.upDeptno == 200}">
 								  		<td>교직원</td>
 								  	</c:if>
+								 	<c:if test="${address.dept.upDeptno == null }">
+								  		<td></td>
+								  	</c:if>
 							  		<td>${address.dept.dname}</td>
 							  		<td>${address.phone}</td>
 							  		<td>
@@ -242,6 +245,16 @@
 							  </tbody>
                     	</table>
                     	<nav aria-label="...">
+                    	
+                    	<!--================================================  -->
+                    					<!-- 검색버튼 구현 -->
+                    	<!--================================================  -->
+	                    <form action="searchAddress">
+	                    <div class="input-group mb-3" style="width: 206px;text-align: center;float: left;" >
+							<input  type = "text"  name = "search" class="form-control" placeholder="이름을 검색하세요" aria-describedby="button-addon2">
+							<button class="btn btn-outline-secondary" type="submit" id="button-addon2"><i class="bi bi-search"></i></button>
+						</div>
+						</form>
 					  <ul class="pagination" style="margin-left: 40%;">
 					  
 					    <li class="page-item">

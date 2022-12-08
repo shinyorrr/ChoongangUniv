@@ -10,9 +10,12 @@ import com.oracle.choongangGroup.sh.domain.Lecture;
 
 public interface ApplyService {
 
-	List<Lecture> lectureListAll();
+	List<Lecture> 	lectureListAll();
+	int 			apply(Long lecId, String userid, int gubun);
 
-	void apply(String lecId, String userid);
+
+
+
 	
 
 }

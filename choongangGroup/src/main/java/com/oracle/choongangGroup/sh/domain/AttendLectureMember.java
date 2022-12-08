@@ -1,8 +1,6 @@
-package com.oracle.choongangGroup.yn.domain;
+package com.oracle.choongangGroup.sh.domain;
 
 import java.io.Serializable;
-
-import javax.persistence.Id;
 
 import com.oracle.choongangGroup.changhun.JPA.Member;
 
@@ -10,12 +8,11 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-
-@SuppressWarnings("serial")
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
-public class LecMember implements Serializable {
+public class AttendLectureMember implements Serializable {
+	private String date;
 	private Member member;
-	private Lec lecture;
+	private Lecture lecture;
 }

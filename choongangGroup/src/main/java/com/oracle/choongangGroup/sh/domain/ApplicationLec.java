@@ -2,6 +2,7 @@ package com.oracle.choongangGroup.sh.domain;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -12,40 +13,37 @@ import javax.persistence.ManyToOne;
 import com.oracle.choongangGroup.changhun.JPA.Member;
 
 import lombok.Data;
+ 
+@Entity 
+@Data 
+@IdClass(LectureMember.class) 
+public class ApplicationLec { 
 
-@Entity
-@Data
-@IdClass(LectureMember.class)
-public class ApplicationLec {
-
-	@Id
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "userid")
-	private Member member;
+	@Id  
+	@ManyToOne(fetch = FetchType.LAZY)  
+	@JoinColumn(name = "userid") 
+	private Member member; 
 	
-	@Id
+	@Id 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "lec_id")
-	private Lecture lecture;
+	private Lecture lecture; 
 	
-	private int lec_gubun;
-	private String register_start;
-	private String register_end;
+	@Column(name = "lec_gubun")
+	private int gubun; 
 	
-	//장바구니
-	public static ApplicationLec likeLec(Member member, Lecture lecture) {
+	@Column(name = "register_start")
+	private String start; 
+	
+	@Column(name = "register_end")
+	private String end; 
+	
+	
+	public static ApplicationLec apply(Member member, Lecture lecture, int gubun) {
 		ApplicationLec applyLec = new ApplicationLec();
 		applyLec.setMember(member);
 		applyLec.setLecture(lecture);
-		applyLec.setLec_gubun(1);
-		return applyLec;
-	}
-	//수강신청
-	public static ApplicationLec createLec(Member member, Lecture lecture) {
-		ApplicationLec applyLec = new ApplicationLec();
-		applyLec.setMember(member);
-		applyLec.setLecture(lecture);
-		applyLec.setLec_gubun(2);
+		applyLec.setGubun(gubun);
 		return applyLec;
 	}
 	

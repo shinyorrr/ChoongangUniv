@@ -1,6 +1,8 @@
 package com.oracle.choongangGroup.changhun.attManagement;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -13,16 +15,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.oracle.choongangGroup.changhun.JPA.Member;
 import com.oracle.choongangGroup.changhun.JPA.Work;
+import com.oracle.choongangGroup.changhun.address.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class AttRestController {
 	
 	private final AttManagementRepository repository;
 	private final AttManagementService service;
+	private final MemberRepository memRepository;
 	
 	@RequestMapping(value = "attInsert")
 	public String attInsert() {
@@ -65,12 +72,47 @@ public class AttRestController {
 //		String userid = (String) session.getAttribute("userid");
 		String userid = "18301001";
 		
-//		Page<Work> workList = repository.findByUserid(userid,PageRequest.of(page, 5, Sort.by(Sort.Direction.ASC,"workDate")));
-		Page<Work> workList = repository.findPageByMember_Userid(userid,PageRequest.of(page, 5, Sort.by(Sort.Direction.ASC,"workDate")));
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+		Date now = new Date();
+		String nowDate = sdf.format(now);
+		Page<Work> workList = repository.findPageByMember_UseridAndWorkDateContaining(userid,nowDate,PageRequest.of(page, 5, Sort.by(Sort.Direction.ASC,"workDate")));
 		List<String> list = new ArrayList<String>();
 		list.add("가자");
 		
 		return workList.getContent();
+	}
+	
+	@RequestMapping(value = "/memberAttList")
+	public List<Work> memberAttList(@RequestParam(value = "name") String name,
+									@RequestParam(value = "month") String month) {
+
+		List<Work> workUserlist = repository.findByMember_nameAndWorkDateContaining(name, month);
+		
+		log.info("workUserlist --> {}",workUserlist.size());
+		
+		return workUserlist;
+	}
+	
+	@RequestMapping(value = "/updateMemAtt")
+	public void updateMemAtt(@RequestParam(value = "attOntime") String attOntime,
+							 @RequestParam(value = "attOfftime") String attOfftime,
+							 @RequestParam(value = "vacation") long vacation,
+							 @RequestParam(value = "userid") String userid,
+							 @RequestParam(value = "workDate") String workDate) {
+		
+		System.out.println("attOntime --> " + attOntime);
+		System.out.println("attOfftime --> " + attOfftime);
+		System.out.println("vacation --> " + vacation);
+		System.out.println("userid --> " + userid);
+		System.out.println("workDate --> " + workDate);
+		
+		
+		Member member = memRepository.findByUserid(userid);
+		member.setVacation(vacation);
+		memRepository.save(member);
+		
+		service.updateWork(attOntime,attOfftime,workDate,userid);
+		
 	}
 	
 	
