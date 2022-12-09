@@ -35,29 +35,48 @@
 	//주소록 리스트
 	function addressList(){
 		alert("주소록 조회");
-		$.ajax(
-				{
-					uri : "addressList",
-					dataType : 'json',
-					success: function(data){
-						var html = "";
-						if(data.length > 0) {
-							$.each(data, function(index, obj){ 
+		$.ajax({
+				url : "/manager/apprList",
+				dataType:'json',
+				success: function(data){
+					alert('success....');
+					var jsonStr = JSON.stringify(data);
+					alert("jsonStr->"+jsonStr);
+					var html = "";
+					if(data.length > 0) {
+						$.each(data, function(index, obj){ 
 					  			html+="<tr>";
 					  	  		html+="<td>"+obj.name+"</td>";
 					  	  		html+="<td>"+obj.dept+"</td>";
 					  	  		html+="<td>"+obj.position+"</td>";
 					  	  		html+="<td>"+obj.phone+"</td>";
+					  	  		html+="<td>";
+					  	  		html+="<input type='radio' name='radioBox' class='"+ index + "' value='"+obj.userid+','+obj.name+"' required='required'>";
+					  	  		html+="</td>";
 					  	  		html+="</tr>";
 					  		});
 							
 					  		$("#ajaxAddressList").html(html);
 						}
-						
-					},
-		  			error:function(){alert("error");}
-		  		});
-		  	}
+		  		},
+				error:function(){
+					alert("error");
+				}
+		});
+	}
+	
+	// 주소록 정보 넣기
+	function selectUser(){
+		var userInfo = $('input:radio[name="radioBox"]:checked').val();
+		var userid = userInfo.split(',')[0];
+		var name = userInfo.split(',')[1];
+		$('input[name=receiver_userid]').attr('value', userid);
+		$('input[name=receiver]').attr('value', name);
+		$('#exampleModal').modal('hide');
+	}
+	
+	
+	
 
 </script>
 </head>
@@ -208,9 +227,12 @@
 						<hr>
 						<form action="<%=context%>/notice/noticeSave" method="post">
 							<input type="hidden" id=userid name="userid"
-								value="<%=session.getAttribute("userid")%>">
+								value="${userid}">
 							<div>
-								<label class="form-label">받는 사람</label> <input>
+								<label class="form-label">받는 사람</label>
+								<input type="hidden" name="sender_userid" id="sender_userid" value="${userid}">
+								<input type="hidden" name="receiver_userid" id="receiver_userid"> 
+								<input type="text" name="receiver" id="receiver" readonly="readonly">
 								<!-- Button trigger modal -->
 								<button type="button" class="btn btn-primary"
 									data-bs-toggle="modal" data-bs-target="#exampleModal"
@@ -237,18 +259,18 @@
 															<th>직위</th>
 															<th>부서</th>
 															<th>연락처</th>
+															<th>선택</th>
 														</tr>
 													</thead>
 													<tbody id="ajaxAddressList">
-													
 													</tbody>
 												</table>
 												</div>
 											</div>
 											<div class="modal-footer">
 												<button type="button" class="btn btn-secondary"
-														data-bs-dismiss="modal">Close</button>
-												<button type="button" class="btn btn-primary">Save changes</button>
+														data-bs-dismiss="modal">취소</button>
+												<button type="button" class="btn btn-primary" onclick="selectUser()">등록</button>
 											</div>
 										</div>
 									</div>
