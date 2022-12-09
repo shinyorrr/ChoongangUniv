@@ -77,13 +77,25 @@ public class LecManagementDaoImpl implements LecManagementDao {
 	}
 
 	@Override
+	public int lecAgree(LectureVO lectureVO) {
+		log.info("lecAgree start...");
+		int result = 0;
+		try {
+			result = session.update("hslecAgree", lectureVO);
+		} catch (Exception e) {
+			log.info("lecAgree Exception->{}", e.getMessage());
+		}
+		return result;
+	}
+
+	@Override
 	public int lecUpdate(LectureVO lectureVO) {
 		log.info("lecUpdate start...");
 		int result = 0;
 		try {
 			result = session.update("hslecUpdate", lectureVO);
 		} catch (Exception e) {
-			log.info("lecUpdate Exception->{}", e.getMessage());
+			log.info("lecAgree Exception->{}", e.getMessage());
 		}
 		return result;
 	}
