@@ -226,7 +226,7 @@ function readURL(input) {
                     <!-- card content -->  
                     <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
 						<div class="card mt-5" style="width: 20%; position: static; float: left;">
-						  <img id="preview" src="${member.image}" class="card-img-top" alt="..." >
+						  <img id="preview" src="../fileUpload/hs/image/${member.image}" class="card-img-top" alt="..." >
 						  <label for="file1">
 							  <div class="btn-upload">이미지 변경</div>
 						  </label>

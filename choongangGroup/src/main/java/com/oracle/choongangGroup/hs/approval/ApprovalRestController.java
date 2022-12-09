@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.oracle.choongangGroup.dongho.auth.GetMember;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,6 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ApprovalRestController {
 	
 	private final ApprovalService as;
+	private final GetMember gm;
 	
 	// 문서 종류 선택 
 	@RequestMapping("sortList")
@@ -39,10 +42,10 @@ public class ApprovalRestController {
 	
 	// 회원 전체 조회
 	@RequestMapping("apprList")
-	public List<MemDept> apprList(String userid, HttpServletRequest request, @AuthenticationPrincipal User user) {
+	public List<MemDept> apprList(String userid) {
 		// userid = "12301001";
 		
-		userid = user.getUsername();
+		userid = gm.getMember().getUserid();
 		log.info(userid);
 		log.info("apprList start...");
 		List<MemDept> listAppr = as.apprList(userid);

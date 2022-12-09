@@ -71,10 +71,27 @@ public class LecManagementController {
 		return result;
 	}
 	
+	@RequestMapping("lecAgree")
+	public String agree(LectureVO lectureVO) {
+		log.info("lecAgree start...");
+		int result2 = 0;
+		log.info("lectureVO->{}", lectureVO);
+		
+		int result = lms.lecAgree(lectureVO);
+		log.info("result->{}", result);
+		
+		if(result > 0) {
+			result2 = lms.insertOrders(lectureVO);
+			return "redirect:lecManagement";
+		} else {
+			return "forward:lecManagement";
+		}
+		
+	}
+	
 	@RequestMapping("lecUpdate")
 	public String update(LectureVO lectureVO) {
 		log.info("lecUpdate start...");
-		
 		log.info("lectureVO->{}", lectureVO);
 		
 		int result = lms.lecUpdate(lectureVO);

@@ -4,16 +4,22 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.oracle.choongangGroup.changhun.JPA.Member;
@@ -30,8 +36,11 @@ public class ManagerPageController {
 	
 	private final ManagerPageService ms;
 	private final ManagerPageRepository mr;
+	private final ManagerPageRepositoryImpl mi;
 	private final GetMember gm;
 	
+	
+	// ------------------ 마이페이지 --------------------------
 	@RequestMapping("/mypage")
 	public String form(Model model) {
 		log.info("mypage Start...");
@@ -72,9 +81,10 @@ public class ManagerPageController {
 			findMember.setEmail(member.getEmail());
 			findMember.setPhone(member.getPhone());
 			findMember.setSubphone(member.getSubphone());
-			findMember.setImage(filePath+serverFileName);
+			findMember.setImage(serverFileName);
 			log.info(findMember.getImage());
 			mr.save(findMember);
+			return "redirect:/manager/mypage";
 		} else {
 			findMember.setAddress(member.getAddress());
 			findMember.setEmail(member.getEmail());
@@ -108,4 +118,29 @@ public class ManagerPageController {
 		return savedName;
 	}
 	
+	
+	// ------------------ 학생 수정 --------------------------
+	@RequestMapping("/studentManage")
+	public String stuList(@RequestParam(required = false, defaultValue = "0", value="page") int page, Model model) {
+		log.info("stuList Start...");
+		String memRole = "ROLE_STUDENT";
+		Page<Member> studentList = mr.findByMemRole(memRole, PageRequest.of(page, 10, Sort.by(Sort.Direction.ASC,"admission", "name")));
+		int pageTotal = studentList.getTotalPages();
+		Long stuTotal = studentList.getTotalElements();
+		model.addAttribute("studentList", studentList.getContent());
+		model.addAttribute("page",page);
+		model.addAttribute("pageTotal", pageTotal);
+		model.addAttribute("stuTotal", stuTotal);
+		return "/manager/studentManage";
+	}
+	
+	@ResponseBody
+	@RequestMapping("studSearch")
+	public List<Member> searchStud(Member member, Model model) {
+		String memRole = "ROLE_STUDENT";
+		List<Member> searchList = mi.searchStud(member, memRole);
+		model.addAttribute("studCnt", searchList.size());
+		
+		return searchList;
+	}
 }
