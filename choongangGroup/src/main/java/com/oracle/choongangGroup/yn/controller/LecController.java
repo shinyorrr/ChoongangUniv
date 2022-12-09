@@ -5,9 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,14 +20,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.oracle.choongangGroup.changhun.JPA.Member;
 import com.oracle.choongangGroup.dongho.auth.GetMember;
 import com.oracle.choongangGroup.sh.domain.ApplicationLec;
+import com.oracle.choongangGroup.sh.domain.Attendance;
 import com.oracle.choongangGroup.sh.domain.Grade;
 import com.oracle.choongangGroup.sh.domain.Lecture;
+import com.oracle.choongangGroup.yn.repository.AttendaceRepository;
 import com.oracle.choongangGroup.yn.repository.GradeRepository;
-import com.oracle.choongangGroup.yn.repository.GradeRepositoryCustom;
 import com.oracle.choongangGroup.yn.repository.LecApplicationRepository;
 import com.oracle.choongangGroup.yn.repository.LecRepository;
 import com.oracle.choongangGroup.yn.repository.LecRepositoryImpl;
 import com.oracle.choongangGroup.yn.service.LecService;
+import com.oracle.choongangGroup.yn.service.LecServiceImpl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,14 +40,21 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class LecController {
 	private final LecService ls;
+	private final LecServiceImpl lsi;
 	private final LecRepository ri;
 	private final GradeRepository gr;
-	private final LecApplicationRepository ar;
+	private final AttendaceRepository ar;
+//	private final LecApplicationRepository ar;
 	private final LecRepositoryImpl lm;
-	private final GradeRepositoryCustom gcm;
 	private final GetMember gm;
 
-	// 로그인된 교수의 강의조회
+	@GetMapping(value = "professor/")
+	public String professorMain (Model model) {
+		String name = gm.getMember().getName();
+		return "professor/main";
+	}
+	
+	// 교수의 강의리스트 조회 - 로그인된 교수이름으로 강의조회
 	@GetMapping(value = "professor/lecCreateList")
 	public String findLecList(/* HttpSession session, */ Model model) { 
 		
@@ -145,127 +156,163 @@ public class LecController {
 	
 	
 	// 로그인된 교수의 강의조회
-		@GetMapping(value = "professor/lecMgMain")
-		public String lecMgList(HttpSession session, Model model) { 
-			// 접속아이디 -> 교수 이름 찾기
-			String name = (String) session.getAttribute("name");
-			System.out.println(name);
-			
-			///////// 접속교수 이름 받아서 넘기기////////////
-			List<Lecture> lectureList = ri.findByProfOrderByIdAsc(name);
-			
+	@GetMapping(value = "professor/lecMgMain")
+	public String lecMgList(HttpSession session, Model model) { 
+		// 접속아이디 -> 교수 이름 찾기
+		String name = (String) session.getAttribute("name");
+		System.out.println(name);
+		
+		///////// 접속교수 이름 받아서 넘기기////////////
+		List<Lecture> lectureList = ri.findByProfAndStatusOrderByIdAsc(name, "0");
+		
 //			int statusCnt1 = ri.countByProfAndStatus(name, "1");
 //			int statusCnt2 = ri.countByProfAndStatus(name, "2");
-			System.out.println(lectureList.size());
-			model.addAttribute("lecList", lectureList);
-			
-			
-			return "professor/lecMgMain";
+		System.out.println(lectureList.size());
+		model.addAttribute("lecList", lectureList);
+		model.addAttribute("lecCnt", lectureList.size());
+		
+		return "professor/lecMgMain";
+	}
+		
+	/*
+	 * 출석관리  
+	 * 1. 교수의 강의 한건 조회.(findById)
+	 * 2. 강의를 듣는 Member(학생) 조회 .(findByLecture_IdAndGubun)
+	 */
+//	@GetMapping(value = "professor/lecAttendanceCheckForm")
+//	@ResponseBody
+//	public Map<String, Object> selectLec(@RequestParam(value = "id") Long id, Model model) {
+//		Long gubun = (long) 1;
+//		List<ApplicationLec> alList = ls.findByLecture_IdAndGubun(id, gubun);
+//		
+//		List<Member> memList = new ArrayList<Member>();
+//		List<Attendance> attendList = new ArrayList<Attendance>();
+//		
+//		Map<String, Object> map = new HashMap<>();
+//		
+//		for (ApplicationLec applicationLec : alList) {
+//			memList.add(applicationLec.getMember());
+//			System.out.println("Attendance getUserid ==> "+ applicationLec.getMember().getUserid());
+//			System.out.println("Attendance getName ==> "+ applicationLec.getMember().getName());
+//			attendList.add(ar.findByApplicationLec(applicationLec));
+//		}
+//		log.info("나는 맴버 리스트 : {}", memList);
+//		System.out.println("나는 성적 리스트 : " + attendList);
+//		map.put("memList", memList);
+//		map.put("attendList", attendList);
+//		return map;
+//	}
+	
+	@GetMapping(value = "professor/lecAttendanceCheck")
+	public String selectOneLec(@RequestParam(value = "id") Long id, Model model) {
+		System.out.println("=====selectOneLec Start=====");
+		Lecture lecture = ri.findById(id);
+		Long gubun = (long) 1;
+		List<ApplicationLec> alList = ls.findByLecture_IdAndGubun(id, gubun);
+		
+		List<Member> memList = new ArrayList<Member>();
+		for (ApplicationLec applicationLec : alList) {
+			memList.add(applicationLec.getMember());
+			System.out.println("getUserid ==> "+ applicationLec.getMember().getUserid());
+			System.out.println("getName ==> "+ applicationLec.getMember().getName());
 		}
 		
-		/*
-		 * 출석관리  
-		 * 1. 교수의 강의 한건 조회.(findById)
-		 * 2. 강의를 듣는 Member(학생) 조회 .(findByLecture_IdAndGubun)
-		 */
-		@GetMapping(value = "professor/lecAttendanceCheck")
-		public String selectOneLec(@RequestParam(value = "id") Long id, Model model) {
-			System.out.println("=====selectOneLec Start=====");
-			Lecture lecture = ri.findById(id);
-			Long gubun = (long) 1;
-			List<ApplicationLec> alList = ls.findByLecture_IdAndGubun(id, gubun);
-			
-			List<Member> memList = new ArrayList<Member>();
-			for (ApplicationLec applicationLec : alList) {
-				memList.add(applicationLec.getMember());
-				System.out.println("getUserid ==> "+ applicationLec.getMember().getUserid());
-				System.out.println("getName ==> "+ applicationLec.getMember().getName());
-			}
-			
-			
-			model.addAttribute("lecture",lecture);
-			model.addAttribute("memList", memList);
-			
-			log.info("lec id == {}", lecture.getId());
-			return "professor/lecCheckForm";
-		}
+		
+		model.addAttribute("lecture",lecture);
+		model.addAttribute("memList", memList);
+		
+		log.info("lec id == {}", lecture.getId());
+		return "professor/lecCheckForm";
+	}
+	
+	//출석부 다운 excel 
+	@GetMapping("professor/lecAttendExcel")
+	public ResponseEntity lecAttendExcel(@RequestParam(value = "id") Long id,HttpServletResponse response,
+										 @RequestParam(value = "excelDownload") boolean excelDown){
+		return ResponseEntity.ok(lsi.getLecCheck(response, excelDown, id));
+	}
 
 		
-		///////// 성적입력페이지 시작 ////
-		@GetMapping(value = "professor/lecScore")
-		public String lecScore(Model model) {
-			String name = gm.getMember().getName();
-			List<Lecture> lecList = ri.findByProfAndStatusOrderByIdAsc(name, "0");
-			System.out.println("lecList.size() --> "+ lecList.size());
-			
-			model.addAttribute("lecList",lecList);
-			model.addAttribute("lecCnt",lecList.size());
-			
-			return "professor/lecScoreForm";
-		}
-
-		// 강의 한건 조회 -> 업데이트시 사용
-		@GetMapping(value = "professor/lecScoreForm")
-		@ResponseBody
-		public Map<String, Object> lecScoreForm(@RequestParam(value = "id") Long id, Model model) {
-			Long gubun = (long) 1;
-			List<ApplicationLec> alList = ls.findByLecture_IdAndGubun(id, gubun);
-			
-			List<Member> memList = new ArrayList<Member>();
-			List<Grade> grList = new ArrayList<Grade>();
-			
-			Map<String, Object> map = new HashMap<>();
-			
-			for (ApplicationLec applicationLec : alList) {
-				memList.add(applicationLec.getMember());
-				System.out.println("getUserid ==> "+ applicationLec.getMember().getUserid());
-				System.out.println("getName ==> "+ applicationLec.getMember().getName());
-				grList.add(gr.findByApplicationLec(applicationLec));
-			}
-			log.info("나는 맴버 리스트 : {}", memList);
-			System.out.println("나는 성적 리스트 : " + grList);
-			map.put("memList", memList);
-			map.put("grList", grList);
-			return map;
-		}
+	///////// 성적입력페이지 시작 //// 1. 강의 조회
+	@GetMapping(value = "professor/lecScore")
+	public String lecScore(Model model) {
+		String name = gm.getMember().getName();
+		List<Lecture> lecList = ri.findByProfAndStatusOrderByIdAsc(name, "0");
+		System.out.println("lecList.size() --> "+ lecList.size());
 		
-		@PostMapping(value = "professor/lecScoreSave")
-		@ResponseBody
-		public Grade lecScoreSave(@RequestParam(value = "data") String data,
-								  @RequestParam(value = "lecId") Long lecId, Model model) {
+		model.addAttribute("lecList",lecList);
+		model.addAttribute("lecCnt",lecList.size());
+		
+		return "professor/lecScoreForm";
+	}
+
+	// 성적관라  : 강의 한건 조회 -> 업데이트시 사용
+	@GetMapping(value = "professor/lecScoreForm")
+	@ResponseBody
+	public Map<String, Object> lecScoreForm(@RequestParam(value = "id") Long id, Model model) {
+		Long gubun = (long) 1;
+		List<ApplicationLec> alList = ls.findByLecture_IdAndGubun(id, gubun);
+		
+		List<Member> memList = new ArrayList<Member>();
+		List<Grade> grList = new ArrayList<Grade>();
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		for (ApplicationLec applicationLec : alList) {
+			memList.add(applicationLec.getMember());
+			System.out.println("getUserid ==> "+ applicationLec.getMember().getUserid());
+			System.out.println("getName ==> "+ applicationLec.getMember().getName());
+			grList.add(gr.findByApplicationLec(applicationLec));
+		}
+		log.info("나는 맴버 리스트 : {}", memList);
+		System.out.println("나는 성적 리스트 : " + grList);
+		map.put("memList", memList);
+		map.put("grList", grList);
+		return map;
+	}
+	
+	// 성적관라  : 점수등록
+	@PostMapping(value = "professor/lecScoreSave")
+	@ResponseBody
+	public Grade lecScoreSave(@RequestParam(value = "data") String data,
+							  @RequestParam(value = "lecId") Long lecId, Model model) {
 //			JSONParser parser = new JSONParser();
 //			JSONObject object = (JSONObject) parser.parse(lecId);
-			
-			JSONArray jarray = new JSONArray(data);
-
-			
-			ApplicationLec applicationLec = new ApplicationLec();
-			Member mem = new Member();
-			Lecture lec = new Lecture();
-			for(int i = 0; i < jarray.length(); i++) {
-				Grade grade = new Grade();
+		
+		JSONArray jarray = new JSONArray(data);
+		
+		ApplicationLec applicationLec = new ApplicationLec();
+		Member mem = new Member();
+		Lecture lec = new Lecture();
+		for(int i = 0; i < jarray.length(); i++) {
+			Grade grade = new Grade();
 //				System.out.println("jarray.getJSONArray(i) ->" + jarray.getJSONObject(i));
-				System.out.println("나는 유저 ->" + jarray.getJSONObject(i).get("userid"));
-//				System.out.println("나는 과제 ->" + jarray.getJSONObject(i).get("report"));
-//				System.out.println("나는 중간 ->" + jarray.getJSONObject(i).get("midterm"));
-				System.out.println("나는 기말 ->" + jarray.getJSONObject(i).get("finals"));
-//				System.out.println("나는 출석 ->" + jarray.getJSONObject(i).get("attendance"));
-				lec.setId(lecId);
-				mem.setUserid(jarray.getJSONObject(i).getString("userid"));
-				applicationLec.setLecture(lec);
-				applicationLec.setMember(mem);
-
-				grade.setAttendance(jarray.getJSONObject(i).getLong("attendance"));		
-				grade.setFinals(jarray.getJSONObject(i).getLong("finals"));		
-				grade.setMidterm(jarray.getJSONObject(i).getLong("midterm"));		
-				grade.setReport(jarray.getJSONObject(i).getLong("report"));		
-				grade.setApplicationLec(applicationLec);	
-				
-				gr.save(grade);	
+			System.out.println("나는 유저 ->" + jarray.getJSONObject(i).get("userid"));
+			System.out.println("나는 기말 ->" + jarray.getJSONObject(i).get("finals"));
+			System.out.println("나는 아이디 ->" + jarray.getJSONObject(i).get("id"));
+			lec.setId(lecId);
+			mem.setUserid(jarray.getJSONObject(i).getString("userid"));
+			applicationLec.setLecture(lec);
+			applicationLec.setMember(mem);
+			
+			if(!"".equals(jarray.getJSONObject(i).getString("id"))) {
+				grade.setId(jarray.getJSONObject(i).getLong("id"));
 			}
 			
-			return null;
+			grade.setAttendance(jarray.getJSONObject(i).getLong("attendance"));		
+			grade.setFinals(jarray.getJSONObject(i).getLong("finals"));		
+			grade.setMidterm(jarray.getJSONObject(i).getLong("midterm"));		
+			grade.setReport(jarray.getJSONObject(i).getLong("report"));		
+			grade.setApplicationLec(applicationLec);	
+			
+			gr.save(grade);	
 		}
+		
+		return null;
+	}
+		
+
+
 		
 		
 }
