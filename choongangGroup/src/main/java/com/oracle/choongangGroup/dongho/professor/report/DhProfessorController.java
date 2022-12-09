@@ -1,4 +1,4 @@
-package com.oracle.choongangGroup.dongho.professor;
+package com.oracle.choongangGroup.dongho.professor.report;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -66,6 +66,8 @@ public class DhProfessorController {
 	public Map<String, Object> lecReportList(@RequestParam("id") Long id, 
 											 @RequestParam(required = false, defaultValue = "0", value="page") int page) {
 		log.info("======lecReportList Start======");
+		log.info(String.valueOf(id));
+		log.info(Integer.toString(page));
 		Map<String, Object> map = new HashMap<String, Object>();
 		Long gubun = (long) 1; // 신청한 강의 테이블 구분값 (신청한 강의 : gubun = 1)
 		// 과제List Paging
@@ -152,6 +154,7 @@ public class DhProfessorController {
 		}
 		return result;
 	}
+	
 	// 모든 과제 파일 압축파일 생성
 	@ResponseBody
 	@PostMapping("/createZipAll/{id}")

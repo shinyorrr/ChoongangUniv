@@ -5,7 +5,6 @@ import io.jsonwebtoken.*;
 
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +21,6 @@ import java.security.Key;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -53,10 +51,12 @@ public class JwtTokenProvider {
         long now = (new Date()).getTime();
         // Access Token 생성
         // 만료시간 설정 (현재시간 + 만료기간)
-        Date accessTokenExpiresIn = new Date(now + 30 * 60 * 1000L); // param * 1000L => param 초 (밀리초 단위이므로 1000으로 나누면 초가 된다)
+    	// param * 1000L => param 초 (밀리초 단위이므로 1000으로 나누면 초가 된다)
+        Date accessTokenExpiresIn  = new Date(now + 60 * 30 * 1000L); 	//30분
+        Date refreshTokenExpiresIn = new Date(now + 60 * 60 * 1000L);	//60분
         // Jwts를 이용하여 토큰 생성
         String accessToken = Jwts.builder()
-        		//authentication 으로부터 유저정보를 받아 넣는다. getName => memberId , authorites => roles
+        		//authentication 으로부터 유저정보를 받아 넣는다. getName => memberId , authorities => roles
                 .setSubject(authentication.getName())
                 .claim("auth", authorities)
                 //만료시간 설정
@@ -65,9 +65,9 @@ public class JwtTokenProvider {
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
 
-        // Refresh Token 생성 (토큰 변조 유무 및 db와 일치 여부만 확인하면 되므로 유저정보는 넣지 않는다)
+        // Refresh Token 생성 (토큰 변조 유무 및 DB와 일치 여부만 확인하면 되므로 유저정보는 넣지 않는다)
         String refreshToken = Jwts.builder()
-                .setExpiration(new Date(now + 60 * 60 * 1000L)) // 60분
+                .setExpiration(refreshTokenExpiresIn) // 60분
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
         // TokenInfo dto에 토큰 넣기
@@ -113,7 +113,7 @@ public class JwtTokenProvider {
             log.info("Invalid JWT Token", e);
         } catch (ExpiredJwtException e) {
         	// 토큰 만료시 Exception catch하면 false 리턴
-            log.info("Expired JWT Token", e);
+        	log.info("======토큰 만료======");
             return false;
         } catch (UnsupportedJwtException e) {
             log.info("Unsupported JWT Token", e);

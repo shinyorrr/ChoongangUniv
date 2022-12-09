@@ -3,6 +3,7 @@
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
@@ -35,12 +36,6 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
         String accessToken = resolveAccessToken((HttpServletRequest) request);
         String refreshToken = resolveRefreshToken((HttpServletRequest) request);
         
-        // 토큰 검사 및 결과값 저장
-        try {
-			
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
         boolean validateAccessToken = jwtTokenProvider.validateToken(accessToken);
         log.info("AccessToken 유효성 검사 결과 : {}", validateAccessToken);
         boolean validateRefreshToken = jwtTokenProvider.validateToken(refreshToken);
@@ -98,7 +93,21 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 		        httpResponse.addCookie(cookieRT);
 		        log.info("");
 			} else if(!validateAccessToken && !validateRefreshToken) {
-				log.info("======AccessToken ,refreshToken 만료! 로그인 페이지로 이동======");
+				log.info("======AccessToken ,refreshToken 만료! 토큰쿠키 삭제! ======");
+				ResponseCookie cookieAT = ResponseCookie.from("AccessToken", "deleteToken")
+		        		.path("/")
+		        		.httpOnly(true)
+		        		.domain("localhost")
+		        		.maxAge(0) // 유효시간을 정하지 않으면 session cookie (휘발성. 브라우저종료시 삭제)
+		        		.build();
+				ResponseCookie cookieRT = ResponseCookie.from("RefreshToken", "deleteToken")
+						.path("/")
+		        		.httpOnly(true)
+		        		.domain("localhost")
+		        		.maxAge(0) // 유효시간을 정하지 않으면 session cookie (휘발성. 브라우저종료시 삭제)
+		        		.build();
+				httpResponse.addHeader("Set-Cookie", cookieAT.toString());
+				httpResponse.addHeader("Set-Cookie", cookieRT.toString());
 			}
         }
         chain.doFilter(request, response);

@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseCookie;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.Authentication;
@@ -75,15 +76,16 @@ public class SecurityController {
 	@GetMapping("/")
     public String loginForm(HttpSession session, HttpServletRequest request, HttpServletResponse response, Model model) 
     		throws NoSuchAlgorithmException, InvalidKeySpecException {
+		log.info("====== loginForm 요청 start ======");
 		String targetUrl = "";
 		// Request Header cookie 에서 JWT 토큰 추출
         String accessToken = resolveAccessToken((HttpServletRequest) request);
         String refreshToken = resolveRefreshToken((HttpServletRequest) request);
         
-        
         Authentication authentication =  SecurityContextHolder.getContext().getAuthentication();
         Collection<? extends GrantedAuthority> roles = authentication.getAuthorities();
-    if (accessToken != null && refreshToken != null) {
+        if (accessToken != null && refreshToken != null) {
+        	log.info("토큰 존재하므로 메인페이지로 이동");
         	if (roles != null && roles.stream().anyMatch(a -> a.getAuthority().equals("ROLE_STUDENT"))) {
     			//response.sendRedirect("/student/main");
     			targetUrl = "/student/main";
@@ -101,10 +103,9 @@ public class SecurityController {
     			targetUrl = "/admin/main";
     		}
 		} else {
+			log.info("토큰이 없음, 로그인 페이지로 이동");
 			targetUrl = "/loginForm";
 		}
-        
-
         return targetUrl;
     }
 	
@@ -142,16 +143,24 @@ public class SecurityController {
         request.setAttribute("userid", username);
         
         // 클라이언트의 쿠키에 넣을 토큰 setting
-        Cookie cookieAT = new Cookie("AccessToken","Bearer" + accessToken);
-        Cookie cookieRT = new Cookie("RefreshToken", "Bearer" + refreshToken);
-        // cookie.setMaxAge(7 * 24 * 60 * 60); // 유효시간을 정하지 않으면 session cookie (휘발성. 브라우저종료시 삭제)
-        cookieAT.setPath("/");
-        cookieAT.setHttpOnly(true);
-        cookieRT.setPath("/");
-        cookieRT.setHttpOnly(true);
-        // response에 담아 쿠키 전송,저장
-        response.addCookie(cookieAT);
-        response.addCookie(cookieRT);
+//        // cookie.setMaxAge(7 * 24 * 60 * 60); // 유효시간을 정하지 않으면 session cookie (휘발성. 브라우저종료시 삭제)
+
+        
+        ResponseCookie cookieAT = ResponseCookie.from("AccessToken","Bearer" + accessToken)
+        		.path("/")
+        		.httpOnly(true)
+        		.domain("localhost")
+//        		.maxAge(7 * 24 * 60 * 60) // 유효시간을 정하지 않으면 session cookie (휘발성. 브라우저종료시 삭제)
+        		.build();
+		ResponseCookie cookieRT = ResponseCookie.from("RefreshToken","Bearer" + refreshToken)
+				.path("/")
+        		.httpOnly(true)
+        		.domain("localhost")
+//        		.maxAge(7 * 24 * 60 * 60) // 유효시간을 정하지 않으면 session cookie (휘발성. 브라우저종료시 삭제)
+        		.build();
+		response.addHeader("Set-Cookie", cookieAT.toString());
+		response.addHeader("Set-Cookie", cookieRT.toString());
+
     }
 	
 	

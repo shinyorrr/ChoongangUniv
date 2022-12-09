@@ -10,13 +10,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreType;
 import com.oracle.choongangGroup.changhun.JPA.Member;
 
 import lombok.Data;
- 
+
 @Entity  
 @Data 
-@IdClass(LectureMember.class) 
+@IdClass(LectureMember.class)
+@JsonIgnoreType
 public class ApplicationLec { 
 
 	@Id  
