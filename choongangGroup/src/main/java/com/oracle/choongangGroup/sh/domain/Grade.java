@@ -56,5 +56,5 @@ public class Grade {
 //	private Long status; //성적마감상태 -> 강의로 이동
 	
 	@Column(name = "sco_total")
-	private Long total; //종합성적
+	private String total; //종합성적 등급 : A,B,C
 }

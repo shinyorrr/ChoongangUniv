@@ -140,48 +140,35 @@
 				<div class="row m-5">
 					<!------------- 컨텐츠 경로 ------------->
 					<div class="col-12 rounded-top text-white overflow-auto pt-2 fw-bold" style="background-color: rgb(39, 40, 70); height: 40px;">
-						<i class="bi bi-bookmark-fill me-2"></i>부서등록 </div>
+						<i class="bi bi-bookmark-fill me-2"></i>강의관리 &gt; 전자출석부</div>
 					<!----- card content 내용 ------>
 						<div class="col-12 rounded-bottom overflow-auto bg-white p-5" style="min-height: 550px;">
 							
-							<h2>출결관리</h2><hr>
+							<h2>전자출석부</h2><hr>
 							<br>
 							
-							<div class="mt-1 mb-4 pt-4 px-3" style="border-collapse: collapse; border: 1px solid #BDBDBD;">
-								<div style="font-size: 1.4em;">(${lecture.typeCode}${lecture.id}) ${lecture.name} _ ${lecture.grade}학년</div>
-								
-								<div class="font09 text-start mt-3" style="display:inline; margin-bottom: 8px;">2022-11-14 &nbsp; ${lecture.day1} ${lecture.time1} 
-								<c:if test="${lecture.day1 ne '' || lecture.day1 ne null }">${lecture.day2} ${lecture.time2} </c:if>
-								&nbsp; &nbsp;&nbsp; ${lecture.building} &nbsp; ${lecture.room}</div>
-								<div class="font09 mb-4" style="float:right;">
-									<button type="button" class="btn btn-secondary btn-sm"
-											onclick="location.href='lecMemberCheck?id=${lec.id}'" >&nbsp; 목록보기  &nbsp;</button>
-									<button type="button" class="btn btn-danger btn-sm ms-1">&nbsp; 출결시작 &nbsp;</button>
-									<button type="button" class="btn btn-dark btn-sm ms-1">&nbsp; 수정하기 &nbsp;</button>
+							<div class="mt-1 mb-4 py-4 px-3" style="border-collapse: collapse; border: 1px solid #BDBDBD;">
+								<div class="mb-2">
+									<div style="font-size: 1.4em; display: inline-block;">(${lecture.typeCode}${lecture.id}) <b>${lecture.name}</b> _ ${lecture.grade}학년</div>
+									<button style="display: inline-block; float: right;" type="button" class="btn btn-primary btn-sm"
+											onclick="location.href='lecMgMain?userid=${userid}'" >&nbsp; 강의 목록보기  &nbsp;</button>
+									<button style="display: inline-block; float: right;" type="button" class="btn btn-dark btn-sm"
+											onclick="location.href='lecAttendExcel?excelDownload=true&id=${lecture.id}'" >&nbsp; 엑셀 다운로드  &nbsp;</button>
 								</div>
-								<table class="table table-bordered table-sm font09" style="text-align: center;">
-									<thead class="table-light font09">
-										<tr>
-											<th scope="col">수강생</th>
-											<th scope="col">출석률</th>
-											<th scope="col">지각률</th>
-											<th scope="col">결석률</th>
-										</tr>
-									</thead>
-									<tbody >
-										<tr>
-											<td ><b>${lecture.studCount}</b></td>
-											<td ><b>0</b>%</td>
-											<td ><b>0</b>%</td>
-											<td ><b>0</b>%</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-							<div class="font09" style="margin: 16px 0;">
-								<button type="button" class="btn btn-sm" style="background-color: royalblue; color: white;">&nbsp; 전체출석 &nbsp;</button>
-								<button type="button" class="btn btn-sm" style="background-color: rebeccapurple; color: white;">&nbsp; 전체지각 &nbsp;</button>
-								<button type="button" class="btn btn-sm btn-danger">&nbsp; 전체결석 &nbsp;</button>
+								
+								<%-- ${ param.id != null ? param.id : 'NULL' } --%>
+								<div class="font09 text-start" style="display:inline;">${lecture.day1}요일 &nbsp;${lecture.time1}
+								<c:choose>
+									<c:when test="${lecture.day2 == null || lecture.day2 == ''}">
+										 - ${lecture.time1 + (lecture.hour1 -1)}교시
+									</c:when>  
+									<c:otherwise >
+										<c:if test="${lecture.hour1 > 1}"> - ${lecture.time1 + (lecture.hour1 -1)}</c:if>교시&nbsp;/ 
+										${lecture.day2}요일 ${lecture.time2}
+										<c:if test="${lecture.hour2 > 1}"> - ${lecture.time2 + (lecture.hour2 - 1)}</c:if> 교시
+									</c:otherwise>
+								</c:choose>
+								&nbsp;&nbsp;&#183;&nbsp;&nbsp; ${lecture.building} ${lecture.room} &nbsp;&nbsp;&#183;&nbsp;&nbsp;강의학생 : <b>${lecture.studCount}</b>명</div>
 							</div>
 	
 							<table class="table table-bordered table-sm font09" >
@@ -190,50 +177,32 @@
 										<th scope="col" style="vertical-align: middle; width: 3%;">No</th>
 										<th scope="col" style="vertical-align: middle; width: 6%;"></th>
 										<th scope="col" style="vertical-align: middle; width: 20%;">학생정보</th>
-										<th scope="col">${lecture.day1} &nbsp; ${lecture.time1}<p class="font08" style="margin-bottom: 0px;">출석: 0명 &nbsp; &#183 &nbsp; 지각: 0명 &nbsp; &#183 &nbsp; 결석: 0명</p></th>
-								<c:if test="${lecture.day2 ne '' && lecture.day2 ne null && lecture.time2 ne '' && lecture.time2 ne null}">
-										<th scope="col">${lecture.day2} &nbsp; ${lecture.time2}<p class="font08" style="margin-bottom: 0px;">출석: 0명 &nbsp; &#183 &nbsp; 지각: 0명 &nbsp; &#183 &nbsp; 결석: 0명</p></th>
-								</c:if>
+										<th scope="col" style="vertical-align: middle; width: 3%;">No</th>
+										<th scope="col" style="vertical-align: middle; width: 6%;"></th>
+										<th scope="col" style="vertical-align: middle; width: 20%;">학생정보</th>
 									</tr>
 								</thead>
 								<tbody>
-									
-									
-										<c:if test="${lecture.day2 ne '' || lecture.day2 ne null}">
 									<c:forEach var="mem" items="${memList}">
 									<c:set var="i" value="${i+1}"></c:set>
+									<c:if test="${i%2 == 1}">
 											<tr>
+									</c:if>
 												<td  style="text-align: center; vertical-align: middle;" >${i}</td>
 												<td  class="d-flex py-2">
 													<div class="m-1 mx-2 bg-secondary align-self-center" style=" height:70px; width: 78%;"></div>
 												</td>
 												<td class="p-3 mb-0">
-													<div class=" px-2" style="font-size:1em; ">${mem.name}  
+													<div class=" px-2" style="font-size:1em; "><b >${mem.name}</b>  
 														<p class="font09 mb-0" style="margin-top:3px;">${mem.userid}</p>
 														<p class="font09 mt-0 mb-0">${mem.major} <span class="fontColorGr1 mb-0"> &nbsp;&#183; &nbsp; ${mem.grade}학년</span></p>
 													</div>
 												</td>
-												
-												<td class="p-2  text-center " style="vertical-align: middle;" >
-													<div class="form-check  form-check-inline me-3">
-														<input class="form-check-input" type="radio" name="attStatus" id="attendanc" value="2" >
-														<label class="form-check-label" for="flexRadioDefault1">출석</label>
-													</div>
-													<div class="form-check form-check-inline  me-3">
-														<input class="form-check-input" type="radio" name="attStatus" id="late" value="1">
-														<label class="form-check-label" for="flexRadioDefault2">지각</label>
-													</div>
-													<div class="form-check form-check-inline">
-														<input class="form-check-input" type="radio" name="attStatus" id="absent" value="0">
-														<label class="form-check-label" for="flexRadioDefault2">결석</label>
-													</div>
-												</td> 
-												<c:if test="${lecture.day2 ne '' && lecture.day2 ne null && lecture.time2 ne '' && lecture.time2 ne null}">
-													<td  style="text-align: center; color: darkgrey; vertical-align: middle;" >출석정보없음</td>
-												</c:if>
+
+									<c:if test="${i%2 == 0}">
 											</tr>
-										</c:forEach>
-										</c:if>
+									</c:if>
+									</c:forEach>
 							</table>
 						</div>
 					

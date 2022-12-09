@@ -32,6 +32,9 @@
 
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
+/* function onlyNumber(obj) {
+	  obj.value = obj.value.replace(/[^0-9]/g, "");
+	} */
 //강의 리스트 클릭시 강의 정보 띄우기
 function lecUpdate(id) {
 	$.ajax({
@@ -65,26 +68,38 @@ function lecUpdate(id) {
 						 	html += "<td style='text-align: center; vertical-align: middle;'>" + item.name +"</td>"; 
 						 	html += "<td style='text-align: center; vertical-align: middle;'>" + item.major +"</td>"; 
 						 	html += "<td style='text-align: center; vertical-align: middle;'>"; 
-						 	html += "<input class='form-control' type='text' id='attendanceScore" + item.attendanceScore + "'></td>"; 
+						 	html += "<input class='form-control onlynum' type='text' id='attendanceScore" + index + "' value='0'></td>"; 
 						 	html += "<td style='text-align: center; vertical-align: middle;'>"; 
-						 	html += "<input class='form-control' type='text' id='midtermScore" + index + "'></td>"; 
+						 	html += "<input class='form-control onlynum' type='text' id='midtermScore" + index + "' value='0' ></td>"; 
 						 	html += "<td style='text-align: center; vertical-align: middle;'>"; 
-						 	html += "<input class='form-control' type='text' id='finalsScore" + index + "'></td>"; 
+						 	html += "<input class='form-control onlynum' type='text' id='finalsScore" + index + "' value='0' ></td>"; 
 						 	html += "<td style='text-align: center; vertical-align: middle;'>"; 
-						 	html += "<input class='form-control' type='text' id='reportScore" + index + "'></td>"; 
+						 	html += "<input class='form-control onlynum' type='text' id='reportScore" + index + "' value='0' ></td>"; 
 						 	
 						 	html += "<td style='text-align: center; vertical-align: middle;'>"; 
 						 	html += "<input class='form-control' type='text' id='avgScore" + index + "'></td>"; 
 						 	html += "<td style='text-align: center; vertical-align: middle;'>"; 
-						 	html += "<input class='form-control' type='text' id='totalScore" + index + "'></td>"; 
+						 	html += "<input class='form-control' type='text' id='totalScore" + index + "' ></td>"; 
 						 	html += "<td class='px-2' style='text-align: center; vertical-align: middle;'>"; 
-						 	html += "<input class='form-control' type='text' id='scoreF" + index + "'></td>"; 
+						 	html += "<input class='form-control' type='text' id='scoreF" + index + "'>"; 
+						 	html += "<input type='hidden' id='scoreId" + index + "'></td>"; 
 							
 						 	html += "</tr>"; 
 						});
-					}   //appned 쓰기.
+						$('#scoreTable > thead').after(html); 
+						$.each(JSON.parse(data).grList, function(index, item){
+							if(item != null) {
+								$('#attendanceScore' + index).val(item.attendance);
+								$('#midtermScore' + index).val(item.midterm);
+								$('#finalsScore' + index).val(item.finals);
+								$('#reportScore' + index).val(item.report);
+								$('#totalScore' + index).val(item.total);
+								$('#scoreId' + index).val(item.id);
+							}
+						});
+					}   //appned 쓰기
 					html += "</tbody>";
-					 $('#scoreTable > thead').after(html); 
+					 
 					 
 				}
 			});
@@ -103,6 +118,7 @@ function lecScoreSave(){
 			midterm :	 $(this).find("td").eq(5).find("input").val(),
 			finals : 	 $(this).find("td").eq(6).find("input").val(),
 			report :	 $(this).find("td").eq(7).find("input").val(),
+			id :	 	 $(this).find("td").eq(10).find("input[type=hidden]").val(),
 			total : 	 ""
 		});
 	});
@@ -121,8 +137,23 @@ function lecScoreSave(){
 	
 }
 
-	</script>
+$(document).ready(function(){
+	$(document).on('propertychange change keyup paste input', '.onlynum', function() {
+		console.log($(this).val());
+	    $(this).val($(this).val().replace(/[^0-9]/g, ""));
+	    $(this).val(Number($(this).val()));
+	    if(Number($(this).val()) > 100) {
+	    	$(this).val(100);
+	    }
+	    if($(this).val() == "") {
+	    	$(this).val(0);
+	    }
+	})
+});
+
+</script>
 <style>
+
 	table { 
 		border-collapse: collapse; width: 100%;
 	}
