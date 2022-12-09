@@ -1,6 +1,6 @@
 /* GOOGLE FONTS */
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
-
+@import url('https://fonts.googleapis.com/css?family=Nanum+Gothic|Nanum+Myeongjo&display=swap&subset=korean');
 /* VARIABLES CSS */
 :root {
     --nav--width: 92px;
@@ -12,7 +12,11 @@
     --white-color: #fff;
 
     /* Fuente y tipografia */
-    --body-font: 'Poppins', sans-serif;
+  /*   --body-font: 'Poppins', sans-serif; */
+    --normal-font-size: 1rem;
+    --small-font-size: .875rem;
+    
+	--body-font: 'Nanum+Gothic', sans-serif; 
     --normal-font-size: 1rem;
     --small-font-size: .875rem;
 
@@ -156,6 +160,9 @@ a {
 
 /* Show collapse */
 .showCollapse {
+    display: block;
+}
+.showCollapse a{
     display: block;
 }
 

@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
@@ -17,6 +16,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <!-- CSS -->
 <link rel="stylesheet" href="/css/styles.css">
+<link rel="stylesheet" href="/css/stylesLec.css">
 
     <title>SideBar sub menus</title>
 </head>
@@ -32,9 +32,9 @@
     </nav> -->
    <nav class="navbar navbar-expand-lg navbar-dark bd-navbar bg-light sticky-top position-fixed fixed-top w-100" style="position : absolute">
         <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between">
-          <a href="/" class="navbar-brand">
-            <img class="img-fluid" src="/images/logo2.png" alt="logo2" style="height: 40px;"><use xlink:href="#bootstrap"></use></svg>
-          </a>
+         <a href="professor/" class="navbar-brand">
+            <img class="img-fluid" src="/images/logo2.png" alt="logo2" style="height: 40px;"></svg>
+         < </a>
     
           <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
             <li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>
@@ -52,20 +52,24 @@
             <div>
                 <div class="nav__brand">
                     <ion-icon name="menu-outline" class="nav__toggle" id="nav-toggle"></ion-icon>
-                    <a href="#" class="nav__logo">Bedimcode</a>
+                    <a href="#" class="nav__logo"></a>
                 </div>
                 
                 
                 <div href="#" class="nav__link collapses active">
                         <ion-icon name="folder-outline" class="nav__icon md hydrated" role="img" aria-label="folder outline"></ion-icon>
-                        <span class="nav_name">학사관리</span>
+                        <span class="nav_name">학사관리&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
 
                         <ion-icon name="chevron-down-outline" class="collapse__link md hydrated rotate" role="img" aria-label="chevron down outline"></ion-icon>
 
-                        <ul class="collapse__menu showCollapse">
-                            <a href="#" class="collapse__sublink">강의시간표</a>
-                            <a href="#" class="collapse__sublink">Group</a>
-                            <a href="#" class="collapse__sublink">Members</a>
+                        <ul class="collapse__menu showCollapse " style="width: 190px; ">
+                            <a href="#" class="collapse__sublink mb-2 ">강의시간표</a>
+                            <a href="#" class="collapse__sublink mb-1">강의관리</a>
+                            <a href="#" class="collapse__sublink" style="font-size: 0.85rem;"> - 전자출석부</a>
+                            <a href="#" class="collapse__sublink mb-2"  style="font-size: 0.85rem;"> - 과제관리</a>
+                            <a href="#" class="collapse__sublink mb-1">강의정보</a>
+                            <a href="#" class="collapse__sublink"  style="font-size: 0.85rem;"> - 강의계획서</a>
+                            <a href="#" class="collapse__sublink"  style="font-size: 0.85rem;"> - 강의개설</a>
                         </ul>
                 </div>
                 
@@ -160,12 +164,15 @@
                     <div class="col-md-6 rounded-bottom overflow-auto bg-light p-3" style="min-height: 400px;"> 
                        <h1>메인페이지</h1>
                        <button type="button" style="width: 30%;" class="btn btn-primary btn-sm me-1" 
-                       		   onclick="location.href='lecMgMain?userid=${userid}'">강의관리</button>
+                       		   onclick="location.href='/professor/lecMgMain?userid=${userid}'">강의관리</button>
                        <button type="button" style="width: 30%;" class="btn btn-primary btn-sm me-1" 
-                       		   onclick="location.href='lecScore'">성적관리</button>
+                       		   onclick="location.href='/professor/lecScore'">성적관리</button>
                        		   
                        <button type="button" style="width: 30%;" class="btn btn-primary btn-sm me-1" 
-                       		   onclick="location.href='lecCreateList'">강의개설</button>
+                       		   onclick="location.href='/professor/lecCreateList'">강의개설</button>
+                       		   
+                       <button type="button" style="width: 30%;" class="btn btn-warning btn-sm my-2" 
+                       		   onclick="location.href='/professor/calenderForm'">캘린더</button>
                        
                     </div>
                     <div class="col-md-6 rounded-bottom overflow-auto bg-light p-3" style="min-height: 60x;"> 
