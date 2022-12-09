@@ -157,9 +157,9 @@ public class LecController {
 	
 	// 로그인된 교수의 강의조회
 	@GetMapping(value = "professor/lecMgMain")
-	public String lecMgList(HttpSession session, Model model) { 
+	public String lecMgList(Model model) { 
 		// 접속아이디 -> 교수 이름 찾기
-		String name = (String) session.getAttribute("name");
+		String name = gm.getMember().getName();
 		System.out.println(name);
 		
 		///////// 접속교수 이름 받아서 넘기기////////////

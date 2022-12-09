@@ -151,10 +151,19 @@
 			<div class="row m-5">
 			<!------------- 컨텐츠 경로 ------------->
 				<div class="col-12 rounded-top text-white overflow-auto pt-2 fw-bold" style="background-color: rgb(39, 40, 70); height: 40px;">
-					<i class="bi bi-bookmark-fill me-2"></i>학사관리 &gt; 강의정보 &gt; 강의개설</div>
+					<i class="bi bi-bookmark-fill me-2"></i>학사관리 &gt; 강의정보 &gt; 휴 &middot; 보강신청</div>
 				<!----- card content 내용 ------>
-				<div class="col-12 rounded-bottom overflow-auto bg-white p-5" style="min-height: 550px;">
-					<h2>강의개설</h2>
+				<div class="col-12 rounded-bottom overflow-auto bg-white p-4" style="min-height: 550px;">
+					<h2 class="fw-bold mb-3">휴 &middot; 보강신청</h2>
+					<div class="container justify-content-center">
+						<div class="row justify-content-center">
+							<div class="col-3 card">강의조회 table</div>
+							<div class="col-8 card">강의일자 table</div>
+						</div>
+						<div class="row"></div>
+						<div class="row"></div>
+						<div class="row"></div>
+					</div>
 					
 					
 				</div>
