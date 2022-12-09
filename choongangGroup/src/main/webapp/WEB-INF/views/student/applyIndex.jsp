@@ -164,7 +164,7 @@
 						<button type="button" value="장바구니" onclick="location.href='likeMain?userid=${userid}'"  
 								class="btn btn-secondary btn-lg" style="width: 28%; height:60px; margin-right: 2%; background-color:rgb(39, 40, 70)" >장바구니</button>
 						<button type="button" value="수강신청" onclick="location.href='applySelect?userid=${userid}'" 
-								class="btn btn-secondary btn-lg" style="width: 28%; height:60px; background-color:rgb(39, 40, 70)"">수강신청</button>
+								class="btn btn-secondary btn-lg" style="width: 28%; height:60px; background-color:rgb(39, 40, 70)">수강신청</button>
 						</div>			
 						
                    		
