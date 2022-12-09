@@ -12,7 +12,7 @@ import com.oracle.choongangGroup.sh.domain.ApplicationLec;
 import com.oracle.choongangGroup.sh.domain.ApplyTime;
 import com.oracle.choongangGroup.sh.domain.Attendance;
 import com.oracle.choongangGroup.sh.domain.Lecture;
-
+import com.oracle.choongangGroup.sh.repository.ApplicationLecRepository;
 import com.oracle.choongangGroup.sh.repository.ApplyRepository;
 import com.oracle.choongangGroup.sh.repository.ApplyTimeRepository;
 import com.oracle.choongangGroup.sh.repository.LectureRepository;
@@ -29,20 +29,10 @@ public class ApplyServiceImpl implements ApplyService {
 	private final ApplyRepository ar;
 	private final ApplyTimeRepository atr;
 	private final LectureRepository lecr;
+	private final ApplicationLecRepository aplr;
 	
-	//전체 개설 강의 리스트 조회
-	@Override
-	public List<Lecture> lectureListAll() {
-		List<Lecture> list = ar.lectureListAll();
-		return list;
-	}
-
-	//장바구니 담은 강의 리스트 조회
-	@Override
-	public List<ApplicationLec> likeListAll(String userid) {
-		List<ApplicationLec> list = lr.likeListAll(userid);
-		return list;
-	}
+	
+	
 
 	//장바구니신청
 	@Override
@@ -102,14 +92,27 @@ public class ApplyServiceImpl implements ApplyService {
 		}
 		return applytime;
 	}
-
 	
-	//페이징 처리
+	//전체 과목리스트 페이징 처리
 	@Override
-	public Page<Lecture> pageList(Pageable pageable) {
-		return lecr.findAll(pageable);
+	public Page<Lecture> lectureList(String year, String semester, Pageable pageable) {		
+		return lecr.findAllByYearAndSemester(year, semester, pageable);
 	}
 
+	@Override
+	public Page<ApplicationLec> likeList(String userid, String year, String semester, Pageable pageable) {
+		Long gubun = 1L;		
+		return aplr.findAllByMember_UseridAndLecture_YearAndLecture_SemesterAndGubun(userid, year, semester, gubun, pageable);
+	}
+
+	@Override
+	public Page<Lecture> findByName(String year, String semester, String lecName, Pageable pageable2) {
+		return lecr.findByYearAndSemesterAndNameContaining(year,semester,lecName,pageable2);
+	}
+
+	
+
+
 
 
 	
@@ -118,7 +121,12 @@ public class ApplyServiceImpl implements ApplyService {
 
 
 
-
+	/*
+	 * //장바구니 담은 강의 리스트 조회
+	 * 
+	 * @Override public List<ApplicationLec> likeListAll(String userid) {
+	 * List<ApplicationLec> list = lr.likeListAll(userid); return list; }
+	 */
 
 
 
