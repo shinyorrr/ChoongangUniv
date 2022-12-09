@@ -33,6 +33,8 @@ public class LectureVO {
 	private String lec_year;
 	private String subject_gubun;
 	private String lec_start;
+	private String lec_hour1;
+	private String lec_hour2;
 	
 	// 조회용
 	private String year;
