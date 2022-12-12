@@ -43,7 +43,6 @@
             <li><a href="#" class="nav-link px-2 link-dark">교재 관리</a></li>
             <li><a href="/notice/noticeList" class="nav-link px-2 link-dark">공지사항 관리</a></li>
             <li><a href="/message/messageList" class="nav-link px-2 link-dark">쪽지함</a></li>
-
           </ul>
         </header>
     </nav>
@@ -62,7 +61,7 @@
 
                         <ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
 
-                        <ul class="collapse__menu" style="width: 180px;">
+                        <ul class="collapse__menu" style="width: 180px; color: var(--sub-color);">
                             <a href="#" class="collapse__sublink">공지사항 글쓰기</a>
                             <a href="#" class="collapse__sublink">Group</a>
                             <a href="#" class="collapse__sublink">Members</a>
