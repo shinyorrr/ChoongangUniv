@@ -21,8 +21,8 @@
 		UPDATE member SET                       phone 		   = #{phone},
    		                                        address        = #{address},
    		                                        email          = #{email},
-   		                                        subphone       = #{subphone}
-   		                                     
+   		                                        subphone       = #{subphone},
+   		                                        image          = #{image}
    		                                        
 		where userid = #{userid}
 						

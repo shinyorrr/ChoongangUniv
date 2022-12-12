@@ -81,6 +81,45 @@ public class EvaluationServicelmpl implements EvaluationService {
 	}
 
 
+	  //강의평가 질문수정 화면 
+	@Override
+	public List<EvaluationVo> findcg2(String userid) {
+		
+		System.out.println("EvaluationServicelmpl findcg2 start. . . ");
+
+	 	List<EvaluationVo> cgList2 = null;
+	 	
+	 	cgList2 =ed.findcg2(userid);
+	 	
+	 	
+		
+		
+		return cgList2;
+	}
+
+	
+	
+	@Override
+	public int updateEv(ArrayList<EvaluationVo> rsList) {
+
+		int updateCount =  0;
+		
+		
+		 for( int i =0 ; i <rsList.size() ; i++) {
+			 System.out.println("rsList 하나만 꺼냄 "+rsList.get(i));
+			 
+			 updateCount = ed.updateEv(rsList.get(i));
+
+	}
+	
+		 return updateCount;
+	}
+	
+
+	
+	
+	
+	
 	 //강의평가 insert 
 	@Override
 	public int insertscore(List<EvaluationVo> scoreList) {
@@ -99,6 +138,29 @@ public class EvaluationServicelmpl implements EvaluationService {
 		System.out.println("result ->" + result);
 		return 0;
 	}
+
+	@Override
+	public int updateEvaluation(EvaluationVo evaluation) {
+		int updateEvaluation =0;
+	
+		
+//		
+//		 for( int i =0 ; i <evaluation.leng ; i++) {
+//			 System.out.println("scoreList 하나만 꺼냄 "+evaluation.get(i));
+			 
+				updateEvaluation = ed.updateEvaluation(evaluation);
+		
+		
+		
+		
+		
+		return updateEvaluation;
+	}
+
+
+
+
+
 
 }
 
