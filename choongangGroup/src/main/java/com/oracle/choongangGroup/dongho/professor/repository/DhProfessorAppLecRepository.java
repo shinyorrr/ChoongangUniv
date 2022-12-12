@@ -1,4 +1,4 @@
-package com.oracle.choongangGroup.dongho.professor.report;
+package com.oracle.choongangGroup.dongho.professor.repository;
 
 import java.util.List;
 

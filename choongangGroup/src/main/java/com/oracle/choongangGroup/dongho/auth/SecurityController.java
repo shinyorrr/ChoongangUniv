@@ -81,10 +81,10 @@ public class SecurityController {
 		// Request Header cookie 에서 JWT 토큰 추출
         String accessToken = resolveAccessToken((HttpServletRequest) request);
         String refreshToken = resolveRefreshToken((HttpServletRequest) request);
-        
+        String keepToken = resolveKeepToken((HttpServletRequest) request);
         Authentication authentication =  SecurityContextHolder.getContext().getAuthentication();
         Collection<? extends GrantedAuthority> roles = authentication.getAuthorities();
-        if (accessToken != null && refreshToken != null) {
+        if (accessToken != null && refreshToken != null || keepToken != null) {
         	log.info("토큰 존재하므로 메인페이지로 이동");
         	if (roles != null && roles.stream().anyMatch(a -> a.getAuthority().equals("ROLE_STUDENT"))) {
     			//response.sendRedirect("/student/main");
@@ -111,7 +111,10 @@ public class SecurityController {
 	
 	//로그인 요청
     @PostMapping("/login")
-    public void login(@RequestParam(value = "securedUsername") String securedUsername, @RequestParam(value = "securedPassword") String securedPassword, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+    public void login(@RequestParam(value = "securedUsername") String securedUsername, 
+    				  @RequestParam(value = "securedPassword") String securedPassword, 
+    				  @RequestParam(value = "keepLogin")       int    keepLogin,
+    				  HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
     	// session에서 개인키 받기(loginForm 요청시 session에 저장해둔 개인키)
     	log.info("====login Start====");
     	HttpSession session = request.getSession();
@@ -132,7 +135,7 @@ public class SecurityController {
         
         // 복호화된 아이디와 비밀번호로 토큰 생성(memberService의 login은 generateToken method를 통해 TokenInfo(토큰dto)를 리턴한다. )
         // 토큰dto에는 타입,refreshToken,accessToken이 들어있음
-        TokenInfo tokenInfo = this.securityService.login(username, password);
+        TokenInfo tokenInfo = this.securityService.login(username, password, keepLogin);
         String accessToken = URLEncoder.encode(tokenInfo.getAccessToken(), "utf-8");
         String refreshToken = URLEncoder.encode(tokenInfo.getRefreshToken(), "utf-8");
         
@@ -143,9 +146,6 @@ public class SecurityController {
         request.setAttribute("userid", username);
         
         // 클라이언트의 쿠키에 넣을 토큰 setting
-//        // cookie.setMaxAge(7 * 24 * 60 * 60); // 유효시간을 정하지 않으면 session cookie (휘발성. 브라우저종료시 삭제)
-
-        
         ResponseCookie cookieAT = ResponseCookie.from("AccessToken","Bearer" + accessToken)
         		.path("/")
         		.httpOnly(true)
@@ -160,6 +160,18 @@ public class SecurityController {
         		.build();
 		response.addHeader("Set-Cookie", cookieAT.toString());
 		response.addHeader("Set-Cookie", cookieRT.toString());
+		// 자동로그인 토큰 쿠키 setting
+		if(keepLogin == 1) {
+			String keepToken = URLEncoder.encode(tokenInfo.getKeepToken(), "utf-8");
+
+			ResponseCookie cookieKT = ResponseCookie.from("keepToken","Bearer" + keepToken)
+					.path("/")
+					.httpOnly(true)
+					.domain("localhost")
+	        		.maxAge(14 * 24 * 60 * 60) // 유효시간을 정하지 않으면 session cookie (휘발성. 브라우저종료시 삭제)
+					.build();
+			response.addHeader("Set-Cookie", cookieKT.toString());
+		}
 
     }
 	
@@ -375,6 +387,24 @@ public class SecurityController {
         }
         return bytes;
     }
+    
+    // Request Header (cookie) 에서 keep토큰 정보 추출
+    private String resolveKeepToken(HttpServletRequest request) {
+    	Cookie[] list = request.getCookies();
+        String bearerToken = "";
+        if (list != null) {
+        	for (Cookie cookie : list) {
+    			if (cookie != null && cookie.getName().equals("keepToken")) {
+    				bearerToken = cookie.getValue();
+    				if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer")) {
+    					// 쿠키 value에서 bearer 부분 제외한 token만 추출
+    		            return bearerToken.substring(6);
+    		        }
+    			}
+    		}
+		}
+		return null;
+	}
     
     // Request Header (cookie) 에서 access토큰 정보 추출
     private String resolveAccessToken(HttpServletRequest request) {
