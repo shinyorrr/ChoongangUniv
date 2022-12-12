@@ -10,7 +10,7 @@ import com.oracle.choongangGroup.sh.domain.ApplicationLec;
 import com.oracle.choongangGroup.sh.domain.Lecture;
 import com.oracle.choongangGroup.sh.domain.Report;
 
-public interface DhProfessorService {
+public interface DhProfessorReportService {
 
 	List<Lecture> findByProf(String profName);
 

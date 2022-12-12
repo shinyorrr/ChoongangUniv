@@ -7,4 +7,5 @@ public class InsertLecOrdersDto {
 	private Long   lec_id;
 	private Long   lec_order;
 	private String lec_date;
+	private String lec_time;
 }
