@@ -105,10 +105,24 @@
 		}
 	}
 	
-	function lecUpdate() {
+	function lecAgree(lecFrm) {
+		 if (confirm("강의를 승인하시겠습니까?") == true) {
+			 alert("승인되었습니다.");
+			 lecFrm.action = "lecAgree";
+			 lecFrm.submit();
+			 return true;
+		 }
+		 else {
+			 alert("취소되었습니다.")
+			 return false;
+		 }
+	}
+	
+	function lecUpdate(lecFrm) {
 		 if (confirm("강의를 수정하시겠습니까?") == true) {
 			 alert("수정되었습니다.");
-			 document.lecFrm.submit();
+			 lecFrm.action = "lecUpdate";
+			 lecFrm.submit();
 			 return true;
 		 }
 		 else {
@@ -326,7 +340,7 @@
 							<div id="titleInBox" style="font-weight: bold; font-size: 19px; margin-top: 30px;">강의 상세정보</div>
 							<div style="border-top: 1px dashed #c9c9c9; margin: 10px 0;"></div>
 							
-							<form name="lecFrm" id="lecFrm" action="lecUpdate" method="post" onsubmit="return lecUpdate()">
+							<form name="lecFrm" id="lecFrm" action="" method="post">
 								<input type="hidden" id="lec_id" name="lec_id">
 								<input type="hidden" id="prof_name" name="prof_name">
 								<input type="hidden" id="lec_type" name="lec_type">
@@ -502,7 +516,8 @@
 									</tr>
 								</table>
 								<div class="d-flex justify-content-center">
-									<button type="button" id="btnUpdate" onclick="lecUpdate()" class="btn btn-primary btn-sm" style="font-weight: bold; margin-right: 10px;">수정/승인</button>
+								    <button type="button" id="btnUpdate" onclick="lecUpdate(lecFrm)" class="btn btn-success btn-sm" style="font-weight: bold; margin-right: 10px;">수정</button>
+									<button type="button" id="btnAgree" onclick="lecAgree(lecFrm)" class="btn btn-primary btn-sm" style="font-weight: bold; margin-right: 10px;">승인</button>
 									<button type="button" onclick="lecDelete()" class="btn btn-secondary btn-sm" style="font-weight: bold;">삭제</button>
 								</div>
 								</form>

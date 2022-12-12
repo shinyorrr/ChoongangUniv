@@ -66,7 +66,7 @@ mybatis:
   
    
 logging.level:
-  org.hibernate.SQL: debug   # logger를 통해 하이버네이트 실행 SQL
+  org.hibernate.SQL: info      # logger를 통해 하이버네이트 실행 SQL
 # jwt secretKey
 jwt:
   secret: 64+Z7ZW066y86rO867Cx65GQ7IKw7J2066eI66W06rOg64uz64+E66Gd      

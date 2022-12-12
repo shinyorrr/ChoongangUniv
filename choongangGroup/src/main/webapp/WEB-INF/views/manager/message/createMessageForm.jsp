@@ -35,29 +35,48 @@
 	//주소록 리스트
 	function addressList(){
 		alert("주소록 조회");
-		$.ajax(
-				{
-					uri : "addressList",
-					dataType : 'json',
-					success: function(data){
-						var html = "";
-						if(data.length > 0) {
-							$.each(data, function(index, obj){ 
+		$.ajax({
+				url : "/manager/apprList",
+				dataType:'json',
+				success: function(data){
+					alert('success....');
+					var jsonStr = JSON.stringify(data);
+					alert("jsonStr->"+jsonStr);
+					var html = "";
+					if(data.length > 0) {
+						$.each(data, function(index, obj){ 
 					  			html+="<tr>";
 					  	  		html+="<td>"+obj.name+"</td>";
 					  	  		html+="<td>"+obj.dept+"</td>";
 					  	  		html+="<td>"+obj.position+"</td>";
 					  	  		html+="<td>"+obj.phone+"</td>";
+					  	  		html+="<td>";
+					  	  		html+="<input type='radio' name='radioBox' class='"+ index + "' value='"+obj.userid+','+obj.name+"' required='required'>";
+					  	  		html+="</td>";
 					  	  		html+="</tr>";
 					  		});
 							
 					  		$("#ajaxAddressList").html(html);
 						}
-						
-					},
-		  			error:function(){alert("error");}
-		  		});
-		  	}
+		  		},
+				error:function(){
+					alert("error");
+				}
+		});
+	}
+	
+	// 주소록 정보 넣기
+	function selectUser(){
+		var userInfo = $('input:radio[name="radioBox"]:checked').val();
+		var userid = userInfo.split(',')[0];
+		var name = userInfo.split(',')[1];
+		$('input[name=receiverUserid]').attr('value', userid);
+		$('input[name=receiverName]').attr('value', name);
+		$('#exampleModal').modal('hide');
+	}
+	
+	
+	
 
 </script>
 </head>
@@ -206,11 +225,14 @@
 						style="min-height: 550px;">
 						<h3>쪽지 작성</h3>
 						<hr>
-						<form action="<%=context%>/notice/noticeSave" method="post">
-							<input type="hidden" id=userid name="userid"
-								value="<%=session.getAttribute("userid")%>">
+						<input type="hidden" id=userid name="userid" value="${userid}">
+						<form action="messageSave" method="post">
 							<div>
-								<label class="form-label">받는 사람</label> <input>
+								<label class="form-label">받는 사람</label>
+								<input type="hidden" name="senderUserid" id="senderUserid" value="${userid}">
+								<input type="hidden" name="senderName" id="senderName" value="${name}">
+								<input type="hidden" name="receiverUserid" id="receiverUserid"> 
+								<input type="text" name="receiverName" id="receiverName" readonly="readonly">
 								<!-- Button trigger modal -->
 								<button type="button" class="btn btn-primary"
 									data-bs-toggle="modal" data-bs-target="#exampleModal"
@@ -237,18 +259,18 @@
 															<th>직위</th>
 															<th>부서</th>
 															<th>연락처</th>
+															<th>선택</th>
 														</tr>
 													</thead>
 													<tbody id="ajaxAddressList">
-													
 													</tbody>
 												</table>
 												</div>
 											</div>
 											<div class="modal-footer">
 												<button type="button" class="btn btn-secondary"
-														data-bs-dismiss="modal">Close</button>
-												<button type="button" class="btn btn-primary">Save changes</button>
+														data-bs-dismiss="modal">취소</button>
+												<button type="button" class="btn btn-primary" onclick="selectUser()">등록</button>
 											</div>
 										</div>
 									</div>
@@ -257,20 +279,14 @@
 							<div style="margin: 10px;">
 								<label for="exampleFormControlInput1" class="form-label">글제목</label>
 								<input type="text" class="form-control"
-									id="noticeTitle exampleFormControlInput1" name="noticeTitle"
-									placeholder="제목을 입력하세요." required="required">
+									   id="messageTitle exampleFormControlInput1" name="messageTitle"
+									   placeholder="제목을 입력하세요." required="required">
 							</div>
 							<div style="margin: 10px;">
 								<label for="exampleFormControlTextarea1" class="form-label">내용</label>
 								<textarea class="form-control" rows="3"
-									id="noticeContent exampleFormControlTextarea1"
-									name="noticeContent" style="height: 300px;" required="required"></textarea>
-							</div>
-							<div style="margin: 10px; width: 100px;">
-								<input type="file">
-								<!-- <div class="dropBox">
-								<h3>이곳에 파일을 드롭해주세요.</h3>
-								</div> -->
+									      id="messageContent exampleFormControlTextarea1"
+										  name="messageContent" style="height: 300px;" required="required"></textarea>
 							</div>
 							<div style="margin: 10px;">
 								<button type="submit" class="btn btn-outline-primary">등록</button>

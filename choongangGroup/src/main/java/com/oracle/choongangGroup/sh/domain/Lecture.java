@@ -15,7 +15,7 @@ import lombok.Data;
 @Data
 @SequenceGenerator(name = "lecture_sequence", //객체 seq
 					sequenceName = "lecture_sequence",
-					initialValue = 1, //나중에 0001로 바꿔보기
+					initialValue = 1,
 					allocationSize = 1)	
 public class Lecture {
 	@Id
