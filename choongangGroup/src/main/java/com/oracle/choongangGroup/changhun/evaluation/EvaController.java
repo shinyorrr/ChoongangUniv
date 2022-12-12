@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.oracle.choongangGroup.changhun.JPA.Member;
+import com.oracle.choongangGroup.dongho.auth.GetMember;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 public class EvaController {
 	
 	private final EvaService es;
+	private final GetMember getMember;
 	
 	@RequestMapping("/EvaManagementForm")
 	public String EvaManagementForm(Model model,
@@ -25,7 +29,9 @@ public class EvaController {
 		log.info("EvaManagementForm pname --> {}",pname);
 		List<EvaVo> evaList = es.evaList(pname);
 		EvaVo total = es.total(pname);
+		Member member = getMember.getMember();
 		
+		model.addAttribute("member", member);
 		model.addAttribute("evaList", evaList);
 		model.addAttribute("total", total);
 		

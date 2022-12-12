@@ -251,8 +251,8 @@
 						</div>
            			</div>
            		</div>
-          </main>
     </div>
+    <jsp:include page="../footer.jsp"></jsp:include>
     <!-- IONICONS -->
     <script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script>
     <!-- JS -->

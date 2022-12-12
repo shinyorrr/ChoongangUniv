@@ -150,8 +150,6 @@
         <div class="row">
         
             
-            
-            <!-- content header -->
          	<jsp:include page="contentHeader.jsp"></jsp:include>
                     <!-- card header -->
                     <div class="col-12 rounded-top text-white overflow-auto pt-2 fw-bold" style="background-color: rgb(39, 40, 70); height: 40px;"> 
@@ -244,13 +242,10 @@
 					</nav>
                     </div>
                     <!-- footer -->
-                    <footer class="col-12" style="height: 60px;">
-                        footer
-                    </footer>    
+         
                 </div>
-            </main>
         </div>
-    </div>
+        <jsp:include page="../footer.jsp"></jsp:include>
     <!-- IONICONS -->
     <script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script>
     <!-- JS -->
