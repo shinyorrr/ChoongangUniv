@@ -28,6 +28,10 @@ public interface MemberDao {
 	//총 학점 평균 조회
 	GradeVo findscore(String userid);
 
+	GradeVo findscore2(String userid);
+
+
+
 
 
 	

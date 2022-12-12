@@ -3,6 +3,88 @@
 <!DOCTYPE html>
 <html>
 <head>
+<style type="text/css">
+
+.btn-upload {
+  width: 100px;
+  height: 30px;
+  background: #fff;
+  border: 1px solid rgb(77,77,77);
+  border-radius: 10px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: right;
+  margin : 10px 0 10px 10px;
+  
+  &:hover {
+    background: rgb(77,77,77);
+    color: #fff;
+  }
+}
+
+
+
+
+
+</style>
+
+
+<!-- 다음지도   -->
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script type="text/javascript">
+
+
+window.onload = function(){
+    document.getElementById("address_kakao").addEventListener("click", function(){ //주소입력칸을 클릭하면
+        //카카오 지도 발생
+        new daum.Postcode({
+            oncomplete: function(data) { //선택시 입력값 세팅
+                document.getElementById("address").value = data.address; // 주소 넣기
+                document.querySelector("input[name=address]").focus(); //상세입력 포커싱
+            }
+        }).open();
+    });
+}
+
+
+//전화번호 하이픈,글자제한 
+const autoHyphen = (target) => {
+    target.value = target.value
+      .replace(/[^0-9]/g, '')
+     .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3").replace(/(\-{1,2})$/g, "");
+   }
+
+
+//비상연락망 하이픈,글자제한 
+const autoHyphen2 = (target) => {
+    target.value = target.value
+      .replace(/[^0-9]/g, '')
+     .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3").replace(/(\-{1,2})$/g, "");
+   }
+
+
+
+function readURL(input) {
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        document.getElementById('preview').src = e.target.result;
+      };
+      reader.readAsDataURL(input.files[0]);
+    } else {
+      document.getElementById('preview').src = "";
+    }
+  }
+
+
+
+
+
+
+</script>
 <meta charset="UTF-8">
 <!-- bottSTrap CSS only -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">		
@@ -153,23 +235,43 @@
                   
 
 
-<form action="updateMember" method="post">
+<form action="updateMember" method="post" enctype="multipart/form-data"   >
 
 <table class="table table-striped"  border="1">
 
 	 <input type="hidden" name="userid" value="${userid }">  
 		
+						<!--이미지   -->
+			<div  style="width: 1000px; height: 250px; ">
+			  <div class="row g-0">
+				   <div class="col-md-4">
+				      <img  id="preview"    src="../upload/hj/${member.image}" style="width: 600px; height: 200px;"   class="img-fluid rounded-start" alt="이미지">
+				      <label for="file1">
+                        <div   class="btn-upload">이미지 변경</div>
+                    </label>
+                   
+				    <input type="file" style="display: none;"  onchange="readURL(this)"   name="file1"  id="file1" value="${member.image}">
+				    
+				   </div>
+				        
+			  </div>
+				 
+			</div>
+		
+		
 			<tr><th>성명</th><td>${member.name } </td> 			
 			<th>학번</th><td>${member.userid }</td>         
 			 <th>국적</th><td>${member.nation }</td></tr>
-			<tr><th>휴대전화</th><td> 
-			<input type="text" name="phone" required="required" 
-			pattern="\d{2,3}-\d{3,4}-\{4}" placeholder="xxx-xxxx-xxxx"
-			oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1')"
-			maxlength="13"  value="${member.phone}"></td>		  	
+			<tr><th>연락처</th><td> 
+			<input type="text" name="phone" required="required" id="phone" oninput="autoHyphen(this)" maxlength="13"value="${member.phone}"></td>		  	
 			<th>학년</th><td>	${member.grade}</td>         
+			
 			<th>주소</th><td>
-			<input type="text" name="address"  required="required" value="${member.address }"></td></tr></tr>
+			<input type="text "   name="address"  id="address" required="required" value="${member.address }">
+			 <button class="btn btn-outline-secondary" type="button" id="address_kakao">주소찾기</button>
+			</td></tr></tr>
+			
+
 			<tr><th>성별</th><td>${member.gender }</td> 			
 		    <th>학적상태</th><td>${member.stud_status }</td>      
 			<th>E-Mail</th><td>
@@ -180,21 +282,11 @@
 			<tr><th>계좌번호</th><td>${member.account}</td> 			
 			<th>입학전형</th><td>${member.adm_type}</td>        
 			<th>비상연락망</th><td>
-			<input type="text" name="subphone" required="required"  value="${member.subphone }"></td></tr> 
+			<input type="text" name="subphone" name="subphone" id="subphone" oninput="autoHyphen2(this)" maxlength="13"    required="required"  value="${member.subphone }"></td></tr> 
 			<tr><th>입금은행</th><td>${member.bank }</td> 			
 			<th>전공(소속학과)</th><td>${member.major }</td>          	
 			<th>부전공</th><td>${member.sub_major }</td>         
-			
-	
-
-
-
-
-
-
-
-
-
+		
 
 
 </table>

@@ -27,7 +27,7 @@ public class MemberServiceImpl implements MemberService {
 	private final GraderDao gd ;
 
 
-	//아이디 받아와서 학적 조회 
+	//학적 조회 
 	@Override
 	public MemberVo list(String userid) {
 		System.out.println("MemberServiceImpl list start. . . ");
@@ -74,12 +74,15 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public List<GradeVo> listgrade(String userid, String lec_year, String lec_semester) {
 		System.out.println("MemberServiceImpl listgrade start. . . ");
-		 //성적과목조회 
+		
+		//성적과목조회 
 		 List<GradeVo> gradeList = null;
 		  System.out.println("MemberServiceImpl userid  " +userid);
 		
 		  //년도 학기 별로 조회 되도록
 		  gradeList = md.gradeList(userid , lec_year ,lec_semester);
+		  
+		  
 		  
 		  //토탈 성적 ---> 학점으로 바꾸기 
 //		  for(GradeVo gv : gradeList) {
@@ -125,11 +128,6 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 
-	
-
-
-	
-	
 
 
 	

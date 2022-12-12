@@ -161,6 +161,32 @@ public class MemberDaoImpl implements MemberDao {
 		return grade;
 	}
 
+	@Override
+	public GradeVo findscore2(String userid) {
+		System.out.println("MemberDaoImpl findscore2 start. . . ");
+
+		GradeVo gv = new GradeVo();
+		try {
+					
+			gv=session.selectOne("hjgvSelOne", userid);
+			System.out.println(" MemberDaoImpl findscore getLec_unit_score-> "+gv.getStotal());
+					
+			
+			
+		} catch (Exception e) {
+			System.out.println("MemberDaoImpl findscore Exception-> "+e.getMessage());
+		}
+		
+		
+		return gv;
+		
+		
+		
+		
+		
+	}
+
+
 
 	
 
