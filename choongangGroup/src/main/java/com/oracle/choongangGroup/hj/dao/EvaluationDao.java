@@ -14,6 +14,16 @@ public interface EvaluationDao {
 
 	int insertscore(EvaluationVo evaluationVo);
 
+	List<EvaluationVo> findcg2(String userid);
 
+	int updateEvaluation(EvaluationVo evaluation);
+
+
+
+	int updateEv(EvaluationVo evaluationVo);
+
+
+
+	
 
 }

@@ -148,21 +148,21 @@
                     <!-- card content -->  
                     <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
                        
-        <!--    *********************************************** 학적조회************************************      -->
-                      
+ 
+                     
 
-<!-- 학적수정 버튼  -->
-<input type="radio" class="btn-check" name="options" id="option2" autocomplete="off">
-<label class="btn btn-secondary" for="option2" onclick="location.href='updateFormMember?userid=${member.userid}'" >학적수정</label>
-
+       <!--    *********************************************** 학적조회************************************      -->
+       
+       
+       
 
 <!--이미지   -->
-<div class="card mb-3" style="width: 200px; height: 200px; ">
-  <div class="row g-0">
-    <div class="col-md-4">
-      <img src="images/user_icon04.png" class="img-fluid rounded-start" alt="이미지">
-    </div>
-        
+<div  style="width: 200px; height: 200px; ">
+    <div class="row g-0">
+     
+      <img  id="preview"    src="../upload/hj/${member.image}" style="width: 200px; height: 200px;"   class="img-fluid rounded-start" alt="이미지">
+  
+                       
   </div>
  
 </div>
@@ -181,8 +181,12 @@
 	
 
 </table>
-
-                       
+                <!-- 학적수정 버튼  -->
+             <div>
+             <label class="btn btn-secondary" for="option2" onclick="location.href='updateFormMember?userid=${member.userid}'" >학적수정</label>
+             
+             
+             </div>          
                        
                        
   <!--    *********************************************** 학적조회 end    ************************************      -->                      
@@ -194,7 +198,7 @@
                     </div>
                     <!-- footer -->
                     <footer class="col-12" style="height: 60px;">
-                        footer
+                     
                     </footer>    
                 </div>
             </main>
