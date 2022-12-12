@@ -93,25 +93,26 @@
     <!-- side nav bar -->
     <div class="l-navbar" id="navbar">
         <nav class="navv">
-            <div>
-                <div class="nav__brand">
+        	<div>
+        	 <div class="nav__brand">
                     <ion-icon name="menu-outline" class="nav__toggle" id="nav-toggle"></ion-icon>
-                    <a href="#" class="nav__logo">Bedimcode</a>
+                    <a href="#" class="nav__logo"></a>
                 </div>
-                <div class="nav__list">
-                    <a href="#" class="nav__link active">
-                        <ion-icon name="home-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Dashboard</span>
-                    </a>
-                    <a href="#" class="nav__link active">
-                    <i class="bi bi-caret-right"></i>
-                    	<span>주소록관리</span>
-                    </a>
-                    <a href="#" class="nav__link active">
-                    <i class="bi bi-caret-right"></i>
-                    	<span>즐겨찾기 주소록 관리</span>
-                    </a>
-            </div>
+        	<div href="#" class="nav__link">
+                        <ion-icon name="folder-outline" class="nav__icon"></ion-icon>
+                        <span class="nav_name">게시판 관리</span>
+			</div>
+           		<ul class="collapse__menu" style="width: 180px; margin-left : 10px">
+           			<div class="row">
+                    <a href="#" class="collapse__sublink">공지사항 글쓰기</a>
+                    <a href="#" class="collapse__sublink">Group</a><br>
+                    <a href="#" class="collapse__sublink">Members</a>
+           			
+           			</div>
+             	</ul>
+        	</div>
+               
+               
         </nav>
     </div>
     <!-- /side nav bar -->
@@ -122,45 +123,7 @@
             
             
             <!-- content header -->
-              <div class="col-12 pt-4" style="height: 150px; background-color: rgb(95, 142, 241)">
-                <div class="row">
-                	<div class="col-6">
-		                <div class="d-flex flex-row mb-3">
-		                    <div>
-		                        <span class="text-white h4">안녕하세요. <span class="fw-bold">김중앙</span>님!</span>
-		                    </div>
-		                    <div class="border border-1 border-white border-bottom rounded-pill text-white px-2 pt-1 ms-2 h6">교수</div>
-		                    <div>
-		                        <i class="text-white bi-gear-fill mx-2"></i>
-		                    </div>
-		                </div>
-		                <div class="row">
-		                    <div>
-		                        <span class="text-white h6">이공대학 컴퓨터공학과 | 정교수</span>
-		                    </div>
-		                </div>
-		                <div class="d-flex flex-low">
-		                    <div>
-		                        <i class="bi bi-envelope-fill text-white"></i>
-		                    </div>
-		                    <div>
-		                        <span class="text-white ms-3">test123@naver.com</span>
-		                    </div>
-		                </div>
-		            </div>
-		            <div class="col-4">
-		            	<div style="width: 535px;line-height: 100px;color: white;font-size: 77px;text-align:center;" id="clock">
-						</div>
-		            </div>
-		            <div class="col-1">
-		            	<button type="button" class="btn btn-secondary" style="width: 100px;height: 43px;margin: 5px;" onclick="attInsert()">출근</button>
-		            	<button type="button" class="btn btn-secondary" style="width: 100px;height: 43px;margin: 5px;" onclick="attOff()">퇴근</button>
-		            </div>
-	           </div>
-                
-            </div>
-            <main class="col-9 h-100 w-100">
-                <div class="row m-5">
+             <jsp:include page="contentHeader.jsp"></jsp:include>
                     <!-- card content -->  
                     <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
                     	<div class = "row border-bottom border-4">
