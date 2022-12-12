@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.poi.hssf.usermodel.HSSFDataFormat;
-import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.FillPatternType;
@@ -39,13 +38,12 @@ public class LecServiceImpl implements LecService {
 	private final LecApplicationRepository ar;
 	private final ObjectMapper obm;
 
-
 	@Override  
 	public List<ApplicationLec> findByLecture_IdAndGubun(Long id, Long gubun) {
 		return ar.findByLecture_IdAndGubun(id, gubun);
 	}
 
-
+	// 엑셀 내보내기
 	public Object getLecCheck(HttpServletResponse response, boolean excelDown, Long id) {
 		List<ApplicationLec> memList = ar.findByLecture_IdAndGubun(id, 1L);
 		
@@ -135,6 +133,7 @@ public class LecServiceImpl implements LecService {
 			e.printStackTrace();
 		}
 	}
+
 
 
 
