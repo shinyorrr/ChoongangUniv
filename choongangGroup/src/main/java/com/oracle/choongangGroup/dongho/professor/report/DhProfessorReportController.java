@@ -46,8 +46,8 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/professor")
-public class DhProfessorController {
-	private final DhProfessorService dhprofessorService;
+public class DhProfessorReportController {
+	private final DhProfessorReportService dhprofessorReportService;
 	private final GetMember getMember;
 
 	// 과제 리스트 페이지 요청
@@ -55,9 +55,14 @@ public class DhProfessorController {
 	public String reportList(Model model) {
 		// select에 표시할 강의 목록 조회
 		log.info("reportList 강의 list 조회 시작");
-		List<Lecture> lectureList = dhprofessorService.findByProf(getMember.getMember().getName());
+		List<Lecture> lectureList = dhprofessorReportService.findByProf(getMember.getMember().getName());
 		model.addAttribute("lectureList", lectureList);
 		return "/professor/report";
+	}
+	// test
+	@GetMapping("/mainTest")
+	public String testPage() {
+		return "/professor/mainTest";
 	}
 	
 	// 과제 리스트 조회
@@ -74,7 +79,7 @@ public class DhProfessorController {
 		int pageSize = 6;
 		Pageable pageable = PageRequest.of(page, pageSize, Sort.by(Sort.Direction.ASC,"member.name"));
 		// paging 가져오기
-		Page<ApplicationLec> ApplicataionLecPaging = dhprofessorService.findPageByLecture_IdAndGubun(id, gubun, pageable);
+		Page<ApplicationLec> ApplicataionLecPaging = dhprofessorReportService.findPageByLecture_IdAndGubun(id, gubun, pageable);
 		int totalPage = ApplicataionLecPaging.getTotalPages();
 		int totalCount = (int) ApplicataionLecPaging.getTotalElements(); // 조회한 과제 List 총 개수(입력되지 않은 과제정보포함)(해당 강의를 듣는 학생 수)
 		map.put("totalCount", totalCount);
@@ -101,7 +106,7 @@ public class DhProfessorController {
 				score = reportUpdateDto.getScore();
 				grade = reportUpdateDto.getGrade();
 				// update
-				result = dhprofessorService.updateReportScore(id, score, grade);
+				result = dhprofessorReportService.updateReportScore(id, score, grade);
 				results.add(result);
 			}
 		}
@@ -140,10 +145,10 @@ public class DhProfessorController {
 					multipartFile.transferTo(saveFile);
 					log.info("파일업로드 (local save) 성공");
 					//DB 에 파일 이름, 파일저장경로 저장
-					Report report = dhprofessorService.findByApplicationLec_Member_Userid(userid);
+					Report report = dhprofessorReportService.findByApplicationLec_Member_Userid(userid);
 					report.setFileName(originalFileName);
 					report.setFilePath(dBSaveFile);
-					dhprofessorService.save(report);
+					dhprofessorReportService.save(report);
 					log.info("DB 저장 성공");
 					result = "업로드 성공";
 				} catch (Exception e) {
@@ -162,7 +167,7 @@ public class DhProfessorController {
 		log.info("====createZipAll Start====");
 		Long gubun = (long) 1; // 신청한 강의 테이블 구분값 (신청한 강의 : gubun = 1)
 		Long idToFind = (long) Integer.parseInt(id);
-		List<ApplicationLec> ApplicataionLecList = dhprofessorService.findByLecture_IdAndGubun(idToFind, gubun);
+		List<ApplicationLec> ApplicataionLecList = dhprofessorReportService.findByLecture_IdAndGubun(idToFind, gubun);
 		List<String> fileList = new ArrayList<String>();
 		Optional<Report> report = Optional.empty();
 		String filePath = "";

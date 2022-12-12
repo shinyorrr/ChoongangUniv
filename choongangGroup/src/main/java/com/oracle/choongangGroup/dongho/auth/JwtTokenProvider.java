@@ -77,6 +77,54 @@ public class JwtTokenProvider {
                 .refreshToken(refreshToken)
                 .build();
     }
+    
+    // 자동로그인 설정후 로그인할때만 작동한다. 이후 authenticationFilter에서 token 재발급시 generateToken 사용.
+    public TokenInfo generateTokenKeep(Authentication authentication) {
+    	log.info("===generateTokenKeep start===");
+    	log.info("generateToken authentication.getName() : {}", authentication.getName());
+    	// 권한 가져오기
+        String authorities = authentication.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.joining(","));
+        // 현재시간 받기
+        long now = (new Date()).getTime();
+        // Access Token 생성
+        // 만료시간 설정 (현재시간 + 만료기간)
+    	// param * 1000L => param 초 (밀리초 단위이므로 1000으로 나누면 초가 된다)
+        Date accessTokenExpiresIn  = new Date(now + 60 * 30 * 1000L); 	//30분
+        Date refreshTokenExpiresIn = new Date(now + 60 * 60 * 1000L);	//60분
+        Date keepTokenExpiresIn    = new Date(now + 60 * 60 * 24 * 14 * 1000L);	//2주
+        // Jwts를 이용하여 토큰 생성
+        String accessToken = Jwts.builder()
+        		//authentication 으로부터 유저정보를 받아 넣는다. getName => memberId , authorities => roles
+                .setSubject(authentication.getName())
+                .claim("auth", authorities)
+                //만료시간 설정
+                .setExpiration(accessTokenExpiresIn)
+                //암호화 알고리즘 설정
+                .signWith(key, SignatureAlgorithm.HS256)
+                .compact();
+
+        // Refresh Token 생성 (토큰 변조 유무 및 DB와 일치 여부만 확인하면 되므로 유저정보는 넣지 않는다)
+        String refreshToken = Jwts.builder()
+                .setExpiration(refreshTokenExpiresIn)
+                .signWith(key, SignatureAlgorithm.HS256)
+                .compact();
+        // keepLogin Token 생성 (토큰 변조 유무 및 DB와 일치 여부만 확인하면 되므로 유저정보는 넣지 않는다)
+        String keepToken = Jwts.builder()
+        		.setSubject(authentication.getName())
+        		.claim("auth", authorities)
+                .setExpiration(keepTokenExpiresIn)
+                .signWith(key, SignatureAlgorithm.HS256)
+                .compact();
+        // TokenInfo dto에 토큰 넣기
+        return TokenInfo.builder()
+                .grantType("Bearer")
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
+                .keepToken(keepToken)
+                .build();
+    }
 
     // JWT 토큰을 복호화하여 토큰에 들어있는 정보를 꺼내는 메서드
     // usernamepasswordAuthenticationToken 형태로 받아서 유저정보를 꺼내쓴다.
@@ -148,4 +196,5 @@ public class JwtTokenProvider {
 		}
 		return false;
 	}
+
 }

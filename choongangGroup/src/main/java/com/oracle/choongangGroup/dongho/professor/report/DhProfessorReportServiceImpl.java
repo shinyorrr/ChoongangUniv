@@ -10,6 +10,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.stereotype.Service;
 
+import com.oracle.choongangGroup.dongho.professor.repository.DhProfessorAppLecRepository;
+import com.oracle.choongangGroup.dongho.professor.repository.DhProfessorLecRepository;
+import com.oracle.choongangGroup.dongho.professor.repository.DhProfessorReportRepository;
 import com.oracle.choongangGroup.sh.domain.ApplicationLec;
 import com.oracle.choongangGroup.sh.domain.Lecture;
 import com.oracle.choongangGroup.sh.domain.Report;
@@ -21,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class DhProfessorServiceImpl implements DhProfessorService {
+public class DhProfessorReportServiceImpl implements DhProfessorReportService {
 	private final DhProfessorLecRepository lr;
 	private final DhProfessorReportRepository rr;
 	private final DhProfessorAppLecRepository alr;

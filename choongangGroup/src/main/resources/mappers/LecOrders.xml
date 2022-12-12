@@ -13,13 +13,14 @@
 		</selectKey>
 		INSERT ALL
 		<foreach collection="list" item="item" index ="index">
-		INTO LEC_ORDERS(lec_orders_id, lec_id, lec_order, lec_date) 
+		INTO LEC_ORDERS(lec_orders_id, lec_id, lec_order, lec_date, lec_time) 
 		VALUES
 		(
 			#{lec_orders_id}+(#{index}),
 			#{item.lec_id},
 			#{item.lec_order},
-			#{item.lec_date}
+			#{item.lec_date},
+			#{item.lec_time}
 		)
 		</foreach>
 		SELECT * FROM DUAL
