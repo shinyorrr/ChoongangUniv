@@ -76,17 +76,9 @@
             <img class="img-fluid" src="/images/logo2.png" alt="logo2" style="height: 40px;"><use xlink:href="#bootstrap"></use></svg>
           </a>
     
-          <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-            <li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>
-            <li><a href="#" class="nav-link px-2 link-dark">결재관리</a></li>
-            <li><a href="#" class="nav-link px-2 link-dark">게시판 관리</a></li>
-            <li><a href="#" class="nav-link px-2 link-dark">근태 관리</a></li>
-            <li><a href="#" class="nav-link px-2 link-dark">부서 관리</a></li>
-            <li><a href="#" class="nav-link px-2 link-dark">주소록 관리</a></li>
-            <li><a href="#" class="nav-link px-2 link-dark">학사 관리</a></li>
-            <li><a href="#" class="nav-link px-2 link-dark">쪽지함 관리</a></li>
-            <li><a href="#" class="nav-link px-2 link-dark">교재 관리</a></li>
-          </ul>
+         <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+  			<jsp:include page="navHeader.jsp"></jsp:include>
+         </ul>
         </header>
     </nav>
     <!-- /header -->
