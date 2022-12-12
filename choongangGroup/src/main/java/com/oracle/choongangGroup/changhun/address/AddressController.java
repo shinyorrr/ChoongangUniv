@@ -4,6 +4,7 @@ package com.oracle.choongangGroup.changhun.address;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.hibernate.validator.internal.util.privilegedactions.GetAnnotationAttribute;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.oracle.choongangGroup.changhun.JPA.Member;
 import com.oracle.choongangGroup.changhun.JPA.PhoneLike;
+import com.oracle.choongangGroup.dongho.auth.GetMember;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class AddressController {
 	
+	public final GetMember getMember;
 	public final MemberRepository memberRepository;
 	public final AddressRepository addressRepository;
 	public final AddressService addressService;
@@ -48,6 +51,9 @@ public class AddressController {
 		
 		int totalPage = addressList.getTotalPages();
 		
+		Member member = getMember.getMember();
+		
+		model.addAttribute("member", member);
 		model.addAttribute("page", page);
 		model.addAttribute("totalPage", totalPage);
 		model.addAttribute("addressList",addressList.getContent());
@@ -69,9 +75,8 @@ public class AddressController {
 	@RequestMapping(value = "/myLikeAddress")
 	public String likeAddress(HttpServletRequest request,Model model,
 							  @RequestParam(required = false, defaultValue = "0", value="page") int page) {
-		
-		HttpSession session = request.getSession();
-		String userid = (String) session.getAttribute("userid");
+		Member member = getMember.getMember();
+		String userid = member.getUserid();
 		
 		
 //		String userid = "18301001";
@@ -83,6 +88,7 @@ public class AddressController {
 		System.out.println("totalpage -> " + totalPage);
 		
 		
+		model.addAttribute("member", member);
 		model.addAttribute("page", page);
 		model.addAttribute("totalPage", totalPage);
 		model.addAttribute("likeList",like.getContent());
@@ -95,11 +101,9 @@ public class AddressController {
 						@RequestParam(value = "search") String name,
 			  			@RequestParam(required = false, defaultValue = "0", value="page") int page) {
 		
-	HttpSession session = request.getSession();
-	String userid = (String) session.getAttribute("userid");
-		
-//	String userid = "18301001";
 	Page<Member> addressList = null;
+	
+	Member member = getMember.getMember();
 	
 	if(name == null || name.equals("")) {
 		addressList = memberRepository.findAll(PageRequest.of(page, 10, Sort.by(Sort.Direction.ASC,"name")));
@@ -111,7 +115,7 @@ public class AddressController {
 	
 	System.out.println("totalpage -> " + totalPage);
 	
-	
+	model.addAttribute("member", member);
 	model.addAttribute("page", page);
 	model.addAttribute("totalPage", totalPage);
 	model.addAttribute("addressList",addressList.getContent());
