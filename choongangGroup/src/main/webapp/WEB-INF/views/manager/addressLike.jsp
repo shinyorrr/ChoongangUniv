@@ -213,13 +213,9 @@
 					</nav>
 					</div>
                     <!-- footer -->
-                    <footer class="col-12" style="height: 60px;">
-                        footer
-                    </footer>    
                 </div>
-            </main>
         </div>
-    </div>
+        <jsp:include page="../footer.jsp"></jsp:include>
     <!-- IONICONS -->
     <script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script>
     <!-- JS -->

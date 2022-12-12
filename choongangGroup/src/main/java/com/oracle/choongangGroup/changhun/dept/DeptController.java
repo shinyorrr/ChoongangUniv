@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.oracle.choongangGroup.changhun.JPA.Dept;
+import com.oracle.choongangGroup.changhun.JPA.Member;
+import com.oracle.choongangGroup.dongho.auth.GetMember;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +25,7 @@ public class DeptController {
 	
 	private final DeptService deptService;
 	private final DeptRepository deptRepository ;
+	private final GetMember getMember;
 	
 	@RequestMapping(value = "deptForm")
 	public String DeptForm(Model model) {
@@ -31,6 +34,10 @@ public class DeptController {
 //		@SuppressWarnings("unchecked")
 //		List<Dept> deptList = deptRepository.findAll(pageable);
 		System.out.println("deptlist size -> " + deptList.size());
+		
+		Member member = getMember.getMember();
+		
+		model.addAttribute("member", member);
 		model.addAttribute("deptList",deptList);
 		return "/manager/deptForm";
 	}
@@ -58,7 +65,9 @@ public class DeptController {
 		if(searchDeptList == null) {
 			msg += "다시 입력해주세요";
 		}
+		Member member = getMember.getMember();
 		
+		model.addAttribute("member", member);
 		model.addAttribute("msg", msg);
 		model.addAttribute("deptList", searchDeptList);
 		
