@@ -35,7 +35,7 @@ public class SecurityServiceImpl implements SecurityService {
     }
     
     // login method
-    public TokenInfo login(String username, String password) {
+    public TokenInfo login(String username, String password, int keepLogin) {
     	// controller에서 복호화한 username, password
     	log.info("tokenInfo(login) username : {}", username);
     	log.info("tokenInfo(login) password : {}", password);
@@ -56,7 +56,13 @@ public class SecurityServiceImpl implements SecurityService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         log.info("SecurityContextHolder save authentication : {}", authentication.getName());
         // authentication 의 정보를 토대로 JWT 생성 및 controller에 반환
-        TokenInfo tokenInfo = this.jwtTokenProvider.generateToken(authentication);
+        TokenInfo tokenInfo = new TokenInfo();
+        if(keepLogin == 1) {
+        	tokenInfo = this.jwtTokenProvider.generateTokenKeep(authentication);
+        } else {
+        	tokenInfo = this.jwtTokenProvider.generateToken(authentication);
+        }
+        
         return tokenInfo;
     }
     // DB에 refresh Token 저장 method

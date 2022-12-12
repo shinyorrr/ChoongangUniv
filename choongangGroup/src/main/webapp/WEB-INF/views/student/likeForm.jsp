@@ -24,7 +24,7 @@
 <script type="text/javascript">
 	function submit(lecId, userid){
 		$.ajax({
-			url:"/like",
+			url:"/student/like",
 			data:{lecId : lecId , userid : userid},
 			dataType:'text',
 			success:function(data){
@@ -173,12 +173,32 @@
                     <!------------------- 장바구니 신청 ------------------------------>  
                     <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
                     	<div class="d-flex flex-row">                    		
-                    	 	<div class="col-6 mx-2 "><!-----------------장바구니 전체 ------------------------>
+                    	 	<div class="col-6 mx-2 ">
+                    	 	<!-----------------장바구니 전체 ------------------------>
 		                       <!-- 장바구니 신청 제목-->
 		                        <div class="mt-3 mb-3">                    
 		                       	  <span class="fs-2 fw-bold">강의 목록</span> 
 		                        </div>
 			
+			
+			
+							<!--  검색상단바 -->
+	                        <!-- class="fw-bold border rounded-top " style="background-color:#EAEAEA; height: 45px;" -->	                       	
+	                       	<div class="fw-bold fs-5 " style="background-color:#EAEAEA; height: 45px;">
+	                       		<span style="line-height: 45px; margin-left: 10px;">${year }학년도 ${semester }학기 개설강좌</span>
+	                       		
+	                    		<!-- 강의명으로 검색 -->
+	                       		<form action="likeForm" method="get" class="row row-cols-lg-auto g-3 float-end me-5" >
+		                       		  <span style="line-height: 45px;">강의명 :&nbsp;</span>
+		                       		  
+									  <div class="col-12">							    
+									  	<div class="input-group">				     
+									      <input type="text" name="lecName" class="form-control mt-1" placeholder="강의명으로 검색">
+									    </div>
+									  </div>
+								</form>
+	                       	</div>
+	
 								<!-- 2022학년도 2학기 수강신청 개설강좌     과목명 조회  	 -->
 								<table class="table table-striped">
 									<thead>
@@ -203,8 +223,8 @@
 										<c:choose>
 											<c:when test="${lectureList.first}"></c:when>
 											<c:otherwise>
-												<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/likeForm/?userid=${userid }">처음</a></li>
-												<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/likeForm/?page=${lectureList.number-1}">&larr;</a></li>
+												<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/student/likeForm/?userid=${userid }">처음</a></li>
+												<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/student/likeForm/?page=${lectureList.number-1}&userid=${userid }">&larr;</a></li>
 											</c:otherwise>
 										</c:choose>
 							
@@ -212,10 +232,10 @@
 										<c:forEach begin="${startBlockPage}" end="${endBlockPage}" var="i">
 											<c:choose>
 												<c:when test="${lectureList.pageable.pageNumber+1 == i}">
-													<li class="page-item disabled"><a class="page-link" href="${pageContext.request.contextPath}/likeForm/?userid=${userid }&page=${i-1}">${i}</a></li>
+													<li class="page-item disabled"><a class="page-link" href="${pageContext.request.contextPath}/student/likeForm/?userid=${userid }&page=${i-1}">${i}</a></li>
 												</c:when>
 												<c:otherwise>
-													<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/likeForm/?userid=${userid }&page=${i-1}">${i}</a></li>
+													<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/student/likeForm/?userid=${userid }&page=${i-1}">${i}</a></li>
 												</c:otherwise>
 											</c:choose>
 										</c:forEach>
@@ -224,8 +244,8 @@
 										<c:choose>
 											<c:when test="${lectureList.last}"></c:when>
 											<c:otherwise>
-												<li class="page-item "><a class="page-link" href="${pageContext.request.contextPath}/likeForm/?page=${lectureList.number+1}&userid=${userid }">&rarr;</a></li>
-												<li class="page-item "><a class="page-link" href="${pageContext.request.contextPath}/likeForm/?page=${lectureList.totalPages-1}&userid=${userid }">마지막</a></li>
+												<li class="page-item "><a class="page-link" href="${pageContext.request.contextPath}/student/likeForm/?page=${lectureList.number+1}&userid=${userid }">&rarr;</a></li>
+												<li class="page-item "><a class="page-link" href="${pageContext.request.contextPath}/student/likeForm/?page=${lectureList.totalPages-1}&userid=${userid }">마지막</a></li>
 											</c:otherwise>
 										</c:choose>
 									</ul>

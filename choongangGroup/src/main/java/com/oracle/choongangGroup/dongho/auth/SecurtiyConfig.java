@@ -20,7 +20,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 
 import com.oracle.choongangGroup.dongho.auth.CustomAuthenticationProvider;
-import com.oracle.choongangGroup.dongho.auth.CustomSuccessHandler;
 import com.oracle.choongangGroup.dongho.auth.PrincipalDetailsService;
 
 import lombok.RequiredArgsConstructor;
@@ -91,13 +90,13 @@ public class SecurtiyConfig {
 			.logout()
 			.logoutSuccessUrl("/").permitAll()
 			.invalidateHttpSession(true)  // 로그아웃 이후 세션 전체 삭제 여부
-			.deleteCookies("JSESSIONID", "RefreshToken", "AccessToken")
+			.deleteCookies("JSESSIONID", "RefreshToken", "AccessToken", "keepToken")
 			.clearAuthentication(true)
 			
 			.and()
 			.sessionManagement()
-			.maximumSessions(1)				 // 최대 허용 가능 세션 수, -1인 경우 무제한 세션
-			.maxSessionsPreventsLogin(false) // false : 이전 사용자의 세션 만료, true : 신규 사용자의 인증 실패 
+			.maximumSessions(-1)				 // 최대 허용 가능 세션 수, -1인 경우 무제한 세션
+			.maxSessionsPreventsLogin(true) // false : 이전 사용자의 세션 만료, true : 신규 사용자의 인증 실패 
 			.expiredUrl("/")
 			.sessionRegistry(sessionRegistry());
 			

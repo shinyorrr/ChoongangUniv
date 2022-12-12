@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.oracle.choongangGroup.changhun.JPA.Member;
+import com.oracle.choongangGroup.dongho.auth.GetMember;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +17,8 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 public class AddRestController {
-
+	
+	private final GetMember getMember;
 	private final AddressService addressService;
 	private final AddressRepository ar;
 	
@@ -25,8 +28,10 @@ public class AddRestController {
 		String msg = null;
 		
 		log.info("userid 값은? -> {}",userid);
+		Member member = getMember.getMember();
 		
-		String Myuserid = "18301001"; 
+		
+		String Myuserid = member.getUserid(); 
 //		(String)session.getAttribute("userid"); 
 		
 		try {

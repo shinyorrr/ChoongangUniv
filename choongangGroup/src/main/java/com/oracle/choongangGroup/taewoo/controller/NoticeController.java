@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.oracle.choongangGroup.changhun.JPA.Member;
+import com.oracle.choongangGroup.dongho.auth.GetMember;
 import com.oracle.choongangGroup.taewoo.domain.Notice;
 import com.oracle.choongangGroup.taewoo.repository.NoticeJpaRepository;
 import com.oracle.choongangGroup.taewoo.service.NoticeService;
@@ -31,6 +33,7 @@ public class NoticeController {
 
 	private final NoticeService noticeService;
 	private final NoticeJpaRepository noticeJpaRepository;
+	private final GetMember getMember;
 	
 	//공지사항 List
 	@GetMapping(value = "/notice/noticeList")
@@ -40,7 +43,8 @@ public class NoticeController {
 		// 페이징처리
 		Page<Notice> noticeList = noticeJpaRepository.findAll(PageRequest.of(page, 10, Sort.by(Sort.Direction.DESC,"noticeNum")));
 		int noticeTotal = noticeList.getTotalPages();
-		
+		Member member = getMember.getMember();
+		model.addAttribute("member" , member);
 		model.addAttribute("page",page);
 		model.addAttribute("noticeTotal", noticeTotal);
 		model.addAttribute("noticeList", noticeList.getContent());
