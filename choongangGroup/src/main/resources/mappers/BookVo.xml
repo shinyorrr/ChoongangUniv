@@ -54,4 +54,21 @@
 		From Book
 		Order By bookId
 	</select>
+	
+	<select id="ShopDetailList" resultType="BookVo" parameterType="int">
+		Select *
+		From Book
+		Where bookId = #{bookId}
+	</select>
+	
+	<select id="SearchBookList" resultType="BookVo">
+	SELECT *
+	From Book
+		<if test="type != null and type.equals('bookName')">
+		Where bookName Like CONCAT('%', #{keyword}, '%')
+		</if>
+		<if test="type != null and type.equals('publisher')">
+		and publisher Like CONCAT('%', #{keyword}, '%')
+		</if>
+	</select>
 </mapper>

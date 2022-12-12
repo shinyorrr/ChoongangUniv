@@ -109,10 +109,10 @@ function readURL(input) {
 	.inputArea { margin:10px 0; }
 	select { width:100px; }
 	label { display:inline-block; width:70px; padding:5px; }
-	label[for='gdsDes'] { display:block; }
+	label[for='bookInfo'] { display:block; }
 	input { width:150px; }
 	input:invalid {	border: 3px solid red;}
-	textarea#gdsDes { width:400px; height:180px; }
+	textarea#bookInfo { width:400px; height:180px; }
 	.select_img img{margin: 20px 0;}
 </style>
 </head>

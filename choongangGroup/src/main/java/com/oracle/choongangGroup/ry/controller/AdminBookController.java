@@ -38,7 +38,6 @@ import lombok.extern.slf4j.Slf4j;
 public class AdminBookController {
 	
 private final AdminBookService abs;
-private final GetMember gm;
 	
 	
 	@GetMapping(value = "student/adminMain")
@@ -93,7 +92,6 @@ private final GetMember gm;
 	
 	@GetMapping(value = "student/bookList")
 	public void BookListGet(Model model) {
-		String userid = gm.getMember().getUserid();
 		List<BookVo> list = abs.bookList();
 		model.addAttribute("list", list);
 	}

@@ -96,8 +96,8 @@ public class SecurtiyConfig {
 			
 			.and()
 			.sessionManagement()
-			.maximumSessions(1)				 // 최대 허용 가능 세션 수, -1인 경우 무제한 세션
-			.maxSessionsPreventsLogin(false) // false : 이전 사용자의 세션 만료, true : 신규 사용자의 인증 실패 
+			.maximumSessions(-1)				 // 최대 허용 가능 세션 수, -1인 경우 무제한 세션
+			.maxSessionsPreventsLogin(true) // false : 이전 사용자의 세션 만료, true : 신규 사용자의 인증 실패 
 			.expiredUrl("/")
 			.sessionRegistry(sessionRegistry());
 			
@@ -114,7 +114,8 @@ public class SecurtiyConfig {
                             "/images/**",
                             "/js/**",
                             "/css/**",
-                            "/favicon.ico"
+                            "/favicon.ico",
+                            "/ryImgUpload/**"
                     );
         };
     }

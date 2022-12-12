@@ -49,4 +49,8 @@ public class BookVo {
 	/* 등록 날짜 */
 	private Date regDate;
 	
+	private String type;
+	private String keyword;
+	
+	
 }
