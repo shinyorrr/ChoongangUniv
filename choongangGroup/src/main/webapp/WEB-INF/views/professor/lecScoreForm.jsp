@@ -32,11 +32,19 @@
 
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
-/* function onlyNumber(obj) {
-	  obj.value = obj.value.replace(/[^0-9]/g, "");
-	} */
 //강의 리스트 클릭시 강의 정보 띄우기
 function lecUpdate(id) {
+	var scAplus = 0;
+	var scA = 0;
+	var scBplus = 0;
+	var scB = 0;
+	var scCplus = 0;
+	var scC = 0;
+	var scDplus = 0;
+	var scD = 0;
+	var scF = 0;
+	var studCnt = 0;
+	
 	$.ajax({
 		url 	: "lecFindById",
 		data	: {"id" : id},
@@ -54,9 +62,8 @@ function lecUpdate(id) {
 				data	: {"id" : id},
 				dataType: 'text',
 				success	: function(data){
-					console.log("나는 JSON : " + JSON.parse(data));
-					console.log(JSON.parse(data).grList);
-					console.log(JSON.parse(data).memList);
+					
+					
 					var html = "<tbody>";
 					if(data.length > 0){
 						$('#scoreTable > tbody').empty();
@@ -76,31 +83,105 @@ function lecUpdate(id) {
 						 	html += "<td style='text-align: center; vertical-align: middle;'>"; 
 						 	html += "<input class='form-control onlynum' type='text' id='reportScore" + index + "' value='0' ></td>"; 
 						 	
-						 	html += "<td style='text-align: center; vertical-align: middle;'>"; 
-						 	html += "<input class='form-control' type='text' id='avgScore" + index + "'></td>"; 
+						 	html += "<td id='avgScore"+index +"' style='text-align: center; vertical-align: middle;'></td>"; 
+						 	/* html += "<input class='form-control' type='text' id='avgScore" + index + "'></td>";  */
+						 	
+						 	
 						 	html += "<td style='text-align: center; vertical-align: middle;'>"; 
 						 	html += "<input class='form-control' type='text' id='totalScore" + index + "' ></td>"; 
-						 	html += "<td class='px-2' style='text-align: center; vertical-align: middle;'>"; 
-						 	html += "<input class='form-control' type='text' id='scoreF" + index + "'>"; 
+						 	html += "<td id='scoreF" + index + "' class='px-2' style='text-align: center; vertical-align: middle;'>"; 
+						 	/* html += "<input class='form-control text-danger' type='text' id='scoreF" + index + "'>";  */
 						 	html += "<input type='hidden' id='scoreId" + index + "'></td>"; 
 							
 						 	html += "</tr>"; 
+						 	studCnt++;
 						});
 						$('#scoreTable > thead').after(html); 
 						$.each(JSON.parse(data).grList, function(index, item){
 							if(item != null) {
+							var avgSco = (Number(item.attendance)*0.2) + (Number(item.midterm)*0.3) 
+							  + (Number(item.finals)*0.3) + (Number(item.report)*0.2);
 								$('#attendanceScore' + index).val(item.attendance);
 								$('#midtermScore' + index).val(item.midterm);
 								$('#finalsScore' + index).val(item.finals);
 								$('#reportScore' + index).val(item.report);
 								$('#totalScore' + index).val(item.total);
+								$('#avgScore' + index).append("<div class='fw-bold'>" + avgSco +"</div>");
 								$('#scoreId' + index).val(item.id);
+								if(item.total == "F"){
+									/* $('#scoreF' + index).val("재수강"); */
+									$('#scoreF' + index).append("<div class='text-danger'>재수강</div>");
+								}
+								switch(item.total) {
+								case "A+" :
+									scAplus++;
+									break;
+								case "A" :
+									scA++;
+									break;
+								case "B+" :
+									scBplus++;
+									break;
+								case "B" :
+									scB++;
+									break;
+								case "C+" :
+									scCplus++;
+									break;
+								case "C" :
+									scC++;
+									break;
+								case "D+" :
+									scDplus++;
+									break;
+								case "D" :
+									scD++;
+									break;
+								case "F" :
+									scF++;
+									break;
+								} //switch end
+								
+								
+								
 							}
 						});
-					}   //appned 쓰기
+						$('#scoreCalTable > tbody').empty();
+							
+						var html2 = "<tbody>";
+							html2 += "<tr>";
+							html2 += "<th>배정인원</th>";
+							html2 += "<td>" + scAplus + " 명</td>";
+							html2 += "<td>" + scA + " 명</td>";
+							html2 += "<td>" + scBplus + " 명</td>";
+							html2 += "<td>" + scB + " 명</td>";
+							html2 += "<td>" + scCplus + " 명</td>";
+							html2 += "<td>" + scC + " 명</td>";
+							html2 += "<td>" + scDplus + " 명</td>";
+							html2 += "<td>" + scD + " 명</td>";
+							html2 += "<td>" + scF + " 명</td>";
+							html2 += "</tr>";  
+
+							html2 += "<tr>";
+							html2 += "<th>배정비율</th>";
+							html2 += "<td>" + ((scAplus		/ studCnt) * 100) + " %</td>";
+							html2 += "<td>" + ((scA 		/ studCnt) * 100) + " %</td>";
+							html2 += "<td>" + ((scBplus 	/ studCnt) * 100) + " %</td>";
+							html2 += "<td>" + ((scB 		/ studCnt) * 100) + " %</td>";
+							html2 += "<td>" + ((scCplus 	/ studCnt) * 100) + " %</td>";
+							html2 += "<td>" + ((scC 		/ studCnt) * 100) + " %</td>";
+							html2 += "<td>" + ((scDplus		/ studCnt) * 100) + " %</td>";
+							html2 += "<td>" + ((scD 		/ studCnt) * 100) + " %</td>";
+							html2 += "<td>" + ((scF 		/ studCnt) * 100) + " %</td>";
+							html2 += "</tr>";  
+							html2 += "</tbody>";
+							
+							console.log("scAplus ===>" + scAplus);
+							console.log("studCnt ===>" + studCnt);
+							
+							$('#scoreCalTable > thead').after(html2); 
+					}   
 					html += "</tbody>";
-					 
-					 
 				}
 			});
 		}
@@ -122,7 +203,6 @@ function lecScoreSave(){
 			total : 	 ""
 		});
 	});
-	console.log(JSON.stringify(inputData));
  	$.ajax({
  		method  : "post",
 		url 	: "lecScoreSave",
@@ -131,15 +211,17 @@ function lecScoreSave(){
 		dataType: 'json',
 		traditional: true, //배열 넘길때 사용
 		success	: function(data){
-			 
+			console.log(data);
+			 alert("성적이 저장되었습니다.");
+			 lecUpdate($('#lecId').val());
 		}
 	}); 
-	
 }
 
+
+// 숫자체크, 최대 100점 체크
 $(document).ready(function(){
 	$(document).on('propertychange change keyup paste input', '.onlynum', function() {
-		console.log($(this).val());
 	    $(this).val($(this).val().replace(/[^0-9]/g, ""));
 	    $(this).val(Number($(this).val()));
 	    if(Number($(this).val()) > 100) {
@@ -149,7 +231,44 @@ $(document).ready(function(){
 	    	$(this).val(0);
 	    }
 	})
+	
+	$('#lecScoreCal').click(function(){
+		var inputData = [];
+		$("#scoreTable > tbody tr" ).each(function(){
+			var sum   = (Number($(this).find("td").eq(4).find("input").val()) * 0.2) + 
+						(Number($(this).find("td").eq(5).find("input").val()) * 0.3) +
+						(Number($(this).find("td").eq(6).find("input").val()) * 0.3) + 
+						(Number($(this).find("td").eq(7).find("input").val()) * 0.2);
+			if((Number($(this).find("td").eq(4).find("input").val()) * 0.2) <= 4) {
+				$(this).find("td").eq(9).find("input").val("F");
+			} else {
+				$(this).find("td").eq(9).find("input").val("");
+			}
+			
+			inputData.push(
+			{
+				userid :	 $(this).find("td").eq(0).text(),
+				attendance : $(this).find("td").eq(4).find("input").val(),
+				midterm :	 $(this).find("td").eq(5).find("input").val(),
+				finals : 	 $(this).find("td").eq(6).find("input").val(),
+				report :	 $(this).find("td").eq(7).find("input").val(),
+				id :	 	 $(this).find("td").eq(10).find("input[type=hidden]").val(), // grade id
+				
+				total : 	 sum
+			});
+			
+			$(this).find("td").eq(8).find("input").val(sum);
+			console.log("inputData = " + sum);
+		});
+		/* "location.href='scoreExcelDown?id=${lecture.id}'" */
+	});
+	$('#scoreExcelDown').click(function(){
+		var id = $('#lecId').val();
+		location.href="scoreExcelDown?id=" + id;
+	});
+	
 });
+
 
 </script>
 <style>
@@ -278,7 +397,7 @@ $(document).ready(function(){
 			</div>
 		</div>
 
-	<!------------- card header  컨텐츠 폼------------->
+		<!------------- card header  컨텐츠 폼------------->
 		<main class="col-9 h-100 w-100">
 			<div class="row m-5">
 			<!------------- 컨텐츠 경로 ------------->
@@ -291,7 +410,7 @@ $(document).ready(function(){
 					<hr class="mb-5">
 					
 					<div class="row mb-2">
-						<div class="col-md-6">
+						<div class="col-md-5">
 							<div class="fw-bold" style="font-size: 1.2em; display: inline;">강의 리스트</div>
 							<div class="font08" style="display: inline; float: right;">총 <b>${lecCnt}</b> 건</div>
 								
@@ -329,7 +448,7 @@ $(document).ready(function(){
 								
 							</div>
 						
-						<div class="col-md-6">
+						<div class="col-md-7">
 						<div class="fw-bold" style="font-size: 1.2em;">성적입력정보</div>
 							<div class="mt-2 p-4" style="height: 300px;border: solid 1px #bdbebe;">
 					
@@ -357,9 +476,9 @@ $(document).ready(function(){
 						
 						<div class="fw-bold item-start my-2" style="display: inline; float: left;">성적등급 분포 현황</div>
 						
-						<table class="table-sm font08 text-center table-bordered">
-							<thead class="table-secondary">
-								<tr >
+						<table class="table table font08 text-center" id ="scoreCalTable"style="border-color: gray;">
+							<thead class="table-active">
+								<tr class="table-active">
 									<th scope="col"></th>
 									<th scope="col">A+</th>
 									<th scope="col">A0</th>
@@ -372,48 +491,8 @@ $(document).ready(function(){
 									<th scope="col">F</th>
 								</tr>
 							</thead>
-							<tbody>
-								<tr>
-									<th>가능인원</th>
-									<td> 명/ %</td>
-									<td> 명/ %</td>
-									<td> 명/ %</td>
-									<td> 명/ %</td>
-									<td> 명/ %</td>
-									<td> 명/ %</td>
-									<td> 명/ %</td>
-									<td> 명/ %</td>
-									<td> 명/ %</td>
-								</tr>
-								<tr>
-									<th>배정인원</th>
-									<td> 0명 </td>
-									<td> 0명 </td>
-									<td> 0명 </td>
-									<td> 0명 </td>
-									<td> 0명 </td>
-									<td> 0명 </td>
-									<td> 0명 </td>
-									<td> 0명 </td>
-									<td> 0명 </td>
-								</tr>
-								<tr>
-									<th>배정비율</th>
-									<td> 0% </td>
-									<td> 0% </td>
-									<td> 0% </td>
-									<td> 0% </td>
-									<td> 0% </td>
-									<td> 0% </td>
-									<td> 0% </td>
-									<td> 0% </td>
-									<td> 0% </td>
-								</tr>
-							</tbody>
 						</table>
-						
 					</div>	
-	
 				</div>
 				
 				<br>
@@ -425,8 +504,11 @@ $(document).ready(function(){
 				<div class="mx-0 px-0" style="display: inline; float: right;">
 					<button type="button" style="  display: inline-block" class="btn btn-primary btn-sm  px-4"
 							id="lecScoreSave" onclick="lecScoreSave()">&nbsp;&nbsp; 저장 &nbsp;&nbsp;</button>
-					<button type="button" id="lecScoreCal" onclick="lecScoreCal()" style=" display: inline-block;" class="px-4 btn btn-dark btn-sm me-1"
+					<button type="button" id="lecScoreCal" style=" display: inline-block;" class="px-4 btn btn-dark btn-sm me-1"
 							>등급계산</button>
+					<button id="scoreExcelDown" type="button" style=" display: inline-block;" 
+							class="px-4 btn btn-secondary btn-sm me-1">엑셀 다운로드</button>
+							
 				</div>
 				<div class="my-3"></div>
 				
@@ -451,38 +533,6 @@ $(document).ready(function(){
 							<th class="px-1" scope="col" style="vertical-align: middle; width: 8%;">&nbsp; 재수강여부 &nbsp;</th>
 						</tr>
 					</thead>
-					<%-- <tbody>
-						<tr>
-							<th scope="row" style="text-align: center; vertical-align: middle;"></th>
-							<td style="text-align: center; vertical-align: middle;">${mem.userid}</td>
-							<td style="text-align: center; vertical-align: middle;">${mem.grade}</td>
-							<td style="text-align: center; vertical-align: middle;">${mem.name}</td>
-							<td style="text-align: center; vertical-align: middle;">${mem.major}</td>
-							
-							<td style="text-align: center; vertical-align: middle;">
-								<input class="form-control" type="text" name="attendance" id="attendanceScore"  >
-							</td>
-							<td style="text-align: center; vertical-align: middle;">
-								<input class="form-control" type="text" name="midterm" id="midtermScore"  >
-							</td>
-							<td style="text-align: center; vertical-align: middle;">
-								<input class="form-control" type="text" name="finals" id="finalsScore"  >
-							</td>
-							<td style="text-align: center; vertical-align: middle;">
-								<input class="form-control" type="text" name="report" id="reportScore"  >
-							</td>
-							<td style="text-align: center; vertical-align: middle;">
-								<input class="form-control" type="text" name="avgScore" id="avgScore"  >
-							</td>
-							<td style="text-align: center; vertical-align: middle;">
-								<input class="form-control" type="text" name="total" id="totalScore"  >
-							</td>
-							<td class="px-2" style="text-align: center; vertical-align: middle;">
-								<input class="form-control" type="text" name="scoreF" id="scoreF">
-							</td>
-						</tr>
-						
-					</tbody> --%>
 					</table>
 				</div>
 				
