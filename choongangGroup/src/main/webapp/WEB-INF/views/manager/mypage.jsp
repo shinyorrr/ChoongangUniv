@@ -226,55 +226,55 @@ function readURL(input) {
                     <!-- card content -->  
                     <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
 						<div class="card mt-5" style="width: 20%; position: static; float: left;">
-						  <img id="preview" src="../fileUpload/hs/image/${member.image}" class="card-img-top" alt="..." >
+						  <img id="preview" src="../fileUpload/hs/image/${mypage.image}" class="card-img-top" alt="..." >
 						  <label for="file1">
 							  <div class="btn-upload">이미지 변경</div>
 						  </label>
 						  <ul class="list-group list-group-flush" style="text-align: center;">
-						    <li class="list-group-item">${member.name}</li>
-						    <li class="list-group-item">${member.dept.dname}</li>
-						    <li class="list-group-item">${member.position}</li>
+						    <li class="list-group-item">${mypage.name}</li>
+						    <li class="list-group-item">${mypage.dept.dname}</li>
+						    <li class="list-group-item">${mypage.position}</li>
 						  </ul>
 						</div>
 						<div style="display: flex; width: 75%; height: 100%; margin-left: 10px;">
 							<form action="mypageSave" class="row g-3" style="width: 80%; margin: 30px 0 0 50px;" method="post" enctype="multipart/form-data">
 							  <div class="col-md-3">
 							    <label for="inputUserid" class="form-label">사번</label>
-							    <input type="text" class="form-control" id="userid" name="userid" value="${member.userid }" readonly="readonly">
+							    <input type="text" class="form-control" id="userid" name="userid" value="${mypage.userid }" readonly="readonly">
 							  </div>
 							  <div class="col-md-3">
 							     <label for="inputHiredate" class="form-label">입사일</label>
-							    <input type="text" class="form-control" id="hiredate" name="hiredate" value="${member.hiredate }" readonly="readonly">
+							    <input type="text" class="form-control" id="hiredate" name="hiredate" value="${mypage.hiredate }" readonly="readonly">
 							  </div>
 							  <div class="col-md-3">
 							    <label for="inputGender" class="form-label">성별</label>
-							    <input type="text" class="form-control" id="gender" name="gender" value="${member.gender }" readonly="readonly">
+							    <input type="text" class="form-control" id="gender" name="gender" value="${mypage.gender }" readonly="readonly">
 							  </div>
 							  <div class="col-md-3">
 							    <label for="inputBirth" class="form-label">생년월일</label>
-							    <input type="text" class="form-control" id="birth" name="birth" value="${member.birth }" readonly="readonly">
+							    <input type="text" class="form-control" id="birth" name="birth" value="${mypage.birth }" readonly="readonly">
 							  </div>
 							  <div class="col-md-6">
 							    <label for="inputEmail" class="form-label">이메일</label>
-							    <input type="email" class="form-control" id="email" name="email" value="${member.email }" required="required">
+							    <input type="email" class="form-control" id="email" name="email" value="${mypage.email }" required="required">
 							  </div>
 							  <div class="col-md-6">
 							    <label for="inputAddress" class="form-label">주소</label>
 							    <div class="input-group mb-3">
-								  <input type="text" class="form-control" value="${member.address }" id="address" name="address" aria-label="Recipient's username" aria-describedby="button-addon2" required="required">
+								  <input type="text" class="form-control" value="${mypage.address }" id="address" name="address" aria-label="Recipient's username" aria-describedby="button-addon2" required="required">
 								  <button class="btn btn-outline-secondary" type="button" id="address_kakao">주소찾기</button>
 								</div>
 							  </div>
 							  <div class="col-md-6">
 							    <label for="inputPhone" class="form-label">연락처</label>
-							    <input type="text" class="form-control" value="${member.phone }" name="phone" id="phone" oninput="autoHyphen(this)" maxlength="13"  required="required">
+							    <input type="text" class="form-control" value="${mypage.phone }" name="phone" id="phone" oninput="autoHyphen(this)" maxlength="13"  required="required">
 							  </div>
 							  <div class="col-md-6">
 							    <label for="inputSubphone" class="form-label">비상연락처</label>
-							    <input type="text" class="form-control" value="${member.subphone }" name="subphone" id="subphone" oninput="autoHyphen2(this)" maxlength="13" required="required">
+							    <input type="text" class="form-control" value="${mypage.subphone }" name="subphone" id="subphone" oninput="autoHyphen2(this)" maxlength="13" required="required">
 							  </div>
 							  <div class="col-md-10">
-								<input type="file" name="file1" id="file1" value="${member.image }" style="display: none;" onchange="readURL(this)">
+								<input type="file" name="file1" id="file1" value="${mypage.image }" style="display: none;" onchange="readURL(this)">
 							  </div>
 							  <div class="col-md-3">
 							    <button type="submit" class="btn btn-secondary" style="margin: auto;">변경사항 저장</button>

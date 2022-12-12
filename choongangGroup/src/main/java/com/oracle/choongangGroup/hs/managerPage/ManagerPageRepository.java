@@ -12,4 +12,6 @@ public interface ManagerPageRepository extends JpaRepository<Member, String> {
 
 	Page<Member> findByMemRole(String memRole, Pageable pageable);
 
+	Member findByMemRoleAndUserid(String memRole, String userid);
+
 }
