@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequiredArgsConstructor
 @Slf4j
+@RequestMapping("/manager")
 public class EvaController {
 	
 	private final EvaService es;

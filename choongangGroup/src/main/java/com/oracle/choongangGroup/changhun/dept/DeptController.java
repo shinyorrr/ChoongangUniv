@@ -21,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequiredArgsConstructor
 @Slf4j
+@RequestMapping("/manager")
 public class DeptController {
 	
 	private final DeptService deptService;
