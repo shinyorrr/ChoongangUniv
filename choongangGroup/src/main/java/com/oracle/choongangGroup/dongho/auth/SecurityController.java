@@ -55,7 +55,7 @@ public class SecurityController {
 	//login성공 후 role 별 main page 연결
 	@GetMapping("/student/main")
 	public String studentMain() {
-		return "/student";
+		return "/student/main";
 	}
 	@GetMapping("/manager/main")
 	public String managerMain() {
