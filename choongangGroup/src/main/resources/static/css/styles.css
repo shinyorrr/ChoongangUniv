@@ -78,9 +78,7 @@ a {
 .nav__brand {
     display: grid;
     grid-template-columns: max-content max-content;
-    justify-content: space-between;
     align-items: center;
-    margin-bottom: 2rem;
 }
 
 .nav__toggle {
@@ -98,11 +96,11 @@ a {
     display: grid;
     grid-template-columns: max-content max-content;
     align-items: center;
-    column-gap: .75rem;
+   column-gap: .75rem; 	
     padding: .75rem;
     color: var(--white-color);
     border-radius: .5rem;
-    margin-bottom: 1rem;
+    /* margin-bottom: 1rem; */
     transition: .3s;
     cursor: pointer;
 }
@@ -145,7 +143,7 @@ a {
 }
 
 .collapse__menu {
-    display: none;
+  di		splay: none;
     padding: .75rem 2.25rem;
 }
 

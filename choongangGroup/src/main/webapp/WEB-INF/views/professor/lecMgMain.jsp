@@ -26,7 +26,7 @@
 <body class="" id="body-pd">
 	<nav class="navbar navbar-expand-lg navbar-dark bd-navbar bg-light sticky-top position-fixed fixed-top w-100" style="position : absolute">
 		<header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between">
-			<a href="/" class="navbar-brand">
+			<a href="/professor/main" class="navbar-brand">
 				<img class="img-fluid" src="/images/logo2.png" alt="logo2" style="height: 40px;"><use xlink:href="#bootstrap"></use></svg>
 			</a>
 

@@ -13,17 +13,18 @@ import com.oracle.choongangGroup.sh.domain.Lecture;
 
 public interface ApplyService {
 
-	List<Lecture> 	lectureListAll();
-	int 			apply(Long lecId, String userid, Long gubun);
-	List<ApplicationLec> likeListAll(String userid);
+	
+	int apply(Long lecId, String userid, Long gubun);	
 	int register(ApplyTime applyTime);
 	ApplyTime findTime(int year, int month, String select);
-	Page<Lecture> pageList(Pageable pageable);
+	Page<Lecture> lectureList(String year, String semester, Pageable pageable);
+	Page<ApplicationLec> likeList(String userid, String year, String semester, Pageable pageable);
+	Page<Lecture> findByName(String year, String semester, String lecName, Pageable pageable2);
 	
 
 
 
 
-	
+	//List<ApplicationLec> likeListAll(String userid);
 
 }

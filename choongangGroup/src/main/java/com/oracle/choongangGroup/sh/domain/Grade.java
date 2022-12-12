@@ -2,19 +2,16 @@ package com.oracle.choongangGroup.sh.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedEntityGraph;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 
-import com.oracle.choongangGroup.changhun.JPA.Member;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
 import lombok.ToString;
@@ -36,6 +33,7 @@ public class Grade {
 	private Long id;
 	
 	@OneToOne
+	@JsonIgnore
 	@JoinColumns({@JoinColumn(name  = "lec_id"),
 				  @JoinColumn(name = "userid") })
 	private ApplicationLec applicationLec; //강의코드

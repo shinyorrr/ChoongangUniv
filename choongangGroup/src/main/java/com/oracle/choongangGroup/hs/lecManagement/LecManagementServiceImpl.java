@@ -76,16 +76,20 @@ public class LecManagementServiceImpl implements LecManagementService {
 		String lec_start = lectureVO.getLec_start();
 		String day1 = lectureVO.getLec_day1();
 		String day2 = lectureVO.getLec_day2();
+		String time1 = lectureVO.getLec_time1();
+		String time2 = lectureVO.getLec_time2();
 //		String day2 = null;
 		Long lec_max_count = lectureVO.getLec_max_count();
 		int dateListIndex = 0;
 		String[] dateList = new String[0];
+		String[] timeList = new String[0];
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDate strToLocalDate = LocalDate.parse(lec_start, format);
 		// day1, day2 데이터 존재하는 경우 날짜List 생성
 		if (day2 != null) {
 			log.info("====day2 is not null====");
-			dateList = new String[30];
+			dateList = new String[lec_max_count.intValue()*2];
+			timeList = new String[lec_max_count.intValue()*2];
 			LocalDate dateOfDay1OfWeek = LocalDate.now();
 			LocalDate dateOfDay2OfWeek = LocalDate.now();
 			for (int i = 0; i < lec_max_count; i++) {
@@ -96,17 +100,25 @@ public class LecManagementServiceImpl implements LecManagementService {
 						dateOfDay1OfWeek = dateOfDay1OfWeek.minusDays(7);
 						strToLocalDate = dateOfDay1OfWeek.plusDays(7);
 						dateList[dateListIndex] = dateOfDay2OfWeek.toString();
-						dateList[dateListIndex + 29] = dateOfDay1OfWeek.plusDays(7*15).toString();
+						dateList[dateListIndex + lec_max_count.intValue()*2-1] = dateOfDay1OfWeek.plusDays(7*lec_max_count.intValue()).toString();
+						timeList[dateListIndex] = time2;
+						timeList[dateListIndex + lec_max_count.intValue()*2-1] = time1;
+						
 						dateListIndex += 1;
 					} else {
 						dateList[dateListIndex] = dateOfDay1OfWeek.toString();
 						dateList[dateListIndex + 1] = dateOfDay2OfWeek.toString();
+						timeList[dateListIndex] = time1;
+						timeList[dateListIndex + 1] = time2;
+						
 						dateListIndex += 2;
 						strToLocalDate = dateOfDay1OfWeek.plusDays(7);
 					}
 				} else if(strToLocalDate.isEqual(dateOfDay1OfWeek)) {
 					dateList[dateListIndex] = dateOfDay1OfWeek.toString();
 					dateList[dateListIndex + 1] = dateOfDay2OfWeek.toString();
+					timeList[dateListIndex] = time1;
+					timeList[dateListIndex + 1] = time2;
 					dateListIndex += 2;
 					strToLocalDate = strToLocalDate.plusDays(7);
 				}
@@ -114,11 +126,13 @@ public class LecManagementServiceImpl implements LecManagementService {
 		// day2 가 null 인 경우 날짜List 생성
 		} else {
 			log.info("====day2 is null====");
-			dateList = new String[15];
+			dateList = new String[lec_max_count.intValue()];
+			timeList = new String[lec_max_count.intValue()];
 			LocalDate dateOfDay1OfWeek = LocalDate.now();
 			for (int i = 0; i < lec_max_count; i++) {
 				dateOfDay1OfWeek = getDateOfDayOfWeek(day1, strToLocalDate);
 				dateList[dateListIndex] = dateOfDay1OfWeek.toString();
+				timeList[dateListIndex] = time1;
 				dateListIndex += 1;
 				strToLocalDate = dateOfDay1OfWeek.plusDays(7);
 			}
@@ -131,6 +145,7 @@ public class LecManagementServiceImpl implements LecManagementService {
 			insertLecOrdersDto.setLec_order((long) i+1);
 			insertLecOrdersDto.setLec_id(lec_id);
 			insertLecOrdersDto.setLec_date(dateList[i]);
+			insertLecOrdersDto.setLec_time(timeList[i]);
 			
 			insertLecOrdersDtoList.add(insertLecOrdersDto);
 		}
