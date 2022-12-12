@@ -254,12 +254,11 @@
 								<div class="text-xs-center">
 									<ul class="pagination justify-content-center">
 									
-										<!-- 이전 -->
-										
+										<!-- 이전 -->					
 										<c:choose>
 										<c:when test="${select eq 'all' }">
 											  <c:choose>
-												<c:when test="${lectureList.last}"></c:when>
+												<c:when test="${lecture_lectureList.last}"></c:when>
 												<c:otherwise>
 													<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/student/applyForm/?userid=${userid }&select=${select}&lecture_page=0&lecName=">처음</a></li>
 													<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/student/applyForm/?lecture_page=${lectureList.number-1}&select=${select}&userid=${userid }&lecName=">&larr;</a></li>
@@ -268,7 +267,7 @@
 										</c:when>
 										<c:otherwise>
 											<c:choose>
-												<c:when test="${lectureList.last}"></c:when>
+												<c:when test="${applicationLec_lectureList.last}"></c:when>
 												<c:otherwise>
 													<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/student/applyForm/?userid=${userid }&select=${select}&applicationLec_page=0&lecName=">처음</a></li>
 													<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/student/applyForm/?applicationLec_page=${lectureList.number-1}&select=${select}&userid=${userid }&lecName=">&larr;</a></li>
@@ -282,12 +281,26 @@
 										<c:choose>
 											<c:when test="${select eq 'all' }">
 												  <c:forEach begin="${startBlockPage}" end="${endBlockPage}" var="i">
-													<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/student/applyForm/?userid=${userid }&lecture_page=${i-1}&select=${select}&lecName=">${i}</a></li>
+														<c:choose>
+															<c:when test="${lecture_lectureList.pageable.pageNumber+1 == i}">
+																<li class="page-item disabled"><a class="page-link" href="${pageContext.request.contextPath}/student/applyForm/?userid=${userid }&lecture_page=${i-1}&select=${select}&lecName=">${i}</a></li>
+															</c:when>
+															<c:otherwise>
+																<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/student/applyForm/?userid=${userid }&lecture_page=${i-1}&select=${select}&lecName=">${i}</a></li>
+															</c:otherwise>
+														</c:choose>
 												  </c:forEach>
 											</c:when>
 											<c:otherwise>
 												  <c:forEach begin="${startBlockPage}" end="${endBlockPage}" var="i">
-													<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/student/applyForm/?userid=${userid }&applicationLec_page=${i-1}&select=${select}&lecName=">${i}</a></li>
+														<c:choose>
+															<c:when test="${applicationLec_lectureList.pageable.pageNumber+1 == i}">
+																<li class="page-item disabled"><a class="page-link" href="${pageContext.request.contextPath}/student/applyForm/?userid=${userid }&applicationLec_page=${i-1}&select=${select}&lecName=">${i}</a></li>
+															</c:when>
+															<c:otherwise>
+																<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/student/applyForm/?userid=${userid }&applicationLec_page=${i-1}&select=${select}&lecName=">${i}</a></li>
+															</c:otherwise>
+														</c:choose>
 												  </c:forEach>										
 											</c:otherwise>										  
 										</c:choose>
@@ -296,7 +309,7 @@
 										<c:choose>
 										<c:when test="${select eq 'all' }">
 											  <c:choose>
-												<c:when test="${lectureList.last}"></c:when>
+												<c:when test="${lecture_lectureList.last}"></c:when>
 												<c:otherwise>
 													<li class="page-item "><a class="page-link" href="${pageContext.request.contextPath}/student/applyForm/?lecture_page=${lectureList.number+1}&userid=${userid }&select=${select}&lecName=">&rarr;</a></li>
 													<li class="page-item "><a class="page-link" href="${pageContext.request.contextPath}/student/applyForm/?lecture_page=${lectureList.totalPages-1}&userid=${userid }&select=${select}&lecName=">마지막</a></li>
@@ -305,7 +318,7 @@
 										</c:when>
 										<c:otherwise>
 											<c:choose>
-												<c:when test="${lectureList.last}"></c:when>
+												<c:when test="${applicationLec_lectureList.last}"></c:when>
 												<c:otherwise>
 													<li class="page-item "><a class="page-link" href="${pageContext.request.contextPath}/student/applyForm/?applicationLec_page=${lectureList.number+1}&userid=${userid }&select=${select}&lecName=">&rarr;</a></li>
 													<li class="page-item "><a class="page-link" href="${pageContext.request.contextPath}/student/applyForm/?applicationLec_page=${lectureList.totalPages-1}&userid=${userid }&select=${select}&lecName=">마지막</a></li>

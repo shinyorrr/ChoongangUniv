@@ -175,31 +175,40 @@
                     	<div class="d-flex flex-row">                    		
                     	 	<div class="col-6 mx-2 ">
                     	 	<!-----------------장바구니 전체 ------------------------>
-		                       <!-- 장바구니 신청 제목-->
-		                        <div class="mt-3 mb-3">                    
-		                       	  <span class="fs-2 fw-bold">강의 목록</span> 
-		                        </div>
-			
-			
-			
-							<!--  검색상단바 -->
+		                    <!--메인 제목-->
+	                        <div class="mt-3 mb-3">                    
+	                       	  <span class="fs-2 fw-bold">장바구니 </span>                         
+	                        </div> 
+	                       	
+	                       	<!--  검색상단바 -->
 	                        <!-- class="fw-bold border rounded-top " style="background-color:#EAEAEA; height: 45px;" -->	                       	
-	                       	<div class="fw-bold fs-5 " style="background-color:#EAEAEA; height: 45px;">
+	                       	<div class="fw-bold fs-6 " style="background-color:#EAEAEA; height: 45px;">
 	                       		<span style="line-height: 45px; margin-left: 10px;">${year }학년도 ${semester }학기 개설강좌</span>
 	                       		
 	                    		<!-- 강의명으로 검색 -->
-	                       		<form action="likeForm" method="get" class="row row-cols-lg-auto g-3 float-end me-5" >
-		                       		  <span style="line-height: 45px;">강의명 :&nbsp;</span>
+	                       		<form action="${pageContext.request.contextPath}/student/likeForm" method="get" class="row row-cols-lg-auto g-3 float-end me-5 fs-6 ">
+		                       		  <span style="line-height: 45px;">강의명 :</span>
 		                       		  
 									  <div class="col-12">							    
 									  	<div class="input-group">				     
-									      <input type="text" name="lecName" class="form-control mt-1" placeholder="강의명으로 검색">
+									      <input type="text" name="lecName" class="form-control form-control-sm mt-2" placeholder="강의명으로 검색">
 									    </div>
 									  </div>
+									  <!-- 강의목록 정렬 Select -->
+									 <div class="col-12" >
+									 	<div class="input-group mt-2 ">	
+				                       		<input type="hidden" name="userid" value="${userid }">
+				                       		<button type="button" class="btn btn-primary btn-sm fs-6" name="lecName" onclick="submit()">전체목록</button>
+				                       						                    		
+				                       	</div>
+									</div>	
 								</form>
+								
+								
+								
 	                       	</div>
 	
-								<!-- 2022학년도 2학기 수강신청 개설강좌     과목명 조회  	 -->
+								<!-- 리스트 -->
 								<table class="table table-striped">
 									<thead>
 										<th>강의코드</th><th>강의명</th><th>학년</th><th>강의시간</th><th>교수명</th>
@@ -223,8 +232,8 @@
 										<c:choose>
 											<c:when test="${lectureList.first}"></c:when>
 											<c:otherwise>
-												<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/student/likeForm/?userid=${userid }">처음</a></li>
-												<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/student/likeForm/?page=${lectureList.number-1}&userid=${userid }">&larr;</a></li>
+												<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/student/likeForm/?userid=${userid }&lecName=">처음</a></li>
+												<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/student/likeForm/?page=${lectureList.number-1}&userid=${userid }&lecName=">&larr;</a></li>
 											</c:otherwise>
 										</c:choose>
 							
@@ -232,10 +241,10 @@
 										<c:forEach begin="${startBlockPage}" end="${endBlockPage}" var="i">
 											<c:choose>
 												<c:when test="${lectureList.pageable.pageNumber+1 == i}">
-													<li class="page-item disabled"><a class="page-link" href="${pageContext.request.contextPath}/student/likeForm/?userid=${userid }&page=${i-1}">${i}</a></li>
+													<li class="page-item disabled"><a class="page-link" href="${pageContext.request.contextPath}/student/likeForm/?userid=${userid }&page=${i-1}&lecName=">${i}</a></li>
 												</c:when>
 												<c:otherwise>
-													<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/student/likeForm/?userid=${userid }&page=${i-1}">${i}</a></li>
+													<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/student/likeForm/?userid=${userid }&page=${i-1}&lecName=">${i}</a></li>
 												</c:otherwise>
 											</c:choose>
 										</c:forEach>
@@ -244,8 +253,8 @@
 										<c:choose>
 											<c:when test="${lectureList.last}"></c:when>
 											<c:otherwise>
-												<li class="page-item "><a class="page-link" href="${pageContext.request.contextPath}/student/likeForm/?page=${lectureList.number+1}&userid=${userid }">&rarr;</a></li>
-												<li class="page-item "><a class="page-link" href="${pageContext.request.contextPath}/student/likeForm/?page=${lectureList.totalPages-1}&userid=${userid }">마지막</a></li>
+												<li class="page-item "><a class="page-link" href="${pageContext.request.contextPath}/student/likeForm/?page=${lectureList.number+1}&userid=${userid }&lecName=">&rarr;</a></li>
+												<li class="page-item "><a class="page-link" href="${pageContext.request.contextPath}/student/likeForm/?page=${lectureList.totalPages-1}&userid=${userid }&lecName=">마지막</a></li>
 											</c:otherwise>
 										</c:choose>
 									</ul>

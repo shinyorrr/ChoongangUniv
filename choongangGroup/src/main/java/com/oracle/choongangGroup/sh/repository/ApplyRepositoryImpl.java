@@ -107,6 +107,7 @@ public class ApplyRepositoryImpl implements ApplyRepository {
 		return result;
 		
 	}
+	
 	//시간중복 검사
 	public int timeOverLap(ApplicationLec applyLec) {
 		//result = 1 --> 중복없음

@@ -47,6 +47,8 @@ public class ApplyServiceImpl implements ApplyService {
 			result = ar.apply(applyLec); //실제 수강신청
 		}
 		
+		
+		
 		return result;
 	}
 
@@ -98,18 +100,27 @@ public class ApplyServiceImpl implements ApplyService {
 	public Page<Lecture> lectureList(String year, String semester, Pageable pageable) {		
 		return lecr.findAllByYearAndSemester(year, semester, pageable);
 	}
-
+	
+	//장바구니 리스트 페이징
 	@Override
-	public Page<ApplicationLec> likeList(String userid, String year, String semester, Pageable pageable) {
-		Long gubun = 1L;		
+	public Page<ApplicationLec> likeListPage(String userid, String year, String semester, Pageable pageable) {
+		Long gubun = 1L; //장바구니 구분		
 		return aplr.findAllByMember_UseridAndLecture_YearAndLecture_SemesterAndGubun(userid, year, semester, gubun, pageable);
 	}
 
+	//과목명으로 검색한 리스트 페이징
 	@Override
 	public Page<Lecture> findByName(String year, String semester, String lecName, Pageable pageable2) {
 		return lecr.findByYearAndSemesterAndNameContaining(year,semester,lecName,pageable2);
 	}
 
+	@Override
+	public List<ApplicationLec> likeList(String userid, String year, String semester) {
+		Long gubun = 1L;
+		return aplr.findAllByMember_UseridAndLecture_YearAndLecture_SemesterAndGubun(userid, year, semester, gubun);
+	}
+
+	
 	
 
 
