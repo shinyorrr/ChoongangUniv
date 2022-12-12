@@ -59,6 +59,31 @@
             <div>
                 <div class="nav__brand">
                     <ion-icon name="menu-outline" class="nav__toggle" id="nav-toggle"></ion-icon>
+                </div>
+                <div class="nav__list">
+                    <div href="/notice/noticeList" class="nav__link collapses">
+                        <ion-icon name="folder-outline" class="nav__icon"></ion-icon>
+                        <span class="nav_name">공지사항 관리</span>
+
+                        <ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
+
+                        <ul class="collapse__menu" style="width: 180px;">
+                            <a href="/noticeWrite" class="collapse__sublink">공지사항 글쓰기</a>
+                        </ul>
+                    </div>
+                </div>
+                <a href="/logout" class="nav__link">
+                    <ion-icon name="log-out-outline" class="nav__icon"></ion-icon>
+                    <span class="nav_name">Log out</span>
+                </a>
+            </div>
+        </nav>
+    </div>
+    <!-- <div class="l-navbar" id="navbar">
+        <nav class="navv">
+            <div>
+                <div class="nav__brand">
+                    <ion-icon name="menu-outline" class="nav__toggle" id="nav-toggle"></ion-icon>
                     <a href="#" class="nav__logo">공지사항 관리</a>
                 </div>
                 <div class="nav__list">
@@ -113,7 +138,7 @@
                 </a>
             </div>
         </nav>
-    </div>
+    </div> -->
     <!-- /side nav bar -->
     <!-- main content -->
     <div class="container-fluid w-100" style=" background-color: rgb(214, 225, 237)">
