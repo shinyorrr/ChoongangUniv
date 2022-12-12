@@ -181,7 +181,7 @@
 					       	 </c:otherwise>
 					    </c:choose>
 					    </td>
-
+					    <td>
 					    <c:choose>
 					    	<c:when test="${fn:length(notice.noticeContent) gt 21}">
 					    		<td>${fn:substring(notice.noticeContent, 0 , 20)}....</td>
@@ -190,6 +190,8 @@
 					    		<td>${notice.noticeContent}</td>
 					    	</c:otherwise>
 					    </c:choose>
+					    </td>
+					    <td>
 					     	<c:choose>   
 						        <c:when test="${notice.createdDate != null}">
 							        <c:set var="DateValue" value="${notice.createdDate}"/>
@@ -200,7 +202,8 @@
 							        <td>${fn:substring(DateValue,0,10)}</td>
 						        </c:when>
 					        </c:choose>
-					        <td>${notice.noticeHit}</td>
+					    </td>
+					    <td>${notice.noticeHit}</td>
 					    </tr>
 					    </c:if>
 					    </c:forEach>
