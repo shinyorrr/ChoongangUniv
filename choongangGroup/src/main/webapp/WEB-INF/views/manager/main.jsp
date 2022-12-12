@@ -38,10 +38,11 @@
     
           <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
             <li><a href="/manager/main" class="nav-link px-2 link-secondary">Home</a></li>
-            <li><a href="#" class="nav-link px-2 link-dark">Features</a></li>
-            <li><a href="#" class="nav-link px-2 link-dark">Pricing</a></li>
-            <li><a href="#" class="nav-link px-2 link-dark">FAQs</a></li>
-            <li><a href="#" class="nav-link px-2 link-dark">About</a></li>
+            <li><a href="#" class="nav-link px-2 link-dark">전자 결재</a></li>
+            <li><a href="#" class="nav-link px-2 link-dark">학사 관리</a></li>
+            <li><a href="#" class="nav-link px-2 link-dark">교재 관리</a></li>
+            <li><a href="/notice/noticeList" class="nav-link px-2 link-dark">공지사항 관리</a></li>
+            <li><a href="/message/messageList" class="nav-link px-2 link-dark">쪽지함</a></li>
           </ul>
         </header>
     </nav>
@@ -52,55 +53,22 @@
             <div>
                 <div class="nav__brand">
                     <ion-icon name="menu-outline" class="nav__toggle" id="nav-toggle"></ion-icon>
-                    <a href="#" class="nav__logo">Bedimcode</a>
                 </div>
                 <div class="nav__list">
-                    <a href="#" class="nav__link active">
-                        <ion-icon name="home-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Dashboard</span>
-                    </a>
-                    <a href="/message/messageList" class="nav__link">
-                        <ion-icon name="chatbubbles-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">쪽지함</span>
-                    </a>
-
                     <div href="#" class="nav__link collapses">
                         <ion-icon name="folder-outline" class="nav__icon"></ion-icon>
                         <span class="nav_name">Projects</span>
 
                         <ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
 
-                        <ul class="collapse__menu">
-                            <a href="#" class="collapse__sublink">Data</a>
+                        <ul class="collapse__menu" style="width: 180px; color: var(--sub-color);">
+                            <a href="#" class="collapse__sublink">공지사항 글쓰기</a>
                             <a href="#" class="collapse__sublink">Group</a>
                             <a href="#" class="collapse__sublink">Members</a>
                         </ul>
                     </div>
-
-                    <a href="/notice/noticeList" class="nav__link">
-                        <ion-icon name="pie-chart-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">공지사항</span>
-                    </a>
-
-                    <div href="#" class="nav__link collapses">
-                        <ion-icon name="people-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Team</span>
-
-                        <ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
-
-                        <ul class="collapse__menu">
-                            <a href="#" class="collapse__sublink">Data</a>
-                            <a href="#" class="collapse__sublink">Group</a>
-                            <a href="#" class="collapse__sublink">Members</a>
-                        </ul>
-                    </div>
-
-                    <a href="#" class="nav__link">
-                        <ion-icon name="settings-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Settings</span>
-                    </a>
                 </div>
-                <a href="#" class="nav__link">
+                <a href="/logout" class="nav__link">
                     <ion-icon name="log-out-outline" class="nav__icon"></ion-icon>
                     <span class="nav_name">Log out</span>
                 </a>
@@ -117,7 +85,7 @@
             <div class="col-12 pt-4" style="height: 150px; background-color: rgb(95, 142, 241)">
                 <div class="d-flex flex-row mb-3">
                     <div>
-                        <span class="text-white h4">안녕하세요. <span class="fw-bold">김중앙</span>님!</span>
+                        <span class="text-white h4">안녕하세요. <span class="fw-bold">${name}</span>님!</span>
                     </div>
                     <div class="border border-1 border-white border-bottom rounded-pill text-white px-2 pt-1 ms-2 h6">교수</div>
                     <div>
@@ -126,7 +94,7 @@
                 </div>
                 <div class="row">
                     <div>
-                        <span class="text-white h6">이공대학 컴퓨터공학과 | 정교수</span>
+                        <span class="text-white h6">이공대학 컴퓨터공학과 | ${position}</span>
                     </div>
                 </div>
                 <div class="d-flex flex-low">

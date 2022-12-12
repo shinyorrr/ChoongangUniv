@@ -1,4 +1,4 @@
-package com.oracle.choongangGroup.changhun.JPA;
+  package com.oracle.choongangGroup.changhun.JPA;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;

@@ -1,5 +1,6 @@
 package com.oracle.choongangGroup.taewoo.domain;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -25,7 +26,7 @@ import lombok.NoArgsConstructor;
 					initialValue = 1,
 					allocationSize = 1
 					)
-public class Message {
+public class Message extends BaseTimeEntity {
 	
 	@Id
 	@GeneratedValue(
@@ -34,12 +35,14 @@ public class Message {
 			)
 	private Long messageId;
 	private String messageTitle;
+	@Column(length = 50000)
 	private String messageContent;
 	private boolean deletedBySender;
 	private boolean deletedByReceiver;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "sender_userid")
 	private Member sender;
+	private String senderName;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "receiver_userid")
 	private Member receiver;

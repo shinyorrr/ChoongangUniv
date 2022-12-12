@@ -70,8 +70,8 @@
 		var userInfo = $('input:radio[name="radioBox"]:checked').val();
 		var userid = userInfo.split(',')[0];
 		var name = userInfo.split(',')[1];
-		$('input[name=receiver_userid]').attr('value', userid);
-		$('input[name=receiver]').attr('value', name);
+		$('input[name=receiverUserid]').attr('value', userid);
+		$('input[name=receiverName]').attr('value', name);
 		$('#exampleModal').modal('hide');
 	}
 	
@@ -104,14 +104,14 @@
 				</svg>
 			</a>
 
-			<ul
-				class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-				<li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>
-				<li><a href="#" class="nav-link px-2 link-dark">Features</a></li>
-				<li><a href="#" class="nav-link px-2 link-dark">Pricing</a></li>
-				<li><a href="#" class="nav-link px-2 link-dark">FAQs</a></li>
-				<li><a href="#" class="nav-link px-2 link-dark">About</a></li>
-			</ul>
+ 		<ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+            <li><a href="/manager/main" class="nav-link px-2 link-secondary">Home</a></li>
+            <li><a href="#" class="nav-link px-2 link-dark">전자 결재</a></li>
+            <li><a href="#" class="nav-link px-2 link-dark">학사 관리</a></li>
+            <li><a href="#" class="nav-link px-2 link-dark">교재 관리</a></li>
+            <li><a href="/notice/noticeList" class="nav-link px-2 link-dark">공지사항 관리</a></li>
+            <li><a href="/message/messageList" class="nav-link px-2 link-dark">쪽지함</a></li>
+          </ul>
 		</header>
 	</nav>
 	<!-- /header -->
@@ -225,14 +225,14 @@
 						style="min-height: 550px;">
 						<h3>쪽지 작성</h3>
 						<hr>
-						<form action="<%=context%>/notice/noticeSave" method="post">
-							<input type="hidden" id=userid name="userid"
-								value="${userid}">
+						<input type="hidden" id=userid name="userid" value="${userid}">
+						<form action="messageSave" method="post">
 							<div>
 								<label class="form-label">받는 사람</label>
-								<input type="hidden" name="sender_userid" id="sender_userid" value="${userid}">
-								<input type="hidden" name="receiver_userid" id="receiver_userid"> 
-								<input type="text" name="receiver" id="receiver" readonly="readonly">
+								<input type="hidden" name="senderUserid" id="senderUserid" value="${userid}">
+								<input type="hidden" name="senderName" id="senderName" value="${name}">
+								<input type="hidden" name="receiverUserid" id="receiverUserid"> 
+								<input type="text" name="receiverName" id="receiverName" readonly="readonly">
 								<!-- Button trigger modal -->
 								<button type="button" class="btn btn-primary"
 									data-bs-toggle="modal" data-bs-target="#exampleModal"
@@ -279,20 +279,14 @@
 							<div style="margin: 10px;">
 								<label for="exampleFormControlInput1" class="form-label">글제목</label>
 								<input type="text" class="form-control"
-									id="noticeTitle exampleFormControlInput1" name="noticeTitle"
-									placeholder="제목을 입력하세요." required="required">
+									   id="messageTitle exampleFormControlInput1" name="messageTitle"
+									   placeholder="제목을 입력하세요." required="required">
 							</div>
 							<div style="margin: 10px;">
 								<label for="exampleFormControlTextarea1" class="form-label">내용</label>
 								<textarea class="form-control" rows="3"
-									id="noticeContent exampleFormControlTextarea1"
-									name="noticeContent" style="height: 300px;" required="required"></textarea>
-							</div>
-							<div style="margin: 10px; width: 100px;">
-								<input type="file">
-								<!-- <div class="dropBox">
-								<h3>이곳에 파일을 드롭해주세요.</h3>
-								</div> -->
+									      id="messageContent exampleFormControlTextarea1"
+										  name="messageContent" style="height: 300px;" required="required"></textarea>
 							</div>
 							<div style="margin: 10px;">
 								<button type="submit" class="btn btn-outline-primary">등록</button>

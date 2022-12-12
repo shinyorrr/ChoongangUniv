@@ -71,8 +71,14 @@ function lecUpdate(id) {
 //// 강의 삭제///////////
 function lecDelete() {
 	var id = document.getElementById("lecId").value;
+	/* var status = document.getElementById("lecStatus").value; */
 	console.log("강의 클릭 ===> " + id);
+
 	if(confirm("삭제하시겠습니까?") == true){
+		/* if(status  == '0') {
+			alert("이미 승인된 강의입니다.\n삭제 할수 없습니다.")
+			return false;
+		} */
 		$.ajax({
 			url 	: "lecDelete",
 			data	: {"id" : id},
@@ -182,7 +188,7 @@ $(document).ready(function(){
 		} else {
 			status = true;
 		}
-		if(hour1 == 3) {
+		if(hour1 == lecUnitScore) {
 			$('#lecDay2').val('');
 			$('#lecTime2').val('');
 			$('#lecHour2').val('');
@@ -209,7 +215,7 @@ $(document).ready(function(){
 		} else{
 			status = true;
 		}
-		if(hour1 == 3) {
+		if(hour1 == lecUnitScore) {
 			$('#lecDay2').val('');
 			$('#lecTime2').val('');
 			$('#lecHour2').val('');
@@ -243,16 +249,28 @@ $(document).ready(function(){
 			return false;
 		}   
 		
-		if(status == false) {
+		//강의수가 학점이랑 다를 때
+	 	if(status == false) {
 			alert("강의시간을 확인하세요.");
 			return false;
-		}   
+		}  
+		
 		if($("#lecDay1").val() == $("#lecDay2").val()) {
 			alert("강의날짜가 겹칩니다.\n다른요일을 선택하세요");
 			$('#lecDay2').focus();
 			return false;
-		}   
-		
+		}     
+
+		if(Number($("#lecTime1").val()) + Number($("#lecHour1").val()) > 10) {
+			alert("강의일1의 강의 종료시간을 확인해주세요.");
+			$('#lecHour1').focus();
+			return false;
+		}
+		if(Number($("#lecTime2").val()) + Number($("#lecHour2").val()) > 10) {
+			alert("강의일2의 강의 종료시간을 확인해주세요.");
+			$('#lecHour2').focus();
+			return false;
+		}
 		
 		/* 강의일, 수업시간, 강의식나 체크 */
  		if($("#lecDay1").val() == '') {
@@ -265,6 +283,7 @@ $(document).ready(function(){
 			$('#lecDay1').focus();
 			return false;
 		}
+		
 		if($("#lecTime1").val() == '') {
 			if($("#lecTime2").val() != ''){
  				alert("강의시간1이 선택되지 않았습니다.\n강의시간1부터 선택해주세요.");
@@ -274,7 +293,9 @@ $(document).ready(function(){
 			alert("강의시간1을 선택해주세요!");
 			$('#lecTime1').focus();
 			return false;
-		} else if($("#lecHour1").val() == '') {
+		} 
+		
+		if($("#lecHour1").val() == '') {
 			if($("#lecHour2").val() != ''){
  				alert("강의시간1의 수업시간이 선택되지 않았습니다.\n강의시간1의 수업시간부터 선택해주세요.");
  				$('#lecHour1').focus();
@@ -284,6 +305,22 @@ $(document).ready(function(){
 			$('#lecHour1').focus();
 			return false;
 		} 
+		
+		if($("#lecDay2").val() == ''){
+			alert("강의일2를 선택해 주세요!");
+			$('#lecDay2').focus();
+			return false;
+		}
+		if($("#lecTime2").val() == ''){
+			alert("강의시간2를 선택해 주세요!");
+			$('#lecTime2').focus();
+			return false;
+		}
+		if($("#lecHour2").val() == ''){
+			alert("강의시간2의 수업시간을 선택해 주세요!");
+			$('#lecHour2').focus();
+			return false;
+		}
 		
 		$("#lecSave").submit();
 	});
@@ -521,6 +558,7 @@ function setDateBox() {
 						<button type="button" id="lecSaveBtn" style="width: 8%; display: inline;" class="btn btn-dark btn-sm me-1"
 								>저장</button>
 								<!-- form="lecSave" -->
+						
 						<button type="button" style="width: 8%; display: inline;" class="btn btn-danger btn-sm"
 						        onclick="lecDelete()">삭제</button>
 					</div>
