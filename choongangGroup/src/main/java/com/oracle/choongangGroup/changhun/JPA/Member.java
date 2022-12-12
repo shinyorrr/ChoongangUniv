@@ -28,7 +28,7 @@ public class Member {
 	private String password;
 	private String birth;
 	private String image;
-	private String phone;
+ 
 	private String subphone;
 	private String email;
 	private String address;
