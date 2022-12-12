@@ -112,7 +112,7 @@ public class LikeRepositoryImpl implements LikeRepository {
 		return result;
 		
 	}
-	//시간중복 검사
+	//시간중복 검사 ///////////////////////////////////////////////   변경
 	public int timeOverLap(ApplicationLec applyLec) {
 		//result = 1 --> 중복없음
 		//result = 2 --> 시간 중복됨

@@ -19,7 +19,7 @@ import com.oracle.choongangGroup.hj.service.EvaluationService;
 
 import lombok.RequiredArgsConstructor;
 
-
+@RequestMapping("/student/")
 @RequiredArgsConstructor
 @Controller
 public class EvaluationController {

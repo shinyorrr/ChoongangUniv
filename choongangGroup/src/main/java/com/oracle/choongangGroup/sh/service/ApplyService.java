@@ -18,9 +18,9 @@ public interface ApplyService {
 	int register(ApplyTime applyTime);
 	ApplyTime findTime(int year, int month, String select);
 	Page<Lecture> lectureList(String year, String semester, Pageable pageable);
-	Page<ApplicationLec> likeList(String userid, String year, String semester, Pageable pageable);
+	Page<ApplicationLec> likeListPage(String userid, String year, String semester, Pageable pageable);
 	Page<Lecture> findByName(String year, String semester, String lecName, Pageable pageable2);
-	
+	List<ApplicationLec> likeList(String userid, String year, String semester);
 
 
 

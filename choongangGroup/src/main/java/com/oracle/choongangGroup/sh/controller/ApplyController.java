@@ -66,7 +66,7 @@ public class ApplyController {
 		model.addAttribute("likeTime", likeTime);
 		model.addAttribute("applyTime", applyTime);
 		model.addAttribute("userid", userid);
-		return "student/applyIndex";
+		return "student/applyIndex"; 
 	}
 	
 	//장바구니 메인 [장바구니안내문, 신청, 시간표]
@@ -79,15 +79,19 @@ public class ApplyController {
 	
 	//장바구니 신청 페이지
 	@GetMapping(value = "likeForm")
-	public String likeForm(String userid, Model model, @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {			
+	public String likeForm(String userid, String lecName, Model model, @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {			
 
 		String year = getYear();
 		String semester = getSemester();
-		String lecName = "aa";
+		if(lecName.isEmpty()) {
+			lecName = "empty";
+		}
 		
+	
+		//페이징
 		Page<Lecture> lectureList = as.lectureList(year,semester,pageable);
 		Page<Lecture> lectureSearch = as.findByName(year,semester,lecName,pageable); //강의명으로 검색한 목록 
-		if(!lecName.isEmpty()) {
+		if(!lecName.equals("empty")) {
 			int pageNum = lectureSearch.getPageable().getPageNumber(); //현재페이지
 			int totalPage = lectureSearch.getTotalPages();//총페이지수
 			int pageBlock = 5; //블럭의 수
@@ -108,8 +112,14 @@ public class ApplyController {
 			model.addAttribute("startBlockPage", startBlockPage);
 			model.addAttribute("endBlockPage", endBlockPage);
 			model.addAttribute("lectureList", lectureList);		
-		}
+		}//페이징 끝
+		
+		//시간표
+		
+		
 		model.addAttribute("userid", userid);	
+		model.addAttribute("year", year);
+		model.addAttribute("semester", semester);
 		
 		return "student/likeForm";
 	}
@@ -140,9 +150,7 @@ public class ApplyController {
 								@PageableDefault(size = 10,sort = "id", direction = Sort.Direction.DESC ) @Qualifier("lecture") Pageable pageable,								
 			 					@PageableDefault(size = 10, sort = "member.userid", direction = Sort.Direction.DESC) @Qualifier("applicationLec") Pageable pageable2,
 								@RequestParam("select") String select) {	
-		//@PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) @Qualifier("Lecture") Pageable pageable2,
-        System.out.println("ApplyController applyForm start...");
-        System.out.println("ApplyController applyForm start...");
+		
    
 		String year = getYear();
 		String semester = getSemester();
@@ -152,15 +160,11 @@ public class ApplyController {
 			lecName = "empty";
 		}
 		
-
 		//페이징
 		
 		Page<Lecture> lectureList = as.lectureList(year,semester,pageable); //전체강의목록
-		int pageNum2 = lectureList.getPageable().getPageNumber(); //현재페이지
-		System.out.println("applyForm page->"+page);
-		System.out.println("applyForm pageNum2->"+pageNum2);
 		Page<Lecture> lectureSearch = as.findByName(year,semester,lecName,pageable); //강의명으로 검색한 목록 
-		Page<ApplicationLec> applicationLecList = as.likeList(userid,year,semester,pageable2); //장바구니목록
+		Page<ApplicationLec> applicationLecList = as.likeListPage(userid, year, semester, pageable2); //장바구니목록
 		
 		System.out.println("----------------------------------------------------------------------");
 				
@@ -253,6 +257,14 @@ public class ApplyController {
 		
 		return semester;
 	}
+	
+//	public String lectureList() {
+//		String year = getYear();
+//		String semester = getSemester();
+//		List<ApplicationLec> list = as.likeList(userid, year, semester);
+//		return "";
+//		
+//	}
 
 	
 	
