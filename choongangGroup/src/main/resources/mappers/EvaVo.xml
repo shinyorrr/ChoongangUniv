@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper
+	namespace="com.oracle.choongangGroup.changhun.evaluation.EvaVoMapper">
+
+	
+	<select id="evaVoFind" parameterType="String" resultType="EvaVo"> 
+		select e.big_category bigCategory, sum(e.score) sum, avg(e.score) avg,count(e.lec_id) count
+		from evaluation e, lecture l
+		where e.lec_id = l.lec_id
+		and l.prof_name = #{pname}
+		group by e.big_category
+	</select>
+	<select id="profFind" resultType="String">
+		select prof_name
+		from lecture
+	</select>
+	
+	<select id="totalFind" resultType="EvaVo" parameterType="String">
+		select avg(e.score) totalAvg,
+			SUM(COUNT(DISTINCT e.mem_userid)) OVER() as evaCnt,
+		  	SUM(COUNT(DISTINCT a.mem_userid)) OVER() as totalCnt
+		from evaluation e, lecture l , application_lec a
+		where e.lec_id = l.lec_id
+		and e.lec_id = a.lec_id
+		and l.prof_name = #{pname}
+		group by e.lec_id
+	</select>
+
+</mapper>
