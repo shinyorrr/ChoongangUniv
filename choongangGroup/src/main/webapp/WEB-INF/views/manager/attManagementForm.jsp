@@ -77,11 +77,7 @@
           </a>
     
           <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-            <li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>
-            <li><a href="#" class="nav-link px-2 link-dark">Features</a></li>
-            <li><a href="#" class="nav-link px-2 link-dark">Pricing</a></li>
-            <li><a href="#" class="nav-link px-2 link-dark">FAQs</a></li>
-            <li><a href="#" class="nav-link px-2 link-dark">About</a></li>
+  			<jsp:include page="navHeader.jsp"></jsp:include>
           </ul>
         </header>
     </nav>
@@ -155,50 +151,10 @@
             
             
             <!-- content header -->
-              <div class="col-12 pt-4" style="height: 150px; background-color: rgb(95, 142, 241)">
-                <div class="row">
-                	<div class="col-6">
-		                <div class="d-flex flex-row mb-3">
-		                    <div>
-		                        <span class="text-white h4">안녕하세요. <span class="fw-bold">김중앙</span>님!</span>
-		                    </div>
-		                    <div class="border border-1 border-white border-bottom rounded-pill text-white px-2 pt-1 ms-2 h6">교수</div>
-		                    <div>
-		                        <i class="text-white bi-gear-fill mx-2"></i>
-		                    </div>
-		                </div>
-		                <div class="row">
-		                    <div>
-		                        <span class="text-white h6">이공대학 컴퓨터공학과 | 정교수</span>
-		                    </div>
-		                </div>
-		                <div class="d-flex flex-low">
-		                    <div>
-		                        <i class="bi bi-envelope-fill text-white"></i>
-		                    </div>
-		                    <div>
-		                        <span class="text-white ms-3">test123@naver.com</span>
-		                    </div>
-		                </div>
-		            </div>
-		            <div class="col-4">
-		            	<div style="width: 535px;line-height: 100px;color: white;font-size: 77px;text-align:center;" id="clock">
-						</div>
-		            </div>
-		            <div class="col-1">
-		            	<button type="button" class="btn btn-secondary" style="width: 100px;height: 43px;margin: 5px;" onclick="attInsert()">출근</button>
-		            	<button type="button" class="btn btn-secondary" style="width: 100px;height: 43px;margin: 5px;" onclick="attOff()">퇴근</button>
-		            </div>
-	           </div>
-                
-            </div>
-            <main class="col-9 h-100 w-100">
-                <div class="row m-5">
+            <jsp:include page="contentHeader.jsp"></jsp:include>
                     <!-- card header -->
                     <div class="col-12 rounded-top text-white overflow-auto pt-2 fw-bold" style="background-color: rgb(39, 40, 70); height: 40px;"> 
-                        <i class="bi bi-bookmark-fill me-2"></i>교직원<i class="bi bi-chevron-right"></i>전체 주소록 조회 
-                        <button class="btn btn-danger" onclick="location.href='${pageContext.request.contextPath}/myLikeAddress'"
-                        	style="margin-left: 64%;line-height: 11px;">내 즐겨찾기</button>
+                        <i class="bi bi-bookmark-fill me-2"></i>근태관리<i class="bi bi-chevron-right"></i>내 근태관리 
                     </div>
                     <!-- card content -->  
                     <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
@@ -263,14 +219,9 @@
                     	
                     	
                     </div>
-                    <!-- footer -->
-                    <footer class="col-12" style="height: 60px;">
-                        footer
-                    </footer>    
                 </div>
-            </main>
         </div>
-    </div>
+        <jsp:include page="../footer.jsp"></jsp:include>
     <!-- IONICONS -->
     <script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script>
     <!-- JS -->

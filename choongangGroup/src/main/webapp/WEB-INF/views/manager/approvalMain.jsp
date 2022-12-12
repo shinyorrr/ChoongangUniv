@@ -244,13 +244,10 @@
 												<td>대기중<td>
 											</c:if>
 											<c:if test="${process.approval_status eq 1}">
-												<td>심사중<td>
+												<td>승인<td>
 											</c:if>
 											<c:if test="${process.approval_status eq 2}">
 												<td>반려<td>
-											</c:if>
-											<c:if test="${process.approval_status eq 3}">
-												<td>승인<td>
 											</c:if>
 										</tr>
 									</c:forEach>

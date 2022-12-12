@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ======= mapper 기본설정 ======= -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.oracle.choongangGroup.hs.lecManagement.MakeupMapper">
+	
+	<insert id="insertOrdersDate" parameterType="java.util.List">
+		<selectKey keyProperty="lec_orders_id" resultType="int" order="BEFORE">
+			<!-- SELECT lec_orders_seq.NEXTVAL FROM DUAL -->
+			select NVL(MAX(TO_NUMBER(lec_orders_id)), 0) + 1 from LEC_ORDERS
+		</selectKey>
+		INSERT ALL
+		<foreach collection="list" item="item" index ="index">
+		INTO LEC_ORDERS(lec_orders_id, lec_id, lec_order, lec_date, lec_time) 
+		VALUES
+		(
+			#{lec_orders_id}+(#{index}),
+			#{item.lec_id},
+			#{item.lec_order},
+			#{item.lec_date},
+			#{item.lec_time}
+		)
+		</foreach>
+		SELECT * FROM DUAL
+	</insert>
+	
+	
+</mapper>

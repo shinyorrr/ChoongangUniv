@@ -20,21 +20,13 @@
 	<!-- CSS -->
 	<link rel="stylesheet" href="/css/stylesLec.css">
 	<link rel="stylesheet" href="/css/styles.css">
-	<!-- IONICONS -->
-	<script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script>
-	<!-- JS -->
-	<script src="/js/main.js"></script>
 
-	<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
-	<script type="text/javascript">
-	
-	</script>
 </head>
 
 <body class="" id="body-pd">
 	<nav class="navbar navbar-expand-lg navbar-dark bd-navbar bg-light sticky-top position-fixed fixed-top w-100" style="position : absolute">
 		<header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between">
-			<a href="/" class="navbar-brand">
+			<a href="/professor/main" class="navbar-brand">
 				<img class="img-fluid" src="/images/logo2.png" alt="logo2" style="height: 40px;"><use xlink:href="#bootstrap"></use></svg>
 			</a>
 
@@ -49,69 +41,72 @@
 	</nav>
 	
 	<!-- side nav bar -->
-<div class="l-navbar" id="navbar">
-		<nav class="navv">
-			<div>
-				<div class="nav__brand">
-					<ion-icon name="menu-outline" class="nav__toggle" id="nav-toggle"></ion-icon>
-				</div>
-				<div class="nav__list">
-					<a href="#" class="nav__link active">
-						<div style="width: 20px; height: 20px;">
-							<i class="bi bi-mortarboard nav__icon "></i>
-						</div>
-						<span class="nav_name">학사관리</span>
-					</a>
-					<a href="#" class="nav__link">
-						<div style="width: 20px; height: 20px;">
-							<i class="bi bi-file-earmark-text nav__icon "></i>
-						</div>
-						<span class="nav_name">결재</span>
-					</a>
-	
-					<div href="#" class="nav__link collapses">
-						<ion-icon name="folder-outline" class="nav__icon"></ion-icon>
-						<span class="nav_name">Projects</span>
-	
-						<ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
-	
-						<ul class="collapse__menu">
-							<a href="#" class="collapse__sublink">Data</a>
-							<a href="#" class="collapse__sublink">Group</a>
-							<a href="#" class="collapse__sublink">Members</a>
-						</ul>
-					</div>
-	
-					<a href="#" class="nav__link">
-						<ion-icon name="pie-chart-outline" class="nav__icon"></ion-icon>
-						<span class="nav_name">Analytics</span>
-					</a>
-	
-					<div href="#" class="nav__link collapses">
-						<ion-icon name="people-outline" class="nav__icon"></ion-icon>
-						<span class="nav_name">Team</span>
-	
-						<ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
-	
-						<ul class="collapse__menu">
-							<a href="#" class="collapse__sublink">Data</a>
-							<a href="#" class="collapse__sublink">Group</a>
-							<a href="#" class="collapse__sublink">Members</a>
-						</ul>
-					</div>
-	
-					<a href="#" class="nav__link">
-						<ion-icon name="settings-outline" class="nav__icon"></ion-icon>
-						<span class="nav_name">Settings</span>
-					</a>
-				</div>
-  				<a href="#" class="nav__link">
-					<ion-icon name="log-out-outline" class="nav__icon"></ion-icon>
-					<span class="nav_name">Log out</span>
-				</a>
-			</div>
-		</nav>
-	</div>
+    <div class="l-navbar" id="navbar">
+        <nav class="navv">
+            <div>
+                <div class="nav__brand">
+                    <ion-icon name="menu-outline" class="nav__toggle" id="nav-toggle"></ion-icon>
+                    <a href="#" class="nav__logo"></a>
+                </div>
+                
+                
+                <div href="#" class="nav__link collapses active">
+                        <ion-icon name="folder-outline" class="nav__icon md hydrated" role="img" aria-label="folder outline"></ion-icon>
+                        <span class="nav_name">학사관리</span>
+
+                        <ion-icon name="chevron-down-outline" class="collapse__link md hydrated rotate" role="img" aria-label="chevron down outline"></ion-icon>
+
+                        <ul class="collapse__menu showCollapse">
+                            <a href="#" class="collapse__sublink">강의시간표</a>
+                            <a href="#" class="collapse__sublink">Group</a>
+                            <a href="#" class="collapse__sublink">Members</a>
+                        </ul>
+                </div>
+                
+                
+                
+                <div class="nav__list">
+                    <a href="#" class="nav__link active">
+                        <ion-icon name="home-outline" class="nav__icon"></ion-icon>
+                        <span class="nav_name">Dashboard</span>
+                    </a>
+                    <a href="#" class="nav__link">
+                        <ion-icon name="chatbubbles-outline" class="nav__icon"></ion-icon>
+                        <span class="nav_name">Messenger</span>
+                    </a>
+
+              
+
+                    <a href="#" class="nav__link">
+                        <ion-icon name="pie-chart-outline" class="nav__icon"></ion-icon>
+                        <span class="nav_name">Analytics</span>
+                    </a>
+
+                    <div href="#" class="nav__link collapses">
+                        <ion-icon name="people-outline" class="nav__icon"></ion-icon>
+                        <span class="nav_name">Team</span>
+
+                        <ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
+
+                        <ul class="collapse__menu">
+                            <a href="#" class="collapse__sublink">Data</a>
+                            <a href="#" class="collapse__sublink">Group</a>
+                            <a href="#" class="collapse__sublink">Members</a>
+                        </ul>
+                    </div>
+
+                    <a href="#" class="nav__link">
+                        <ion-icon name="settings-outline" class="nav__icon"></ion-icon>
+                        <span class="nav_name">Settings</span>
+                    </a>
+                </div>
+                <a href="#" class="nav__link">
+                    <ion-icon name="log-out-outline" class="nav__icon"></ion-icon>
+                    <span class="nav_name">Log out</span>
+                </a>
+            </div>
+        </nav>
+    </div>
 	<!-- /side nav bar -->
 
 	<!------- main content ------------>
@@ -134,7 +129,7 @@
 
 			<!------------- card header  컨텐츠 폼------------->
 			<main class="col-9 h-100 w-100">
-			
+				<input type="hidden" name="gubun" value="1">
 				
 				<div class="row m-5">
 					<!------------- 컨텐츠 경로 ------------->
@@ -144,7 +139,7 @@
 						<div class="col-12 rounded-bottom overflow-auto bg-light p-5" style="min-height: 550px;">
 						
 						<h2>강의관리</h2><hr>
-							<p class="font08">총 <b style="color: red">1</b>개의 수업이 있습니다</p><br>
+							<p class="font08">총 <b style="color: red">${lecCnt}</b>개의 수업이 있습니다</p><br>
 						<c:forEach var="lec" items="${lecList}">
 							<c:if test ="${lec.status eq '0'}">
 								<p style="font-size: 1.4em;">(${lec.typeCode}${lec.id}) <b>${lec.name}</b> _${lec.grade}학년</p>
@@ -152,9 +147,9 @@
 									<div class="font09">총 수업시간 : <b style="color: red">6</b>/${lec.maxCount}
 										&nbsp; &#183; &nbsp; 휴강 : <b>${statusCnt1}</b> &nbsp; &#183; &nbsp; 보강 : <b>${statusCnt2}</b>
 										<button type="button" class="btn btn-danger btn-sm ms-5 font09"
-												onclick="location.href='lecAttendanceCheck?id=${lec.id}'">&nbsp; 전자출결 &nbsp;</button>
-										<!-- <button type="button" class="btn btn-dark btn-sm">출석현황</button> -->
-										<button type="button" class="btn btn-primary btn-sm font09" onclick="location.href='reportList??id=${lec.id}'">&nbsp; 과제조회 &nbsp;</button>
+												onclick="location.href='lecAttendanceCheck?id=${lec.id}'">&nbsp; 출결관리  &nbsp;</button>
+										<button type="button" class="btn btn-primary btn-sm font09"	
+												onclick="location.href='reportList?id=${lec.id}'">&nbsp; 과제조회  &nbsp;</button>
 									</div>
 									<hr class="my-4">	
 									<!-- <button type="button" class="btn btn-secondary btn-sm">강의평가조회</button> -->
@@ -175,6 +170,8 @@
 			</main>
 		</div>
 	</div>
-
+	<!-- IONICONS -->
+	<script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script>
+    <script src="/js/main.js"></script>
 </body>
 </html>

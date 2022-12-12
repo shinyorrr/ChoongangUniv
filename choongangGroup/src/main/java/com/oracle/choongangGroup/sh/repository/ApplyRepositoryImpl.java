@@ -47,7 +47,7 @@ public class ApplyRepositoryImpl implements ApplyRepository {
 	//장바구니 강의 리스트 조회
 	@Override
 	public List<ApplicationLec> likeListAll(String userid) {
-		String jpql = "select a from ApplicationLec a where a.member.userid = :userid and a.gubun = 1";
+		String jpql = "select a from ApplicationLec a where a.member.userid = :userid and a.gubun = 1L";
 		List<ApplicationLec> list = em.createQuery(jpql,ApplicationLec.class)
 									.setParameter("userid", userid)
 									.getResultList();
@@ -71,7 +71,7 @@ public class ApplyRepositoryImpl implements ApplyRepository {
 			if(applyLec.getMember().getCount()>21) { //총 신청학점이 21학점 초과시 신청불가
 				result = 3;
 			}else {
-				String jpql = "delete from ApplicationLec a where a.member.userid = :userid and a.lecture.id = :id and a.gubun = 1";
+				String jpql = "delete from ApplicationLec a where a.member.userid = :userid and a.lecture.id = :id and a.gubun = 1L";
 				em.createQuery(jpql,ApplicationLec.class).setParameter("userid", userid).setParameter("id", lecId);
 				em.persist(applyLec); 
 			}
@@ -107,6 +107,7 @@ public class ApplyRepositoryImpl implements ApplyRepository {
 		return result;
 		
 	}
+	
 	//시간중복 검사
 	public int timeOverLap(ApplicationLec applyLec) {
 		//result = 1 --> 중복없음
@@ -125,10 +126,15 @@ public class ApplyRepositoryImpl implements ApplyRepository {
 		for(int i=0; i<applyList.size(); i++) {
 			String day1 = applyList.get(i).getLecture().getDay1();//강의요일조회
 			String time1 = applyList.get(i).getLecture().getTime1();//강의교시(시간)조회
-			if(time1.length()>1) {//연강일경우
+			if(time1.length()==2) {//2시간 연강일경우
 				String[] arraytime1 = applyList.get(i).getLecture().getTime1().split("");//교시 별로 시간쪼개기
 				timetable.add(day1+arraytime1[0]);
 				timetable.add(day1+arraytime1[1]);
+			}else if(time1.length()==3) {//3시간 연강일경우
+				String[] arraytime1 = applyList.get(i).getLecture().getTime1().split("");//교시 별로 시간쪼개기
+				timetable.add(day1+arraytime1[0]);
+				timetable.add(day1+arraytime1[1]);
+				timetable.add(day1+arraytime1[2]);
 			}else {
 				timetable.add(day1+time1); //요일+교시
 			}
@@ -136,10 +142,15 @@ public class ApplyRepositoryImpl implements ApplyRepository {
 			String day2 = applyList.get(i).getLecture().getDay2();
 			if(day2 != null) { //강의가 한주에 하루만 있을 경우 실행X
 				String time2 = applyList.get(i).getLecture().getTime2();
-				if(time2.length()>1) {
+				if(time2.length()==2) {
 					String[] arraytime2 = applyList.get(i).getLecture().getTime2().split("");
 					timetable.add(day2+arraytime2[0]);
 					timetable.add(day2+arraytime2[1]);					
+				}else if(time2.length()==3) {
+					String[] arraytime2 = applyList.get(i).getLecture().getTime2().split("");
+					timetable.add(day2+arraytime2[0]);
+					timetable.add(day2+arraytime2[1]);
+					timetable.add(day2+arraytime2[2]);
 				}else {
 					timetable.add(day2+time2); 
 				}
@@ -151,10 +162,15 @@ public class ApplyRepositoryImpl implements ApplyRepository {
 		
 		String applyDay1 = applyLec.getLecture().getDay1();
 		String applyTime1 = applyLec.getLecture().getTime1();
-		if(applyTime1.length()>1) {//연강일경우
+		if(applyTime1.length()==2) {// 2시간 연강일경우
 			String[] arraytime1 = applyLec.getLecture().getTime1().split("");
 			applyTime.add(applyDay1 + arraytime1[0]);
 			applyTime.add(applyDay1 + arraytime1[1]);
+		}else if (applyTime1.length()==3) { //3시간 연강일경우
+			String[] arraytime1 = applyLec.getLecture().getTime1().split("");
+			applyTime.add(applyDay1 + arraytime1[0]);
+			applyTime.add(applyDay1 + arraytime1[1]);
+			applyTime.add(applyDay1 + arraytime1[2]);
 		}else {
 			applyTime.add(applyDay1 + applyTime1);
 		}
@@ -162,10 +178,15 @@ public class ApplyRepositoryImpl implements ApplyRepository {
 		String applyDay2 = applyLec.getLecture().getDay2();
 		if(applyDay2 != null) { 
 			String applyTime2 = applyLec.getLecture().getTime2();
-			if(applyTime2.length()>1) {
+			if(applyTime2.length()==2) {
 				String[] arraytime2 = applyLec.getLecture().getTime2().split("");
 				applyTime.add(applyDay2 + arraytime2[0]);
 				applyTime.add(applyDay2 + arraytime2[1]);			
+			}else if (applyTime2.length()==3) {
+				String[] arraytime2 = applyLec.getLecture().getTime2().split("");
+				applyTime.add(applyDay2 + arraytime2[0]);
+				applyTime.add(applyDay2 + arraytime2[1]);
+				applyTime.add(applyDay2 + arraytime2[2]);
 			}else {
 				applyTime.add(applyDay2 + applyTime2);
 			}
@@ -184,24 +205,6 @@ public class ApplyRepositoryImpl implements ApplyRepository {
 	}
 
 	
-	//기간 등록
-	@Override
-	public void register(ApplyTime applyTime) {
-		//int result = registerTest(applyTime);
-		if(applyTime.getId() == null) {
-			em.persist(applyTime);
-		}else {
-			em.merge(applyTime);
-		}
-		
-	}
-
-//	public int registerTest(ApplyTime applyTime) {
-//		if(applyTime.getYear() )
-//		return 1;
-//	}
-//	
-
 	
 
 

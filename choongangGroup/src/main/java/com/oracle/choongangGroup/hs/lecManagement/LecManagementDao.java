@@ -14,6 +14,8 @@ public interface LecManagementDao {
 
 	int lecDelete(Long lec_id);
 
+	int lecAgree(LectureVO lectureVO);
+
 	int lecUpdate(LectureVO lectureVO);
 
 }
