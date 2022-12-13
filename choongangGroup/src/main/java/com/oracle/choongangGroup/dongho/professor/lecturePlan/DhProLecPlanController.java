@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.oracle.choongangGroup.dongho.auth.GetMember;
 
@@ -24,10 +25,12 @@ public class DhProLecPlanController {
 	@GetMapping("/lecPlanPage")
 	public String lecPlanPage(Model model) {
 		String profName = getMember.getMember().getName();
+		System.out.println(profName);
 		model.addAttribute("profName", profName);
 		return "/professor/lecPlan";
 	}
 	
+	@ResponseBody
 	@PostMapping("/lecList")
 	public List<LecPlanLecDto> lecPlanlecList(String year, 
 											  String semester, 

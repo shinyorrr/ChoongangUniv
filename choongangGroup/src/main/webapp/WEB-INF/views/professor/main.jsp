@@ -67,7 +67,7 @@
 					<a href="#" class="collapse__sublink ms-3" style="font-size: 0.8rem;">전자출석부</a>
 					<a href="#" class="collapse__sublink ms-3 mb-2"  style="font-size: 0.8rem;">과제관리</a>
 					
-					<a href="#" class="collapse__sublink mb-2" style="font-size: 0.875rem;">강의계획서</a>
+					<a href="/professor/lecPlanPage" class="collapse__sublink mb-2" style="font-size: 0.875rem;">강의계획서</a>
 					<a href="/professor/lecCreateList" class="collapse__sublink mb-2" style="font-size: 0.875rem;">강의개설</a>
 					<!-- <a href="#" class="collapse__sublink mb-1" style="font-size: 0.875rem;">강의정보</a>
 					<a href="#" class="collapse__sublink ms-3"  style="font-size: 0.8rem;">강의계획서</a>
@@ -131,7 +131,7 @@
                             <li><a href="/professor/lecMgMain?userid=${userid}" class="collapse__sublink">강의관리</a></li>
                             <li><a href="#" class="collapse__sublink ms-3">전자출석부</a></li>
                             <li><a href="/professor/reportList" class="collapse__sublink ms-3">과제관리</a></li>
-                            <li><a href="#" class="collapse__sublink">강의계획서</a></li>
+                            <li><a href="/professor/lecPlanPage" class="collapse__sublink">강의계획서</a></li>
                             <li><a href="/professor/lecCreateList" class="collapse__sublink">강의개설</a></li>
                             <li><a href="/professor/lecScore" class="collapse__sublink">성적관리</a></li>
                             <li><a href="/professor/makeupPage" class="collapse__sublink">휴&#183;보강 신청</a></li>
