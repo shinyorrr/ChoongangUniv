@@ -19,4 +19,9 @@ public class OrdersDto {
 	private String lec_order_reason;
 	
 	private String lec_day;
+	
+	// 조회용
+	private String keyword;
+	private String status;
+	private String lecname;
 }
