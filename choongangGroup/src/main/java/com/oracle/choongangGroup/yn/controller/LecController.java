@@ -41,7 +41,7 @@ import lombok.extern.slf4j.Slf4j;
 public class LecController {
 	private final LecService ls;
 	private final LecServiceImpl lsi;
-	private final LecRepository ri;
+	private final LecRepository lr;
 	private final GradeRepository gr;
 	private final GradeServiceImpl gs;
 	
@@ -49,14 +49,32 @@ public class LecController {
 	private final GetMember gm;
 
 	
-	// 캘린더이동 v  ---> 작업중 : 일단 연결만
+	@GetMapping(value = "professor/professorMain")
+	public String professorMain(Model model) {
+		System.out.println("LecController professorMain 시작 ==============");
+		String mainCheck = "1";
+		
+		String name = gm.getMember().getName();
+		System.out.println(name);
+		
+		///////// 접속교수 이름 받아서 넘기기////////////
+		List<Lecture> lectureList = lr.findByProfAndStatusOrderByIdAsc(name, "0");
+		
+		System.out.println(lectureList.size());
+		model.addAttribute("mainCheck", mainCheck);
+		model.addAttribute("lecList", lectureList);
+		model.addAttribute("lecCnt", lectureList.size());
+		return "professor/main";
+	}
 	
-	@GetMapping(value = "professor/calenderForm") public String lecList(Model model) { //
-	String name = gm.getMember().getName();
-	String userid = gm.getMember().getUserid();
-	System.out.println(name);
-
-	return "/professor/calenderForm"; }
+	// 캘린더이동 v  ---> 작업중 : 일단 연결만
+//	
+//	@GetMapping(value = "professor/calenderForm") public String lecList(Model model) { //
+//	String name = gm.getMember().getName();
+//	String userid = gm.getMember().getUserid();
+//	System.out.println(name);
+//
+//	return "/professor/calenderForm"; }
 	
 	////// 강의개설 페이지 시작 //////
 	// 교수의 강의리스트 조회 - 로그인된 교수이름으로 강의조회
@@ -69,7 +87,7 @@ public class LecController {
 		System.out.println(name);
 		
 		///////// 접속 아이디 받아서 넘기기////////////
-		List<Lecture> lectureList = ri.findByProfOrderByIdAsc(name);
+		List<Lecture> lectureList = lr.findByProfOrderByIdAsc(name);
 		System.out.println("lectureList.size() --> "+ lectureList.size());
 		model.addAttribute("lecCnt", lectureList.size());
 		model.addAttribute("lecList", lectureList);
@@ -82,7 +100,7 @@ public class LecController {
 	@ResponseBody
 	public Lecture findLec(@RequestParam(value = "id") Long id, Model model) {
 		
-		Lecture lecture = ri.findById(id);
+		Lecture lecture = lr.findById(id);
 		log.info("lec id == {}", lecture.getId());
 		return lecture;
 	}
@@ -113,7 +131,7 @@ public class LecController {
 			break;
 		}
 		//강의테이블에 저장
-		ri.save(lecture);
+		lr.save(lecture);
 		
 		return "redirect:/professor/lecCreateList"; 
 	}
@@ -150,7 +168,7 @@ public class LecController {
 		log.info("LecController deleteLec START ====================");
 		log.info("LecController id = {}", id);
 		
-		ri.deleteById(id);
+		lr.deleteById(id);
 		
 		return "redirect:/professor/lecCreateList"; 
 	}	
@@ -168,7 +186,7 @@ public class LecController {
 		System.out.println(name);
 		
 		///////// 접속교수 이름 받아서 넘기기////////////
-		List<Lecture> lectureList = ri.findByProfAndStatusOrderByIdAsc(name, "0");
+		List<Lecture> lectureList = lr.findByProfAndStatusOrderByIdAsc(name, "0");
 		
 		System.out.println(lectureList.size());
 		model.addAttribute("lecList", lectureList);
@@ -186,7 +204,7 @@ public class LecController {
 	@GetMapping(value = "professor/lecAttendanceCheck")
 	public String selectOneLec(@RequestParam(value = "id") Long id, Model model) {
 		System.out.println("=====selectOneLec Start=====");
-		Lecture lecture = ri.findById(id);
+		Lecture lecture = lr.findById(id);
 		Long gubun = (long) 1;
 		List<ApplicationLec> alList = ls.findByLecture_IdAndGubun(id, gubun);
 		
@@ -217,7 +235,7 @@ public class LecController {
 	@GetMapping(value = "professor/lecScore")
 	public String lecScore(Model model) {
 		String name = gm.getMember().getName();
-		List<Lecture> lecList = ri.findByProfAndStatusOrderByIdAsc(name, "0");
+		List<Lecture> lecList = lr.findByProfAndStatusOrderByIdAsc(name, "0");
 		
 		model.addAttribute("lecList",lecList);
 		model.addAttribute("lecCnt",lecList.size());
@@ -263,7 +281,7 @@ public class LecController {
 		return map;
 	}
 	
-	// 성적관라  : 점수등록
+	// 점수 저장 (임시저장버튼 클릭시)
 	@PostMapping(value = "professor/lecScoreSave")
 	@ResponseBody
 	public String lecScoreSave(@RequestParam(value = "data") String data,
@@ -335,7 +353,6 @@ public class LecController {
 			}
 		});
 		
-		
 		int studentCnt = objList.size(); // 총 학생수 -> F학점을 포함시켜서
 		double[] rto = {0.1, 0.15, 0.25, 0.3, 0.1, 0.1};
 		
@@ -357,11 +374,6 @@ public class LecController {
 			}
 			
 		}
-		
-//		for(int i = 0; i < gradeList.size(); i++) {
-//			System.out.println("나는 sort 전 Userid : " + gradeList.get(i).getApplicationLec().getMember().getUserid());
-//			System.out.println(gradeList.get(i));
-//		}
 		
 		// gradeList 를 정렬
 		Collections.sort(gradeList, new Comparator<Grade>() {
@@ -405,6 +417,17 @@ public class LecController {
 	public ResponseEntity lecScoreExcel(@RequestParam(value = "id") Long id,HttpServletResponse response){
 		System.out.println("lecAttendExcel" + response);
 		return ResponseEntity.ok(gs.lecScoreExcel(response, id));
+	}
+	
+	// 점수마감(마감버튼 클릭시 상태변경)
+	@GetMapping("professor/lecScoreFinish")
+	
+	@ResponseBody
+	public String lecScoreFinish(@RequestParam(value = "id") Long id, Model model) {
+		Lecture lecture = lr.findById(id);
+		lecture.setScoreStatus("1");
+		lr.save(lecture);
+		return "OK"; 
 	}
 		
 }
