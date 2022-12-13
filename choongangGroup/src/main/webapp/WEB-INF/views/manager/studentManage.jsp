@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ include file="header.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,7 +18,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <!-- CSS -->
 <link rel="stylesheet" href="/css/styles.css">
-<title>전자결재홈</title>
+<title>학생관리홈</title>
 <script type="text/javascript">
 	function studSearch() {
 		var grade = document.getElementById("searchGrade").value;
@@ -115,7 +116,7 @@
 </style>
 </head>
 
-<body class="" id="body-pd">
+<body class="" id="body-pd" onload="printClock()">
     <!-- header -->
     <!-- <nav class="navbar navbar-expand-lg navbar-dark bd-navbar bg-light sticky-top position-fixed fixed-top w-100" style="position : absolute">
         <a class="navbar-brand">
@@ -131,11 +132,7 @@
           </a>
     
           <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-            <li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>
-            <li><a href="#" class="nav-link px-2 link-dark">Features</a></li>
-            <li><a href="#" class="nav-link px-2 link-dark">Pricing</a></li>
-            <li><a href="#" class="nav-link px-2 link-dark">FAQs</a></li>
-            <li><a href="#" class="nav-link px-2 link-dark">About</a></li>
+  			<jsp:include page="navHeader.jsp"></jsp:include>
           </ul>
         </header>
     </nav>
@@ -202,39 +199,12 @@
         </nav>
     </div>
     <!-- /side nav bar -->
-    <!-- main content -->
-    <div class="container-fluid w-100" style=" background-color: rgb(214, 225, 237)">
-        <div class="row">
-            
-            
-            <!-- content header -->
-            <div class="col-12 pt-4" style="height: 150px; background-color: rgb(95, 142, 241)">
-                <div class="d-flex flex-row mb-3">
-                    <div>
-                        <span class="text-white h4">안녕하세요. <span class="fw-bold">김중앙</span>님!</span>
-                    </div>
-                    <div class="border border-1 border-white border-bottom rounded-pill text-white px-2 pt-1 ms-2 h6">교수</div>
-                    <div>
-                        <i class="text-white bi-gear-fill mx-2"></i>
-                    </div>
-                </div>
-                <div class="row">
-                    <div>
-                        <span class="text-white h6">이공대학 컴퓨터공학과 | 정교수</span>
-                    </div>
-                </div>
-                <div class="d-flex flex-low">
-                    <div>
-                        <i class="bi bi-envelope-fill text-white"></i>
-                    </div>
-                    <div>
-                        <span class="text-white ms-3">test123@naver.com</span>
-                    </div>
-                </div>
-                
-            </div>
-            <main class="col-9 h-100 w-100">
-                <div class="row m-5">
+    <!------- main content ------------>
+	<div class="container-fluid w-100 row" style=" background-color: rgb(214, 225, 237);">
+	<!-- <div class="row"> -->
+
+		<!-- content header -->
+		<jsp:include page="contentHeader.jsp"></jsp:include>
                     <!-- card header -->
                     <div class="col-12 rounded-top text-white overflow-auto pt-2 fw-bold" style="background-color: rgb(39, 40, 70); height: 40px;"> 
                         <i class="bi bi-bookmark-fill me-2"></i>학생관리 
@@ -403,6 +373,7 @@
 						</div>
                     </div>
                    </main>
+                   <jsp:include page="../footer.jsp"></jsp:include>
 	        </div>
 	    </div>
 	    

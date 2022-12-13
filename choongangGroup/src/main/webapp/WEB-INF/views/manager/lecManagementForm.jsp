@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ include file="header.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -135,7 +136,7 @@
 </script>
 </head>
 
-<body class="" id="body-pd">
+<body class="" id="body-pd" onload="printClock()">
     <!-- header -->
     <!-- <nav class="navbar navbar-expand-lg navbar-dark bd-navbar bg-light sticky-top position-fixed fixed-top w-100" style="position : absolute">
         <a class="navbar-brand">
@@ -151,11 +152,7 @@
           </a>
     
           <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-            <li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>
-            <li><a href="#" class="nav-link px-2 link-dark">Features</a></li>
-            <li><a href="#" class="nav-link px-2 link-dark">Pricing</a></li>
-            <li><a href="#" class="nav-link px-2 link-dark">FAQs</a></li>
-            <li><a href="#" class="nav-link px-2 link-dark">About</a></li>
+  			<jsp:include page="navHeader.jsp"></jsp:include>
           </ul>
         </header>
     </nav>
@@ -222,39 +219,12 @@
         </nav>
     </div>
     <!-- /side nav bar -->
-    <!-- main content -->
-    <div class="container-fluid w-100" style=" background-color: rgb(214, 225, 237)">
-        <div class="row">
-            
-            
-            <!-- content header -->
-            <div class="col-12 pt-4" style="height: 150px; background-color: rgb(95, 142, 241)">
-                <div class="d-flex flex-row mb-3">
-                    <div>
-                        <span class="text-white h4">안녕하세요. <span class="fw-bold">김중앙</span>님!</span>
-                    </div>
-                    <div class="border border-1 border-white border-bottom rounded-pill text-white px-2 pt-1 ms-2 h6">교수</div>
-                    <div>
-                        <i class="text-white bi-gear-fill mx-2"></i>
-                    </div>
-                </div>
-                <div class="row">
-                    <div>
-                        <span class="text-white h6">이공대학 컴퓨터공학과 | 정교수</span>
-                    </div>
-                </div>
-                <div class="d-flex flex-low">
-                    <div>
-                        <i class="bi bi-envelope-fill text-white"></i>
-                    </div>
-                    <div>
-                        <span class="text-white ms-3">test123@naver.com</span>
-                    </div>
-                </div>
-                
-            </div>
-            <main class="col-9 h-100 w-100">
-                <div class="row m-5">
+    <!------- main content ------------>
+	<div class="container-fluid w-100 row" style=" background-color: rgb(214, 225, 237);">
+	<!-- <div class="row"> -->
+
+		<!-- content header -->
+		<jsp:include page="contentHeader.jsp"></jsp:include>
                     <!-- card header -->
                     <div class="col-12 rounded-top text-white overflow-auto pt-2 fw-bold" style="background-color: rgb(39, 40, 70); height: 40px;"> 
                         <i class="bi bi-bookmark-fill me-2"></i>교수서비스 <i class="bi bi-chevron-right"></i>학사관리 <i class="bi bi-chevron-right"></i>강의 시간표 조회
@@ -295,7 +265,7 @@
 								</div>
 							</form>
 							
-							<div class="btnProcess" style="text-align: right;">총 강의 수 : ${lecTotal }개</div>
+							<div class="btnProcess" style="clear:both; text-align: right;">총 강의 수 : ${lecTotal }개</div>
 							<div class="scroll_wrap" style="height: 200px; overflow: scroll;">
 							<table class="table table-hover" style="font-size: 14px; text-align: center; margin-top: 10px;">
 								<thead class="table-secondary">
@@ -458,15 +428,15 @@
 										<td style="width: 18%; margin-right: 0;">
 											<select id="lec_time1" name="lec_time1" class=" form-select form-select-sm" required="required">
 												<option selected value="">선택</option>
-												<option value="1교시">1교시 (09:00-09:50)</option>
-												<option value="2교시">2교시 (10:00-10:50)</option>
-												<option value="3교시">3교시 (11:00-11:50)</option>
-												<option value="4교시">4교시 (12:00-12:50)</option>
-												<option value="5교시">5교시 (13:00-13:50)</option>
-												<option value="6교시">6교시 (14:00-14:50)</option>
-												<option value="7교시">7교시 (15:00-15:50)</option>
-												<option value="8교시">8교시 (16:00-16:50)</option>
-												<option value="9교시">9교시 (17:00-17:50)</option>
+												<option value="1">1교시 (09:00-09:50)</option>
+												<option value="2">2교시 (10:00-10:50)</option>
+												<option value="3">3교시 (11:00-11:50)</option>
+												<option value="4">4교시 (12:00-12:50)</option>
+												<option value="5">5교시 (13:00-13:50)</option>
+												<option value="6">6교시 (14:00-14:50)</option>
+												<option value="7">7교시 (15:00-15:50)</option>
+												<option value="8">8교시 (16:00-16:50)</option>
+												<option value="9">9교시 (17:00-17:50)</option>
 											</select>
 										</td>
 										<th class="table-secondary text-center" scope="col" style="width: 9%; vertical-align:middle;">강의일2</th>
@@ -484,15 +454,15 @@
 										<td style="width: 18%; margin-right: 0;">
 											<select id="lec_time2" name="lec_time2" class=" form-select form-select-sm" required="required">
 												<option selected value="">선택</option>
-												<option value="1교시">1교시 (09:00-09:50)</option>
-												<option value="2교시">2교시 (10:00-10:50)</option>
-												<option value="3교시">3교시 (11:00-11:50)</option>
-												<option value="4교시">4교시 (12:00-12:50)</option>
-												<option value="5교시">5교시 (13:00-13:50)</option>
-												<option value="6교시">6교시 (14:00-14:50)</option>
-												<option value="7교시">7교시 (15:00-15:50)</option>
-												<option value="8교시">8교시 (16:00-16:50)</option>
-												<option value="9교시">9교시 (17:00-17:50)</option>
+												<option value="1">1교시 (09:00-09:50)</option>
+												<option value="2">2교시 (10:00-10:50)</option>
+												<option value="3">3교시 (11:00-11:50)</option>
+												<option value="4">4교시 (12:00-12:50)</option>
+												<option value="5">5교시 (13:00-13:50)</option>
+												<option value="6">6교시 (14:00-14:50)</option>
+												<option value="7">7교시 (15:00-15:50)</option>
+												<option value="8">8교시 (16:00-16:50)</option>
+												<option value="9">9교시 (17:00-17:50)</option>
 											</select>
 										</td>
 									</tr>
@@ -525,10 +495,7 @@
 						</div>
                     </div>
                    </main>
-                    <!-- footer -->
-                    <footer class="col-12" style="height: 60px;">
-                        footer
-                    </footer>    
+                    <jsp:include page="../footer.jsp"></jsp:include>  
                 </div>
         </div>
     <!-- IONICONS -->
