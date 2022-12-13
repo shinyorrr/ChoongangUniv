@@ -49,7 +49,7 @@ public class SecurityServiceImpl implements SecurityService {
         	// authenticationToken 의 정보를 토대로 Authentication manager 의 authenticate method를 통해 유저정보 검증후 authentication 생성, 받기
         	authentication = ((AuthenticationManager)this.authenticationManagerBuilder.getObject()).authenticate((Authentication)authenticationToken);
 		} catch (Exception e) {
-			// TODO: handle exception
+			log.info("유저검증실패");
 		}
         
         // SecurityContextHolder에 authenticaton 저장
