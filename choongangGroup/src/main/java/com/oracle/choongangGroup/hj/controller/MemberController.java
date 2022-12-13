@@ -123,7 +123,7 @@ public class MemberController {
 	public String gradeListForm( Model model, HttpServletRequest request) {
 		System.out.println(" MemberController gradeListForm start . . . ");
        //아이디 받아오기
-		String userid = gm.getMember().getUserid();;
+		String userid = gm.getMember().getUserid();
 		// 이름 가져오기위해서 해줌
 		MemberVo memberinfo = ms.infoList(userid);
 
@@ -160,7 +160,7 @@ public class MemberController {
 	@GetMapping(value = "gradeDetailList")
 	public List<GradeVo> gradeDetailList(String userid ,String ys) {
 
-
+	
 	System.out.println(" MemberController gradeDetailList start . . . ");
 	System.out.println("넘어온 userid *************** >"+userid);
 	System.out.println( "넘어온 lec_year *********** >  "+ys );
