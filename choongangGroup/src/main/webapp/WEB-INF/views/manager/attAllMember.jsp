@@ -125,8 +125,6 @@
 	/* 유저 클릭시 근태정보 조회 */
  	function memberSearch(index){
 		var name  = $('#dept'+index).text();
-		$('.confirm').not(this).css("border","0px");
-		$('#dept'+index).css("border","2px solid red");
 		var name1 = name.trim();
 		var month = $('#month').text();
 		console.log(name1);
@@ -164,7 +162,9 @@
 		 			console.log("성공했다");
 	 			});
 		 		str += "</table>";
+		 		$('#userAttList').text("");
 		 		$('#userAttList').append(str);
+		 		$('#member').text(name1 + "님의 " + month + "월 근태내역입니다");
 	 			}
 	 		}
 	 		
@@ -236,58 +236,25 @@
     </nav>
     <!-- /header -->
     <!-- side nav bar -->
-    <div class="l-navbar" id="navbar">
+  <div class="l-navbar" id="navbar">
         <nav class="navv">
             <div>
                 <div class="nav__brand">
                     <ion-icon name="menu-outline" class="nav__toggle" id="nav-toggle"></ion-icon>
                     <a href="#" class="nav__logo">Bedimcode</a>
                 </div>
-                <div class="nav__list">
-                    <a href="#" class="nav__link active">
-                        <ion-icon name="home-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Dashboard</span>
-                    </a>
-                    <a href="#" class="nav__link">
-                        <ion-icon name="chatbubbles-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Messenger</span>
-                    </a>
-
                     <div href="#" class="nav__link collapses">
-                        <ion-icon name="folder-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Projects</span>
+     				<ion-icon name="pie-chart-outline" class="nav__icon"></ion-icon>
+                        <span class="nav_name">근태관리</span>
 
                         <ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
 
-                        <ul class="collapse__menu">
-                            <a href="#" class="collapse__sublink">Data</a>
-                            <a href="#" class="collapse__sublink">Group</a>
-                            <a href="#" class="collapse__sublink">Members</a>
+                        <ul class="collapse__menu" style="width: 180px;">
+                            <a href="${pageContext.request.contextPath}/manager/attForm" class="collapse__sublink">나의 근태관리</a><br>
+                            <a href="${pageContext.request.contextPath}/manager/attDeptMemberForm" class="collapse__sublink">부서별 근태관리</a>
+                            <a href="${pageContext.request.contextPath}/manager/attAllMemberForm" class="collapse__sublink">사원별 근태관리</a>
                         </ul>
                     </div>
-
-                    <a href="#" class="nav__link">
-                        <ion-icon name="pie-chart-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Analytics</span>
-                    </a>
-
-                    <div href="#" class="nav__link collapses">
-                        <ion-icon name="people-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Team</span>
-
-                        <ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
-
-                        <ul class="collapse__menu">
-                            <a href="#" class="collapse__sublink">Data</a>
-                            <a href="#" class="collapse__sublink">Group</a>
-                            <a href="#" class="collapse__sublink">Members</a>
-                        </ul>
-                    </div>
-
-                    <a href="#" class="nav__link">
-                        <ion-icon name="settings-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Settings</span>
-                    </a>
                 </div>
                 <a href="#" class="nav__link">
                     <ion-icon name="log-out-outline" class="nav__icon"></ion-icon>
@@ -313,12 +280,20 @@
                     </div>
                     <!-- card content -->  
                     <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
-                    
-                    <div style=" align-items: center;text-align: center;font-size: 21px;">
-                    	<i class="bi bi-caret-left" onclick="monthChange(1)"></i>
-                    	<span id="month"></span>
-                    	<i class="bi bi-caret-right" onclick="monthChange(-1)">
-                    	</i>
+                    <div class="row">
+	                    <div class="col-3">
+	                    	<span id = "member" style="float: right;color: blue;font-weight: bold;"></span>
+	                    </div>
+	                    <div class="col-6">
+		                    <div style=" align-items: center;text-align: center;font-size: 21px;">
+		                    	<i class="bi bi-caret-left" onclick="monthChange(1)"></i>
+		                    	<span id="month"></span>
+		                    	<i class="bi bi-caret-right" onclick="monthChange(-1)">
+		                    	</i>
+		                    </div>
+	                    </div>
+	                    <div class = "col-3">
+	                    </div>
                     </div>
                     
                     	<div class = "row">

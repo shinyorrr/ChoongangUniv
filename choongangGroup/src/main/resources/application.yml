@@ -34,13 +34,6 @@ spring:
       prefix: /WEB-INF/views/
       suffix: .jsp
   
-  #jsp Devtools
-  spring: 
-    devtools:
-      livereload:
-        enbled: true
-  
-  
   # gmail Transfer 
   mail:
     host: smtp.gmail.com

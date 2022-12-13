@@ -89,7 +89,7 @@ public class AttManagementController {
 	
 	@RequestMapping(value = "attDeptMemberForm")
 	public String attAllMemberForm(Model model,
-								@RequestParam(value = "deptno",defaultValue = "102") int deptno
+								@RequestParam(value = "deptno",defaultValue = "10") int deptno
 								) throws ParseException {
 		Member member = getMember.getMember();
 		
@@ -117,7 +117,6 @@ public class AttManagementController {
 	public String attMonthChange(Model model,
 			@RequestParam(value = "deptno",defaultValue = "102") int deptno,
 			@RequestParam(value = "month") String month) throws ParseException {
-		String userid = "1";
 		// 현재 날짜에 대한 리스트 출력
 		List<Work> attMemberList = attManagementService.attToMonthAllList(deptno,month);
 		// 주말을 제외한 날짜 출력
@@ -127,6 +126,8 @@ public class AttManagementController {
 		
 		Member member = getMember.getMember();
 		
+		log.info("attMonthChange memberList --> {} ",memberList.size());
+		log.info("attMonthChange attMemberList --> {} ",attMemberList.size());
 		
 		model.addAttribute("member", member);
 		model.addAttribute("Month" , month);

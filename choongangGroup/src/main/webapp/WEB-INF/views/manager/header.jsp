@@ -7,8 +7,14 @@
 	function printClock() {
 	    
 	    var clock = document.getElementById("clock");            // 출력할 장소 선택
+	    var date  = document.getElementById("date");
+	    const WeekDay = ['일','월','화','수','목','금','토'];
 	    var currentDate = new Date();                                     // 현재시간
+	    var getDay = WeekDay[currentDate.getDay()];
 	    var amPm = 'AM'; // 초기값 AM
+	    var year = currentDate.getFullYear();
+	    var month = currentDate.getMonth()+1;
+	    var day = currentDate.getDate();
 	    var currentHours = addZeros(currentDate.getHours(),2); 
 	    var currentMinute = addZeros(currentDate.getMinutes() ,2);
 	    var currentSeconds =  addZeros(currentDate.getSeconds(),2);
@@ -25,7 +31,8 @@
 	    if(currentSeconds >= 50){// 50초 이상일 때 색을 변환해 준다.
 	       currentSeconds = '<span style="color:#de1951;">'+currentSeconds+'</span>'
 	    }
-	    clock.innerHTML = currentHours+":"+currentMinute+":"+currentSeconds +" <span style='font-size:50px;'>"+ amPm+"</span>"; //날짜를 출력해 줌
+	    clock.innerHTML = currentHours+":"+currentMinute+":"+currentSeconds +" <span style='font-size:20px;'>"+ amPm+"</span>"; //날짜를 출력해 줌
+	    date.innerHTML = year + "년 " + month + "월 " + day +"일 " + "(" + getDay+")";
 	    
 	    setTimeout("printClock()",1000);         // 1초마다 printClock() 함수 호출
 	}
@@ -67,10 +74,12 @@
 				data	: {att : attOn},
 				dataType: 'text',
 				success : function(data){
-					console.log("성공");
+					console.log("성공"); 
 					alert("퇴근 등록 완료되었습니다");
 				}
 			});
 		}
 	}
+	
+	
 </script>
