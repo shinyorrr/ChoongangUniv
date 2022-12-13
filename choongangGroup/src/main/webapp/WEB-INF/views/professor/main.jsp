@@ -84,6 +84,7 @@ $(document).ready(function(){
                      <a href="#" class="collapse__sublink ms-3"  style="font-size: 0.8rem;">강의계획서</a>
                      <a href="#" class="collapse__sublink ms-3 mb-2"  style="font-size: 0.8rem;">강의개설</a> -->
                      <a href="/professor/lecScore" class="collapse__sublink mb-3" style="font-size: 0.875rem; display: block;">성적관리</a>
+                     <a href="/professor/lecScore" class="collapse__sublink mb-3" style="font-size: 0.85rem; display: block;">성적관리</a>
                      <a href="#" class="collapse__sublink mb-3" style="font-size: 0.85rem; display: block;">휴&#183;보강 신청</a>
                      <a href="#" class="collapse__sublink" style="font-size: 0.85rem; display: block;">내선번호관리</a>
                   </ul>
@@ -181,6 +182,7 @@ $(document).ready(function(){
                   </c:forEach> --%>
                   </div>
                   <div class="col-md-4 me-3 rounded overflow-auto bg-light p-4" style="min-height: 400px;"> 
+                  <div class="col-md-3 me-5 rounded overflow-auto bg-light p-4" style="min-height: 400px;"> 
                      <h5>공지사항</h5><hr>
 
                   </div>
@@ -202,8 +204,11 @@ $(document).ready(function(){
                
                <!-- footer -->
                <footer class="col-12 mt-5" style="height: 60px; font-size: 12px;">
-                  @2022 ChoongAng University. All Rights Reserved.
                </footer> 
+               <jsp:include page="../footer.jsp"></jsp:include>
+               <!-- <footer class="col-12 mt-5" style="height: 60px; font-size: 12px;">
+                  @2022 ChoongAng University. All Rights Reserved.
+               </footer>  -->
             </div>
          </main>
       </div> 
