@@ -262,10 +262,26 @@ $(document).ready(function(){
 		});
 		/* "location.href='scoreExcelDown?id=${lecture.id}'" */
 	});
+	// 엑셀다운
 	$('#scoreExcelDown').click(function(){
 		var id = $('#lecId').val();
 		location.href="scoreExcelDown?id=" + id;
 	});
+	//성적마감버튼
+	$('#lecScoreFinish').click(function(){
+		$.ajax({
+			url 	: "lecScoreFinish",
+			data	: {id : $('#lecId').val()},
+			dataType: 'text',
+			success	: function(data){
+				console.log(data);
+				alert("성적이 마감이 완료 되었습니다.");
+				window.location.reload();
+			}
+		});
+	});
+
+	
 	
 });
 
@@ -502,12 +518,14 @@ $(document).ready(function(){
 				
 				<div class="mt-2 fw-bold" style="font-size: 1.2em; display: inline;">강의학생</div>
 				<div class="mx-0 px-0" style="display: inline; float: right;">
-					<button type="button" style="  display: inline-block" class="btn btn-primary btn-sm  px-4"
-							id="lecScoreSave" onclick="lecScoreSave()">&nbsp;&nbsp; 저장 &nbsp;&nbsp;</button>
-					<button type="button" id="lecScoreCal" style=" display: inline-block;" class="px-4 btn btn-dark btn-sm me-1"
-							>등급계산</button>
-					<button id="scoreExcelDown" type="button" style=" display: inline-block;" 
-							class="px-4 btn btn-secondary btn-sm me-1">엑셀 다운로드</button>
+					<button id="lecScoreSave" onclick="lecScoreSave()" type="button" style=" display: inline-block" class="btn btn-primary btn-sm  px-4"
+							 > 임시저장 </button>
+					<button id="lecScoreFinish" type="button" style=" display: inline-block" class="btn btn-danger btn-sm  px-4"
+							> 성적마감 </button>
+					<button id="lecScoreCal" type="button" style=" display: inline-block;" class="px-4 btn btn-dark btn-sm me-1"
+							> 등급계산</button>
+					<button id="scoreExcelDown" type="button" style=" display: inline-block;" class="px-4 btn btn-secondary btn-sm"
+							>엑셀 다운로드</button>
 							
 				</div>
 				<div class="my-3"></div>
