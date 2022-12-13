@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.oracle.choongangGroup.changhun.JPA.Member;
 import com.oracle.choongangGroup.changhun.JPA.Work;
 import com.oracle.choongangGroup.changhun.address.MemberRepository;
+import com.oracle.choongangGroup.dongho.auth.GetMember;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +31,7 @@ public class AttRestController {
 	private final AttManagementRepository repository;
 	private final AttManagementService service;
 	private final MemberRepository memRepository;
+	private final GetMember getMember;
 	
 	@RequestMapping(value = "attInsert")
 	public String attInsert() {
@@ -68,9 +70,9 @@ public class AttRestController {
 	public List<Work> attMyFormClk(@RequestParam(required = false, defaultValue = "0", value="page")int page) {
 		
 		System.out.println("page --> " + page);
-		HttpSession session;
 //		String userid = (String) session.getAttribute("userid");
-		String userid = "18301001";
+		Member member = getMember.getMember();
+		String userid = member.getUserid();
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
 		Date now = new Date();

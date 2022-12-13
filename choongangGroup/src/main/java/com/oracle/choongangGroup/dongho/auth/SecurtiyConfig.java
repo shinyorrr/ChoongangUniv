@@ -90,7 +90,7 @@ public class SecurtiyConfig {
 			.logout()
 			.logoutSuccessUrl("/").permitAll()
 			.invalidateHttpSession(true)  // 로그아웃 이후 세션 전체 삭제 여부
-			.deleteCookies("JSESSIONID", "RefreshToken", "AccessToken")
+			.deleteCookies("JSESSIONID", "RefreshToken", "AccessToken", "keepToken")
 			.clearAuthentication(true)
 			
 			.and()
@@ -113,7 +113,8 @@ public class SecurtiyConfig {
                             "/images/**",
                             "/js/**",
                             "/css/**",
-                            "/favicon.ico"
+                            "/favicon.ico",
+                            "/ryImgUpload/**"
                     );
         };
     }

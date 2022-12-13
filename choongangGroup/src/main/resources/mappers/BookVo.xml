@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.oracle.choongangGroup.ry.model.BookVoMapper">
+
+	<insert id="BookInsert" parameterType="BookVo">
+		insert into book(bookId, bookName, publisher, cateCode, bookPrice, bookStock, bookInfo, bookImg, bookThumbImg)
+		values (book_seq.nextval, #{bookName}, #{publisher}, #{cateCode}, #{bookPrice}, #{bookStock}, #{bookInfo}, #{bookImg}, #{bookThumbImg})
+	</insert>
+	
+	<select id="BookList" resultType="BookVo">
+		Select *
+		From Book
+		Order By bookId
+	</select>
+	
+	<select id="BookDetail" resultType="BookVo" parameterType="int">
+		Select *
+		From Book
+		Where bookId = #{bookId}
+	</select>
+	
+	<select id="BookJoin" resultType="BookVo" parameterType="int">
+		select b.bookId, b.bookName, b.publisher, b.bookPrice, b.bookStock, b.bookInfo , b.bookImg , b.bookThumbImg ,b.cateCode, c.cateParent,c.cateName
+		From book b
+			inner join book_cate c
+				on b.cateCode = c.cateCode
+		where b.bookId=#{bookId}
+	</select>
+	
+	<update id="BookUpdate" parameterType="BookVo">
+		update Book
+		set 
+		bookId = #{bookId},
+		bookName = #{bookName},
+		publisher = #{publisher},
+		bookPrice = #{bookPrice},
+		bookStock = #{bookStock},
+		bookInfo = #{bookInfo},
+		bookImg = #{bookImg},
+		bookThumbImg = #{bookThumbImg}
+		Where bookId= #{bookId}
+	</update>
+	
+	<delete id="BookDelete" parameterType="int">
+	delete from Book
+	Where bookId = #{bookId}
+	</delete>
+	
+	<select id="ShopList" resultType="BookVo">
+		Select *
+		From Book
+		Order By bookId
+	</select>
+	
+	<select id="ShopDetailList" resultType="BookVo" parameterType="int">
+		Select *
+		From Book
+		Where bookId = #{bookId}
+	</select>
+	
+	<select id="SearchBookList" resultType="BookVo">
+	SELECT *
+	From Book
+		<if test="type != null and type.equals('bookName')">
+		Where bookName Like CONCAT('%', #{keyword}, '%')
+		</if>
+		<if test="type != null and type.equals('publisher')">
+		and publisher Like CONCAT('%', #{keyword}, '%')
+		</if>
+	</select>
+</mapper>

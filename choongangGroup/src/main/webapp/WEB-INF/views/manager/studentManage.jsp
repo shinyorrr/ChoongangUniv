@@ -43,7 +43,7 @@
 					$('#studTable > tbody').empty();
 					
 					$.each(JSON.parse(data), function(index, item){
-						html += "<tbody><tr>";
+						html += "<tbody><tr onclick='studDetail("+item.userid+")'>";
 						html += "<td class='text-center'>" + (index+1) + "</td>";
 					 	html += "<th class='text-center'>" + item.userid + "</th>"; 
 						html += "<td class='text-center'>" + item.name +"</td>";
@@ -61,7 +61,46 @@
 			}
 		});
 	}
-
+	
+	function studDetail(id) {
+		console.log("학생 클릭 ===> " + id);
+		$.ajax({
+			url 	: "studDetail",
+			data	: {userid : id},
+			dataType: 'text',
+			success	: function(data){
+				console.log("성공===> " + data );
+				var stud = JSON.parse(data);
+				console.log("==>" + stud.name);
+				document.getElementById("name").value=stud.name;
+				document.getElementById("userid").value=stud.userid;
+				document.getElementById("admType").value=stud.admType;
+				document.getElementById("admission").value=stud.admission;
+				document.getElementById("gender").value=stud.gender;
+				document.getElementById("major").value=stud.major;
+				document.getElementById("nation").value=stud.nation;
+				document.getElementById("phone").value=stud.phone;
+				document.getElementById("subphone").value=stud.subphone;
+				document.getElementById("studStatus").value=stud.studStatus;
+				document.getElementById("address").value=stud.address;
+				document.getElementById("birth").value=stud.birth;
+			}
+		});
+	}
+	
+	
+	function studUpdate(studFrm) {
+		 if (confirm("학생 정보를 수정하시겠습니까?") == true) {
+			 alert("수정되었습니다.");
+			 studFrm.action = "studUpdate";
+			 studFrm.submit();
+			 return true;
+		 }
+		 else {
+			 alert("취소되었습니다.")
+			 return false;
+		 }
+	}
 </script>
 <style type="text/css">
 	#btnNewAppr {
@@ -202,13 +241,13 @@
                     </div>
                     <!-- card content -->  
                     <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
-                        <div id="titleInBox" style="font-weight: bold; font-size: 19px;">학생관리홈
+                        <div id="titleInBox" style="font-weight: bold; font-size: 19px;">학생관리홈 <span onclick=" location.href = 'studentManage';" class="badge text-bg-secondary">전체조회</span>
 						</div>
 						<div id="containerBox">
 							<div style="border-top: 1px dashed #c9c9c9; margin: 10px 0;"></div>
 							<form action="">
 								<div class="mt-3">
-								<select class="form-select-sm" name="grade" id="searchGrade" style="width: 13%;">
+								<select class="form-select-sm" name="grade" id="searchGrade" style="width: 8%;">
 									<option value="" selected>선택</option>
 									<option value="1">1학년</option>
 									<option value="2">2학년</option>
@@ -218,17 +257,17 @@
 								<select class="ms-2 form-select-sm" style="width: 12%;" name="major" id="searchMajor">
 									<option value="" selected>선택</option>
 									<option value="컴퓨터공학과">컴퓨터공학과</option>
-									<option value="소프트웨어학과">소프트웨어학과</option>
+									<option value="소프트웨어과">소프트웨어과</option>
 								</select><span class="font09 ms-1" style=" margin-right: 20px;">전공</span>
 								
-							
+								<span class="font09 ms-1">학적상태:</span>
 								<select class="ms-2 form-select-sm" style="width: 8%;" name="studStatus" id="searchStatus">
 									<option value="" selected>선택</option>
 									<option value="재학">재학</option>
 									<option value="휴학">휴학</option>
 									<option value="졸업">졸업</option>
 									<option value="퇴학">퇴학</option>
-								</select><span class="font09 ms-1" style=" margin-right: 20px;">학적상태</span>
+								</select>
 								
 								
 								<div class="input-group px-0 " style="width: 40%; float: right; margin-right: 200px;">
@@ -241,7 +280,7 @@
 								</div>
 							</form>
 							
-							<div class="btnProcess" style="text-align: right;">총 학생 수는 ${stuTotal}명 입니다.</div>
+							<div class="btnProcess" style="clear:both; text-align: right;">총 학생 수는 ${stuTotal}명 입니다.</div>
 							<div class="scroll_wrap" style="height: 200px; overflow: scroll;">
 							<table class="table table-hover" style="font-size: 14px; text-align: center; margin-top: 10px;" id="studTable">
 								<thead class="table-secondary">
@@ -259,7 +298,7 @@
 									<tbody>
 									<c:forEach var="student" items="${studentList}">
 									<c:set var="i" value="${i+1}"></c:set>
-								    <tr>
+								    <tr onclick="studDetail(${student.userid})">
 								      <td>${i}</td>
 								      <th scope="row">${student.userid }</th>
 								      <td>${student.name }</td>
@@ -273,13 +312,16 @@
 							</table>
 							</div>
 							
-							<div id="titleInBox" style="font-weight: bold; font-size: 19px; margin-top: 30px;">강의 상세정보</div>
+							<div id="titleInBox" style="font-weight: bold; font-size: 19px; margin-top: 30px;">학생 상세정보</div>
 							<div style="border-top: 1px dashed #c9c9c9; margin: 10px 0;"></div>
 							
-							<form name="studFrm" id="studFrm" action="studUpdate" method="post" onsubmit="return studUpdate()">
-
+							<form name="studFrm" id="studFrm" action="" method="post">
 								<table class="table font09 text-center">
 									<tr>
+										<th class="table-secondary text-center " scope="col" style="width: 9%; vertical-align:middle;">이름</th>
+										<td class="p-2" style="width:16%;">
+											<input class="form-control text-center mx-0 form-inline form-control-sm " type="text" id="name" name="name" readonly="readonly">
+										</td>
 										<th class="table-secondary text-center " scope="col" style="width: 9%; vertical-align:middle;">학번</th>
 										<td class="p-2" style="width:16%;">
 											<input class="form-control text-center mx-0 form-inline form-control-sm " type="text" id="userid" name="userid" readonly="readonly">
@@ -292,6 +334,9 @@
 										<td>
 											<input class="form-control text-center mx-0 form-inline form-control-sm " type="text" id="admission" name="admission" readonly="readonly">
 										</td>
+									</tr>
+									
+									<tr>
 										<th class="table-secondary" scope="col" style="width: 9%; vertical-align:middle;">성별</th>
 										<td>
 											<select id="gender" name="gender" class="form-select form-select-sm me-0 " style="margin: 0;" required="required">
@@ -300,33 +345,22 @@
 											<option value="여">여자</option>
 										</select>
 										</td>
-									</tr>
-									
-									
-									<tr>
 										<th class="table-secondary text-center" scope="col" style="width: 9%; vertical-align:middle;">전공</th>
 										<td class="p-2">
 											<select id="major" name="major" class="form-select form-select-sm me-0 " style="margin-left: 0;" required="required">
 												<option value="" selected>선택</option>
-												<option value="컴퓨터공학과">전필</option>
-												<option value="소프트웨어학과">전선</option>
+												<option value="컴퓨터공학과">컴퓨터공학과</option>
+												<option value="소프트웨어과">소프트웨어과</option>
 											</select>
 										</td>
-										<th class="table-secondary me-0" scope="col" style="vertical-align:middle; width: 9%;">국적</th>
-										<td>
-											<select id="nation" name="nation" class="form-select form-select-sm " style="margin: 0;" required="required">
-												<option value="대한민국" selected>대한민국</option>
-												<option value="일본">일본</option>
-												<option value="중국">중국</option>
-										</select>
-										</td>
+										
 										<th class="table-secondary" scope="col" style="width: 9%; vertical-align:middle;">연락처</th>
 										<td  style="width:16%;">
 											<input class="form-control text-center mx-0 form-inline form-control-sm " type="text" id="phone" name="phone" readonly="readonly">
 										</td>
 										<th class="table-secondary" scope="col" style="width: 9%; vertical-align:middle;">비상연락처</th>
 										<td>
-											<input id="subphone" name="subphone" class="form-control form-control-sm text-start" type="text" readonly="readonly">
+											<input id="subphone" name="subphone" class="form-control text-center mx-0 form-inline form-control-sm" type="text" readonly="readonly">
 										</td>
 									</tr>
 					
@@ -342,6 +376,14 @@
 												<option value="퇴학">퇴학</option>
 											</select>
 										</td>
+										<th class="table-secondary me-0" scope="col" style="vertical-align:middle; width: 9%;">국적</th>
+										<td>
+											<select id="nation" name="nation" class="form-select form-select-sm " style="margin: 0;" required="required">
+												<option value="대한민국" selected>대한민국</option>
+												<option value="일본">일본</option>
+												<option value="중국">중국</option>
+										</select>
+										</td>
 										<th class="table-secondary me-0" scope="col" style="vertical-align:middle; width: 9%;">주소</th>
 										<td>
 											<input id="address" name="address" class="form-control form-control-sm text-start" type="text" readonly="readonly">
@@ -353,8 +395,8 @@
 									</tr>
 									</table>
 								<div class="d-flex justify-content-center">
-									<button type="button" id="btnUpdate" onclick="studUpdate()" class="btn btn-primary btn-sm" style="font-weight: bold; margin-right: 10px;">수정</button>
-									<button type="button" onclick="studDelete()" class="btn btn-secondary btn-sm" style="font-weight: bold;">삭제</button>
+									<button type="button" id="btnUpdate" onclick="studUpdate(studFrm)" class="btn btn-primary btn-sm" style="font-weight: bold; margin-right: 10px;">수정</button>
+									<!-- <button type="button" onclick="studDelete()" class="btn btn-secondary btn-sm" style="font-weight: bold;">삭제</button> -->
 								</div>
 								</form>
 							</div>
@@ -363,6 +405,7 @@
                    </main>
 	        </div>
 	    </div>
+	    
     <!-- IONICONS -->
     <script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script>
     <!-- JS -->

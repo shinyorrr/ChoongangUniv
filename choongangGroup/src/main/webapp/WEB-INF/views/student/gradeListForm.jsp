@@ -27,27 +27,48 @@ function getGradeList(vuserId)
 					alert("value = "+value);
 					alert("성공");
 					
+					
+					//학기 년도 별 신청한 과목 성적 조회  테이블생성 
 					var str = '<tr>';                  //테이블생성 
 					$.each(data, (index, obj)=>{
+						
+			
 					str +='<td>' +obj.lec_type +'</td>';
 					str +='<td>' +obj.lec_name +'</td>';
 					str +='<td>' +obj.lec_id +'</td>';
 					str +='<td>' +obj.lec_unit_score +'</td>';
-					if(obj.sco_total>=90){
-						str +='<td>A</td>';
-					}else if(obj.sco_total>=80){
-						str +='<td>B</td>';
-					}else if(obj.sco_total>=70){
-						str +='<td>C</td>';
-					}else if(obj.sco_total>=60){
-						str +='<td>D</td>';
-					}else{
-						str +='<td>F</td>';
+					
+					if(obj.sco_attendance > 0){
+						
+						if(obj.sco_total>=4.5){
+							str +='<td>A+</td>';
+						}else if(obj.sco_total>=4){
+							str +='<td>A</td>';
+						}else if(obj.sco_total>=3.5){
+							str +='<td>B+</td>';
+						}else if(obj.sco_total>=3){
+							str +='<td>B</td>';
+						}else if(obj.sco_total>=2.5){
+							str +='<td>C+</td>';
+						}else if(obj.sco_total>=3){
+							str +='<td>C</td>';
+						}else if(obj.sco_total>=2){
+							str +='<td>D+</td>';
+						}else{
+							str +='<td>F</td>';
+						}
+					
+					}else {
+						str +='<td>F</td>';		
+						
 					}
 					
 					str +='</tr>' ;
 					});
 					$("#gradeList").html(str);          //값이 쌓일때마다 계속 넣어줌
+					
+					
+					
 					
 					var str2 = '<tr>';
 					var countUnit = 0;   //토탈 신청학점
@@ -55,6 +76,7 @@ function getGradeList(vuserId)
 					var percentile = 0;	//백분위
 					var avg = 0;		//평균
 					var count = 0;			
+					var ptotal =0;
 					
 					
 					$.each(data, (index, obj)=>{
@@ -64,8 +86,9 @@ function getGradeList(vuserId)
 					});
 					avg = countTotal/count;
 					percentile =countTotal*10+54;
+					
 					str2 +='<td>' + countUnit +'</td>';
-					str2 +='<td>' + '취득학점' +'</td>';
+					str2 +='<td>' + countUnit +'</td>';
 					str2 +='<td>' + countTotal +'</td>';
 					str2 +='<td>' + avg + '</td>';
 					str2 +='<td>' + percentile + '</td>';
@@ -311,10 +334,10 @@ function getGradeList(vuserId)
 									<tr>
 									<tr>
 										<th>${grade.utotal } </th>
-										<th></th>
+										<th>${grade.ptotal } </th>
 										<th>${grade.stotal}</th>
 										<th>${grade.avg }</th>
-										<th></th>
+										<th>${grade.percentile} </th>
 										<th>${grade.majorutotal}</th>
 										<th>${grade.subutotal}</th>
 									<tr>
@@ -348,6 +371,7 @@ function getGradeList(vuserId)
 
                       <!-- 학기 년도별 신청 학점 평점총계 -->
 
+						
 						<div>
 							<table class="table table-striped table-hover"
 								style="width: 700px">

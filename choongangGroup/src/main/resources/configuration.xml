@@ -5,12 +5,15 @@
 <configuration>
 	<typeAliases>
 	   
-	  	<typeAlias  alias="Book"  type="com.oracle.choongangGroup.ry.model.Book"/> 
-	  	<typeAlias  alias="Payment"  type="com.oracle.choongangGroup.ry.model.Payment"/> 
-	  	
+	  	<typeAlias  alias="OrderDetailVo"  type="com.oracle.choongangGroup.ry.model.OrderDetailVo"/> 
+	  	<typeAlias  alias="OrdersVo"  type="com.oracle.choongangGroup.ry.model.OrdersVo"/> 
+	  	<typeAlias  alias="BookVo"  type="com.oracle.choongangGroup.ry.model.BookVo"/> 
+	  	<typeAlias  alias="BookCartVo"  type="com.oracle.choongangGroup.ry.model.BookCartVo"/> 
+	  	<typeAlias  alias="BookCateVo"  type="com.oracle.choongangGroup.ry.model.BookCateVo"/> 
 	  	<typeAlias  alias="MemberVo"  type="com.oracle.choongangGroup.hj.model.MemberVo"/> 
 	  	<typeAlias  alias="GradeVo"  type="com.oracle.choongangGroup.hj.model.GradeVo"/> 
 	  	<typeAlias  alias="EvaluationVo"  type="com.oracle.choongangGroup.hj.model.EvaluationVo"/> 
+
 
 	   
 	   
@@ -18,6 +21,9 @@
 	   <typeAlias alias="ApprovalSort" type="com.oracle.choongangGroup.hs.approval.ApprovalSort"/>
 	   <typeAlias alias="MemDept" 	   type="com.oracle.choongangGroup.hs.approval.MemDept"/>
 	   <typeAlias alias="LectureVO"    type="com.oracle.choongangGroup.hs.lecManagement.LectureVO"/>
+	   
+	   <typeAlias alias="EvaVo"    type="com.oracle.choongangGroup.changhun.evaluation.EvaVo"/>
+	   
 	</typeAliases>
 
 

@@ -177,7 +177,7 @@
 						      	수강신청 장바구니 담기
 						    </div>
 					  		 <div class="col-1">
-						      	<button class="btn btn-dark" style="background-color:rgb(39, 40, 70);" onclick="location.href='likeForm?userid=${userid}'">Click</button>
+						      	<button class="btn btn-dark" style="background-color:rgb(39, 40, 70);" onclick="location.href='likeForm?userid=${userid}&lecName='">Click</button>
 						    </div>
 
 						  </div>

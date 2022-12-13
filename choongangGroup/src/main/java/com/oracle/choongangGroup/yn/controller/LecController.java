@@ -67,7 +67,7 @@ public class LecController {
 		return "professor/main";
 	}
 	
-	// 캘린더이동 v  ---> 작업중 : 일단 연결만
+	// 캘린더이동   ---> 작업중 : 일단 연결만
 //	
 //	@GetMapping(value = "professor/calenderForm") public String lecList(Model model) { //
 //	String name = gm.getMember().getName();

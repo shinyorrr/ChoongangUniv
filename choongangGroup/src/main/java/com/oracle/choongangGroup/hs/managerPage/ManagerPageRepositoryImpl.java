@@ -20,6 +20,7 @@ public class ManagerPageRepositoryImpl {
 	private final EntityManager em;
 
 	public List<Member> searchStud(Member member, String memRole) {
+		log.info("searchStud");
 		// 조건에 따라서 where문을 다르게 가지는 JPQL 생성
 	    String jpql = "select m from Member m";
 	    String whereSql = " where m.memRole = :memRole ";
@@ -54,11 +55,37 @@ public class ManagerPageRepositoryImpl {
 			query.setParameter("name", member.getName());
 		}
 		
-		
-		log.info("selet 쿼리 : {}", query.toString());
-		
 		List<Member> searchList = query.getResultList();
 
 		return searchList;
+	}
+
+	public List<Member> searchPro(Member member, String memRole) {
+		log.info("searchPro");
+		// 조건에 따라서 where문을 다르게 가지는 JPQL 생성
+	    String jpql = "select m from Member m";
+	    String whereSql = " where m.memRole = :memRole ";
+	    
+		if(member.getMajor() != null && !"".equals(member.getMajor())) {
+			whereSql += " and m.major= :major";
+		} 
+		if(member.getName() != null && !"".equals(member.getName())) {
+			whereSql += " and m.name like concat('%',:name,'%')";
+		} 
+		
+		
+		TypedQuery<Member> query = em.createQuery(jpql + whereSql, Member.class);
+		
+		query.setParameter("memRole", memRole);
+		if(member.getMajor() != null  && !"".equals(member.getMajor())) {
+			query.setParameter("major", member.getMajor());
+		}
+		if(member.getName() != null  && !"".equals(member.getName())) {
+			query.setParameter("name", member.getName());
+		}
+		
+		List<Member> searchProList = query.getResultList();
+
+		return searchProList;
 	}
 }

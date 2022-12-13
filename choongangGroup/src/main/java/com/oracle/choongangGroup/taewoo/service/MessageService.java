@@ -1,5 +1,10 @@
 package com.oracle.choongangGroup.taewoo.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,13 +25,13 @@ public class MessageService {
 	
 	public MessageDto write(MessageDto messageDto) {
 		System.out.println("MessageService write start....");
-		Member receiver = memberRepository.findByUserid(messageDto.getReceiverName());
-		Member sender = memberRepository.findByUserid(messageDto.getSenderName());
+		Member receiver = memberRepository.findByUserid(messageDto.getReceiverUserid());
+		Member sender = memberRepository.findByUserid(messageDto.getSenderUserid());
 		
 		Message message = new Message();
 		message.setReceiver(receiver);
 		message.setSender(sender);
-		
+		message.setSenderName(messageDto.getSenderName());
 		message.setMessageTitle(messageDto.getMessageTitle());
 		message.setMessageContent(messageDto.getMessageContent());
 		message.setDeletedByReceiver(false);
@@ -35,6 +40,21 @@ public class MessageService {
 		
 		return MessageDto.toDto(message);
 	}
+
+	public List<MessageDto> receiveMessage(Member member) {
+		   List<Message> messages = messageRepository.findAllByReceiver(member);
+	        List<MessageDto> messageDtos = new ArrayList<>();
+
+	        for(Message message : messages) {
+	            // message 에서 받은 편지함에서 삭제하지 않았으면 보낼 때 추가해서 보내줌
+	            if(!message.isDeletedByReceiver()) {
+	                messageDtos.add(MessageDto.toDto(message));
+	            }
+	        }
+	        return messageDtos;
+	}
+
+
 	
 	
 

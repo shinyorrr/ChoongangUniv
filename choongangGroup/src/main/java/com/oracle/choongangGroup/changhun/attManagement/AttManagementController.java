@@ -29,6 +29,7 @@ import com.oracle.choongangGroup.changhun.JPA.Member;
 import com.oracle.choongangGroup.changhun.JPA.MemberMapping;
 import com.oracle.choongangGroup.changhun.JPA.Work;
 import com.oracle.choongangGroup.changhun.address.MemberRepository;
+import com.oracle.choongangGroup.dongho.auth.GetMember;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,21 +37,24 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequiredArgsConstructor
 @Slf4j
+@RequestMapping("/manager")
 public class AttManagementController {
 	
 	private final AttManagementRepository repository;
 	private final AttManagementService attManagementService;
 	private final MemberRepository memRepository;
+	private final GetMember getMember;
 	
 	@RequestMapping(value = "/attForm")
 	public String attMyForm(Model model,
-							HttpServletRequest http,
 							@RequestParam(required = false, defaultValue = "0", value="page")int page) throws ParseException {
 		
 		System.out.println("page --> " + page);
-		HttpSession session = http.getSession();
 //		String userid = (String) session.getAttribute("userid");
-		String userid = "18301001";
+//		String userid = "18301001";
+		Member member = getMember.getMember();
+		String userid = member.getUserid();
+		
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
 		Date now = new Date();
@@ -70,6 +74,7 @@ public class AttManagementController {
 		//연차 갯수 표시
 		long vacation = attManagementService.vacation(userid);
 		
+		model.addAttribute("member", member);
 		model.addAttribute("attList",workList.getContent());
 		model.addAttribute("weekSum",weekWorkMap.get("weekTotal"));
 		model.addAttribute("weekOver",weekWorkMap.get("weekOver"));
@@ -86,6 +91,7 @@ public class AttManagementController {
 	public String attAllMemberForm(Model model,
 								@RequestParam(value = "deptno",defaultValue = "102") int deptno
 								) throws ParseException {
+		Member member = getMember.getMember();
 		
 		String userid = "18301001";
 		// 현재 날짜에 대한 리스트 출력
@@ -99,6 +105,7 @@ public class AttManagementController {
 		String today = attManagementService.today();
 		String Month = today.substring(0,7);
 		
+		model.addAttribute("member", member);
 		model.addAttribute("Month" , Month);
 		model.addAttribute("monthList" , monthList);
 		model.addAttribute("attList" , attMemberList);
@@ -118,6 +125,10 @@ public class AttManagementController {
 		
 		List<String> memberList = attManagementService.memberList(deptno,month);
 		
+		Member member = getMember.getMember();
+		
+		
+		model.addAttribute("member", member);
 		model.addAttribute("Month" , month);
 		model.addAttribute("monthList" , monthList);
 		model.addAttribute("attList" , attMemberList);
@@ -131,6 +142,9 @@ public class AttManagementController {
 		List<String> deptlist = attManagementService.findBydeptList();
 		List<Member> members = memRepository.findAllByOrderByDept_deptnoAsc();
 		
+		Member member = getMember.getMember();
+		
+		model.addAttribute("member", member);
 		model.addAttribute("deptlist", deptlist );
 		model.addAttribute("members", members );
 		

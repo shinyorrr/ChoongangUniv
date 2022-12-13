@@ -22,7 +22,23 @@
 <link rel="stylesheet" href="/css/styles.css">
     <title>SideBar sub menus</title>
 </head>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#chkAll").click(function() {
+			if($("#chkAll").is(":checked")) $("input[name=chk]").prop("checked", true);
+			else $("input[name=chk]").prop("checked", false);
+		});
+		
+		$("input[name=chk]").click(function() {
+			var total = $("input[name=chk]").length;
+			var checked = $("input[name=chk]:checked").length;
+			
+			if(total != checked) $("#chkAll").prop("checked", false);
+			else $("#chkAll").prop("checked", true); 
+		});
+	});
 
+</script>
 <body class="" id="body-pd">
 <%
 
@@ -43,12 +59,13 @@
             <img class="img-fluid" src="/images/logo2.png" alt="logo2" style="height: 40px;"><use xlink:href="#bootstrap"></use></svg>
           </a>
     
-          <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+ 		 <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
             <li><a href="/manager/main" class="nav-link px-2 link-secondary">Home</a></li>
-            <li><a href="#" class="nav-link px-2 link-dark">Features</a></li>
-            <li><a href="#" class="nav-link px-2 link-dark">Pricing</a></li>
-            <li><a href="#" class="nav-link px-2 link-dark">FAQs</a></li>
-            <li><a href="#" class="nav-link px-2 link-dark">About</a></li>
+            <li><a href="#" class="nav-link px-2 link-dark">전자 결재</a></li>
+            <li><a href="#" class="nav-link px-2 link-dark">학사 관리</a></li>
+            <li><a href="#" class="nav-link px-2 link-dark">교재 관리</a></li>
+            <li><a href="/notice/noticeList" class="nav-link px-2 link-dark">공지사항 관리</a></li>
+            <li><a href="/message/messageList" class="nav-link px-2 link-dark">쪽지함</a></li>
           </ul>
         </header>
     </nav>
@@ -153,89 +170,61 @@
                         <i class="bi bi-bookmark-fill me-2"></i>받은 편지함
                     </div>
                     <!-- card content -->  
-                    <%-- <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
+                  <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
                       <table class="Notice-table table table-striped">
 					    <thead>
 					    <tr>
 					      <!--   <th>번호</th> -->
+					      	<th>
+					      		<input type="checkbox" name="chkAll" id="chkAll">
+					      	</th>
+					        <th>이름</th>
 					        <th>제목</th>
 					        <th>내용</th>
-					        <th>작성일자</th>
-					        <th>조회수</th>
+					        <th>보낸시간</th>
+					        <th>
+					        	<button onclick="">
+					        		<span>삭제</span>
+					        	</button>
+					        </th>
 					    </tr>
 					    </thead>
 					    <tbody>
-					    <c:forEach items="${noticeList}" var="notice" varStatus="status">
-					    <c:set value='<%=(String)session.getAttribute("role") %>' var="role"/>
-					    	<c:if test="${notice.noticeType eq role || notice.noticeType eq 'allContent'}">	   
+					    <c:forEach items="${messageList}" var="message" varStatus="status">
 					    <tr>
-					        <td>${status.index+1+(page * 10)}</td>
-					        <td style="display: none;">${notice.noticeType}</td>
-					    <td>
-					    <c:choose>					  
-					        <c:when test="${fn:length(notice.noticeTitle) gt 11}">
-								<a href="/noticeDetail?noticeNum=${notice.noticeNum}">${fn:substring(notice.noticeTitle, 0 , 10)}....</a>	
-					       	</c:when>
-					        <c:otherwise>
-					        	<a href="/noticeDetail?noticeNum=${notice.noticeNum}">${notice.noticeTitle }</a>
-					       	 </c:otherwise>
-					    </c:choose>
-					    </td>
-
-					    <c:choose>
-					    	<c:when test="${fn:length(notice.noticeContent) gt 21}">
-					    		<td>${fn:substring(notice.noticeContent, 0 , 20)}....</td>
-					    	</c:when>
-					    	<c:otherwise>
-					    		<td>${notice.noticeContent}</td>
-					    	</c:otherwise>
-					    </c:choose>
-					     	<c:choose>   
-						        <c:when test="${notice.createdDate != null}">
-							        <c:set var="DateValue" value="${notice.createdDate}"/>
-							        <td>${fn:substring(DateValue,0,10)}</td>
-						        </c:when>
-						        <c:when test="${notice.modifiedDate != null}">
-							        <c:set var="DateValue" value="${notice.modifiedDate}"/>
-							        <td>${fn:substring(DateValue,0,10)}</td>
-						        </c:when>
-					        </c:choose>
-					        <td>${notice.noticeHit}</td>
+					    	<td>
+					    		<input type="checkbox" name="chk">
+					    	</td>
+					    	<td>${message.senderName}</td>
+					    	<td>
+						    	<c:choose>
+						    		<c:when test="${fn:length(message.messageTitle) gt 11 }">
+						    			${fn:substring(message.messageTitle, 0, 10)} ....
+						    		</c:when>
+						    		<c:otherwise>
+						    			${message.messageTitle}
+						    		</c:otherwise>
+						    	</c:choose>
+					    	</td>
+					    	<td>
+					    		<c:choose>
+						    		<c:when test="${fn:length(message.messageContent) gt 21 }">
+						    			<a href="#">${fn:substring(message.messageContent, 0, 20)} ....</a>
+						    		</c:when>
+						    		<c:otherwise>
+						    			<a href="#">${message.messageContent}</a>
+						    		</c:otherwise>
+						    	</c:choose>
+							</td>
+							<td>
+							    <c:set var="DateValue" value="${message.createdDate}"/>
+							     ${fn:substring(DateValue,0,10)}
+							</td>
 					    </tr>
-					    </c:if>
 					    </c:forEach>
 					    </tbody>					    
 					</table>
-						<form action="/notice/search" method="GET" class="form-inline p-2 bd-highlight" role="search" style="display: block;" >
-        					<input type="text" name="keyword" class="form-control" id=search placeholder="검색" style="width: 300px; float: left;">
-        					<button class="btn btn-success bi bi-search" style="float: left;"></button>
-    					</form> 
-					<nav aria-label="...">
-					  <ul class="pagination" style="margin-left: 40%;">
-					  
-					    <li class="page-item">
-					      <c:if test="${page > 0}">
-						      <a class="page-link" href="/notice/noticeList?page=${page-1}">Previous</a>				      
-					      </c:if>
-					      <c:if test= "${page == 0 }">
-					      	  <a class="page-link">Previous</a>
-					      </c:if>
-					    </li>					  
-					  <c:forEach var="i" begin="1" end="${noticeTotal}">
-					    <li id="page-item${i}" class="page-item" onclick="active(${i})">
-					    <a class="page-link" href="/notice/noticeList?page=${i-1 }" >${i }</a></li>
-					  </c:forEach>
-					    <li class="page-item">
-					    	<c:if test="${page < noticeTotal-1}">
-						      <a class="page-link" href="/notice/noticeList?page=${page+1}">Next</a>
-					    	</c:if>
-					      	<c:if test= "${page > noticeTotal-2}">
-						      <a class="page-link">Next</a>
-					      	</c:if>
-					    </li>
-					  </ul>
-					</nav>  
-                    </div> --%>
+        	  </div>
                     <!-- footer -->
                     <footer class="col-12" style="height: 60px;">
                         footer

@@ -13,8 +13,8 @@ public interface SecurityService {
 
 	Optional<Member> findByUseridAndEmail(String userid, String email);
 
-	TokenInfo login(String username, String password);
+	TokenInfo login(String username, String password, int keepLogin);
 
 	void saveRefreshToken(String refreshToken, String username);
-	
+
 }
