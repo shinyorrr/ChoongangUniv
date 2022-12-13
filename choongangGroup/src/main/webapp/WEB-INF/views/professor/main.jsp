@@ -15,7 +15,7 @@
 <!-- font awesome -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <!-- CSS -->
-<link rel="stylesheet" href="/css/styles.css">
+<link rel="stylesheet" href="/css/styles2.css">
 <link rel="stylesheet" href="/css/stylesLec.css">
 
 	<title>Professor Main</title>
@@ -40,7 +40,7 @@
 	</nav>
 	
 	<!-- side nav bar -->
-	<div class="l-navbar" id="navbar">
+	<%-- <div class="l-navbar" id="navbar">
 		<nav class="navv">
 			<div class="nav__brand">
 				<ion-icon name="menu-outline" class="nav__toggle" id="nav-toggle"></ion-icon>
@@ -79,6 +79,18 @@
 			</div>
 
 			<div class="nav__list">
+				<div href="#" class="nav__link collapses">
+	                 <ion-icon name="folder-outline" class="nav__icon"></ion-icon>
+	                 <span class="nav_name">Projects</span>
+	
+	                 <ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
+	
+	                 <ul class="collapse__menu">
+	                     <a href="#" class="collapse__sublink">Data</a>
+	                     <a href="#" class="collapse__sublink">Group</a>
+	                     <a href="#" class="collapse__sublink">Members</a>
+	                 </ul>
+	             </div>
 				<a href="#" class="nav__link">
 					<ion-icon name="chatbubbles-outline" class="nav__icon"></ion-icon>
 					<span class="nav_name">결재</span>
@@ -97,7 +109,77 @@
 				</a>
 			</div>
 		</nav>
-	</div>
+	</div> --%>
+	
+	<!-- side nav bar -->
+    <div class="l-navbar" id="navbar">
+        <nav class="navv">
+            <div>
+                <div class="nav__brand">
+                    <ion-icon name="menu-outline" class="nav__toggle" id="nav-toggle"></ion-icon>
+                    <a href="#" class="nav__logo">Bedimcode</a>
+                </div>
+                <div class="nav__list">
+                	<div href="#" class="nav__link collapses">
+                        <ion-icon name="folder-outline" class="nav__icon"></ion-icon>
+                        <span class="nav_name">학사관리</span>
+
+                        <ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
+
+                        <ul class="collapse__menu" style="width: 200px;">
+                            <li><a href="#" class="collapse__sublink">강의시간표</a></li>
+                            <li><a href="/professor/lecMgMain?userid=${userid}" class="collapse__sublink">강의관리</a></li>
+                            <li><a href="#" class="collapse__sublink ms-3">전자출석부</a></li>
+                            <li><a href="/professor/reportList" class="collapse__sublink ms-3">과제관리</a></li>
+                            <li><a href="#" class="collapse__sublink">강의계획서</a></li>
+                            <li><a href="/professor/lecCreateList" class="collapse__sublink">강의개설</a></li>
+                            <li><a href="/professor/lecScore" class="collapse__sublink">성적관리</a></li>
+                            <li><a href="/professor/makeupPage" class="collapse__sublink">휴&#183;보강 신청</a></li>
+                            <li><a href="#" class="collapse__sublink">내선번호관리</a></li>
+                        </ul>
+                    </div>
+                    <a href="#" class="nav__link active">
+                        <ion-icon name="home-outline" class="nav__icon"></ion-icon>
+                        <span class="nav_name">Dashboard</span>
+                    </a>
+                    <a href="/message/messageList" class="nav__link">
+                        <ion-icon name="chatbubbles-outline" class="nav__icon"></ion-icon>
+                        <span class="nav_name">쪽지함</span>
+                    </a>
+
+                    
+					
+                    <a href="/notice/noticeList" class="nav__link">
+                        <ion-icon name="pie-chart-outline" class="nav__icon"></ion-icon>
+                        <span class="nav_name">공지사항</span>
+                    </a>
+
+                    <div href="#" class="nav__link collapses">
+                        <ion-icon name="people-outline" class="nav__icon"></ion-icon>
+                        <span class="nav_name">Team</span>
+
+                        <ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
+
+                        <ul class="collapse__menu">
+                            <a href="#" class="collapse__sublink">Data</a>
+                            <a href="#" class="collapse__sublink">Group</a>
+                            <a href="#" class="collapse__sublink">Members</a>
+                        </ul>
+                    </div>
+
+                    <a href="#" class="nav__link">
+                        <ion-icon name="settings-outline" class="nav__icon"></ion-icon>
+                        <span class="nav_name">Settings</span>
+                    </a>
+                </div>
+                <a href="/logout" class="nav__link">
+                    <ion-icon name="log-out-outline" class="nav__icon"></ion-icon>
+                    <span class="nav_name">Log out</span>
+                </a>
+            </div>
+        </nav>
+    </div>
+    <!-- /side nav bar -->
 
 	<!-- main content -->
 	<div class="container-fluid w-100" style=" background-color: rgb(214, 225, 237)">
