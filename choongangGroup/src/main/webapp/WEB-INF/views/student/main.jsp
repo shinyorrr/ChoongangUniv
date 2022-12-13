@@ -127,7 +127,7 @@
                         <ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
 
                         <ul class="collapse__menu" style="width: 200px;">
-                            <li><a href="#" class="collapse__sublink">학적정보 조회</a></li>
+                            <li><a href="/student/listEmp" class="collapse__sublink">학적정보 조회</a></li>
                             <li><a href="/professor/lecMgMain?userid=${userid}" class="collapse__sublink">강의목록 조회</a></li>
                             
                             <li><a href="#" class="collapse__sublink">시간표 조회</a></li>
@@ -143,7 +143,7 @@
 	                </a>
 		
 
-					<a href="/student/evaluation" class="nav__link">
+					<a href="/student/evaluationList" class="nav__link">
 	                    <ion-icon name="log-out-outline" class="nav__icon"></ion-icon>
 	                    <span class="nav_name">강의 평가</span>
 	                </a>

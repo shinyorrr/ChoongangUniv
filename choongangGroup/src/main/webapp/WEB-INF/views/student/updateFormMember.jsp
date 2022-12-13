@@ -224,7 +224,7 @@ function readURL(input) {
                 <div class="row m-5">
                     <!-- card header -->
                     <div class="col-12 rounded-top text-white overflow-auto pt-2 fw-bold" style="background-color: rgb(39, 40, 70); height: 40px;"> 
-                        <i class="bi bi-bookmark-fill me-2"></i>교수서비스 <i class="bi bi-chevron-right"></i>학사관리 <i class="bi bi-chevron-right"></i>강의 시간표 조회
+                        <i class="bi bi-bookmark-fill me-2"></i>학생서비스 <i class="bi bi-chevron-right"></i>학사관리 <i class="bi bi-chevron-right"></i>학적조회
                     </div>
                     <!-- card content -->  
                     <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
@@ -237,7 +237,7 @@ function readURL(input) {
 
 <form action="updateMember" method="post" enctype="multipart/form-data"   >
 
-<table class="table table-striped"  border="1">
+<table class="table table-striped" >
 
 	 <input type="hidden" name="userid" value="${userid }">  
 		
@@ -291,7 +291,7 @@ function readURL(input) {
 
 </table>
 
-<input type="submit" value="수정완료">
+<input class="btn btn-secondary"     type="submit" value="수정완료">
 </form>
                        
                        
