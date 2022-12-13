@@ -24,7 +24,37 @@
 	<select id="hjcgSelList" resultType="EvaluationVo">
 		SELECT * from category
 	</select>
+	
+<!-- 강의평가 항목가져오기 (수정용  -->	
+	<select id="hjcg2SelList" resultType="EvaluationVo">
+		SELECT *
+		FROM CATEGORY 
+		WHERE small_category !=99
+	</select>
+	
+	<update id="hjEvaluationUpdate" parameterType="EvaluationVo">
+	
+	UPDATE category SET category_content  = #{category_content}	
+	WHERE big_category= #{big_category}
+    AND small_category=#{small_category}
+	
+	
+	</update>
+	
+	
+	<update id="hjupdateEv"  parameterType="EvaluationVo">
+	
+	UPDATE category SET category_content  = #{category_content}	
+	WHERE big_category= #{big_category}
+    AND small_category=#{small_category}
+	
+	</update>
+	
+	
+	
+	
 
+	
 <!-- 강의평가 insert  -->
 	<insert id="insertScore" parameterType="EvaluationVo">
 

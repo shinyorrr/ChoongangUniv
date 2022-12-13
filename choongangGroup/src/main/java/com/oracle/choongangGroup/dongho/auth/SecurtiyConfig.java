@@ -113,7 +113,8 @@ public class SecurtiyConfig {
                             "/images/**",
                             "/js/**",
                             "/css/**",
-                            "/favicon.ico"
+                            "/favicon.ico",
+                            "/ryImgUpload/**"
                     );
         };
     }

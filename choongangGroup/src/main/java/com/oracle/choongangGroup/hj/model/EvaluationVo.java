@@ -1,7 +1,5 @@
 package com.oracle.choongangGroup.hj.model;
 
-import java.util.List;
-
 import lombok.Data;
 
 @Data
@@ -19,9 +17,9 @@ public class EvaluationVo {
     private String lec_semester;   // 학년
 	private String prof_name;   //교수이름  
 	private String selectvalue;  //셀렉트값 
-	private String search_category;  //함수추가 
-	private String category_content1;
-	private String category_content2;
+    private String lec_time1;    //강의시간
+    private String lec_time2;    //강의시간
+    
 	
 	private String gubun;  //구분
 	private String text;   //평가항목
@@ -33,9 +31,8 @@ public class EvaluationVo {
 	private Long  score4;   // 수업내용 유익
 	private Long  score5;   // 수업유형 체계적
 	private Long  score6;   // 수업내용 수업준비 
-	public Long scoreList1;
-	//private String evScore;
-	
+	public Long scoreList1;  //스코어 다 받아오기 용 
+
 	
 	
 	

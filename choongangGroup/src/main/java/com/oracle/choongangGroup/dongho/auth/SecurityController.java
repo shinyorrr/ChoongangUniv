@@ -56,7 +56,7 @@ public class SecurityController {
 	//login성공 후 role 별 main page 연결
 	@GetMapping("/student/main")
 	public String studentMain() {
-		return "/student";
+		return "/student/main";
 	}
 	@GetMapping("/manager/main")
 	public String managerMain() {
@@ -163,7 +163,6 @@ public class SecurityController {
 		// 자동로그인 토큰 쿠키 setting
 		if(keepLogin == 1) {
 			String keepToken = URLEncoder.encode(tokenInfo.getKeepToken(), "utf-8");
-
 			ResponseCookie cookieKT = ResponseCookie.from("keepToken","Bearer" + keepToken)
 					.path("/")
 					.httpOnly(true)
@@ -172,7 +171,6 @@ public class SecurityController {
 					.build();
 			response.addHeader("Set-Cookie", cookieKT.toString());
 		}
-
     }
 	
 	
@@ -423,6 +421,7 @@ public class SecurityController {
 		}
 		return null;
     }
+    
     // Request Header (cookie) 에서 refresh토큰 정보 추출
     private String resolveRefreshToken(HttpServletRequest request) {
     	Cookie[] list = request.getCookies();

@@ -8,7 +8,7 @@
 <!-- 년도학기별로 신청한 과목 성적 조회  -->
  	<select id="hjgradeSelList"  parameterType="GradeVo"  resultType="GradeVo">
  	
-	SELECT  g.sco_total , l.lec_type , l.lec_name , l.lec_id , l.lec_unit_score
+	SELECT  g.sco_total , g.sco_attendance  , l.lec_type , l.lec_name , l.lec_id , l.lec_unit_score
 		 from    grade g , lecture l
 		 WHERE   l.lec_id = g.lec_id
 		 and     g.userid = ${userid}
@@ -16,11 +16,16 @@
 		 and l.lec_semester =${lec_semester}
 	
 	</select>	
-	<!-- 총 학점 평균 조회 -->
-	<select id="hjgradeSelOne" parameterType="String" resultType="GradeVo">
 	
-	    SELECT sum(g.sco_total) stotal , 
-       SUM(l.lec_unit_score) utotal,
+	
+	
+	<!-- 총 학점 평균 조회 -->
+	   <select id="hjgradeSelOne" parameterType="String" resultType="GradeVo">
+	
+	   SELECT sum(g.sco_total) stotal , 
+       SUM(l.lec_unit_score) utotal, 
+       SUM (CASE  WHEN g.sco_attendance != 0 THEN l.lec_unit_score Else 0 End ) ptotal,
+       count(g.sco_total) * 10 + 54 percentile,
        round(avg(g.sco_total),1) avg,
        SUM(CASE WHEN l.lec_type= '교양' THEN l.lec_unit_score ELSE 0 END) subutotal ,
        SUM(CASE WHEN l.lec_type= '전필' THEN l.lec_unit_score ELSE 0 END) majorutotal
@@ -31,8 +36,11 @@
 	
 	
 	
-	</select>
+	   </select>
 	
+  
+
+
 
 	
 
