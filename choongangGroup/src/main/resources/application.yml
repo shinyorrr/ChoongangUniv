@@ -26,6 +26,7 @@ spring:
         default_batch_fetch_size : 500 
         show_sql: true         # System.out 에 하이버네이트 실행 SQL
         format_sql: true
+        highlight_sql: true
   
   # view Resolver
   mvc:
