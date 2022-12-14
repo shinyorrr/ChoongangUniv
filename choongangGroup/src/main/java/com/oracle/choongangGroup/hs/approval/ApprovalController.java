@@ -30,11 +30,45 @@ public class ApprovalController {
 	private final ApprovalService as;
 	private final GetMember gm;
 	
+	
+	@GetMapping("/managerMain")
+	public String managerMain(Model model) {
+		log.info("managerMain 시작");
+		String mainCheck = "1";
+		
+		Member member = gm.getMember();
+		String userid = member.getUserid();
+		
+		List<Approval> approvalWaitingList = null;     // 승인 대기중
+		List<Approval> approvalProcessingList = null;  // 승인 진행중
+		
+		int waitTotal	 = as.waitTotal(userid);
+		int processTotal = as.processTotal(userid);	  
+		
+		// 3개 까지 보여줌
+		Approval approval = new Approval();
+		approval.setUserid(userid);
+		approval.setStart(1);
+		approval.setEnd(5);
+		
+		approvalWaitingList = as.waitListAll(approval); // 승인 대기중
+		approvalProcessingList = as.processListAll(approval); // 승인 진행중
+		
+		model.addAttribute("processTotal", processTotal);
+		model.addAttribute("waitTotal", waitTotal);
+		model.addAttribute("mainCheck", mainCheck);
+		model.addAttribute("member", member);
+		model.addAttribute("waitList", approvalWaitingList);
+		model.addAttribute("processList", approvalProcessingList);
+		return "manager/main";
+	}
+	
 	// --------------결재메인 -----------------------
 	@RequestMapping("approval")
 	public String content(Model model) {
 		log.info("approvalMain start...");
 		
+		Member member = gm.getMember();
 		String userid = gm.getMember().getUserid();
 		log.info(userid);
 		
@@ -62,6 +96,7 @@ public class ApprovalController {
 		model.addAttribute("endList", approvalEndList);
 		model.addAttribute("waitTotal", waitTotal);
 		model.addAttribute("userid", userid);
+		model.addAttribute("member", member);
 		
 		return "manager/approvalMain";
 		
@@ -159,6 +194,8 @@ public class ApprovalController {
 	@GetMapping("approvalWait")
 	public String wait(String userid, String currentPage, Model model) {
 		log.info("approvalWait start...");
+		Member member = gm.getMember();
+		
 		
 		userid =  gm.getMember().getUserid();
 		log.info(userid);
@@ -179,6 +216,7 @@ public class ApprovalController {
 //		model.addAttribute("mem_name", mem_name);
 		model.addAttribute("waitTotal", waitTotal);
 		model.addAttribute("page", page);
+		model.addAttribute("member", member);
 		
 		return "manager/approvalWaitForm";
 		
@@ -188,7 +226,7 @@ public class ApprovalController {
 	@RequestMapping("apprWaitDetail")
 	public String waitDetail(String userid, Long approval_no, Model model) {
 		log.info("waitDetail start...");
-		
+		Member member = gm.getMember();
 		userid =  gm.getMember().getUserid();
 		log.info(userid);
 		// 결재상세내용
@@ -231,6 +269,7 @@ public class ApprovalController {
 
 		model.addAttribute("appr", appr);
 		model.addAttribute("userid", userid);
+		model.addAttribute("member", member);
 		return "manager/approvalWaitDetail";
 	}
 	
@@ -238,6 +277,7 @@ public class ApprovalController {
 	@GetMapping("approvalProcess")
 	public String process(String currentPage, Model model) {
 		log.info("approvalProcess start...");
+		Member member = gm.getMember();
 		String userid = gm.getMember().getUserid();
 		log.info(userid);
 		Approval approval = new Approval();
@@ -258,6 +298,7 @@ public class ApprovalController {
 //		model.addAttribute("mem_name", mem_name);
 		model.addAttribute("processTotal", processTotal);
 		model.addAttribute("page", page);
+		model.addAttribute("member", member);
 		
 		return "manager/approvalProcessForm";
 	}
@@ -266,7 +307,7 @@ public class ApprovalController {
 	@RequestMapping("apprProcessDetail")
 	public String detail(Long approval_no, Model model) {
 		log.info("ProcessDetail start...");
-		
+		Member member = gm.getMember();
 		String userid = gm.getMember().getUserid();
 		log.info(userid);
 		// 결재하는 사용자의 이름 출력
@@ -312,6 +353,7 @@ public class ApprovalController {
 		model.addAttribute("mem_name", mem_name);
 		model.addAttribute("dname", dname);
 		model.addAttribute("appr", appr);
+		model.addAttribute("member", member);
 		
 		return "manager/approvalProcessDetail";
 	}
@@ -321,7 +363,7 @@ public class ApprovalController {
 	@GetMapping("approvalEnd")
 	public String end(String currentPage, Model model) {
 		log.info("approvalEnd start...");
-		
+		Member member = gm.getMember();
 		String userid =  gm.getMember().getUserid();
 		log.info(userid);
 		//페이징
@@ -340,6 +382,7 @@ public class ApprovalController {
 		model.addAttribute("endTotal", endTotal);
 //		model.addAttribute("mem_name", mem_name);
 		model.addAttribute("page", page);
+		model.addAttribute("member", member);
 		return "manager/approvalEndForm";
 		
 	}
@@ -348,7 +391,7 @@ public class ApprovalController {
 	@RequestMapping("apprEndDetail")
 	public String finishDetail(Long approval_no, Model model) {
 		log.info("finishDetail start...");
-		
+		Member member = gm.getMember();
 		String userid =  gm.getMember().getUserid();
 		log.info(userid);
 		// 결재상세내용
@@ -390,6 +433,7 @@ public class ApprovalController {
 		log.info("appr fin->{}",appr.getFinapprvo().getDname());
 
 		model.addAttribute("appr", appr);
+		model.addAttribute("member", member);
 		
 		return "manager/approvalEndDetail";
 	}
