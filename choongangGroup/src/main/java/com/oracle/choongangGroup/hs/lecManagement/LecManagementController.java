@@ -113,7 +113,7 @@ public class LecManagementController {
 	
 	// -------------------- 휴 보강 관리 ---------------------------
 	
-	@RequestMapping("makeupManage")
+	@RequestMapping("makeupManagement")
 	public String makeup(OrdersDto ordersDto, String status, String keyword, Model model) {
 		log.info("makeupManage start...");
 		
@@ -158,9 +158,9 @@ public class LecManagementController {
 		log.info("result->{}", result);
 		
 		if(result > 0) {
-			return "redirect:makeupManage";
+			return "redirect:makeupManagement";
 		} else {
-			return "forward:makeupManage";
+			return "forward:makeupManagement";
 		}
 		
 	}

@@ -139,65 +139,35 @@
     <!-- /header -->
     <!-- side nav bar -->
     <div class="l-navbar" id="navbar">
-        <nav class="navv">
-            <div>
-                <div class="nav__brand">
-                    <ion-icon name="menu-outline" class="nav__toggle" id="nav-toggle"></ion-icon>
-                    <a href="#" class="nav__logo">Bedimcode</a>
-                </div>
-                <div class="nav__list">
-                    <a href="#" class="nav__link active">
-                        <ion-icon name="home-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Dashboard</span>
-                    </a>
-                    <a href="#" class="nav__link">
-                        <ion-icon name="chatbubbles-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Messenger</span>
-                    </a>
+		<nav class="navv">
+			<div>
+				<div class="nav__brand">
+					<ion-icon name="menu-outline" class="nav__toggle" id="nav-toggle"></ion-icon>
+					<a href="/manager/approval" class="nav__logo">학사관리</a>
+				</div>
+				<div class="nav__list">
+					<div href="" class="nav__link collapses">
+						<!-- <ion-icon name="folder-outline" class="nav__icon"></ion-icon> -->
+						<!-- <i class="bi bi-gear-fill nav__icon" name="folder-outline"></i> -->
+						<i class="bi bi-mortarboard-fill nav__icon" name="folder-outline"></i>
+						<span class="nav_name">학사관리</span>
 
-                    <div href="#" class="nav__link collapses">
-                        <ion-icon name="folder-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Projects</span>
+						<ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
 
-                        <ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
-
-                        <ul class="collapse__menu">
-                            <a href="#" class="collapse__sublink">Data</a>
-                            <a href="#" class="collapse__sublink">Group</a>
-                            <a href="#" class="collapse__sublink">Members</a>
-                        </ul>
-                    </div>
-
-                    <a href="#" class="nav__link">
-                        <ion-icon name="pie-chart-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Analytics</span>
-                    </a>
-
-                    <div href="#" class="nav__link collapses">
-                        <ion-icon name="people-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Team</span>
-
-                        <ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
-
-                        <ul class="collapse__menu">
-                            <a href="#" class="collapse__sublink">Data</a>
-                            <a href="#" class="collapse__sublink">Group</a>
-                            <a href="#" class="collapse__sublink">Members</a>
-                        </ul>
-                    </div>
-
-                    <a href="#" class="nav__link">
-                        <ion-icon name="settings-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Settings</span>
-                    </a>
-                </div>
-                <a href="#" class="nav__link">
-                    <ion-icon name="log-out-outline" class="nav__icon"></ion-icon>
-                    <span class="nav_name">Log out</span>
-                </a>
-            </div>
-        </nav>
-    </div>
+						<ul class="collapse__menu" style="width: 200px;">
+							<a href="/manager/studentManage" class="collapse__sublink">학생관리</a></br>
+							<a href="/manager/professorManage" class="collapse__sublink">교수관리</a></br>
+							<a href="/manager/EvaManagementForm" class="collapse__sublink">강의 평가 관리</a></br>
+						</ul>
+					</div>
+				</div>
+				<a href="/logout" class="nav__link"> <ion-icon
+						name="log-out-outline" class="nav__icon"></ion-icon> <span
+					class="nav_name">로그아웃</span>
+				</a>
+			</div>
+		</nav>
+	</div>
     <!-- /side nav bar -->
     <!------- main content ------------>
 	<div class="container-fluid w-100 row" style=" background-color: rgb(214, 225, 237);">
@@ -207,7 +177,7 @@
 		<jsp:include page="contentHeader.jsp"></jsp:include>
                     <!-- card header -->
                     <div class="col-12 rounded-top text-white overflow-auto pt-2 fw-bold" style="background-color: rgb(39, 40, 70); height: 40px;"> 
-                        <i class="bi bi-bookmark-fill me-2"></i>학생관리 
+                        <i class="bi bi-bookmark-fill me-2"></i>학사관리 <i class="bi bi-chevron-right"></i>학생관리 
                     </div>
                     <!-- card content -->  
                     <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
