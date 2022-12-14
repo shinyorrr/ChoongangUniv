@@ -42,6 +42,14 @@ public class EvaDaoImpl implements EvaDao {
 		
 		return total;
 	}
+
+	@Override
+	public List<EvaVo> reviewList(String pname) {
+		
+		List<EvaVo> reviewList = session.selectList("review",pname);
+		
+		return reviewList;
+	}
 	
 	
 }

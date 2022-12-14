@@ -29,11 +29,13 @@ public class EvaController {
 		
 		log.info("EvaManagementForm pname --> {}",pname);
 		List<EvaVo> evaList = es.evaList(pname);
+		List<EvaVo> reviewList = es.reviewList(pname);
 		EvaVo total = es.total(pname);
 		Member member = getMember.getMember();
 		
 		model.addAttribute("member", member);
 		model.addAttribute("evaList", evaList);
+		model.addAttribute("reviewList", reviewList);
 		model.addAttribute("total", total);
 		
 		return "manager/EvaManagementForm";

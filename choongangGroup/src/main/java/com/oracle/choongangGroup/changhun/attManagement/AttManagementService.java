@@ -291,6 +291,8 @@ public class AttManagementService {
 	
 	// 총 일한시간 구하기
 	public String totalWorkTime(List<String> totalTime) throws ParseException {
+		log.info("totalWorkTime --> {} ",totalTime);
+		
 		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 		
 		int hour = 0;
@@ -339,7 +341,6 @@ public class AttManagementService {
 			dayNum -= 1;
 		}
 		
-		System.out.println("today-> " + today);
 		
 		List<String> dayList = new ArrayList<>();
 		
@@ -348,11 +349,15 @@ public class AttManagementService {
 			today = addDate(today,0,0,1);
 			dayNum+=1;
 		}
+		log.info("sumWeekWorking dayList --> {}",dayList);
 		
 		List<String> totalTime = attCustomRepository.findTotalTime(dayList,userid);
+		totalTime.remove(null);
+		log.info("sumWeekWorking totalTime --> {}",totalTime.size());
 		listsize = totalTime.size();
 		weekTotal = totalWorkTime(totalTime);
-		System.out.println(totalTime);
+		log.info("sumWeekWorking weekTotal --> {}",weekTotal);
+		
 		
 		// 일주일 초과 근무시간 계산
 		weekOver = overTimeCal(listsize, weekTotal);
@@ -412,7 +417,8 @@ public class AttManagementService {
 		
 		List<String> monthList = attCustomRepository.monthList(dayList,userid);
 		List<String> lastMonthList = attCustomRepository.monthList(lastMonthDayList,userid);
-		
+		monthList.remove(null);
+		lastMonthList.remove(null);
 		String monthTotalTime = totalWorkTime(monthList);
 		String lastMonthTotal = totalWorkTime(lastMonthList);
 		
