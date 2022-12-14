@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +19,7 @@ import com.oracle.choongangGroup.changhun.JPA.Member;
 import com.oracle.choongangGroup.changhun.JPA.Work;
 import com.oracle.choongangGroup.changhun.JPA.WorkStatus;
 import com.oracle.choongangGroup.changhun.address.MemberRepository;
+import com.oracle.choongangGroup.dongho.auth.GetMember;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,12 +33,13 @@ public class AttManagementService {
 	private final AttCustomRepository attCustomRepository;
 	private final AttManagementRepository repository;
 	private final MemberRepository memRepository;
+	private final GetMember getMember;
 	
 	// 출근 등록
 	public String attInsert() {
 		
-		HttpSession session;
-		String userid = "18301001";
+		Member member1 = getMember.getMember();
+		String userid = member1.getUserid();
 		Member member = memRepository.findByUserid(userid);
 		
 		SimpleDateFormat sdf1 = new SimpleDateFormat("HH:mm:ss");
@@ -49,13 +50,15 @@ public class AttManagementService {
 		String nowTime = sdf1.format(now);
 		String nowDate = sdf2.format(now);
 		
-		Work work =  new Work();
+		Work work =  new Work(member);
 //		List<Work> worklist = repository.findByUseridAndWorkDate(userid,nowDate);
 		List<Work> worklist = repository.findByMember_UseridAndWorkDate(userid,nowDate);
+		log.info("attInsert worklist --> {}",worklist.size());
 		
 		if(worklist.size() == 0) {
-//			work.setUserid(userid);
-			work.setMember(member);
+			work.setUserid(userid);
+//			work.setMember(member);
+			log.info("attInsert work getmember -->  {} ", work.getMember().getUserid());
 			work.setAttOnTime(nowTime);			
 			work.setWorkDate(nowDate);
 			
@@ -67,7 +70,7 @@ public class AttManagementService {
 				work.setAttStatus(WorkStatus.출근);
 			}
 			
-			
+//			attCustomRepository.save(work);
 			repository.save(work);
 		}
 		System.out.println(worklist.size());
@@ -481,12 +484,16 @@ public class AttManagementService {
 	public List<String> monthChangeList(String month) throws ParseException {
 		List<String> monthList = new ArrayList<>();
 		month = month + "-01";
+		String subMonth  = "";
 		
 		int num = 1;
 		int lastDay = getLastMonth(month);
 		
 		while(num <= lastDay) {
-			if(whatDay(month) != 6 && whatDay(month) != 7) monthList.add(month);
+			if(whatDay(month) != 6 && whatDay(month) != 7){
+					subMonth = month.substring(8);
+					monthList.add(subMonth);
+				}
 			month = addDate(month, 0, 0, 1);
 			num++;
 		}

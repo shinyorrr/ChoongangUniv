@@ -91,7 +91,7 @@ public class AttCustomRepositoryImpl implements AttCustomRepository {
 					+ " from Work w"
 					+ " where w.workDate Like : today "
 					+ " and w.member.dept.deptno =: deptno "
-					+ " order by w.member.userid, w.workDate";
+					+ " order by w.member.userid desc, w.workDate";
 		List<Work> attAllList = null;
 		attAllList = em.createQuery(query).setParameter("today", today).setParameter("deptno", deptno).getResultList();
 		
@@ -140,6 +140,7 @@ public class AttCustomRepositoryImpl implements AttCustomRepository {
 							.setParameter(4, workDate)
 							.executeUpdate();
 	}
+
 
 	
 }
