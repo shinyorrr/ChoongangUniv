@@ -235,7 +235,7 @@
 					                    			</c:if>
 					                    			
 					                    			 </td>
-						                     			<c:forEach var="j" begin="1" end="${attList.size()/memberList.size() -1}">
+						                     			<c:forEach var="j" begin="1" end="${attList.size()/memberList.size()-1}">
 					    	    	            			<td class="tdwidth" style = "text-align: center">
 					    	    	            			<span class = "font-Bold"> ${attList.get(i+j).attOnTime} 
 					    	    	            			<br>-

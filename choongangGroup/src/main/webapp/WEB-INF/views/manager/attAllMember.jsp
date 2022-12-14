@@ -18,7 +18,25 @@
 <!-- CSS -->
 <link rel="stylesheet" href="/css/styles.css">
 
-    <title>SideBar sub menus</title>
+<title>근태관리</title>
+<style> @import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@300&family=Old+Standard+TT:ital@0;1&family=Unbounded:wght@300&display=swap'); </style>
+<style type="text/css">
+	 #month{
+    	margin: 40px;
+    	font-size: 34px;
+    	font-family: 'Crimson Pro', serif;
+    }
+    .bi-folder, .bi-folder2-open{
+    	font-size : 20px;
+    	padding-right : 3px;
+    }
+    .bi-chevron-down{
+    	font-size : 10px;
+    }
+    .bi-dash{
+    	padding-right : 8px;
+    }
+</style>
 </head>
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
@@ -29,9 +47,13 @@
 	function hide(index){
 		if(isShow){
 			$('.deptUser'+index).show();
+			$('#plus'+index).hide();
+			$('#minus'+index).show();
 			isShow = false;
 		} else{
 			$('.deptUser'+index).hide();
+			$('#minus'+index).hide();
+			$('#plus'+index).show();
 			isShow = true;
 		}
 	}
@@ -106,9 +128,9 @@
 	 					+ "<input type='text' id = 'inVacation"+index
 	 					+ "'  value='"+item.member.vacation+"'style ='display : none'>"
 	 					+ "</td><td><button type='button' + id = 'button"+index+"'"
-	 					+ " class='btn btn-primary' onclick='attUpdateForm("+index+")'>수정</button></td>" 
-	 					+ "</td><td><button type='button' + id = 'buttonAfter"+index+"'"
-	 					+ " class='btn btn-primary' onclick='attUpdate("+index+")' style ='display : none'>수정완료</button>"
+	 					+ " class='btn btn-primary' onclick='attUpdateForm("+index+")'>수정</button>" 
+	 					+ " <button type='button' + id = 'buttonAfter"+index+"'"
+	 					+ " class='btn btn-primary' onclick='attUpdate("+index+")' style ='display : none'>수정완료</button></td>"
 	 					+ " <input type = 'text' id = 'userid"+index+"'value = '"+item.member.userid+"' hidden = 'true'></td>" 
 	 					+ " <input type = 'text' id = 'name"+index+"'value = '"+item.member.name+"' hidden = 'true'></td>" 
 	 					+ " <input type = 'text' id = 'workDate"+index+"'value = '"+item.workDate+"' hidden = 'true'></td>" 
@@ -152,9 +174,9 @@
 	 					+ "<input type='text' id = 'inVacation"+index
 	 					+ "'  value='"+item.member.vacation+"'style ='display : none'>"
 	 					+ "</td><td><button type='button' + id = 'button"+index+"'"
-	 					+ " class='btn btn-primary' onclick='attUpdateForm("+index+")'>수정</button></td>" 
-	 					+ "</td><td><button type='button' + id = 'buttonAfter"+index+"'"
-	 					+ " class='btn btn-primary' onclick='attUpdate("+index+")' style ='display : none'>수정완료</button>"
+	 					+ " class='btn btn-primary' onclick='attUpdateForm("+index+")'>수정</button>" 
+	 					+ " <button type='button' + id = 'buttonAfter"+index+"'"
+	 					+ " class='btn btn-primary' onclick='attUpdate("+index+")' style ='display : none'>수정완료</button></td>"
 	 					+ " <input type = 'text' id = 'userid"+index+"'value = '"+item.member.userid+"' hidden = 'true'></td>" 
 	 					+ " <input type = 'text' id = 'name"+index+"'value = '"+item.member.name+"' hidden = 'true'></td>" 
 	 					+ " <input type = 'text' id = 'workDate"+index+"'value = '"+item.workDate+"' hidden = 'true'></td>" 
@@ -286,9 +308,9 @@
 	                    </div>
 	                    <div class="col-6">
 		                    <div style=" align-items: center;text-align: center;font-size: 21px;">
-		                    	<i class="bi bi-caret-left" onclick="monthChange(1)"></i>
+		                    	<i class="bi bi-chevron-left" onclick="monthChange(1)"></i>
 		                    	<span id="month"></span>
-		                    	<i class="bi bi-caret-right" onclick="monthChange(-1)">
+		                    	<i class="bi bi-chevron-right" onclick="monthChange(-1)">
 		                    	</i>
 		                    </div>
 	                    </div>
@@ -304,10 +326,11 @@
 		                    	<c:forEach var="member" items="${members}" varStatus="status">
 		                    	<c:if test="${member.dept.dname ne null && member.dept.dname ne '교수'}">
 			                    	<c:if test="${deptCnt == 0 }">
-				                    	<div id="deptMain${nameCnt}" onclick="hide(${nameCnt+1})"
-				                    		style="font-style: italic;font-size: 16px;font-weight: bold;">
+				                    	<div id="deptMain${nameCnt}" class="border-bottom border-2" onclick="hide(${nameCnt+1})"
+				                    		style="font-style: italic;font-size: 16px;font-weight: bold;margin-bottom: 10px;">
+				                    		<i id = "plus${nameCnt+1}"class="bi bi-folder"></i>
+				                    		<i id = "minus${nameCnt+1}"class="bi bi-folder2-open" style = "display: none;"></i>
 				                    		${member.dept.dname}
-				                    		<i class="bi bi-caret-down"></i>
 				                    	</div>
 			                    		<c:set var="cdeptno" value="${member.dept.dname }"/>
 				                    	<c:set var="nameCnt" value="${nameCnt+1}"/>
@@ -316,10 +339,11 @@
 			                    	<c:if test="${deptCnt == 1}">
 			                    			<c:if test="${cdeptno == member.dept.dname }">
 						                    	<div class="deptUser${nameCnt }" 
-						                    	style="display: none;" id = "dept${status.index}"
+						                    	style="display: none; margin-bottom: 7px;" id = "dept${status.index}"
 						        				onclick = "memberSearch(${status.index})">
-			                    				<span style="margin-left: 15px;"></span>
-						                    	${member.name}
+			                    				<span style="margin-left: 20px; font-size : 14px">
+						                    	<i class="bi bi-dash"></i>${member.name}
+			                    				</span>
 						                    	</div>
 			                    			</c:if>
 			                    			<c:if test="${cdeptno != member.dept.dname }">
