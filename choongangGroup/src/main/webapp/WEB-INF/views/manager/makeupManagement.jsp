@@ -85,68 +85,52 @@ function lecOrderUpdate(lecOrderFrm) {
         </header>
     </nav>
 	
-<!-- /header -->
-    <!-- side nav bar -->
+   <!-- /header -->
+   <!-- side nav bar -->
     <div class="l-navbar" id="navbar">
-        <nav class="navv">
-            <div>
-                <div class="nav__brand">
-                    <ion-icon name="menu-outline" class="nav__toggle" id="nav-toggle"></ion-icon>
-                    <a href="#" class="nav__logo">Bedimcode</a>
-                </div>
-                <div class="nav__list">
-                    <a href="#" class="nav__link active">
-                        <ion-icon name="home-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Dashboard</span>
-                    </a>
-                    <a href="#" class="nav__link">
-                        <ion-icon name="chatbubbles-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Messenger</span>
-                    </a>
+		<nav class="navv">
+			<div>
+				<div class="nav__brand">
+					<ion-icon name="menu-outline" class="nav__toggle" id="nav-toggle"></ion-icon>
+					<a href="/manager/approval" class="nav__logo">결재관리</a>
+				</div>
+				<div class="nav__list">
+					<div href="${pageContext.request.contextPath}/manager/approval" class="nav__link collapses">
+						<!-- <ion-icon name="folder-outline" class="nav__icon"></ion-icon> -->
+						<!-- <i class="bi bi-gear-fill nav__icon" name="folder-outline"></i> -->
+						<i class="bi bi-clipboard2-check-fill nav__icon" name="folder-outline"></i>
+						<span class="nav_name">전자결재</span>
 
-                    <div href="#" class="nav__link collapses">
-                        <ion-icon name="folder-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Projects</span>
+						<ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
 
-                        <ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
+						<ul class="collapse__menu" style="width: 200px;">
+							<a href="/manager/approvalWrite" class="collapse__sublink">새 결재 진행</a></br>
+							<a href="/manager/approvalWait" class="collapse__sublink">결재 대기중 문서</a></br>
+                            <a href="/manager/approvalProcess" class="collapse__sublink">기안 진행중 문서</a></br>
+                            <a href="/manager/approvalEnd" class="collapse__sublink">기안 완료 문서</a></br>
+						</ul>
+					</div>
+					<div href="${pageContext.request.contextPath}/manager/approval" class="nav__link collapses">
+						<!-- <ion-icon name="folder-outline" class="nav__icon"></ion-icon> -->
+						<!-- <i class="bi bi-gear-fill nav__icon" name="folder-outline"></i> -->
+						<i class="bi bi-pencil-fill nav__icon" name="folder-outline"></i>
+						<span class="nav_name">강의관리</span>
 
-                        <ul class="collapse__menu">
-                            <a href="#" class="collapse__sublink">Data</a>
-                            <a href="#" class="collapse__sublink">Group</a>
-                            <a href="#" class="collapse__sublink">Members</a>
-                        </ul>
-                    </div>
-
-                    <a href="#" class="nav__link">
-                        <ion-icon name="pie-chart-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Analytics</span>
-                    </a>
-
-                    <div href="#" class="nav__link collapses">
-                        <ion-icon name="people-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Team</span>
-
-                        <ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
-
-                        <ul class="collapse__menu">
-                            <a href="#" class="collapse__sublink">Data</a>
-                            <a href="#" class="collapse__sublink">Group</a>
-                            <a href="#" class="collapse__sublink">Members</a>
-                        </ul>
-                    </div>
-
-                    <a href="#" class="nav__link">
-                        <ion-icon name="settings-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Settings</span>
-                    </a>
-                </div>
-                <a href="#" class="nav__link">
-                    <ion-icon name="log-out-outline" class="nav__icon"></ion-icon>
-                    <span class="nav_name">Log out</span>
-                </a>
-            </div>
-        </nav>
-    </div>
+						<ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
+						
+						<ul class="collapse__menu" style="width: 200px;">
+							<a href="/manager/lecManagement" class="collapse__sublink">강의 정보 관리</a></br>
+							<a href="/manager/makeupManagement" class="collapse__sublink">휴&middot; 보강 관리</a></br>
+						</ul>
+					</div>
+				</div>
+				<a href="/logout" class="nav__link"> <ion-icon
+						name="log-out-outline" class="nav__icon"></ion-icon> <span
+					class="nav_name">로그아웃</span>
+				</a>
+			</div>
+		</nav>
+	</div>
     <!-- /side nav bar -->
 <!------- main content ------------>
 <div class="container-fluid w-100 row" style=" background-color: rgb(214, 225, 237);">
@@ -156,10 +140,10 @@ function lecOrderUpdate(lecOrderFrm) {
 		<jsp:include page="contentHeader.jsp"></jsp:include>
                     <!-- card header -->
 				<div class="col-12 rounded-top text-white overflow-auto pt-2 fw-bold" style="background-color: rgb(39, 40, 70); height: 40px;">
-					<i class="bi bi-bookmark-fill me-2"></i>학사관리 &gt; 강의정보 &gt; 휴 &middot; 보강신청</div>
+					<i class="bi bi-bookmark-fill me-2"></i>강의관리 &gt; 휴 &middot; 보강 관리 </div>
 				<!----- card content 내용 ------>
 				<div class="col-12 rounded-bottom overflow-auto bg-white p-4" style="min-height: 550px;">
-				<div id="titleInBox" style="font-weight: bold; font-size: 19px;">휴/보강관리홈 <span onclick=" location.href = 'makeupManage';" class="badge text-bg-secondary">전체조회</span></div>
+				<div id="titleInBox" style="font-weight: bold; font-size: 19px;">휴/보강관리홈 <span onclick=" location.href = 'makeupManagement';" class="badge text-bg-secondary">전체조회</span></div>
 					<div class="btnProcess" style="font-size: 12px; color: #7F7F7F;">승인 해야할 강의가 ${makeupTot }건 있습니다.</div>
 					<div style="border-top: 1px dashed #c9c9c9; margin: 10px 0;"></div>
 					<div class="containerBox" style="margin: 0">
@@ -346,13 +330,9 @@ function lecOrderUpdate(lecOrderFrm) {
 				</div>
 			</div>
 		</main>
-					
-		<!-- footer -->
-		<footer class="col-12" style="height: 60px; font-size: 12px;">
-						@2022 ChoongAng University. All Rights Reserved.
-					</footer>    
-                </div>
+            <jsp:include page="../footer.jsp"></jsp:include>
         </div>
+    </div>
     <!-- IONICONS -->
     <script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script>
     <!-- JS -->
