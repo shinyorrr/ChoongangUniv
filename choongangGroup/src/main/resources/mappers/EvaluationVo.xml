@@ -13,9 +13,13 @@
 
 	<select id="hjevSelList" parameterType="String" resultType="EvaluationVo">
 		SELECT l.lec_id , l.prof_name , l.lec_name , g.userid
-		from grade g , lecture l
+		from grade      g , 
+             (SELECT  * 
+              FROM   lecture    
+              WHERE  lec_id NOT IN( SELECT lec_id FROM evaluation WHERE userid =22100001)
+              ) l 
 		WHERE l.lec_id = g.lec_id
-		and g.userid = ${userid}
+		and   g.userid =${userid}
 
 
 	</select>

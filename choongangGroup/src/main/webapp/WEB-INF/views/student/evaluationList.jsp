@@ -1,194 +1,331 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
-<script src="http://code.jquery.com/jquery-latest.min.js"></script>
-<script type="text/javascript">
-	
-//function getEvaluationList(vuserId)
-	// {
-	 
-	//var value = (selectOp.options[selectOp.selectedIndex].value);
-	
-	//alert("성공 ");
-	
-	//alert("selectOp.selectedIndex-->"+selectOp.options[selectOp.selectedIndex].value);
-	
-	//alert("lec_id-->"+lec_id);
-	
-/* 	$.ajax({
-	
-	 url : "/saveEvaluation2",
-	 type : 'post',
-	 data:{'userid' : vuserId , 'lec_id' : value},
-	 success:function(data){
-	 alert(result);
-	 }
-	});  */
-
-
-/*     var radio_name = [];//array
-    var raido_name_val = {};//object
-    var radio = $("input[type=radio]"); //라디오 정보를 가져옵니다.
-    $.each(radio, function (key, value) { // input radio의 name 값을 가져옵니다.
-        radio_name.push($(value).attr('name'));
-    });
-    console.log(radio_name);
-    radio_name = $.unique(radio_name.sort()).sort(); //중복요소 이름을 제거
-    console.log(radio_name);
-    for (var i = 0; i < radio_name.length; i++) {
-        raido_name_val[radio_name[i]] = $('input[name="' + radio_name[i] + '"] :checked').val();
-    }
-    console.log(raido_name_val);//예시   */
-//}
-  
- 	</script>
-	
-	
 
 
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<!-- bottSTrap CSS only -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+	crossorigin="anonymous">
+<!-- bootStrap Icons -->
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+<!-- JavaScript Bundle with Popper -->
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+	crossorigin="anonymous"></script>
+<!-- jQuery -->
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<!-- font awesome -->
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+	integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+	crossorigin="anonymous" referrerpolicy="no-referrer" />
+<!-- CSS -->
+<link rel="stylesheet" href="/css/styles.css">
+
+<title>SideBar sub menus</title>
 </head>
 
-<body>
-	<h3>강의평가</h3>
 
-	<form action="saveEvaluation"  method="post"  name="frm">
-	<div>userid : ${userid }</div>
+
+<body class="" id="body-pd">
+	<!-- header -->
+	<!-- <nav class="navbar navbar-expand-lg navbar-dark bd-navbar bg-light sticky-top position-fixed fixed-top w-100" style="position : absolute">
+        <a class="navbar-brand">
+            <button class="btn ms-2" type="button">
+                <img class="img-fluid" src="/images/logo2.png" alt="logo2" style="height: 40px;">
+            </button>
+        </a>
+    </nav> -->
+	<nav
+		class="navbar navbar-expand-lg navbar-dark bd-navbar bg-light sticky-top position-fixed fixed-top w-100"
+		style="position: absolute">
+		<header
+			class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between">
+			<a href="/" class="navbar-brand"> <img class="img-fluid"
+				src="/images/logo2.png" alt="logo2" style="height: 40px;"> <use
+					xlink:href="#bootstrap"></use> </svg>
+			</a>
+
+			<ul
+				class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+				<li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>
+				<li><a href="#" class="nav-link px-2 link-dark">Features</a></li>
+				<li><a href="#" class="nav-link px-2 link-dark">Pricing</a></li>
+				<li><a href="#" class="nav-link px-2 link-dark">FAQs</a></li>
+				<li><a href="#" class="nav-link px-2 link-dark">About</a></li>
+			</ul>
+		</header>
+	</nav>
+	<!-- /header -->
+	<!-- side nav bar -->
+	<div class="l-navbar" id="navbar">
+		<nav class="navv">
+			<div>
+				<div class="nav__brand">
+					<ion-icon name="menu-outline" class="nav__toggle" id="nav-toggle"></ion-icon>
+					<a href="#" class="nav__logo">Bedimcode</a>
+				</div>
+				<div class="nav__list">
+					<a href="#" class="nav__link active"> <ion-icon
+							name="home-outline" class="nav__icon"></ion-icon> <span
+						class="nav_name">Dashboard</span>
+					</a> <a href="#" class="nav__link"> <ion-icon
+							name="chatbubbles-outline" class="nav__icon"></ion-icon> <span
+						class="nav_name">Messenger</span>
+					</a>
+
+					<div href="#" class="nav__link collapses">
+						<ion-icon name="folder-outline" class="nav__icon"></ion-icon>
+						<span class="nav_name">Projects</span>
+
+						<ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
+
+						<ul class="collapse__menu">
+							<a href="#" class="collapse__sublink">Data</a>
+							<a href="#" class="collapse__sublink">Group</a>
+							<a href="#" class="collapse__sublink">Members</a>
+						</ul>
+					</div>
+
+					<a href="#" class="nav__link"> <ion-icon
+							name="pie-chart-outline" class="nav__icon"></ion-icon> <span
+						class="nav_name">Analytics</span>
+					</a>
+
+					<div href="#" class="nav__link collapses">
+						<ion-icon name="people-outline" class="nav__icon"></ion-icon>
+						<span class="nav_name">Team</span>
+
+						<ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
+
+						<ul class="collapse__menu">
+							<a href="#" class="collapse__sublink">Data</a>
+							<a href="#" class="collapse__sublink">Group</a>
+							<a href="#" class="collapse__sublink">Members</a>
+						</ul>
+					</div>
+
+					<a href="#" class="nav__link"> <ion-icon
+							name="settings-outline" class="nav__icon"></ion-icon> <span
+						class="nav_name">Settings</span>
+					</a>
+				</div>
+				<a href="#" class="nav__link"> <ion-icon name="log-out-outline"
+						class="nav__icon"></ion-icon> <span class="nav_name">Log
+						out</span>
+				</a>
+			</div>
+		</nav>
+	</div>
+	<!-- /side nav bar -->
+	<!-- main content -->
+	<div class="container-fluid w-100"
+		style="background-color: rgb(214, 225, 237)">
+		<div class="row">
+
+
+			<!-- content header -->
+			<div class="col-12 pt-4"
+				style="height: 150px; background-color: rgb(95, 142, 241)">
+				<div class="d-flex flex-row mb-3">
+					<div>
+						<span class="text-white h4">안녕하세요. <span class="fw-bold">김중앙 </span>님!
+						</span>
+					</div>
+					<div
+						class="border border-1 border-white border-bottom rounded-pill text-white px-2 pt-1 ms-2 h6">교수</div>
+					<div>
+						<i class="text-white bi-gear-fill mx-2"></i>
+					</div>
+				</div>
+				<div class="row">
+					<div>
+						<span class="text-white h6">이공대학 컴퓨터공학과 | 정교수</span>
+					</div>
+				</div>
+				<div class="d-flex flex-low">
+					<div>
+						<i class="bi bi-envelope-fill text-white"></i>
+					</div>
+					<div>
+						<span class="text-white ms-3">test123@naver.com</span>
+					</div>
+				</div>
+
+			</div>
+			<main class="col-9 h-100 w-100">
+				<div class="row m-5">
+					<!-- card header -->
+					<div
+						class="col-12 rounded-top text-white overflow-auto pt-2 fw-bold"
+						style="background-color: rgb(39, 40, 70); height: 40px;">
+						<i class="bi bi-bookmark-fill me-2"></i>학생서비스 <i
+							class="bi bi-chevron-right"></i>강의평가 
+					</div>
+					<!-- card content -->
+					<div class="col-12 rounded-bottom overflow-auto bg-light p-3"
+						style="min-height: 550px;">
+
+
+
+						<!--  ************************************************************************************ -->
+
+
+
+
+ <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+
+
+
+	<form action="saveEvaluation"  method="post"  name="frm" >
+
 	
-	<input type="hidden"  name="userid"  value="${userid}">
-		<!--  과목 교수  셀렉트바   -->
-		<div>
-		<!-- 	 <select id="selectOp" class="form-select form-select-lg mb-3 "
-				aria-label=".form-select-lg example"> -->
-				 <select class="form-select form-select-lg mb-3 "
-				aria-label=".form-select-lg example" name="lec_id">
-
-				<option selected disabled>평가과목선택</option>
-				<c:forEach var="ev" items="${evList}" >
-	<%-- 				<option value="${ev.lec_name},${ev.prof_name}">${ev.lec_name}/${ev.prof_name}교수님</option> --%>
-				<option value="${ev.lec_id}">${ev.lec_name}/ ${ev.prof_name}교수님</option> 
-
-				</c:forEach>
-
-			</select>
-			<%-- 	 <input type="button" value="조회"   onclick="getEvaluationList(${userid})"  > --%>
-		</div>
-		<div class="bodys"></div>
-		<div>
-
-			<!-- 설문지 테이블  -->
-
-			<!--  제목 -->
-			<table border="1" bordercolor="#272846" width="500" height="300">
-				<tr bgcolor="#272846" align="center">
-					<p>
-					<td rowspan="3" span style="color: white">순번</td>
-					</p>
-					<p>
-					<td rowspan="3" span style="color: white">구분</td>
-					</p>
-					<p>
-					<td colspan="4" rowspan="3" span style="color: white">평가항목</td>
-					</p>
-					<p>
-					<td span style="color: white">전혀그렇지않다</td>
-					</p>
-					<p>
-					<td span style="color: white">그렇지않다</td>
-					</p>
-					<p>
-					<td span style="color: white">보통이다</td>
-					</p>
-					<p>
-					<td span style="color: white">그렇다</td>
-					</p>
-					<p>
-					<td span style="color: white">매우그렇다</td>
-					</p>
-				</tr>
-				<tr align="center" bgcolor="#272846">
-					<td colspan="5" style="color: white">낮음 ←
-						&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp →높음</td>
-				</tr>
-
-				<tr align="center" bgcolor="#272846" style="color: white">
-					<td>1</td>
-					<td>2</td>
-					<td>3</td>
-					<td>4</td>
-					<td>5</td>
-				</tr>
-
-				<!-- 설문내용 -->
-				<c:set var="cnt" value="0" />
-				<c:forEach var="cg" items="${cgList }">
-					<%--  순번 (자동으로 1부터  숫자 메겨지게하기위해서 적어줌)--%>
-					<c:set var="sum" value="${sum+1 }" />
-					<c:set var="cnt" value="${cnt+1 }" />
-					<tr>
-						<%--  순번 (자동으로 1부터  숫자 메겨지게하기위해서 적어줌)--%>
-						<th rowspan="2">${sum}</th>
-						<th rowspan="2" scope="rowgroup">${cg.gubun}</th>
-						<td colspan="4">${cg.text}</td>
-						<input type="hidden"  name="big_category"    value="${cg.big_category}" >
-						<input type="hidden"  name="small_category"   value="${cg.small_category}" >
-						<td><input type="radio" name="score${cnt}" id = "score" value="1"></td>
-						<td><input type="radio" name="score${cnt}" id = "score" checked value="2"></td>
-						<td><input type="radio" name="score${cnt}" id = "score" value="3"></td>
-						<td><input type="radio" name="score${cnt}" id = "score" value="4"></td>
-						<td><input type="radio" name="score${cnt}" id = "score" value="5"></td>
-					</tr>
-					<tr>
-				</c:forEach>
-
-
-			</table>
-		</div>
-
-		<div>
-			▶불편사항 있으면 적어주세요 <br> <input type="text" name="review"
-				style="width: 500px; height: 100px">
-		</div>
-
-		<div>
- <%-- <input type="submit" value="제출" onclick="getEvaluationList(${userid})">  --%>   
-	
-
-		  <input type="submit" value="제출" onclick="chk();" >  
-
-		</div>
+			<input type="hidden"  name="userid"  value="${userid}">
+				<!--  과목 교수  셀렉트바   -->
+				<div>
+				
+						 <select  class="form-select"   name="lec_id" style="width: 250px;"> 
+		
+								<option  selected disabled>평가과목선택</option>
+										<c:forEach var="ev" items="${evList}" >
+								<option value="${ev.lec_id}">${ev.lec_name}/ ${ev.prof_name}교수님</option> 
+				
+								</c:forEach>
+		
+					     </select>
+					<%-- 	 <input type="button" value="조회"   onclick="getEvaluationList(${userid})"  > --%>
+				</div>
+				<div class="bodys"></div>
+				<div >
+		
+					<!-- 설문지 테이블  -->
+		
+					<!--  제목 -->
+					<table class="table table-bordered"  style="text-align: center; width: 1300px;"    bordercolor="#272846"  width="400" height="300">
+								<tr bgcolor="#272846" align="center">
+									<p>
+									<td  rowspan="3" span style="color: white; vertical-align: middle;    ">순번</td>
+									</p>
+									<p>
+									<td rowspan="3" span style="color: white; vertical-align: middle;">구분</td>
+									</p>
+									<p>
+									<td colspan="4" rowspan="3" span style="color: white; vertical-align: middle;;">평가항목</td>
+									</p>
+									<p>
+									<td span style="color: white; width: 100px;" >전혀그렇지않다</td>
+									</p>
+									<p>
+									<td span style="color: white; width: 100px;">그렇지않다</td>
+									</p>
+									<p>
+									<td span style="color: white; width: 100px;">보통이다</td>
+									</p>
+									<p>
+									<td span style="color: white; width: 100px;">그렇다</td>
+									</p>
+									<p>
+									<td span style="color: white; width: 100px;">매우그렇다</td>
+									</p>
+								</tr>
+								<tr align="center" bgcolor="#272846">
+									<td colspan="5" style="color: white">낮음 ←
+										&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp →높음</td>
+								</tr>
+				
+								<tr align="center" bgcolor="#272846" style="color: white">
+									<td>1</td>
+									<td>2</td>
+									<td>3</td>
+									<td>4</td>
+									<td>5</td>
+								</tr>
+				
+								<!-- 설문내용 -->
+								<c:set var="cnt" value="0" />
+								<c:forEach var="cg" items="${cgList }">
+									<%--  순번 (자동으로 1부터  숫자 메겨지게하기위해서 적어줌)--%>
+									<c:set var="sum" value="${sum+1 }" />
+									<c:set var="cnt" value="${cnt+1 }" />
+										<tr>
+												<%--  순번 (자동으로 1부터  숫자 메겨지게하기위해서 적어줌)--%>
+												<th rowspan="2">${sum}</th>
+												<th rowspan="2" scope="rowgroup">${cg.gubun}</th>
+												<td colspan="4">${cg.text}</td>
+												<input type="hidden"  name="big_category"    value="${cg.big_category}" >
+												<input type="hidden"  name="small_category"   value="${cg.small_category}" >
+												<td><input  type="radio" name="score${cnt}" id = "score" value="1"></td>
+												<td><input type="radio" name="score${cnt}" id = "score" value="2"></td>
+												<td><input type="radio" name="score${cnt}" id = "score" value="3"></td>
+												<td><input type="radio" name="score${cnt}" id = "score" value="4"></td>
+												<td><input type="radio" name="score${cnt}" id = "score"  checked value="5"></td>
+										</tr>
+									<tr></tr>
+								</c:forEach>
+		
+		
+					</table>
+				</div>
+		
+				<div>
+					▶불편사항 있으면 적어주세요 <br> <input type="text" name="review"
+						style="width:1300px; height: 100px">
+				</div>
+		
+				<div>
+			
+		
+				  <input  class="btn btn-primary" style="margin-left: 1240px; margin-top: 10px; " type="submit" value="제출" id="insert_btn" >  
+		
+				</div>
 
 	</form>
-<!-- 
+
+
 <script type="text/javascript">
-
-    function chk(){
-    	if(!frm.score.value){
-    		alert("제출실패 ")
-    		frm.score.focus();
-    		return false;
-    	}else location.href ="confirm?score="+frm.score.value;
-    	
-    	
-    }
-
- -->
-
+    
+    		
+		$("#insert_btn").click(function(){
+		    if(confirm("[제출 후 수정 불가합니다]\n  제출하시겠습니까?") == true){
+		        alert("제출 되었습니다");
+		    }
+		    else{
+		        return false;
+		    }
+		});
+    		
+    		
 
 </script>
 
+	<!--  ************************************************************************************ -->
 
 
 
 
-
-
-
-
-
+					</div>
+					<!-- footer -->
+					<footer class="col-12" style="height: 60px;"> 
+						<jsp:include page="../footer.jsp"></jsp:include>
+					
+					 </footer>
+				</div>
+			</main>
+		</div>
+	</div>
+	<!-- IONICONS -->
+	<script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script>
+	<!-- JS -->
+	<script src="/js/main.js"></script>
 </body>
 </html>

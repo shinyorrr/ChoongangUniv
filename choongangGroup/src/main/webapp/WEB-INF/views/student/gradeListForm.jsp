@@ -10,25 +10,26 @@
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
 
-
-
-
 function getGradeList(vuserId)
 {
+	alert("성공")
 	/* 내가 셀렉트에서 선택한 인덱스 번째의 값을 가져옴  */
 	var value = (selectOp.options[selectOp.selectedIndex].value);
 
 	$.ajax({
 
-				url : "/gradeDetailList",
-				data:{userid : vuserId , ys : value},  /* 아이디와  ys(학기,년도)파라메타 두개 넘겨줌  */
-				dataType : 'json',
-				success:function(data){
-					alert("value = "+value);
-					alert("성공");
+				
+		url : "/gradeDetailList",			
+		data:{userid : vuserId , ys : value},  /* 아이디와  ys(학기,년도)파라메타 두개 넘겨줌  */				
+		dataType : 'json',			
+		success:function(data){
+			
+			alert("value = "+value);					
+			alert("성공");
 					
 					
 					//학기 년도 별 신청한 과목 성적 조회  테이블생성 
+					
 					var str = '<tr>';                  //테이블생성 
 					$.each(data, (index, obj)=>{
 						
@@ -63,55 +64,46 @@ function getGradeList(vuserId)
 						
 					}
 					
-					str +='</tr>' ;
-					});
-					$("#gradeList").html(str);          //값이 쌓일때마다 계속 넣어줌
-					
-					
-					
-					
-					var str2 = '<tr>';
-					var countUnit = 0;   //토탈 신청학점
-					var countTotal = 0;  // 토탈성적
-					var percentile = 0;	//백분위
-					var avg = 0;		//평균
-					var count = 0;			
-					var ptotal =0;
-					
-					
-					$.each(data, (index, obj)=>{
-						countUnit += obj.lec_unit_score;
-						countTotal += obj.sco_total;
-						count ++;
-					});
-					avg = countTotal/count;
-					percentile =countTotal*10+54;
-					
-					str2 +='<td>' + countUnit +'</td>';
-					str2 +='<td>' + countUnit +'</td>';
-					str2 +='<td>' + countTotal +'</td>';
-					str2 +='<td>' + avg + '</td>';
-					str2 +='<td>' + percentile + '</td>';
-					str2 +='</tr>' ;
-					$("#scoretotal").html(str2);
-					
-					
-					
-				 
-			
-				}
-				
-				
-				
-			});
-	
-	
-	
-	
-	
-	
+					 str +='</tr>' ;
+		               });
+		               $("#gradeList").html(str);          //값이 쌓일때마다 계속 넣어줌
+		               
+		               var str2 = '<tr>';
+		               var countUnit = 0;   //토탈 신청학점
+		               var countTotal = 0;  // 토탈성적
+		               var percentile = 0;   //백분위
+		               var avg = 0;      //평균
+		               var count = 0;         
+		               var ptotal =0;
+		               
+		               
+		               $.each(data, (index, obj)=>{
+		                  countUnit += obj.lec_unit_score;
+		                  countTotal += obj.sco_total;
+		                  count ++;
+		               });
+		               
+		               avg = countTotal/count;
+		               percentile =countTotal*10+54;
+		               
+		               str2 +='<td>' + countUnit +'</td>';
+		               str2 +='<td>' + countUnit +'</td>';
+		               str2 +='<td>' + countTotal +'</td>';
+		               str2 +='<td>' + avg + '</td>';
+		               str2 +='<td>' + percentile + '</td>';
+		               str2 +='</tr>' ;
+		               $("#scoretotal").html(str2);
+		               
+		              
+		            }
+		            
+		            
+		            
+		         });
 
 }
+
+
 
 </script>
 
@@ -307,19 +299,33 @@ function getGradeList(vuserId)
 
 						<!--  ***************************성적조회 ************************************************** -->
 
+<div >
+<p class="fw-semibold">
+
+	<th>${member.name }</th>
+	<th>(${member.userid })</th>
+	<th>${member.grade }학년</th>
+	<th>${member.stud_status}중</th>
+
+
+
+
+
+
+</p> 
+
+	
+
+</div>
 
 
 						<div>
-							<th>${member.name }</th>
-							<th>(${member.userid })</th>
-							<th>${member.grade }학년</th>
-							<th>${member.stud_status}중</th>
-
+						
 						</div>
 						<br>
 						<div>
-							<h5>총 성적 내역</h5>
-
+						
+<p class="fw-semibold">총 성적 내역</p> 
 							<table class="table table-striped table-hover"
 								style="width: 700px">
 								<thead>
@@ -358,13 +364,14 @@ function getGradeList(vuserId)
 						<div>
 
 
-							<select id="selectOp" class="select" aria-label="Default select example">
+							<select id="selectOp" class="btn btn-outline-secondary" aria-label="Default select example">
 							
 								<c:forEach var="y" items="${ysList}">
 									<option value="${y.lec_year},${y.lec_semester}">${y.lec_year}년도${y.lec_semester}학기</option>
 								</c:forEach>
 
-							</select> <input type="button" value="조회"
+							</select> 
+							<input type="button"  class="btn btn-secondary" value="조회"
 								onclick="getGradeList(${member.userid})"> <!--  //아작스 실행  -->
 
 						</div>

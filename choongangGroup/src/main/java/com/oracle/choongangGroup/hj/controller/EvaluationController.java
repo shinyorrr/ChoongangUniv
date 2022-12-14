@@ -39,25 +39,6 @@ public class EvaluationController {
 	private final EvaluationService es;
 	private final GetMember gm;
 
-	// 강의평가 버튼
-	@RequestMapping(value = "evaluation")
-	public String evaluationList(Model model, HttpServletRequest request) {
-
-		
-		// 아이디 받아오기
-		String userid = gm.getMember().getUserid();
-		
-		System.out.println("EvaluationController evaluation start. . .  . . ");
-		System.out.println("userid" + userid);
-
-		// 필요없음_yj
-		// List<EvaluationVo> evaluation = es.list(userid);
-		// model.addAttribute("evaluation" ,evaluation);
-		model.addAttribute("userid", userid);
-
-		return "student/evaluationForm";
-
-	}
 
 	// 강의평가  화면 (학생)
 	@RequestMapping(value = "evaluationList")
@@ -97,7 +78,7 @@ public class EvaluationController {
 
 	}
 
-	// 강의평가 내용 수정하기(관리자용)
+	// 강의평가 내용 수정(관리자용)
 	@ResponseBody
 	@GetMapping(value = "realupdateEvaluation")
 	public String updateEvaluation(HttpServletRequest request, Model model) throws Exception {
@@ -136,9 +117,7 @@ public class EvaluationController {
 			
 		}
 		
-
-		//학적 수정한것 받아와서  insert 하기
-		
+		//학적 수정한것  update 
 		int updateCount = es.updateEv(rsList);
 		model.addAttribute("uptcnt", updateCount);	
 		
@@ -147,42 +126,14 @@ public class EvaluationController {
 //		Gson gson = new Gson();
 //		String jsonRs = gson.toJson(rsList);
 		
-		return "redirect:student/updateFormEvaluation";
+		return "redirect:updateFormEvaluation";
 
 	}
 
-
-	
-	
-	// 강의평가 했던 과목 선택 못하게 하기
-//	
-//	
-//	  @RequestMapping(value = "writeEvaluation")
-//	  public String writeEvaluation(String userid , Model model ,  String score ,String select){
-//	  System.out.println("EvaluationController writeEvaluation start. . .  . . ");
-//		System.out.println("넘어온 userid *************** >"+userid);
-//		System.out.println("넘어온 select *************** >"+select);
-//		System.out.println("넘어온 score *************** >"+score);
-//	
-//	
-//		/*
-//		 * if(score > 0){
-//		 * 
-//		 * 
-//		 * 
-//		 * String Result = "이미평가함";
-//		 * 
-//		 * } else { String Result = "평가완료";
-//		 * 
-//		 * }
-//		 */
-//	  return "Result";
-//	  
-//	  }
-//	  
+ 
 
 //	 강의평가 insert
-	@ResponseBody
+//	@ResponseBody
 	@PostMapping(value = "saveEvaluation")
 	public String saveEvaluation(EvaluationVo evaluation, Model model) {
 		System.out.println("EvaluationController saveEvaluation start. . .  . . ");
@@ -235,8 +186,9 @@ public class EvaluationController {
 		System.out.println("scoreList----***************>" + scoreList);
 
 		result = es.insertscore(scoreList);
-
-		return "redirect:evaluationForm";
+ 
+		return "redirect:evaluationList";
+   
 
 	}
 
