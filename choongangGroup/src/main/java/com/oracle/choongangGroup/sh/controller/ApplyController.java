@@ -1,8 +1,7 @@
 package com.oracle.choongangGroup.sh.controller;
 
 import java.time.LocalDate;
-
-
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -115,8 +114,14 @@ public class ApplyController {
 		}//페이징 끝
 		
 		//시간표
+		List<ApplicationLec> likeList = as.likeList(userid, year, semester);
 		
+		//요일 리스트
+		List<String> day = new ArrayList<String>();
+		day.add("월");day.add("화");day.add("수");day.add("목");day.add("금");
 		
+		model.addAttribute("list", likeList);
+		model.addAttribute("day", day);
 		model.addAttribute("userid", userid);	
 		model.addAttribute("year", year);
 		model.addAttribute("semester", semester);
@@ -127,7 +132,7 @@ public class ApplyController {
 	//장바구니 신청
 	@ResponseBody
 	@GetMapping(value = "like")
-	public int like(Long lecId, String userid, Model model) {
+	public int like(Long lecId, String userid,  Model model) {
 		
 		//장바구니 구분
 		Long gubun = 1L;
@@ -141,7 +146,6 @@ public class ApplyController {
 		model.addAttribute("userid", userid);
 		return "student/applySelect";
 	}
-	
 	
 	
 	//선택에따른 수강신청 목록 조회
@@ -202,6 +206,12 @@ public class ApplyController {
 			model.addAttribute("lectureList", applicationLecList);	
 		
 		}
+		//수강신청 된 목록
+		List<ApplicationLec> applyList = as.applyList(userid, year, semester);
+		
+		//총 신청학점
+		Long
+		model.addAttribute("list", applyList);
 		model.addAttribute("userid", userid);
 		model.addAttribute("select", select);
 		model.addAttribute("year", year);
@@ -258,13 +268,12 @@ public class ApplyController {
 		return semester;
 	}
 	
-//	public String lectureList() {
-//		String year = getYear();
-//		String semester = getSemester();
-//		List<ApplicationLec> list = as.likeList(userid, year, semester);
-//		return "";
-//		
-//	}
+	//시간표
+	public String timeTable() {
+		
+		return "";
+	}
+	
 
 	
 	

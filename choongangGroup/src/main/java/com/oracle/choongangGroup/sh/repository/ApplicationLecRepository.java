@@ -12,4 +12,5 @@ import com.oracle.choongangGroup.sh.domain.ApplicationLec;
 public interface ApplicationLecRepository extends JpaRepository<ApplicationLec, Long> {
 	Page<ApplicationLec> findAllByMember_UseridAndLecture_YearAndLecture_SemesterAndGubun(String userid, String year, String semester, Long gubun, Pageable pageable);
 	List<ApplicationLec> findAllByMember_UseridAndLecture_YearAndLecture_SemesterAndGubun(String userid, String year, String semester, Long gubun);
+	
 }

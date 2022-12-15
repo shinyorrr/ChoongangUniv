@@ -20,7 +20,7 @@ import lombok.Data;
 @IdClass(LectureMember.class)
 @JsonIgnoreType
 public class ApplicationLec { 
-
+ 
 	@Id  
 	@ManyToOne(fetch = FetchType.LAZY)  
 	@JoinColumn(name = "userid") 
