@@ -12,20 +12,21 @@
 
 function getGradeList(vuserId)
 {
-	alert("성공")
+	//alert("성공")
 	/* 내가 셀렉트에서 선택한 인덱스 번째의 값을 가져옴  */
 	var value = (selectOp.options[selectOp.selectedIndex].value);
+    
 
 	$.ajax({
 
 				
-		url : "/gradeDetailList",			
+		url : "gradeDetailList",			
 		data:{userid : vuserId , ys : value},  /* 아이디와  ys(학기,년도)파라메타 두개 넘겨줌  */				
 		dataType : 'json',			
 		success:function(data){
 			
-			alert("value = "+value);					
-			alert("성공");
+			//alert("value = "+value);					
+			//alert("성공");
 					
 					
 					//학기 년도 별 신청한 과목 성적 조회  테이블생성 
@@ -69,7 +70,8 @@ function getGradeList(vuserId)
 		               $("#gradeList").html(str);          //값이 쌓일때마다 계속 넣어줌
 		               
 		               var str2 = '<tr>';
-		               var countUnit = 0;   //토탈 신청학점
+		               var unitTotal=0;     //토탈신청학점
+		               var countUnit = 0;   //토탈 취득학점
 		               var countTotal = 0;  // 토탈성적
 		               var percentile = 0;   //백분위
 		               var avg = 0;      //평균
@@ -78,18 +80,24 @@ function getGradeList(vuserId)
 		               
 		               
 		               $.each(data, (index, obj)=>{
+		            	  unitTotal += obj.lec_unit_score;
+		            	   
+		            	  if(obj.sco_total>=2) {
 		                  countUnit += obj.lec_unit_score;
+		            	  }
 		                  countTotal += obj.sco_total;
 		                  count ++;
 		               });
 		               
+		               
 		               avg = countTotal/count;
+		           
 		               percentile =countTotal*10+54;
 		               
-		               str2 +='<td>' + countUnit +'</td>';
+		               str2 +='<td>' + unitTotal +'</td>';
 		               str2 +='<td>' + countUnit +'</td>';
 		               str2 +='<td>' + countTotal +'</td>';
-		               str2 +='<td>' + avg + '</td>';
+		               str2 +='<td>' + avg.toFixed(1) + '</td>';
 		               str2 +='<td>' + percentile + '</td>';
 		               str2 +='</tr>' ;
 		               $("#scoretotal").html(str2);
@@ -302,7 +310,9 @@ function getGradeList(vuserId)
 <div >
 <p class="fw-semibold">
 
-	<th>${member.name }</th>
+
+
+<th>${member.name }</th>
 	<th>(${member.userid })</th>
 	<th>${member.grade }학년</th>
 	<th>${member.stud_status}중</th>
@@ -310,26 +320,19 @@ function getGradeList(vuserId)
 
 
 
-
-
 </p> 
-
-	
 
 </div>
 
-
 						<div>
 						
-						</div>
-						<br>
-						<div>
+		<button type="button" class="btn btn-outline-secondary" disabled>총 성적 내역</button>				
 						
-<p class="fw-semibold">총 성적 내역</p> 
+		
 							<table class="table table-striped table-hover"
 								style="width: 700px">
 								<thead>
-									<tr>
+									<tr >
 										<th>신청학점</th>
 										<th>취득학점</th>
 										<th>평점총계</th>
