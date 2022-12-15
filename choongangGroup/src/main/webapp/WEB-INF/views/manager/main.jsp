@@ -46,17 +46,8 @@ $(document).ready(function(){
           </a>
     
           <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-<<<<<<< HEAD
-            <li><a href="/manager/main" class="nav-link px-2 link-secondary">Home</a></li>
-            <li><a href="#" class="nav-link px-2 link-dark">전자 결재</a></li>
-            <li><a href="#" class="nav-link px-2 link-dark">학사 관리</a></li>
-            <li><a href="#" class="nav-link px-2 link-dark">교재 관리</a></li>
-            <li><a href="/notice/noticeList" class="nav-link px-2 link-dark">공지사항 관리</a></li>
-            <li><a href="/manager/message/messageList" class="nav-link px-2 link-dark">쪽지함</a></li>
-=======
   			<jsp:include page="navHeader.jsp"></jsp:include>
->>>>>>> branch 'main' of https://github.com/oreoWoo/team-project.git
-          </ul>
+  		 </ul>
         </header>
     </nav>
     <input type="hidden" id="mainCheck" value="${mainCheck}">
