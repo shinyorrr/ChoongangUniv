@@ -71,4 +71,16 @@ public class AdminBookDaoImpl implements AdminBookDao {
 		session.delete("BookDelete", bookId);
 		
 	}
+
+	@Override
+	public List<BookVo> bookSearchList(BookVo book) {
+		List<BookVo> getBookList = null;
+		try {
+			getBookList= session.selectList("GetBookSearch", book);
+			
+		} catch (Exception e) {
+			System.out.println("bookSearchList e.getMessage()"+e.getMessage());
+		}
+		return getBookList;
+	}
 }

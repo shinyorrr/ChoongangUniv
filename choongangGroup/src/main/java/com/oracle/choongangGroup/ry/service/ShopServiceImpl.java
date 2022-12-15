@@ -6,7 +6,6 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
-import com.oracle.choongangGroup.ry.dao.AdminBookDao;
 import com.oracle.choongangGroup.ry.dao.ShopDao;
 import com.oracle.choongangGroup.ry.model.BookCartVo;
 import com.oracle.choongangGroup.ry.model.BookVo;
@@ -19,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 @RequiredArgsConstructor
 public class ShopServiceImpl implements ShopService {
-
+	
 	
 	private final ShopDao sd;
 
@@ -105,5 +104,22 @@ public class ShopServiceImpl implements ShopService {
 		List<OrdersVo> adminOrderView = sd.adminOrderView(order);
 		return adminOrderView;
 	}
+
+	@Override
+	public void changeStock(BookVo book) {
+		sd.changeStock(book);
+	}
+
+	@Override
+	public void billUpdateState(OrdersVo order) {
+		sd.billUpdateState(order);
+	}
+
+	@Override
+	public List<OrdersVo> SearchOrderList(OrdersVo order) {
+		List<OrdersVo> orderList = sd.searchOrderList(order);
+		return orderList;
+	}
+
 
 }

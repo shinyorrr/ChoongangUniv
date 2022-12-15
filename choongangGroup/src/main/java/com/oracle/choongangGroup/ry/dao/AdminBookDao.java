@@ -22,4 +22,6 @@ public interface AdminBookDao {
 
 	void deleteBook(int bookId);
 
+	List<BookVo> bookSearchList(BookVo book);
+
 }

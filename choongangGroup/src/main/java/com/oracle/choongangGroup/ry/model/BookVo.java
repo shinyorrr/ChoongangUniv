@@ -39,7 +39,6 @@ public class BookVo {
 	/* 상품 이미지 */
 	private String bookImg;
 	
-	
 	/* 상품 경로 */
 	private String uploadPath;
 	

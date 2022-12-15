@@ -20,4 +20,6 @@ public interface AdminBookService {
 	void bookUpdate(BookVo book);
 
 	void bookDelete(int bookId);
+
+	List<BookVo> bookSearchList(BookVo book);
 	}

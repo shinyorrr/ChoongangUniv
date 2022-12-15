@@ -13,7 +13,7 @@
 	
 	<select id="OrderList" resultType="OrdersVo">
 	 select
-	     orderId, userId, orderName, Phone, amount, orderDate, state
+	     orderId, userId, orderName, Phone, amount, orderDate, state, bookLoca,billState
 	 from Orders 
 	     where userId = #{userId}
 	</select>
@@ -21,7 +21,7 @@
 	<!-- 특정 주문 목록 -->
 	<select id="OrderView" resultType="OrdersVo">
 	 select
-	     o.orderId, o.userId, o.orderName, o.Phone, o.amount, o.orderDate,o.state,
+	     o.orderId, o.userId, o.orderName, o.Phone, o.amount, o.orderDate,o.state,o.bookLoca,o.billState,
 	     d.orderDetailsNum, d.bookId, d.cartStock,
 	     g.bookName, g.bookThumbImg, g.bookPrice
 	 from Orders o
@@ -42,9 +42,9 @@
 	<!-- 특정 주문 목록 -->
 	<select id="AdminOrderView" resultType="OrdersVo">
 	 select
-	     o.orderId, o.userId, o.orderName, o.Phone, o.amount, o.orderDate,o.state,
+	     o.orderId, o.userId, o.orderName, o.Phone, o.amount, o.orderDate,o.state,o.bookLoca,o.billState,
 	     d.orderDetailsNum, d.bookId, d.cartStock,
-	     g.bookName, g.bookThumbImg, g.bookPrice
+	     g.bookName, g.bookThumbImg, g.bookPrice,g.bookStock
 	 from Orders o
 	         inner join orderDetail d
 	             on o.orderId = d.orderId
@@ -56,7 +56,42 @@
 	<!-- 배송 상태 -->
 	<update id="UpdateState" parameterType="OrdersVo">
 	 update Orders
-	     set state = #{state}
+	     set 
+	     state = #{state}
 	 where orderId = #{orderId}
 	</update>
+	
+	<!-- 결제 상태 -->
+	<update id="BillUpdate" parameterType="OrdersVo">
+	 update Orders
+	     set 
+	     billState = #{billState}
+	 	where orderId = #{orderId}
+	</update>
+	
+	<select id="SearchOrderList" resultType="OrdersVo" parameterType="OrdersVo">
+			 select
+		     o.orderId, o.userId, o.orderName, o.Phone, o.amount, o.orderDate,o.state,o.bookLoca,o.billState,
+		     d.orderDetailsNum, d.bookId, d.cartStock,
+		     g.bookName, g.bookThumbImg, g.bookPrice,g.bookStock
+			 from Orders o
+	         inner join orderDetail d
+	             on o.orderId = d.orderId
+	         inner join book g
+	             on d.bookId = g.bookId
+		<!-- <choose>
+			<when test="type == 'billState'">
+			Where billState Like '%'|| #{type} || '%'
+			</when>
+			<when test="keyword == 'userId'">
+			and userId Like '%'|| #{keyword} || '%'
+			</when>
+		</choose> -->
+		<if test="type != null and type!= ''">
+		Where billState Like '%'|| #{type} || '%'
+		</if>
+		<if test="keyword != null and keyword != ''">
+		and userId Like '%'|| #{keyword} || '%'
+		</if>
+	</select>
 </mapper>

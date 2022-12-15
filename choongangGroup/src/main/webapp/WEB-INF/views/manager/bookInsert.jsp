@@ -183,7 +183,6 @@ function readURL(input) {
 						<input type="file" id="bookImg" name="file" accept=".png, .jpeg, .gif" onchange="readURL(this)" style="height: 30px;" />
 						<div class="select_img"><img id="preview" style="height: 500px;" src="https://i0.wp.com/adventure.co.kr/wp-content/uploads/2020/09/no-image.jpg" /></div>
 					</div>
-					<%=request.getRealPath("/") %>
 					<div class="inputArea">
 						<button type="submit" id="register_Btn" class="btn btn-primary">등록</button>
 					</div>
