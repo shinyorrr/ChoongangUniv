@@ -8,7 +8,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-<script type="text/javascript">
+<!-- <script type="text/javascript">
 $(function(){
 var jsonData = JSON.parse('${category}');
 console.log(jsonData);
@@ -74,7 +74,7 @@ $(document).on("change", ".category1", function(){
 	
 });
 });	
-</script>
+</script> -->
 <style type="text/css">
 	#container_box table td { width:100px; }
 	section#container { padding:20px 0; border-top:2px solid #eee; border-bottom:2px solid #eee; }
@@ -100,6 +100,22 @@ $(document).on("change", ".category1", function(){
 	</aside>
 	<div id="container_box"> 
 		<h2>교재 목록</h2>
+			<form action="/student/getSearch">
+				<div class="mt-3">
+					<%-- <select class="ms-2 form-select-sm" style="width: 12%;"	name="cateParent">
+						<option value="" selected>구분</option>
+						<option value="100" <c:if test="${cateParent eq '100'}">selected</c:if>>전공</option>
+						<option value="200" <c:if test="${cateParent eq '200'}">selected</c:if>>교양</option>
+					</select> --%>
+					<!-- <label class="me-2 pe-0 font09">구분</label>
+					 <select	class="form-select-sm" name="cateName" id="cateName" style="width: 13%;">
+						<option value="" selected>선택</option>
+					</select>  -->
+						<label class="form-label me-2 mb-0 align-self-center font09">책명</label>
+						<input class="form-control form-sm rounded-1" type="text" name="keyword" aria-describedby="button-search"style="height: 31px;"<c:if test="${keyword ne null}"> value="${keyword}" </c:if>>
+						<button class="btn btn-secondary btn-sm" id="button-search"	type="submit">검색</button>
+				</div>
+			</form>
 			<table>
 				<thead>
 					<tr>
@@ -123,7 +139,7 @@ $(document).on("change", ".category1", function(){
 						<a href="/student/detailBookList?bookId=${list.bookId }">${list.bookId }</a></td>
 						<td>${list.bookName }</td>
 						<td>${list.publisher }</td>
-						<td>${list.cateCode }</td>
+						<td>${list.cateName }</td>
 						<td><fmt:formatNumber value="${list.bookPrice }" pattern="###,###,###"/></td>
 						<td>${list.bookStock }</td>
 						<td><fmt:formatDate value="${list.regDate }" pattern="yyyy-MM-dd"/></td>

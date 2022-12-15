@@ -48,13 +48,17 @@
 		}
 		
 	}
+	/*모달*/
+	function fnModuleInfo(index){
+		$('.modal-body').load("/manager/myLikeAddress?page="+index);
+	}
 	
 	
 </script>
     <title>즐겨찾기 주소록</title>
 </head>
-
-<body class="" id="body-pd" onload="printClock()">
+<body>
+<%-- <body class="" id="body-pd" onload="printClock()">
     <!-- header -->
     <!-- <nav class="navbar navbar-expand-lg navbar-dark bd-navbar bg-light sticky-top position-fixed fixed-top w-100" style="position : absolute">
         <a class="navbar-brand">
@@ -113,7 +117,7 @@
                     <!-- card header -->
                     <div class="col-12 rounded-top text-white overflow-auto pt-2 fw-bold" style="background-color: rgb(39, 40, 70); height: 40px;"> 
                         <i class="bi bi-bookmark-fill me-2"></i>교직원관리 <i class="bi bi-chevron-right"></i>즐겨찾기 주소록
-                    </div>
+                    </div> --%>
                     <!-- card content -->  
                     <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
                         <table class="table table-hover">
@@ -144,15 +148,33 @@
 							  <tbody>
 							  </tbody>
                     	</table>
+                    	<!-- Scrollable modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Understood</button>
+      </div>
+    </div>
+  </div>
+</div>
                     	<!-- =============================================  -->
                     	<!-- ================= 페이징 작업 ==================  -->
                     	<!-- =============================================  -->
                     <nav aria-label="...">
-					  <ul class="pagination" style="margin-left: 40%;">
+					  <ul class="pagination" style="margin-left: 117px;">
 					  
 					    <li class="page-item">
 					      <c:if test="${page > 0}">
-						      <a class="page-link" href="myLikeAddress?page=${page-1}">Previous</a>				      
+						      <a class="page-link" data-bs-target="#staticBackdrop" onclick="fnModuleInfo('${page-1}')">Previous</a>				      
 					      </c:if>
 					      <c:if test= "${page == 0 }">
 					      	  <a class="page-link">Previous</a>
@@ -161,11 +183,11 @@
 					
 					  <c:forEach var="i" begin="1" end="${totalPage}">
 					    <li id="page-item${i}" class="page-item" onclick="active(${i})">
-					    <a class="page-link" href="myLikeAddress?page=${i-1 }" >${i }</a></li>
+					    <a class="page-link" data-bs-target="#staticBackdrop"  onclick="fnModuleInfo('${i-1}')" >${i }</a></li>
 					  </c:forEach>
 					    <li class="page-item">
 					    	<c:if test="${page < totalPage-1}">
-						      <a class="page-link" href="myLikeAddress?page=${page+1}">Next</a>
+						      <a class="page-link" data-bs-target="#staticBackdrop" onclick="fnModuleInfo('${page+1}')">Next</a>
 					    	</c:if>
 					      	<c:if test= "${page > totalPage-2}">
 						      <a class="page-link">Next</a>

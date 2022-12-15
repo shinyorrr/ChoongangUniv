@@ -77,6 +77,7 @@ public class AttManagementController {
 		//연차 갯수 표시
 		long vacation = attManagementService.vacation(userid);
 		System.out.println("vacation --> " + vacation);
+		System.out.println("weekWorkMap --> " + weekWorkMap);
 		
 		model.addAttribute("member", member);
 		model.addAttribute("attList",workList.getContent());

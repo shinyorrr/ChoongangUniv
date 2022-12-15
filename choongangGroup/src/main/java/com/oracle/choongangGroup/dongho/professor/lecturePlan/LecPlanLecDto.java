@@ -10,7 +10,6 @@ public class LecPlanLecDto {
 	private String lec_typecode;
 	private String major_gubun;
 	private String lec_unit_score;
-	private String lec_hour1;
-	private String lec_hour2;
+	private String lec_max_count;
 	private String lec_file_path;
 }
