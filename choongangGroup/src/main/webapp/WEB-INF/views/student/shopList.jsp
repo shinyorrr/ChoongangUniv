@@ -51,7 +51,7 @@
  */
 </style>
 <script type="text/javascript">
-function getSearchList(){
+/* function getSearchList(){
 	$.ajax({
 		type: 'GET',
 		url : "/getSearchList",
@@ -72,7 +72,7 @@ function getSearchList(){
 			}
 		}
 	});
-}
+} */
 </script>
 </head>
 <body>
@@ -82,23 +82,51 @@ function getSearchList(){
 	</aside>
 	<div id="container_box">
 	<div class="search_wrap">
-             <form id="searchForm" name="searchForm">
+             <form action="/student/getSearchList" id="searchForm" name="searchForm">
              <select name="type">
-             	<option selected value="">선택</option>
+             	<option selected value="">전체</option>
              	<option value="bookName">책제목</option>
              	<option value="publisher">저자</option>
              </select>
              <input type="text" name="keyword" value=""></input>
-             <input type="button" onclick="getSearchList()" class="btn btn-ouyline-primary mr-2" value="검색"></input>
+             <input type="submit" class="btn btn-ouyline-primary mr-2" value="검색"></input>
              </form>
     </div>
+    <table>
+				<thead>
+					<tr>
+						<th>책 이미지</th>
+						<th>책 이름</th>
+						<th>저자</th>
+						<th>카테고리</th>
+						<th>가격</th>
+						<th>등록날짜</th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:forEach var="bookList" items="${bookList}">
+					<tr>
+						<td>
+						<a href="/student/shopDetailList?bookId=${bookList.bookId}">
+						   <img style="width: 200px; height: 150px; object-fit: contain;" src="${bookList.bookThumbImg}">
+						</a>
+						</td>
+						<td>
+						<a href="/student/shopDetailList?bookId=${bookList.bookId}">${bookList.bookName}</a>
+						</td>
+						<td>${bookList.publisher}</td>
+						<td>${bookList.cateName }</td>
+						<td><fmt:formatNumber value="${bookList.bookPrice}" pattern="###,###,###"/> 원</td>
+						<td><fmt:formatDate value="${bookList.regDate }" pattern="yyyy-MM-dd"/></td>
+					</c:forEach>
+				</tbody>
+			</table>
+    <%-- 
 		<ul>
 		 <c:forEach items="${bookList}" var="bookList">
 		 <li>
 		  <div class="bookThumb">
-		  <a href="/student/shopDetailList?bookId=${bookList.bookId}">
-		   <img style="width: 200px; height: 150px; object-fit: contain;" src="${bookList.bookThumbImg}">
-		   </a>
+		  
 		  </div> 
 		  <div class="bookName">
 		   <a href="/student/shopDetailList?bookId=${bookList.bookId}">${bookList.bookName}</a>
@@ -111,7 +139,7 @@ function getSearchList(){
 		  </div>
 		 </li>
 		 </c:forEach>
-		</ul>
+		</ul> --%>
 	</div>
 </section>
 </body>
