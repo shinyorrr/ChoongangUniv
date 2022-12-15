@@ -2,9 +2,7 @@ package com.oracle.choongangGroup.taewoo.service;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import java.util.NoSuchElementException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -61,6 +59,13 @@ public class MessageService {
 		
 		int result = messageRepository.deleteByMessageId(messageId);
 		return result;
+	}
+
+	public Message Detail(Long messageId) {
+		System.out.println("MessageService Detail start....");
+		System.out.println("messageId -->" + messageId);
+		Message message = messageRepository.findById(messageId).orElseThrow(() -> new NoSuchElementException());
+		return message;
 	}
 
 

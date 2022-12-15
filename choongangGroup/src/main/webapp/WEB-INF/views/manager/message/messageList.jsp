@@ -211,10 +211,10 @@
 					    	<td>
 					    		<c:choose>
 						    		<c:when test="${fn:length(message.messageContent) gt 21 }">
-						    			<a href="#">${fn:substring(message.messageContent, 0, 20)} ....</a>
+						    			<a href="/manager/messageDetail?messageId=${message.messageId}">${fn:substring(message.messageContent, 0, 20)} ....</a>
 						    		</c:when>
 						    		<c:otherwise>
-						    			<a href="#">${message.messageContent}</a>
+						    			<a href="/manager/messageDetail?messageId=${message.messageId}">${message.messageContent}</a>
 						    		</c:otherwise>
 						    	</c:choose>
 							</td>

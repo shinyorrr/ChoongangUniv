@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="header.jsp"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -157,10 +158,47 @@ $(document).ready(function(){
                   </div>
                   <div class="col-md-3 me-5 rounded overflow-auto bg-light p-4" style="min-height: 400px;"> 
                      <h5>공지사항</h5><hr>
+                     <table class="table table-hover" style="font-size: 14px;">
+                       	<tbody>
+                     		<c:forEach var="notice" items="${noticeList}" varStatus="status" begin="0" end="5">
+                     			<tr>
+	                     				<c:choose>
+											<c:when test="${fn:length(notice.noticeTitle) gt 15}">
+												<td><a
+													href="/noticeDetail?noticeNum=${notice.noticeNum}" style="color: black;">${fn:substring(notice.noticeTitle, 0 , 14)}  ....</a></td>
+											</c:when>
+											<c:otherwise>
+												<td><a
+													href="/noticeDetail?noticeNum=${notice.noticeNum}" style="color: black;">${notice.noticeTitle }</a></td>
+											</c:otherwise>
+										</c:choose>									
+	                     				<c:choose>
+											<c:when test="${notice.createdDate != null}">
+												<c:set var="DateValue" value="${notice.createdDate}" />
+												<td>${fn:substring(DateValue,0,10)}</td>
+											</c:when>
+											<c:when test="${notice.modifiedDate != null}">
+												<c:set var="DateValue" value="${notice.modifiedDate}" />
+												<td>${fn:substring(DateValue,0,10)}</td>
+											</c:when>
+										</c:choose>
+	                     		</tr>
+                     		</c:forEach>
+                     	</tbody>
+                     </table>
 
                   </div>
                   <div class="col-md-2  rounded overflow-auto bg-light p-4" style="max-height: 300px;"> 
-                     
+                      <h5>쪽지함</h5><hr>
+                      <table>
+                      	<c:forEach var="message" items="${messageList}" varStatus="status" begin="0" end="5">
+                      		<tbody>
+                      			<tr>
+                      				<td><a href="" style="color: black;">${message.senderName}</a>님 쪽지가 왔습니다!</td>
+                      			</tr>       
+                      		</tbody>
+                      	</c:forEach>
+                      </table>
                   </div>
                </div>
                

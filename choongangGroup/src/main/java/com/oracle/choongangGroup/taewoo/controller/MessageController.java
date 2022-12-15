@@ -48,6 +48,8 @@ public class MessageController {
 		String userid = getMember.getMember().getUserid();
 		String name = getMember.getMember().getName();
 		System.out.println(messageDto.toString());
+		System.out.println(messageDto.getReceiverUserid());
+		System.out.println(messageDto.getSenderUserid());
 		messageDto.setSenderUserid(userid);
 		messageDto.setSenderName(name);
 
@@ -87,5 +89,16 @@ public class MessageController {
 //			}
 		}
 		return "redirect:/manager/message/messageList";
+	}
+	
+	// 상세 쪽지화면
+	@RequestMapping(value = "/messageDetail")
+	public String messageDetail(@RequestParam Long messageId, Model model) {
+		log.info("messageDetail start....");
+		Member member = getMember.getMember();
+		Message message = messageService.Detail(messageId);
+		model.addAttribute("member",member);
+		model.addAttribute("message", message);
+		return "/manager/message/messageDetail";
 	}
 }
