@@ -20,7 +20,36 @@
 	<!-- CSS -->
 	<link rel="stylesheet" href="/css/stylesLec.css">
 	<link rel="stylesheet" href="/css/styles.css">
+	<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script type="text/javascript">
 
+	/* 현재 페이지 표시하기 */
+	const urlParams = new URL(location.href).searchParams;
+	var page = parseInt(urlParams.get('page'));
+	var pageResult = page + 1; 
+	console.log(pageResult);
+	$(document).ready(function(){
+		$('#page-item'+pageResult).addClass(' active');		
+	})
+
+
+	/* 즐겨찾기 추가기능 */
+	function phoneLikeSave(vIndex){
+		var user= $('#user'+vIndex).val();
+		console.log(user);
+		$.ajax({
+			url 	: '/phoneLikeSave',
+			data	: {userid : user},
+			dataType: 'text',
+			success : function(data){
+				console.log("성공");
+				$('#msg').text(data);
+				 
+			}
+		});
+	}
+	
+</script>
 </head>
 
 <body id="body-pd">
@@ -99,46 +128,103 @@
 
 			<!------------- card header  컨텐츠 폼------------->
 			<main class="col-9 h-100 w-100">
-				<input type="hidden" name="gubun" value="1">
 				
 				<div class="row m-5">
 					<!------------- 컨텐츠 경로 ------------->
 					<div class="col-12 rounded-top text-white overflow-auto pt-2 fw-bold" style="background-color: rgb(39, 40, 70); height: 40px;">
 						<i class="bi bi-bookmark-fill me-2"></i>학사관리 &gt; 강의관리 </div>
 					<!----- card content 내용 ------>
-						<div class="col-12 rounded-bottom overflow-auto bg-light p-5" style="min-height: 550px;">
-						
-						<h2>강의관리</h2><hr>
-						<p class="font08">총 <b style="color: red">${lecCnt}</b>개의 수업이 있습니다</p><br>
-						<c:forEach var="lec" items="${lecList}">
-							<c:if test ="${lec.status eq '0'}">
-								<p style="font-size: 1.3em;">(${lec.typeCode}${lec.id}) <b>${lec.name}</b> _${lec.grade}학년</p>
-								<p class="mb-1 font09">수강인원 : <b>${lec.studCount}</b>명</p>
-								<div class="font09">총 수업시간 : <!-- <b style="color: red">6</b>/ -->${lec.maxCount}
-									&nbsp; &#183; &nbsp; 휴강 : <b>${statusCnt1}</b> &nbsp; &#183; &nbsp; 보강 : <b>${statusCnt2}</b>
-									<button type="button" class="btn btn-danger btn-sm ms-5 font09"
-											onclick="location.href='lecAttendanceCheck?id=${lec.id}'">&nbsp; 전자출석부  &nbsp;</button>
-									<button type="button" class="btn btn-primary btn-sm font09"	
-											onclick="location.href='reportList?id=${lec.id}'">&nbsp; 과제조회  &nbsp;</button>
-								<button type="button" class="btn btn-secondary btn-sm">강의평가조회</button>
-								</div>
-								<hr class="my-4">	
-								<!-- <hr> -->
-							</c:if>
-						</c:forEach>
-					</div>
+						<div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
+                    
+                    <!-- 오류 메세지 출력 -->
+                    <span id="msg" style="
+										    font-size: medium;
+										    font-style: italic;
+										    color: red;
+										    margin-left: 992px;
+										"></span>
+					<!-- ============================================== -->
+					<!-- <form action="searchAddress" method="post">
+					<div class = "row">
+						<div class = "col-6"></div>
+						<div class = "col-1"></div>		 		
+						<div class = "col-4"  style="margin-bottom: 20px">
+							<input  type = "text"  name = "search" class="form-control" placeholder="search">
+						</div>
+					</div> -->
 					
-					<!-- footer -->
-					<footer class="col-12 mt-5" style="height: 60px; font-size: 12px;">
-						<jsp:include page="../footer.jsp"></jsp:include>
-					</footer> 
-					<!-- </footer>  -->
-				</div>
-			</main>
-		</div> 
-	</div> <!-- container div end -->
-	<!-- IONICONS -->
-	<script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script>
-	<script src="/js/main.js"></script>
+                    	<table class="table table-hover">
+                    		 <thead>
+							    <tr><th>이름</th><th>직위</th><th>부서</th><th>연락처</th><th>즐겨찾기</th></tr>
+							  </thead>
+							  	<c:forEach var="address" items="${addressList}" varStatus="status">
+							  	<tr>
+							  		<td><input type="text" name ="userid" id = "user${status.index}" value="${address.userid}" hidden="true">
+							  			${address.name }</td>
+							  		<c:if test="${address.dept.upDeptno == 100}">
+								  		<td>교수</td>							  		
+							  		</c:if>
+							  		<c:if test="${address.dept.upDeptno == 200}">
+								  		<td>교직원</td>
+								  	</c:if>
+								 	<c:if test="${address.dept.upDeptno == null }">
+								  		<td></td>
+								  	</c:if>
+							  		<td>${address.dept.dname}</td>
+							  		<td>${address.phone}</td>
+							  		<td>
+							  			<button type="button" class="btn btn-outline-danger" onclick="phoneLikeSave(${status.index})">+</button>
+							  		</td>
+							  	</tr>	
+							  	</c:forEach>
+							  <tbody>
+							  </tbody>
+                    	</table>
+                    	<nav aria-label="...">
+                    	
+                    	<!--================================================  -->
+                    					<!-- 검색버튼 구현 -->
+                    	<!--================================================  -->
+	                    <form action="searchAddress">
+	                    <div class="input-group mb-3" style="width: 206px;text-align: center;float: left;" >
+							<input  type = "text"  name = "search" class="form-control" placeholder="이름을 검색하세요" aria-describedby="button-addon2">
+							<button class="btn btn-outline-secondary" type="submit" id="button-addon2"><i class="bi bi-search"></i></button>
+						</div>
+						</form>
+					  <ul class="pagination" style="margin-left: 40%;">
+					  
+					    <li class="page-item">
+					      <c:if test="${page > 0}">
+						      <a class="page-link" href="addressForm?page=${page-1}">Previous</a>				      
+					      </c:if>
+					      <c:if test= "${page == 0 }">
+					      	  <a class="page-link">Previous</a>
+					      </c:if>
+					    </li>					  
+					
+					  <c:forEach var="i" begin="1" end="${totalPage}">
+					    <li id="page-item${i}" class="page-item" onclick="active(${i})">
+					    <a class="page-link" href="addressForm?page=${i-1 }" >${i }</a></li>
+					  </c:forEach>
+					    <li class="page-item">
+					    	<c:if test="${page < totalPage-1}">
+						      <a class="page-link" href="addressForm?page=${page+1}">Next</a>
+					    	</c:if>
+					      	<c:if test= "${page > totalPage-2}">
+						      <a class="page-link">Next</a>
+					      	</c:if>
+					    </li>
+					  </ul>
+					</nav>
+                    </div>
+                    <!-- footer -->
+         
+                </div>
+        </div>
+        <jsp:include page="../footer.jsp"></jsp:include>
+    <!-- IONICONS -->
+    <script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script>
+    <!-- JS -->
+    <script src="/js/main.js"></script>
 </body>
 </html>

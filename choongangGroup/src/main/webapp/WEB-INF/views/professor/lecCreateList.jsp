@@ -17,20 +17,12 @@
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <!-- font awesome -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 <!-- CSS -->
 <link rel="stylesheet" href="/css/styles.css">
 <link rel="stylesheet" href="/css/stylesLec.css">
-<!-- IONICONS -->
-<script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script>
-<!-- JS -->
-<script src="/js/main.js"></script>
 
-<!--------- DATE PICKER --------->
-<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" > -->
- 
-
-<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
 
 ///////강의 리스트 클릭시 강의 정보 띄우기 //////
@@ -95,22 +87,6 @@ function lecDelete() {
 /////// 신규 클릭시 입력된 내용 날리기/////
 function newLec(){
 	window.location.reload();
-/* 	document.getElementById("lecName").value = "";
-	document.getElementById("lecGrade").value= "1";
-	document.getElementById("lecBuilding").value= "중앙동";
-	document.getElementById("lecRoom").value= "101호";
-	document.getElementById("lecDay1").value= "월";
-	document.getElementById("lecTime1").value= "1교시";
-	document.getElementById("lecDay2").value= "선택";
-	document.getElementById("lecTime2").value= "선택";
-	document.getElementById("lecMaxStud").value= "";
-	document.getElementById("lecMaxCount").value= "15";
-	document.getElementById("lecTypeCode").value= "";
-	document.getElementById("lecUnitScore").value= "1";
-	document.getElementById("lecYear").value= "";
-	document.getElementById("lecSemester").value= "1";
-	document.getElementById("lecMajor").value= "";
-	document.getElementById("lecId").value= ""; */
 }
 
 ////////강의검색///////////////////
@@ -326,11 +302,19 @@ $(document).ready(function(){
 	});
 	
 	$("#lecTypeCode").click(function(){
-		/* alert("유저의 전공은 ==>" + userMajor); */
+		console.log("이수구분 클릭");
+		/* 이수구분 : 교양 선택시 세팅 */
 		if($("#lecTypeCode").val() == "C") {
+			console.log("나는 교양");
 			document.getElementById("lecMajor").value= "공통";
 			document.getElementById("lecBuilding").value= "종합강의동";
 			document.getElementById("lecGrade").value= "0";
+			document.getElementById("lecUnitScore").value= "3";
+		} else {
+			console.log("나는 교양 아님");
+			document.getElementById("lecMajor").value= "${member.major}";
+			document.getElementById("lecBuilding").value= "중앙동";
+			document.getElementById("lecGrade").value= "1";
 			document.getElementById("lecUnitScore").value= "3";
 		} 
 	});
@@ -354,9 +338,8 @@ function setDateBox() {
 		$('#lecSemester').val("2");
 	} 
 } 
-
-
 </script>
+
 <style>
 	table { 
 	
@@ -381,443 +364,403 @@ function setDateBox() {
 	
 </head>
 
-<body class="" id="body-pd">
-
+<body id="body-pd">
 	<nav class="navbar navbar-expand-lg navbar-dark bd-navbar bg-light sticky-top position-fixed fixed-top w-100" style="position : absolute">
 		<header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between">
-			<a href="/" class="navbar-brand">
-				<img class="img-fluid" src="/images/logo2.png" alt="logo2" style="height: 40px;">
-				<use xlink:href="#bootstrap"></use>
+			<a href="/professor/main" class="navbar-brand">
+				<img class="img-fluid ms-3" src="/images/logo2.png" alt="logo2" style="height: 40px;"><use xlink:href="#bootstrap"></use></svg>
 			</a>
-
-			<!-- <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-				<li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>
-				<li><a href="#" class="nav-link px-2 link-dark">Features</a></rotli>
-				<li><a href="#" class="nav-link px-2 link-dark">Pricing</a></li>
-				<li><a href="#" class="nav-link px-2 link-dark">FAQs</a></li>
-				<li><a href="#" class="nav-link px-2 link-dark">About</a></li>
-			</ul> -->
 		</header>
+		
 		<div class=" flex-row float-end ms-4" style="float: right;">
-				<span class="text-primary h5" ><b>${name}</b>님</span>
-				<i class="text-primary bi-gear-fill mx-2"></i>
-				<span class="text-primary mx-3  font09">${major} | ${position} </span>
-				<%-- <i class="bi bi-envelope-fill text-primary"></i>
-				<span class="text-primary ms-2 font09">${email}</span>--%>			
+			<span class="text-primary h5" ><b>${member.name}</b>님</span>
+			<i class="text-primary bi-gear-fill mx-2"></i>
+			<span class="text-primary mx-3  font09">${member.major} | ${member.position} </span>
+			<%-- <i class="bi bi-envelope-fill text-primary"></i>
+			<span class="text-primary ms-2 font09">${email}</span>--%>			
 		</div>
 	</nav>
 	
 	<!-- side nav bar -->
-   <div class="l-navbar" id="navbar">
-      <nav class="navv">
-         <div>
-            <div class="nav__brand">
-               <ion-icon name="menu-outline" class="nav__toggle" id="nav-toggle"></ion-icon>
-               <a href="#" class="nav__logo"></a>
-            </div>
-            <!-- <a href="/professor/calenderForm" class="nav__link active">
-               <i class="bi bi-calendar-plus nav__icon" ></i>
-               <span class="nav_name">캘린더</span>
-            </a> -->
-            
-            <div class="nav__list">
-               <a href="/notice/noticeList" class="nav__link">
-                  <ion-icon name="pie-chart-outline" class="nav__icon"></ion-icon>
-                  <span class="nav_name">공지사항</span>
-               </a>
-      
-               <div href="#" class="nav__link collapses ">
-                  <i class="bi bi-mortarboard-fill nav__icon"></i>
-                  <span class="nav_name mt-1">학사관리</span>
-                  <ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
-                  <ul class="collapse__menu" style="width: 180px;">
-                     <a href="#" class="collapse__sublink mt-2 mb-3" style="font-size: 0.85rem; display: block;">강의시간표</a>
-                     <a href="/professor/lecMgMain?userid=${userid}" class="collapse__sublink mb-1" style="display: block;font-size: 0.85rem;">강의관리</a>
-                     <a  class="collapse__sublink ms-3" style="font-size: 0.8rem; display: block;">전자출석부</a>
-                     <a href="#" class="collapse__sublink ms-3 mb-3"  style="font-size: 0.8rem; display: block;">과제관리</a>
-                     
-                     <a href="#" class="collapse__sublink mb-3" style="font-size: 0.85rem; display: block;">강의계획서</a>
-                     <a href="/professor/lecCreateList" class="collapse__sublink mb-3" style="font-size: 0.85rem; display: block;">강의개설</a>
-                     <!-- <a href="#" class="collapse__sublink mb-1   " style="font-size: 0.875rem;">강의정보</a>
-                     <a href="#" class="collapse__sublink ms-3"  style="font-size: 0.8rem;">강의계획서</a>
-                     <a href="#" class="collapse__sublink ms-3 mb-2"  style="font-size: 0.8rem;">강의개설</a> -->
-                     <a href="/professor/lecScore" class="collapse__sublink mb-3" style="font-size: 0.85rem; display: block;">성적관리</a>
-                     <a href="#" class="collapse__sublink mb-3" style="font-size: 0.85rem; display: block;">휴&#183;보강 신청</a>
-                     <a href="#" class="collapse__sublink" style="font-size: 0.85rem; display: block;">내선번호관리</a>
-                  </ul>
-               </div>
-   
-               <a href="#" class="nav__link">
-                  <ion-icon name="chatbubbles-outline" class="nav__icon"></ion-icon>
-                  <span class="nav_name">결재</span>
-               </a>
-               <a href="#" class="nav__link">
-                  <ion-icon name="settings-outline" class="nav__icon"></ion-icon>
-                  <span class="nav_name">개인정보관리</span>
-               </a>
-            </div>
-            <a href="/logout" class="nav__link">
-               <ion-icon name="log-out-outline" class="nav__icon"></ion-icon>
-               <span class="nav_name">Log out</span>
-            </a>
-         </div>
-      </nav>
-   </div>
-   <!-- /side nav bar -->
-
-<!------- main content ------------>
-<div style=" background-color: rgb(214, 225, 237);">
-	<!-- <div class="row"> -->
-
-		<!-- content header -->
-		<%-- <div class="col-12 p-4" style="height: 110px; background-color: rgb(95, 142, 241); vertical-align: middle;">
-			<div class="d-flex flex-row" >
-				<div class="text-white h5">안녕하세요. <b>${name }</b>님!</div>
-					<span class="border border-1 font08 border-white border-bottom rounded-pill text-white px-2  ms-3 me-2"
-								style="height: 22px;">교수</span>
-					<i class="text-white bi-gear-fill mx-2" style="height: 18px;"></i>
-			</div>
-			<div class="d-flex text-white" style="font-size: 14px;" ><span id="userMajor">${major} &nbsp;</span>| ${position}</div>
-			<div class="d-flex flex-low text-white" style="font-size: 14px;">
-				<i class="bi bi-envelope-fill me-3 ml-0 "></i>${email }
-			</div>
-		</div>
- --%>
-	<!------------- card header  컨텐츠 폼------------->
-		<main class="col-9 h-100 w-100">
-			<div class="row m-5">
-			<!------------- 컨텐츠 경로 ------------->
-				<div class="col-12 rounded-top text-white overflow-auto pt-2 fw-bold" style="background-color: rgb(39, 40, 70); height: 40px;">
-					<i class="bi bi-bookmark-fill me-2"></i>학사관리 &gt; 강의정보 &gt; 강의개설</div>
-				<!----- card content 내용 ------>
-				<div class="col-12 rounded-bottom overflow-auto bg-white p-5" style="min-height: 550px;">
-					<h2>강의개설</h2>
-					<hr>
-					<div class="mt-4  " >
-						<div class="fw-bold item-start" style="display: inline; float: left;">개설강좌 목록</div>
-						<div class="font08" style="display: inline; float: right;">
-							<span >총건수 <b>${lecCnt}</b>건 </span>
-						</div>
-					</div>
-					<br>
-					<div class="mt-4" style="display: inline;">
-						<div class="mt-4 form-group col-md-5 px-0 text-left" style="display:inline; float:left;">
-							<label  class="me-2 pe-0 font09">년도/학기</label>
-							<select class="form-select-sm font09" name="year" id="searchYear" style="width: 15%;">
-								<option class="font09" value="" selected>선택</option>
-							</select>
-							<span class="font09">년</span>
-							
-							<select class="ms-2 form-select-sm font09" name="semester" id="searchSemester" style="width: 12%">
-								<option class="font09" value="" selected>선택</option>
-								<option  class="font09" value="1">1학기</option>
-								<option  class="font09" value="2">2학기</option>
-							</select>
-							
-							
-							<div class="form-check pe-0" style="display: inline;">
-								<input type="checkbox" name="typeCodeSearch" value="M" >
-								<label class="form-check-label font09">전필</label>
-							</div>
-							<div class="form-check ps-2  pe-0" style="display: inline;">
-								<input type="checkbox" name="typeCodeSearch" value="S">
-								<label class="form-check-label font09">전선</label>
-							</div>
-							<div class="form-check ps-2" style="display: inline;">
-								<input type="checkbox" name="typeCodeSearch" value="C">
-								<label class="form-check-label font09" >교양</label>
-							</div>
-						</div>
-						
-					<div class="mt-4 row col-md-7" style="float:left; display: inline;">
-						<div class="input-group px-0 " style="width: 40%;">
-							<label class="form-label me-2 mb-0 align-self-center font09">강의명</label>
-							<input class="form-control form-sm rounded-1" type="text" id="searchName" name="name"
-									aria-describedby="button-search" style="height: 31px;">
-	
-							<button class="btn btn-secondary btn-sm" id="button-search" type="button"
-									onclick="lecSearch()">검색</button>
-						</div>
-					</div>
-	
-				<br>
-				<div class="mt-4 mb-2 form-group mx-0 font09" style="display: inline;">
-					
-						<!-- <p class="fw-bold ">개설강좌 목록</p> -->
-					
-				
-					<div class="mx-0 px-0 text-end">
-						<button type="button" style="width: 8%; display: inline;" class="btn btn-primary btn-sm me-1"
-								onclick="newLec()">신규</button>
-						<button type="button" id="lecSaveBtn" style="width: 8%; display: inline;" class="btn btn-dark btn-sm me-1"
-								>저장</button>
-								<!-- form="lecSave" -->
-						
-						<button type="button" style="width: 8%; display: inline;" class="btn btn-danger btn-sm"
-						        onclick="lecDelete()">삭제</button>
-					</div>
+	<div class="l-navbar" id="navbar">
+		<nav class="navv">
+			<div>
+				<div class="nav__brand"><ion-icon name="menu-outline" class="nav__toggle" id="nav-toggle"></ion-icon>
+					<a href="#" class="nav__logo"></a>
 				</div>
+				<!-- <a href="/professor/calenderForm" class="nav__link active"><i class="bi bi-calendar-plus nav__icon" ></i>
+					<span class="nav_name">캘린더</span>
+				</a> -->
+
+				<div class="nav__list">
+					<a href="/notice/noticeList" class="nav__link"><ion-icon name="pie-chart-outline" class="nav__icon"></ion-icon>
+						<span class="nav_name">공지사항</span>
+					</a>
 	
-				<br>
- 				<div class="tableFixHead font08 mx-0" style="width:100%; border-bottom: 1px; background: solid 1px #bdbdbd; /* border-collapse: collapse; border: solid 1px #bdbdbd; */" >
-					<table class="table table-bordered table-hover table-sm"  id="lecTable">
-						<thead class="table-secondary py-1">
-							<tr style="text-align: center;">
-								<th scope="col" style="vertical-align: middle; width: 4%;">순번</th>
-								<th scope="col" style="vertical-align: middle; width: 10%;">강의번호</th>
-								<th scope="col" style="vertical-align: middle; width: 10%;">교수명</th>
-								<th scope="col" style="vertical-align: middle;">강의명</th>
-								<th scope="col" style="vertical-align: middle; width: 7%;">개설년도</th>
-								<th scope="col" style="vertical-align: middle; width: 7%;">학기</th>
-								<th scope="col" style="vertical-align: middle; width: 15%;">전공</th>
-								<th scope="col" style="vertical-align: middle; width: 7%;" >이수구분</th>
-								<th scope="col" style="vertical-align: middle; width: 7%;">학점</th>
-								<th scope="col" style="vertical-align: middle; width: 7%;">승인여부</th>
-							</tr>
-						</thead>
+					<div href="#" class="nav__link collapses ">
+						<i class="bi bi-mortarboard-fill nav__icon"></i>
+						<span class="nav_name mt-1">학사관리</span>
+						<ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
+						<ul class="collapse__menu" style="width: 180px;">
+							<a href="#" class="collapse__sublink mt-2 mb-3" style="font-size: 0.85rem; display: block;">강의시간표</a>
+							<a href="/professor/lecMgMain?userid=${userid}" class="collapse__sublink mb-1" style="display: block;font-size: 0.85rem;">강의관리</a>
+							<a  class="collapse__sublink ms-3" style="font-size: 0.8rem; display: block;">전자출석부</a>
+							<a href="#" class="collapse__sublink ms-3 mb-3"  style="font-size: 0.8rem; display: block;">과제관리</a>
+							
+							<a href="#" class="collapse__sublink mb-3" style="font-size: 0.85rem; display: block;">강의계획서</a>
+							<a href="/professor/lecCreateList" class="collapse__sublink mb-3" style="font-size: 0.85rem; display: block;">강의개설</a>
+							<a href="/professor/lecScore" class="collapse__sublink mb-3" style="font-size: 0.85rem; display: block;">성적관리</a>
+							<a href="#" class="collapse__sublink mb-3" style="font-size: 0.85rem; display: block;">휴&#183;보강 신청</a>
+							<a href="#" class="collapse__sublink" style="font-size: 0.85rem; display: block;">내선번호관리</a>
+						</ul>
+					</div>
+	
+					<a href="#" class="nav__link"><ion-icon name="chatbubbles-outline" class="nav__icon"></ion-icon>
+						<span class="nav_name">결재</span>
+					</a>
+					<a href="#" class="nav__link"><ion-icon name="settings-outline" class="nav__icon"></ion-icon>
+						<span class="nav_name">개인정보관리</span>
+					</a>
+				</div>
+				<a href="/logout" class="nav__link"><ion-icon name="log-out-outline" class="nav__icon"></ion-icon>
+					<span class="nav_name">Log out</span>
+				</a>
+			</div>
+		</nav>
+	</div>
+	<!-- /side nav bar -->
+
+	<!------- main content ------------>
+	<div class="container-fluid w-100" style=" background-color: rgb(214, 225, 237);">
+		<div class="row">
 		
-						
-					<c:forEach var="lec" items="${lecList}">
-						<tbody id="FindLec">
-							<c:set var="i" value="${i+1}"></c:set>
-							<tr onclick="lecUpdate(${lec.id})">
-								<th class="text-center">${i }</th>
-								<td class="text-center">${lec.typeCode}${lec.id}</td>
-								<td class="text-center">${lec.prof}</td>
-								<td class="text-center">${lec.name}</td>
-								<td class="text-center">${lec.year}</td>
-								<td class="text-center">${lec.semester}</td>
-								<td class="text-center">${lec.major}</td>
-								<td class="text-center">${lec.type}</td>
-								<td class="text-center">${lec.unitScore}</td>
-								<c:choose>
-								<c:when test="${lec.status eq '1'}">
-									<td class="text-center text-danger fw-bold">미승인</td>
-								</c:when>
-								<c:otherwise>
-									<td class="text-center text-primary fw-bold">승인</td>
-								</c:otherwise>
-								</c:choose>
-							</tr>
-						</tbody>
-					</c:forEach>
-					</table>
-				</div>
-				<br>
-				<div class="mt-2 fw-bold ">개설강좌 상세정보</div>
-				<br>
-				<form id="lecSave" action="/professor/lecSave" method="post">
+			<!------------- card header  컨텐츠 폼------------->
+			<main class="col-9 h-100 w-100">
+				<div class="row m-5">
 				
-				<input type="hidden" id="lecId" name="id">
-				<input type="hidden" id="lecStatus" name="status" value="1"> <!-- 승인전 강의상태 :1 -->
-				<input type="hidden" id="lecStudCount" name="studCount" value="0"> <!-- 강의를 신청한 학생수 :0 -->
-				<input type="hidden" id="lecScoreStatus" name="scoreStatus" value="0"> <!-- 점수미입력 :0 -->
-				
-				<table class="table font09 text-center">
-					<tr>
-						<th class="table-secondary text-center " scope="col" style="width: 9%; vertical-align:middle;">년도</th>
-						<td class="p-2" style="width:16%;">
-							<input class="form-control text-center mx-0 form-inline form-control-sm " type="text"  
-									id="lecYear" name="year" readonly="readonly">
-						</td>
-						<th class="table-secondary me-0" scope="col" style="vertical-align:middle; width: 9%;">학기</th>
-						<td>
-							<input class="form-control text-center mx-0 form-inline form-control-sm " type="text"  
-									id="lecSemester" name="semester" readonly="readonly">
-							<!-- 
-							<select id="lecSemester" name="semester" class="form-select form-select-sm me-0" >
-								<option value="1" selected>1</option>
-								<option value="2">2</option> -->
-							</select>
-						</td>
-						<th class="table-secondary" scope="col" style="width: 9%; vertical-align:middle;">총시수</th>
-						<td>
-							<select id="lecMaxCount" name="maxCount" class="form-select form-select-sm me-0" style="margin: 0;">
-								<option value="14">14</option>
-								<option selected value="15">15</option>
-							</select>
-						</td>
-						<th class="table-secondary" scope="col" style="width: 9%; vertical-align:middle;">학점</th>
-						<td>
-							<select id="lecUnitScore" name="unitScore" class="form-select form-select-sm me-0 " style="margin: 0;">
-							<!-- <option selected value="1">1 학점</option> -->
-							<option value="2">2 학점</option>
-							<option selected value="3">3 학점</option>
-						</select>
-						</td>
-					</tr>
-					
-					
-					<tr>
-						<th class="table-secondary text-center" scope="col" style="width: 9%; vertical-align:middle;">이수구분</th>
-						<td class="p-2">
-							<select id="lecTypeCode" name="typeCode" class="form-select form-select-sm me-0 " style="margin-left: 0;">
-								<option value="">선택</option>
-								<option value="M">전필</option>
-								<option value="S">전선</option>
-								<option value="C">교양</option>
-							</select>
-						</td>
-						<th class="table-secondary me-0" scope="col" style="vertical-align:middle; width: 9%;">전공</th>
-						<td>
-							<select id="lecMajor" name="major" class="form-select form-select-sm " style="margin: 0;">
-								<option value="" >선택</option>
-								<option value="공통" >공통</option>
-								<option value="컴퓨터공학과">컴퓨터공학과</option>
-								<option value="소프트웨어학과">소프트웨어학과</option>
-								<option value="AI학과">AI학과</option>
-								<option value="경영학과">경영학과</option>
-						</select>
-						</td>
-						<th class="table-secondary" scope="col" style="width: 9%; vertical-align:middle;">대상학년</th>
-						<td  style="width:16%;">
-							<select id="lecGrade" name="grade" class="form-select form-select-sm me-0 " style="margin: 0;">
-								<option value="1">1 학년</option>
-								<option value="2">2 학년</option>
-								<option value="3">3 학년</option>
-								<option value="4">4 학년</option>
-								<option value="0">공통</option>
-							</select>
-						</td>
-						<th class="table-secondary" scope="col" style="width: 9%; vertical-align:middle;">수강인원</th>
-						<td>
-							<input id="lecMaxStud" name="maxStud" class="form-control form-control-sm text-start" type="text" >
-						</td>
-					</tr>
-
-					
-					<tr>
-						<th class="table-secondary text-center" scope="col" style="width: 9%; vertical-align:middle;">강의명</th>
-						<td colspan="3" class="p-2" style="width:16%;">
-							<input id="lecName" name="name" class="form-control form-control-sm text-start " 
-								type="text" placeholder="개설할 강의명을 입력해주세요" >
-						</td>
-						<th class="table-secondary me-0" scope="col" style="vertical-align:middle;">건물명</th>
-						<td>
-							<select id="lecBuilding" name="building" class="form-select form-select-sm me-0 " style=" margin-right: 0;">
-								<option selected value="중앙동 ">중앙동</option>
-								<option value="정보동">정보동</option>
-								<option value="종합강의동">종합강의동</option>
-							</select>
-						</td>
-						<th class="table-secondary" scope="col" style="width: 9%; vertical-align:middle;">호수</th>
-						<td>
-							<select id="lecRoom" name="room" class="form-select form-select-sm me-0 " style="margin: 0;">
-								<option selected value="101호 ">101호</option>
-								<option value="102호">102호</option>
-								<option value="103호">103호</option>
-								<option value="201호">201호</option>
-								<option value="202호">202호</option>
-								<option value="203호">203호</option>
-							</select>
-						</td>
-					</tr>
-					</table>
-					
-					
-					<table class="table font09 text-center">
-						<tr>
-							<th class="table-secondary text-center" scope="col" style="width: 9%; vertical-align:middle;">강의일1</th>
-							<td class="p-2">
-								<select id="lecDay1" name="day1" class="form-select form-select-sm me-0 " 
-										style="margin: 0;">
-									<option value="" selected>선택</option>
-									<option value="월">월요일</option>
-									<option value="화">화요일</option>
-									<option value="수">수요일</option>
-									<option value="목">목요일</option>
-									<option value="금">금요일</option>
-								</select>
-							</td>
-							<th class="table-secondary me-0" scope="col" style="vertical-align:middle;width: 9%;">강의시간1</th>
-							<td style=" margin-right: 0;">
-								<select id="lecTime1" name="time1" class=" form-select form-select-sm">
-									<option selected value="">선택</option>
-									<option value="1">1교시 (09:00-09:50)</option>
-									<option value="2">2교시 (10:00-10:50)</option>
-									<option value="3">3교시 (11:00-11:50)</option>
-									<option value="4">4교시 (12:00-12:50)</option>
-									<option value="5">5교시 (13:00-13:50)</option>
-									<option value="6">6교시 (14:00-14:50)</option>
-									<option value="7">7교시 (15:00-15:50)</option>
-									<option value="8">8교시 (16:00-16:50)</option>
-									<option value="9">9교시 (17:00-17:50)</option>
-								</select>
-							</td>
-							<td style=" margin-right: 0;">
-								<select id="lecHour1" name="hour1" class=" form-select form-select-sm">
-									<option value="">시간선택</option>
-									<option value="1">1시간</option>
-									<option value="2">2시간</option>
-									<option value="3">3시간</option>
-								</select>
-							</td>
-
-							<td style="width: 20%; margin-right: 0;" id="hourCheckBox1"><%-- ${lecDayTimeText} --%>
-								<!-- <div class="font09 text-danger" style="vertical-align:middle;" id="hourCheckBox1"></div> -->
-							</td>
-						</tr>
+					<!------------- 컨텐츠 경로 ------------->
+					<div class="col-12 rounded-top text-white overflow-auto pt-2 fw-bold" style="background-color: rgb(39, 40, 70); height: 40px;">
+						<i class="bi bi-bookmark-fill me-2"></i>학사관리 &gt; 강의정보 &gt; 강의개설</div>
 						
-						<tr>
-							<th class="table-secondary text-center" scope="col" style="width: 9%; vertical-align:middle;">강의일2</th>
-							<td class="p-2">
-								<select id="lecDay2" name="day2" class="form-select form-select-sm me-0 " 
-										style="margin: 0;">
-									<option value="" selected>선택</option>
-									<option value="월">월요일</option>
-									<option value="화">화요일</option>
-									<option value="수">수요일</option>
-									<option value="목">목요일</option>
-									<option value="금">금요일</option>
+						<!----- card content 내용 ------>
+						<div class="col-12 rounded-bottom overflow-auto bg-white p-5" style="min-height: 550px;">
+						<h2>강의개설</h2><hr>
+						<div class="mt-4  " >
+							<div class="fw-bold item-start" style="display: inline; float: left;">개설강좌 목록</div>
+							<div class="font08" style="display: inline; float: right;">
+								<span >총건수 <b>${lecCnt}</b>건 </span>
+							</div>
+						</div>
+						<br>
+						<div class="mt-4" style="display: inline;">
+							<div class="mt-4 form-group col-md-5 px-0 text-left" style="display:inline; float:left;">
+								<label  class="me-2 pe-0 font09">년도/학기</label>
+								<select class="form-select-sm font09" name="year" id="searchYear" style="width: 15%;">
+									<option class="font09" value="" selected>선택</option>
 								</select>
-							</td>
-							<th class="table-secondary me-0" scope="col" style="vertical-align:middle; width: 9%;">강의시간2</th>
-							<td style=" margin-right: 0;">
-								<select id="lecTime2" name="time2" class=" form-select form-select-sm" >
-									<option selected value="">선택</option>
-									<option value="1">1교시 (09:00-09:50)</option>
-									<option value="2">2교시 (10:00-10:50)</option>
-									<option value="3">3교시 (11:00-11:50)</option>
-									<option value="4">4교시 (12:00-12:50)</option>
-									<option value="5">5교시 (13:00-13:50)</option>
-									<option value="6">6교시 (14:00-14:50)</option>
-									<option value="7">7교시 (15:00-15:50)</option>
-									<option value="8">8교시 (16:00-16:50)</option>
-									<option value="9">9교시 (17:00-17:50)</option>
+								<span class="font09">년</span>
+								
+								<select class="ms-2 form-select-sm font09" name="semester" id="searchSemester" style="width: 12%">
+									<option class="font09" value="" selected>선택</option>
+									<option  class="font09" value="1">1학기</option>
+									<option  class="font09" value="2">2학기</option>
 								</select>
-							</td>
+								
+								<div class="form-check pe-0" style="display: inline;">
+									<input type="checkbox" name="typeCodeSearch" value="M" >
+									<label class="form-check-label font09">전필</label>
+								</div>
+								<div class="form-check ps-2  pe-0" style="display: inline;">
+									<input type="checkbox" name="typeCodeSearch" value="S">
+									<label class="form-check-label font09">전선</label>
+								</div>
+								<div class="form-check ps-2" style="display: inline;">
+									<input type="checkbox" name="typeCodeSearch" value="C">
+									<label class="form-check-label font09" >교양</label>
+								</div>
+							</div>
 							
-							<td style=" margin-right: 0;">
-								<select id="lecHour2" name="hour2" class=" form-select form-select-sm">
-									<option selected value="">시간선택</option>
-									<option value="1">1시간</option>
-									<option value="2">2시간</option>
-									<option value="3">3시간</option>
-								</select>
-							</td>
-							<td style="width: 20%; margin-right: 0;"><%-- ${lecDayTimeText} --%>
-								<div class="font09 text-danger" style="vertical-align:middle;" id="hourCheckBox2"></div>
-							</td>
-						</tr>
-					</table>
-				</form>	
-				
-					
-				</div>
-				</div>
+						<div class="mt-4 row col-md-7" style="float:left; display: inline;">
+							<div class="input-group px-0 " style="width: 40%;">
+								<label class="form-label me-2 mb-0 align-self-center font09">강의명</label>
+								<input class="form-control form-sm rounded-1" type="text" id="searchName" name="name"
+										aria-describedby="button-search" style="height: 31px;">
+		
+								<button class="btn btn-secondary btn-sm" id="button-search" type="button"
+										onclick="lecSearch()">검색</button>
+							</div>
+						</div>
+		
+						<br>
+						<div class="mt-4 mb-2 form-group mx-0 font09" style="display: inline;">
+								<!-- <p class="fw-bold ">개설강좌 목록</p> -->
+						
+							<div class="mx-0 px-0 text-end">
+								<button type="button" style="width: 8%; display: inline;" class="btn btn-primary btn-sm me-1"
+										onclick="newLec()">신규</button>
+								<button type="button" id="lecSaveBtn" style="width: 8%; display: inline;" class="btn btn-dark btn-sm me-1"
+										>저장</button>
+								<button type="button" style="width: 8%; display: inline;" class="btn btn-danger btn-sm"
+								        onclick="lecDelete()">삭제</button>
+							</div>
+						</div>
 			
-		 <!-- footer -->
-               <jsp:include page="../footer.jsp"></jsp:include>
-               <!-- <footer class="col-12 mt-5" style="height: 60px; font-size: 12px;">
-                  @2022 ChoongAng University. All Rights Reserved.
-               </footer>  -->
-            </div> 
-         </main>
-      </div> 
-   </div> <!-- container div end -->
-   
-   <!-- NavBar 관련 IONICONS -->
-   <script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script>
-   <!-- JS -->
-   <script src="/js/main.js"></script>
+						<br>
+		 				<div class="tableFixHead font08 mx-0" style="width:100%; border-bottom: 1px; background: solid 1px #bdbdbd; /* border-collapse: collapse; border: solid 1px #bdbdbd; */" >
+							<table class="table table-bordered table-hover table-sm"  id="lecTable">
+								<thead class="table-secondary py-1">
+									<tr style="text-align: center;">
+										<th scope="col" style="vertical-align: middle; width: 4%;">순번</th>
+										<th scope="col" style="vertical-align: middle; width: 10%;">강의번호</th>
+										<!-- <th scope="col" style="vertical-align: middle; width: 10%;">교수명</th> -->
+										<th scope="col" style="vertical-align: middle;">강의명</th>
+										<th scope="col" style="vertical-align: middle; width: 7%;">개설년도</th>
+										<th scope="col" style="vertical-align: middle; width: 7%;">학기</th>
+										<th scope="col" style="vertical-align: middle; width: 20%;">전공</th>
+										<th scope="col" style="vertical-align: middle; width: 7%;" >이수구분</th>
+										<th scope="col" style="vertical-align: middle; width: 7%;">학점</th>
+										<th scope="col" style="vertical-align: middle; width: 7%;">승인여부</th>
+									</tr>
+								</thead>
+								
+								<c:forEach var="lec" items="${lecList}">
+									<tbody id="FindLec">
+										<c:set var="i" value="${i+1}"></c:set>
+										<tr onclick="lecUpdate(${lec.id})">
+											<th class="text-center">${i }</th>
+											<td class="text-center">${lec.typeCode}${lec.id}</td>
+											<%-- <td class="text-center">${lec.prof}</td> --%>
+											<td class="text-center">${lec.name}</td>
+											<td class="text-center">${lec.year}</td>
+											<td class="text-center">${lec.semester}</td>
+											<td class="text-center">${lec.major}</td>
+											<td class="text-center">${lec.type}</td>
+											<td class="text-center">${lec.unitScore}</td>
+											<c:choose>
+											<c:when test="${lec.status eq '1'}">
+												<td class="text-center text-danger fw-bold">미승인</td>
+											</c:when>
+											<c:otherwise>
+												<td class="text-center text-primary fw-bold">승인</td>
+											</c:otherwise>
+											</c:choose>
+										</tr>
+									</tbody>
+								</c:forEach>
+							</table>
+						</div>
+						<br>
+						<div class="mt-2 fw-bold ">개설강좌 상세정보</div>
+						<br>
+						
+						<form id="lecSave" action="/professor/lecSave" method="post">
+						
+							<input type="hidden" id="lecId" name="id">
+							<input type="hidden" id="lecStatus" name="status" value="1"> <!-- 승인전 강의상태 :1 -->
+							<input type="hidden" id="lecStudCount" name="studCount" value="0"> <!-- 강의를 신청한 학생수 :0 -->
+							<input type="hidden" id="lecScoreStatus" name="scoreStatus" value="0"> <!-- 점수미입력 :0 -->
+							
+							<table class="table font09 text-center">
+								<tr><th class="table-secondary text-center " scope="col" style="width: 9%; vertical-align:middle;">년도</th>
+									<td class="p-2" style="width:16%;">
+										<input class="form-control text-center mx-0 form-inline form-control-sm " type="text"  
+												id="lecYear" name="year" readonly="readonly">
+									</td>
+									<th class="table-secondary me-0" scope="col" style="vertical-align:middle; width: 9%;">학기</th>
+									<td>
+										<input class="form-control text-center mx-0 form-inline form-control-sm " type="text"  
+												id="lecSemester" name="semester" readonly="readonly">
+										<!-- 
+										<select id="lecSemester" name="semester" class="form-select form-select-sm me-0" >
+											<option value="1" selected>1</option>
+											<option value="2">2</option> -->
+										</select>
+									</td>
+									<th class="table-secondary" scope="col" style="width: 9%; vertical-align:middle;">총시수</th>
+									<td>
+										<select id="lecMaxCount" name="maxCount" class="form-select form-select-sm me-0" style="margin: 0;">
+											<option value="14">14</option>
+											<option selected value="15">15</option>
+										</select>
+									</td>
+									<th class="table-secondary" scope="col" style="width: 9%; vertical-align:middle;">학점</th>
+									<td>
+										<select id="lecUnitScore" name="unitScore" class="form-select form-select-sm me-0 " style="margin: 0;">
+										<!-- <option selected value="1">1 학점</option> -->
+										<option value="2">2 학점</option>
+										<option selected value="3">3 학점</option>
+									</select>
+									</td>
+								</tr>
+								
+								<tr>
+									<th class="table-secondary text-center" scope="col" style="width: 9%; vertical-align:middle;">이수구분</th>
+									<td class="p-2">
+										<select id="lecTypeCode" name="typeCode" class="form-select form-select-sm me-0 " style="margin-left: 0;">
+											<option value="">선택</option>
+											<option value="M">전필</option>
+											<option value="S">전선</option>
+											<option value="C">교양</option>
+										</select>
+									</td>
+									<th class="table-secondary me-0" scope="col" style="vertical-align:middle; width: 9%;">전공</th>
+									<td>
+										<select id="lecMajor" name="major" class="form-select form-select-sm " style="margin: 0;">
+											<option value="" >선택</option>
+											<option value="공통" >공통</option>
+											<option value="컴퓨터공학과">컴퓨터공학과</option>
+											<option value="소프트웨어과">소프트웨어과</option>
+											<option value="AI학과">AI학과</option>
+											<option value="경영학과">경영학과</option>
+									</select>
+									</td>
+									<th class="table-secondary" scope="col" style="width: 9%; vertical-align:middle;">대상학년</th>
+									<td  style="width:16%;">
+										<select id="lecGrade" name="grade" class="form-select form-select-sm me-0 " style="margin: 0;">
+											<option value="1">1 학년</option>
+											<option value="2">2 학년</option>
+											<option value="3">3 학년</option>
+											<option value="4">4 학년</option>
+											<option value="0">공통</option>
+										</select>
+									</td>
+									<th class="table-secondary" scope="col" style="width: 9%; vertical-align:middle;">수강인원</th>
+									<td>
+										<input id="lecMaxStud" name="maxStud" class="form-control form-control-sm text-start" type="text" >
+									</td>
+								</tr>
+			
+								
+								<tr>
+									<th class="table-secondary text-center" scope="col" style="width: 9%; vertical-align:middle;">강의명</th>
+									<td colspan="3" class="p-2" style="width:16%;">
+										<input id="lecName" name="name" class="form-control form-control-sm text-start " 
+											type="text" placeholder="개설할 강의명을 입력해주세요" >
+									</td>
+									<th class="table-secondary me-0" scope="col" style="vertical-align:middle;">건물명</th>
+									<td>
+										<select id="lecBuilding" name="building" class="form-select form-select-sm me-0 " style=" margin-right: 0;">
+											<option value="중앙동">중앙동</option>
+											<option value="정보동">정보동</option>
+											<option value="종합강의동">종합강의동</option>
+										</select>
+									</td>
+									<th class="table-secondary" scope="col" style="width: 9%; vertical-align:middle;">호수</th>
+									<td>
+										<select id="lecRoom" name="room" class="form-select form-select-sm me-0 " style="margin: 0;">
+											<option selected value="101호 ">101호</option>
+											<option value="102호">102호</option>
+											<option value="103호">103호</option>
+											<option value="201호">201호</option>
+											<option value="202호">202호</option>
+											<option value="203호">203호</option>
+										</select>
+									</td>
+								</tr>
+								</table>
+								
+								
+								<table class="table font09 text-center">
+									<tr>
+										<th class="table-secondary text-center" scope="col" style="width: 9%; vertical-align:middle;">강의일1</th>
+										<td class="p-2">
+											<select id="lecDay1" name="day1" class="form-select form-select-sm me-0 " 
+													style="margin: 0;">
+												<option value="" selected>선택</option>
+												<option value="월">월요일</option>
+												<option value="화">화요일</option>
+												<option value="수">수요일</option>
+												<option value="목">목요일</option>
+												<option value="금">금요일</option>
+											</select>
+										</td>
+										<th class="table-secondary me-0" scope="col" style="vertical-align:middle;width: 9%;">강의시간1</th>
+										<td style=" margin-right: 0;">
+											<select id="lecTime1" name="time1" class=" form-select form-select-sm">
+												<option selected value="">선택</option>
+												<option value="1">1교시 (09:00-09:50)</option>
+												<option value="2">2교시 (10:00-10:50)</option>
+												<option value="3">3교시 (11:00-11:50)</option>
+												<option value="4">4교시 (12:00-12:50)</option>
+												<option value="5">5교시 (13:00-13:50)</option>
+												<option value="6">6교시 (14:00-14:50)</option>
+												<option value="7">7교시 (15:00-15:50)</option>
+												<option value="8">8교시 (16:00-16:50)</option>
+												<option value="9">9교시 (17:00-17:50)</option>
+											</select>
+										</td>
+										<td style=" margin-right: 0;">
+											<select id="lecHour1" name="hour1" class=" form-select form-select-sm">
+												<option value="">시간선택</option>
+												<option value="1">1시간</option>
+												<option value="2">2시간</option>
+												<option value="3">3시간</option>
+											</select>
+										</td>
+			
+										<td style="width: 20%; margin-right: 0;" id="hourCheckBox1"><%-- ${lecDayTimeText} --%>
+											<!-- <div class="font09 text-danger" style="vertical-align:middle;" id="hourCheckBox1"></div> -->
+										</td>
+									</tr>
+									
+									<tr>
+										<th class="table-secondary text-center" scope="col" style="width: 9%; vertical-align:middle;">강의일2</th>
+										<td class="p-2">
+											<select id="lecDay2" name="day2" class="form-select form-select-sm me-0 " 
+													style="margin: 0;">
+												<option value="" selected>선택</option>
+												<option value="월">월요일</option>
+												<option value="화">화요일</option>
+												<option value="수">수요일</option>
+												<option value="목">목요일</option>
+												<option value="금">금요일</option>
+											</select>
+										</td>
+										<th class="table-secondary me-0" scope="col" style="vertical-align:middle; width: 9%;">강의시간2</th>
+										<td style=" margin-right: 0;">
+											<select id="lecTime2" name="time2" class=" form-select form-select-sm" >
+												<option selected value="">선택</option>
+												<option value="1">1교시 (09:00-09:50)</option>
+												<option value="2">2교시 (10:00-10:50)</option>
+												<option value="3">3교시 (11:00-11:50)</option>
+												<option value="4">4교시 (12:00-12:50)</option>
+												<option value="5">5교시 (13:00-13:50)</option>
+												<option value="6">6교시 (14:00-14:50)</option>
+												<option value="7">7교시 (15:00-15:50)</option>
+												<option value="8">8교시 (16:00-16:50)</option>
+												<option value="9">9교시 (17:00-17:50)</option>
+											</select>
+										</td>
+										
+										<td style=" margin-right: 0;">
+											<select id="lecHour2" name="hour2" class=" form-select form-select-sm">
+												<option selected value="">시간선택</option>
+												<option value="1">1시간</option>
+												<option value="2">2시간</option>
+												<option value="3">3시간</option>
+											</select>
+										</td>
+										<td style="width: 20%; margin-right: 0;"><%-- ${lecDayTimeText} --%>
+											<div class="font09 text-danger" style="vertical-align:middle;" id="hourCheckBox2"></div>
+										</td>
+									</tr>
+								</table>
+						</form>	
+						
+						</div>
+						</div>
+				
+					 <!-- footer -->
+					<footer class="col-12 mt-5" style="height: 60px; font-size: 12px;">
+						<jsp:include page="../footer.jsp"></jsp:include>
+					</footer> 
+					<!-- </footer>  -->
+				</div>
+			</main>
+		</div> 
+	</div> <!-- container div end -->
+	<!-- IONICONS -->
+	<script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script>
+	<script src="/js/main.js"></script>
+</body>
 </html>
