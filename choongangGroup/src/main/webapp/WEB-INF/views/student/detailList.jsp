@@ -4,6 +4,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+
 <meta charset="UTF-8">
 <!-- bottSTrap CSS only -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">		
@@ -143,7 +145,7 @@
                 <div class="row m-5">
                     <!-- card header -->
                     <div class="col-12 rounded-top text-white overflow-auto pt-2 fw-bold" style="background-color: rgb(39, 40, 70); height: 40px;"> 
-                        <i class="bi bi-bookmark-fill me-2"></i>학생서비스 <i class="bi bi-chevron-right"></i>학적정보 <i class="bi bi-chevron-right"></i>조회
+                        <i class="bi bi-bookmark-fill me-2"></i>학생서비스 <i class="bi bi-chevron-right"></i>학적정보 <i class="bi bi-chevron-right"></i>학적조회
                     </div>
                     <!-- card content -->  
                     <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
@@ -156,37 +158,34 @@
        
        
 
-<!--이미지   -->
-<div  style="width: 200px; height: 200px; ">
-    <div class="row g-0">
-     
-      <img  id="preview"    src="../upload/hj/${member.image}" style="width: 200px; height: 200px;"   class="img-fluid rounded-start" alt="이미지">
-  
-                       
-  </div>
- 
-</div>
+		<!--이미지   -->
+		<div  style="width: 200px; height: 200px; ">
+		    <div class="row g-0">
+		     
+		      <img  id="preview"    src="../upload/hj/${member.image}" style="width: 200px; height: 200px;"   class="img-fluid rounded-start" alt="이미지">
+		  
+		                       
+		     </div>
+		 
+		</div>
 
 
 
-<table class="table table-striped" >
-
-			<tr><th>성명</th><td>${member.name } </td> 			<th>학번</th><td>${member.userid }</td>          <th>국적</th><td>${member.nation }</td></tr>
-			<tr><th>휴대전화</th><td> ${member.phone }</td>			<th>학년</th><td>${member.grade}</td>          <th>주소</th><td>${member.address }</td></tr>
-			<tr><th>성별</th><td>${member.gender }</td> 			 <th>학적상태</th><td>${member.stud_status }</td>       <th>E-Mail</th><td>${member.email }</td></tr>
-			<tr><th>입학 일자</th><td>${member.admission}</td>          <th>졸업여부</th><td>${member.graduate }</td>      <th>지도교수</th><td>${member.main_prof }</td></tr> 
-			<tr><th>계좌번호</th><td>${member.account}</td> 			<th>입학전형</th><td>${member.adm_type}</td>         <th>비상연락망</th><td>${member.subphone }</td></tr> 
-			<tr><th>입금은행</th><td>${member.bank }</td> 			<th>전공(소속학과)</th><td>${member.major }</td>        <th>부전공</th><td>${member.sub_major }</td>     
-	
-	
-
-</table>
+		<table id="table1"  class="table table-striped-columns" style="table-layout: fixed;">
+		
+					<tr><th>성명</th><td>${member.name } </td> 			<th>학번</th><td>${member.userid }</td>          <th>국적</th><td>${member.nation }</td></tr>
+					<tr><th>휴대전화</th><td> ${member.phone }</td>			<th>학년</th><td>${member.grade}</td>          <th>비상연락망</th><td>${member.subphone }</td></tr>
+					<tr><th>성별</th><td>${member.gender }</td> 			 <th>학적상태</th><td>${member.stud_status }</td>       <th>E-Mail</th><td>${member.email }</td></tr>
+					<tr><th>입학 일자</th><td>${member.admission}</td>          <th>입학전형</th><td>${member.adm_type }</td>      <th>지도교수</th><td>${member.main_prof }</td></tr> 
+					<tr><th>전공(소속학과)</th><td>${member.major}</td> 			<th>부전공</th><td>${member.sub_major}</td>         <th>주소</th><td>${member.address }</td></tr> 
+			 
+			
+		
+		</table>
                 <!-- 학적수정 버튼  -->
-             <div>
+        <div>
              <label class="btn btn-secondary" for="option2" onclick="location.href='updateFormMember?userid=${member.userid}'" >학적수정</label>
-             
-             
-             </div>          
+        </div>          
                        
                        
   <!--    *********************************************** 학적조회 end    ************************************      -->                      
@@ -198,6 +197,7 @@
                     </div>
                     <!-- footer -->
                     <footer class="col-12" style="height: 60px;">
+                     <jsp:include page="../footer.jsp"></jsp:include>
                      
                     </footer>    
                 </div>

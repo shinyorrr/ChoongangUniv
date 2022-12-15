@@ -126,7 +126,7 @@ public class EvaluationController {
 //		Gson gson = new Gson();
 //		String jsonRs = gson.toJson(rsList);
 		
-		return "redirect:updateFormEvaluation";
+		return "student/updateFormEvaluation";
 
 	}
 
