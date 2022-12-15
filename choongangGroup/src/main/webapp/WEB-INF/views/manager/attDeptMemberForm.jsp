@@ -134,7 +134,7 @@
           </a>
     
          <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-  		<%-- 	<jsp:include page="navHeader.jsp"></jsp:include> --%>
+  		 <jsp:include page="navHeader.jsp"></jsp:include>
           </ul>   
         </header>
     </nav>
@@ -145,7 +145,7 @@
             <div>
                 <div class="nav__brand">
                     <ion-icon name="menu-outline" class="nav__toggle" id="nav-toggle"></ion-icon>
-                    <a href="#" class="nav__logo">Bedimcode</a>
+                    <a href="#" class="nav__logo">근태관리</a>
                 </div>
                     <div href="#" class="nav__link collapses">
      				<ion-icon name="pie-chart-outline" class="nav__icon"></ion-icon>
@@ -159,11 +159,11 @@
                             <a href="${pageContext.request.contextPath}/manager/attAllMemberForm" class="collapse__sublink">사원별 근태관리</a>
                         </ul>
                     </div>
-                </div>
-                <a href="#" class="nav__link">
+                <a href="/logout" class="nav__link">
                     <ion-icon name="log-out-outline" class="nav__icon"></ion-icon>
                     <span class="nav_name">Log out</span>
                 </a>
+                </div>
             </div>
         </nav>
     </div>
