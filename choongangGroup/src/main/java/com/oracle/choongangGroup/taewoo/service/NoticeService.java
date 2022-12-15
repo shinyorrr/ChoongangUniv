@@ -14,7 +14,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.oracle.choongangGroup.changhun.JPA.Member;
+import com.oracle.choongangGroup.changhun.address.MemberRepository;
 import com.oracle.choongangGroup.taewoo.domain.Notice;
+import com.oracle.choongangGroup.taewoo.dto.NoticeDto;
 import com.oracle.choongangGroup.taewoo.repository.NoticeJpaRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -24,11 +27,12 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 public class NoticeService {
 	
+	private final MemberRepository memberRepository; 
 	private final NoticeJpaRepository noticeJpaRepository;
 	private final static String VIEWCOOKIENAME = "alreadyViewCookie";
 
 	public Notice findById(Long noticeNum) {
-		
+		System.out.println("NoticeService findById start....");	
 		Notice notice = noticeJpaRepository.findById(noticeNum).orElseThrow(() -> new NoSuchElementException());
 		return notice;
 	}
@@ -44,7 +48,7 @@ public class NoticeService {
 	
 	public int updateHit(Long noticeNum, HttpServletRequest request, HttpServletResponse response) {
 		System.out.println("noticeNum -->" + noticeNum);
-		
+		System.out.println("updateHit start");
 		Cookie[] cookies = request.getCookies();
 		boolean checkCookie = false;
 		int result = 0;
@@ -52,16 +56,19 @@ public class NoticeService {
 			for (Cookie cookie : cookies) {
 				// 조회한 경우 체크
 				if(cookie.getName().equals(VIEWCOOKIENAME+noticeNum)) checkCookie = true;
+				System.out.println(cookies);
 			}
 			if (!checkCookie) {
 				Cookie newCookie = createCookieForForNotOverLap(noticeNum);
 				response.addCookie(newCookie);
 				result = noticeJpaRepository.updateHit(noticeNum);
+				System.out.println(result);
 			}
 		} else {
 			Cookie newCookie = createCookieForForNotOverLap(noticeNum);
 			response.addCookie(newCookie);
 			result = noticeJpaRepository.updateHit(noticeNum);
+			System.out.println(result);
 		}
 		return result;
 	}
@@ -84,6 +91,33 @@ public class NoticeService {
 		LocalDateTime now = LocalDateTime.now();
 		LocalDateTime tommorow = LocalDateTime.now().plusDays(1L).truncatedTo(ChronoUnit.DAYS);
 		return (int) now.until(tommorow, ChronoUnit.SECONDS);
+	}
+
+	public void updateNotice(Notice notice) {
+		System.out.println("updateNotice start....");
+		System.out.println(notice.getNoticeNum());
+		System.out.println(notice.getNoticeTitle());
+		System.out.println(notice.getNoticeContent());
+		Notice notice2 = new Notice();
+		notice2.setNoticeNum(notice.getNoticeNum());
+		notice2.setNoticeTitle(notice.getNoticeTitle());
+//		notice2.setNoticeContent(notice.getNoticeContent());
+		noticeJpaRepository.save(notice2);
+		
+	}
+
+	public NoticeDto write(NoticeDto noticeDto, String writerUserid) {
+		System.out.println("NoticeService write start....");
+		Member writer = memberRepository.findByUserid(writerUserid);
+
+		Notice notice = new Notice();
+		notice.setWriter(writer);
+		notice.setNoticeTitle(noticeDto.getNoticeTitle());
+		notice.setNoticeContent(noticeDto.getNoticeContent());
+		notice.setNoticeType(noticeDto.getNoticeType());
+		noticeJpaRepository.save(notice);
+		
+		return NoticeDto.toDto(notice);
 	}
 
 

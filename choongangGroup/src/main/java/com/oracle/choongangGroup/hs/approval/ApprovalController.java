@@ -7,16 +7,25 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.oracle.choongangGroup.changhun.JPA.Member;
 import com.oracle.choongangGroup.dongho.auth.GetMember;
+import com.oracle.choongangGroup.dongho.auth.SecurityService;
+import com.oracle.choongangGroup.taewoo.domain.Notice;
+import com.oracle.choongangGroup.taewoo.dto.MessageDto;
+import com.oracle.choongangGroup.taewoo.repository.NoticeJpaRepository;
+import com.oracle.choongangGroup.taewoo.service.MessageService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,15 +38,29 @@ public class ApprovalController {
 	
 	private final ApprovalService as;
 	private final GetMember gm;
+	private final NoticeJpaRepository nr;
+	private final SecurityService ss;
+	private final MessageService ms;
 	
 	
 	@GetMapping("/managerMain")
-	public String managerMain(Model model) {
+	public String managerMain(Model model, @RequestParam(required = false, defaultValue = "0", value="page") int page) {
 		log.info("managerMain 시작");
 		String mainCheck = "1";
 		
 		Member member = gm.getMember();
 		String userid = member.getUserid();
+		// 공지사항 부분
+		String noticeType = gm.getMember().getMemRole();
+		String allContent = "allContent";
+		
+		Page<Notice> noticeList = nr.findByNoticeTypeOrNoticeType(PageRequest.of(page, 10, Sort.by(Sort.Direction.DESC,"noticeNum")), noticeType, allContent);
+		model.addAttribute("noticeList", noticeList.getContent());
+		
+		//  쪽지함 부분
+		Member member2 = ss.findByUserid(userid);
+		List<MessageDto> messageList = ms.receiveMessage(member2);
+		model.addAttribute("messageList", messageList);
 		
 		List<Approval> approvalWaitingList = null;     // 승인 대기중
 		List<Approval> approvalProcessingList = null;  // 승인 진행중

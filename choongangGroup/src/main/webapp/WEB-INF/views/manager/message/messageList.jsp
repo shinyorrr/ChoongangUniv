@@ -37,9 +37,35 @@
 			else $("#chkAll").prop("checked", true); 
 		});
 	});
+	
+	function deleteMessage(){
+		var valueArr = new Array();
+		var messageList = $("input[name=chk]");
+		console.log(messageList);
+		for(var i = 0; i < messageList.length; i++){
+			if(messageList[i].checked){
+				valueArr.push(messageList[i].value);
+			}
+		}
+		if (valueArr.length == 0){
+			alert("선택된 쪽지가 없습니다.");
+		}
+		else{
+			console.log(valueArr);
+			$.ajax({
+					url : "/manager/messageDelete",
+					data : { valueArr : valueArr },
+					type : "POST",
+					success : function (){
+						alert("삭제 성공");
+						location.href = "/manager/message/messageList";
+					}
+			});
+		}
+	}
 
 </script>
-<body class="" id="body-pd">
+<body class="" id="body-pd" onload="printClock()">
 <%
 
 	session = request.getSession();
@@ -79,7 +105,7 @@
                     <a href="/message/messageList" class="nav__logo">쪽지 관리</a>
                 </div>
                 <div class="nav__list">
-                    <a href="/messageWriteForm" class="nav__link active">
+                    <a href="/manager/messageWriteForm" class="nav__link active">
                         <ion-icon name="home-outline" class="nav__icon"></ion-icon>
                         <span class="nav_name">쪽지 쓰기</span>
                     </a>
@@ -132,39 +158,15 @@
         </nav>
     </div>
     <!-- /side nav bar -->
+    
     <!-- main content -->
     <div class="container-fluid w-100" style=" background-color: rgb(214, 225, 237)">
         <div class="row">
             
             
             <!-- content header -->
-            <div class="col-12 pt-4" style="height: 150px; background-color: rgb(95, 142, 241)">
-                <div class="d-flex flex-row mb-3">
-                    <div>
-                        <span class="text-white h4">공지사항 조회 <span class="fw-bold">김중앙</span>님!</span>
-                    </div> 
-                    <div class="border border-1 border-white border-bottom rounded-pill text-white px-2 pt-1 ms-2 h6">교수</div>
-                    <div>
-                        <i class="text-white bi-gear-fill mx-2"></i>
-                    </div>
-                </div>
-                <div class="row">
-                    <div>
-                        <span class="text-white h6">이공대학 컴퓨터공학과 | 정교수</span>
-                    </div>
-                </div>
-                <div class="d-flex flex-low">
-                    <div>
-                        <i class="bi bi-envelope-fill text-white"></i>
-                    </div>
-                    <div>
-                        <span class="text-white ms-3">test123@naver.com</span>
-                    </div>
-                </div>
-                
-            </div>
-            <main class="col-9 h-100 w-100">
-                <div class="row m-5">
+            <jsp:include page="../contentHeader.jsp"></jsp:include>
+            
                     <!-- card header -->
                     <div class="col-12 rounded-top text-white overflow-auto pt-2 fw-bold" style="background-color: rgb(39, 40, 70); height: 40px;"> 
                         <i class="bi bi-bookmark-fill me-2"></i>받은 편지함
@@ -183,7 +185,7 @@
 					        <th>내용</th>
 					        <th>보낸시간</th>
 					        <th>
-					        	<button onclick="">
+					        	<button onclick="deleteMessage()">
 					        		<span>삭제</span>
 					        	</button>
 					        </th>
@@ -193,7 +195,7 @@
 					    <c:forEach items="${messageList}" var="message" varStatus="status">
 					    <tr>
 					    	<td>
-					    		<input type="checkbox" name="chk">
+					    		<input type="checkbox" name="chk" value="${message.messageId}">
 					    	</td>
 					    	<td>${message.senderName}</td>
 					    	<td>
@@ -209,10 +211,10 @@
 					    	<td>
 					    		<c:choose>
 						    		<c:when test="${fn:length(message.messageContent) gt 21 }">
-						    			<a href="#">${fn:substring(message.messageContent, 0, 20)} ....</a>
+						    			<a href="/manager/messageDetail?messageId=${message.messageId}">${fn:substring(message.messageContent, 0, 20)} ....</a>
 						    		</c:when>
 						    		<c:otherwise>
-						    			<a href="#">${message.messageContent}</a>
+						    			<a href="/manager/messageDetail?messageId=${message.messageId}">${message.messageContent}</a>
 						    		</c:otherwise>
 						    	</c:choose>
 							</td>
@@ -227,10 +229,8 @@
         	  </div>
                     <!-- footer -->
                     <footer class="col-12" style="height: 60px;">
-                        footer
+                        @2022 ChoongAng University. All Rights Reserved.
                     </footer>    
-                </div>
-            </main>
         </div>
     </div>
     <!-- IONICONS -->

@@ -60,10 +60,6 @@ public class Member {
 	
 	@Column(name = "mem_right")
 	private String memRight;
-
-	@JsonManagedReference
-	@OneToMany(mappedBy = "writer", fetch = FetchType.LAZY)
-	private List<Notice> notices = new ArrayList<>();
 	
 	private String refreshToken;
 	}

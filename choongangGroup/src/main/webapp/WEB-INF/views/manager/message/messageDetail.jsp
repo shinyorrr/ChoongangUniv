@@ -25,15 +25,31 @@
 <script type="text/javascript">
 
 	/**=== 게시판 수정 ===*/
-	function updateFormNotice(){
-		alert("수정폼");
-		$("#noticeTitle1").hide();
-		$("#noticeContent1").hide();
-		$("#beforeButton").hide();
-		$("#deleteButton").hide();
-		$("#noticeTitle2").show();
-		$("#noticeContent2").show();
-		$("#afterButton").show();
+	function writeMessage(){
+		alert("답장보내기 시작");
+		var vsenderUserid = $("#sender").val();
+		var vreceiverUserid = $("#receiver").val();
+		var vsenderName = $("#senderName").val();
+		var vmessageTitle1 = $("#messageTitle1").val();
+		var vmessageContent1 = $("#messageContent1").val();
+		console.log("vsenderUserid -->" + vsenderUserid);
+		console.log("vreceiverUserid -->" + vreceiverUserid);
+		console.log("vsenderName -->" + vsenderName);
+		console.log("vmessageTitle1 -->" + vmessageTitle1);
+		console.log("vmessageContent1 -->" + vmessageContent1);
+		
+		$.ajax({
+			url : "/manager/messageSave",
+			type : "POST",
+			data : { senderUserid : vsenderUserid , receiverUserid : vreceiverUserid , senderName : vsenderName, messageTitle : vmessageTitle1 , messageContent : vmessageContent1 },
+			success : function(){
+				alert("전송 성공!");
+				$('#staticBackdrop').modal('hide');
+			}
+			
+		})
+
+
 	}
 	
 	function updateNotice(){
@@ -78,14 +94,14 @@
 	}
 	
 	/* 게시물 삭제 */
-	function deleteNotice(){
+	function deleteMessage(){
 		console.log("삭제 시작");
-		var dnoticeNum = $("#noticeNum").val();
-		console.log("dnoticeNum -> " + dnoticeNum);
+		var dmessageId = $("#messageId").val();
+		console.log("dnoticeNum -> " + dmessageId);
 		
 		$.ajax({
 			url 	: "/manager/deleteNotice",
-			data	: {noticeNum : dnoticeNum},
+			data	: {messageId : dmessageId},
 			success : function(data){
 				alert("삭제 되었습니다.");
 				location.href = "/manager/notice/noticeList";
@@ -99,7 +115,7 @@
 </script>
 </head>
 
-<body class="" id="body-pd">
+<body class="" id="body-pd" onload="printClock()">
     <!-- header -->
     <!-- <nav class="navbar navbar-expand-lg navbar-dark bd-navbar bg-light sticky-top position-fixed fixed-top w-100" style="position : absolute">
         <a class="navbar-brand">
@@ -115,13 +131,8 @@
           </a>
     
  <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-            <li><a href="/manager/main" class="nav-link px-2 link-secondary">Home</a></li>
-            <li><a href="#" class="nav-link px-2 link-dark">전자 결재</a></li>
-            <li><a href="#" class="nav-link px-2 link-dark">학사 관리</a></li>
-            <li><a href="#" class="nav-link px-2 link-dark">교재 관리</a></li>
-            <li><a href="/notice/noticeList" class="nav-link px-2 link-dark">공지사항 관리</a></li>
-            <li><a href="/message/messageList" class="nav-link px-2 link-dark">쪽지함</a></li>
-          </ul>
+ 	<jsp:include page="../navHeader.jsp"></jsp:include>
+ </ul>
         </header>
     </nav>
     <!-- /header -->
@@ -131,37 +142,22 @@
             <div>
                 <div class="nav__brand">
                     <ion-icon name="menu-outline" class="nav__toggle" id="nav-toggle"></ion-icon>
-                    <a href="/notice/noticeList" class="nav__logo">공지사항 관리</a>
+                    <a href="/manager/message/messageList" class="nav__logo">쪽지함</a>
                 </div>
                 <div class="nav__list">
                     <a href="/noticeWrite" class="nav__link active">
-                        <ion-icon name="home-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">공지사항 글쓰기</span>
-                    </a>
-                    <a href="#" class="nav__link">
                         <ion-icon name="chatbubbles-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Messenger</span>
+                        <span class="nav_name">쪽지보내기</span>
                     </a>
-
-                    <div href="#" class="nav__link collapses">
-                        <ion-icon name="folder-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Projects</span>
-
-                        <ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
-
-                        <ul class="collapse__menu">
-                            <a href="#" class="collapse__sublink">Data</a>
-                            <a href="#" class="collapse__sublink">Group</a>
-                            <a href="#" class="collapse__sublink">Members</a>
-                        </ul>
-                    </div>
-
                     <a href="#" class="nav__link">
-                        <ion-icon name="pie-chart-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Analytics</span>
+                        <ion-icon name="folder-outline" class="nav__icon"></ion-icon>
+                        <span class="nav_name">받은 쪽지함</span>
                     </a>
-
-                    <div href="#" class="nav__link collapses">
+                    <a href="#" class="nav__link">
+                        <ion-icon name="folder-outline" class="nav__icon"></ion-icon>
+                        <span class="nav_name">보낸 쪽지함</span>
+                    </a>
+<!--                     <div href="#" class="nav__link collapses">
                         <ion-icon name="people-outline" class="nav__icon"></ion-icon>
                         <span class="nav_name">Team</span>
 
@@ -172,14 +168,9 @@
                             <a href="#" class="collapse__sublink">Group</a>
                             <a href="#" class="collapse__sublink">Members</a>
                         </ul>
-                    </div>
-
-                    <a href="#" class="nav__link">
-                        <ion-icon name="settings-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Settings</span>
-                    </a>
+                    </div> -->
                 </div>
-                <a href="#" class="nav__link">
+                <a href="/logout" class="nav__link">
                     <ion-icon name="log-out-outline" class="nav__icon"></ion-icon>
                     <span class="nav_name">Log out</span>
                 </a>
@@ -193,63 +184,71 @@
             
             
             <!-- content header -->
-            <div class="col-12 pt-4" style="height: 150px; background-color: rgb(95, 142, 241)">
-                <div class="d-flex flex-row mb-3">
-                    <div>
-                        <span class="text-white h4">공지사항 조회 <span class="fw-bold">${notice.writer.userid }</span>님!</span>
-                    </div> 
-                    <div class="border border-1 border-white border-bottom rounded-pill text-white px-2 pt-1 ms-2 h6">교수</div>
-                    <div>
-                        <i class="text-white bi-gear-fill mx-2"></i>
-                    </div>
-                </div>
-                <div class="row">
-                    <div>
-                        <span class="text-white h6">이공대학 컴퓨터공학과 | 정교수</span>
-                    </div>
-                </div>
-                <div class="d-flex flex-low">
-                    <div>
-                        <i class="bi bi-envelope-fill text-white"></i>
-                    </div>
-                    <div>
-                        <span class="text-white ms-3">test123@naver.com</span>
-                    </div>
-                </div>
-                
-            </div>
+            <jsp:include page="../contentHeader.jsp"></jsp:include>
+            
             <main class="col-9 h-100 w-100">
                 <div class="row m-5">
                     <!-- card header -->
                     <div class="col-12 rounded-top text-white overflow-auto pt-2 fw-bold" style="background-color: rgb(39, 40, 70); height: 40px;"> 
-                        <i class="bi bi-bookmark-fill me-2"></i>공지사항 관리 <i class="bi bi-chevron-right"></i> <a style="text-decoration: none; color: white;"  href="/notice/noticeList">공지사항</a>
+                        <i class="bi bi-bookmark-fill me-2"></i><a style="text-decoration: none; color: white;"  href="/manager/message/messageList">쪽지함</a> <i class="bi bi-chevron-right"></i> <a >쪽지 내용</a>
                     </div>
                     <!-- card content -->  
                     <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
-		                	<div class="container">
+		                <div class="container">
 		                      	<div class="mb-3">                  		
-			                      	<input id="noticeNum" type="hidden" value="${notice.noticeNum}">
-			                      	<input id="noticeHit" type="hidden" value="${notice.noticeHit}">    
-			                   </div>                 	
+			                      	<input id="messageId" type="hidden" value="${message.messageId}">   
+			                   </div>
+			                   	<div class="mb-3">
+			                   		<label class="form-label">보낸 사람</label>                  		
+			                      	<input id="senderName" name="senderName" type="text" class="form-control" readonly="readonly" value="${message.senderName}">   
+			                   </div>                  	
 		                       <div class="mb-3">
 		                     		<label class="form-label">제목</label>
-		                     		<input id="noticeTitle1" name="noticeTitle" type="text" class="form-control" value="${notice.noticeTitle}" readonly>
-		                     		<input id="noticeTitle2" type="text" class="form-control" value="${notice.noticeTitle}" style="display: none;">
+		                     		<input id="messageTitle" name="messageTitle" type="text" class="form-control" value="${message.messageTitle}" readonly>
 		                     	</div>
 		                     	<div>
 		                     		<label class="form-label">내용</label>
-		                     		<textarea id="noticeContent1" name="noticeContent" class="form-control" rows="3" style="height: 300px;" readonly="readonly" >${notice.noticeContent}</textarea>
-		                     		
-		                     		<textarea id="noticeContent2" class="form-control" rows="3" style="height: 300px; display: none;">${notice.noticeContent}</textarea>            	
+		                     		<textarea id="messageContent" name="messageContent" class="form-control" rows="3" style="height: 300px;" readonly="readonly" >${message.messageContent}</textarea>         	
 		                      	</div>
-		                      	<c:set value='${member.userid}' var="userid"/>
-									<c:if test="${notice.writer.userid eq userid}">
 		                      	<div style="margin: 10px;">
-			                        	<button id="beforeButton" type="button" class="btn btn-outline-primary"  onclick="updateFormNotice()">수정</button>
-			                        	<button id="afterButton" type="button" class="btn btn-outline-primary"  onclick="return updateNotice()" style="display: none;">수정완료</button>
-			                        	<button id="deleteButton" type="button" class="btn btn-outline-danger" onclick="deleteNotice()">삭제</button>	    
+		                      			<!-- Button trigger modal -->	
+		                      			<button id="beforeButton" type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">답장</button>	
+										<!-- Modal -->
+										<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+										  <div class="modal-dialog">
+										    <div class="modal-content">
+										      <div class="modal-header">
+										        <h1 class="modal-title fs-5" id="staticBackdropLabel">답장 보내기</h1>
+										        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+										      </div>
+										      <div class="modal-body">
+										      <form class="form-signin" id="messageForm">
+										        <div class="mb-3">
+			                   						<label class="form-label">받는 사람</label>
+			                   						<input type="hidden" id="sender" name="sender" value="${message.sender.userid}">
+			                   						<input type="hidden" id="receiver" name="receiver" value="${message.receiver.userid}">                  		
+			                      					<input id="senderName" name="senderName" type="text" class="form-control" readonly="readonly" value="${message.senderName}">   
+			                   					</div>
+			                   					<div class="mb-3">
+						                     		<label class="form-label">제목</label>
+						                     		<input id="messageTitle1" name="messageTitle1" type="text" class="form-control" >
+						                     	</div>
+						                     	<div>
+						                     		<label class="form-label">내용</label>
+						                     		<textarea id="messageContent1" name="messageContent1" class="form-control" rows="3" style="height: 300px;" ></textarea>         	
+						                      	</div>
+						                      </form>
+										      </div>
+										      <div class="modal-footer">
+										        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+										        <button type="button" class="btn btn-primary" onclick="writeMessage()">보내기</button>
+										      </div>
+										    </div>
+										  </div>
+										</div>
+		                      			
+			                        	<button id="deleteButton" type="button" class="btn btn-outline-danger" onclick="deleteMessage()">삭제</button>	    
 			                    </div>
-			                    </c:if>
 		                  	 </div>
                   	</div>
 
