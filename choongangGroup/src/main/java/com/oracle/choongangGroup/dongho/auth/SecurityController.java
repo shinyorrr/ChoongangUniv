@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseCookie;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -44,7 +45,9 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequiredArgsConstructor
 public class SecurityController {
-	
+	// @Secured({"ROLE_STUDENT", "ROLE_MANAGER", "ROLE_PROFESSOR", "ROLE_ADMIN"})
+	// @PreAuthorize("isAuthenticated()")
+	// @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_STUDENT')")
 	private final SecurityService securityService;
 	private final PasswordEncoder passwordEncoder;
 	private final JavaMailSender mailSender;
@@ -163,7 +166,6 @@ public class SecurityController {
 		// 자동로그인 토큰 쿠키 setting
 		if(keepLogin == 1) {
 			String keepToken = URLEncoder.encode(tokenInfo.getKeepToken(), "utf-8");
-
 			ResponseCookie cookieKT = ResponseCookie.from("keepToken","Bearer" + keepToken)
 					.path("/")
 					.httpOnly(true)
@@ -172,7 +174,6 @@ public class SecurityController {
 					.build();
 			response.addHeader("Set-Cookie", cookieKT.toString());
 		}
-
     }
 	
 	
@@ -253,14 +254,13 @@ public class SecurityController {
 	}
 	
 	// RSA setting 후 updatePasswordForm으로 연결
-	// @Secured({"ROLE_STUDENT", "ROLE_MANAGER", "ROLE_PROFESSOR", "ROLE_ADMIN"})
-	// @PreAuthorize("isAuthenticated()")
+
 	@GetMapping("/updatePasswordForm")
 	public String updatePasswordForm(HttpSession session, HttpServletRequest request, HttpServletResponse response, Model model) 
 			throws NoSuchAlgorithmException, InvalidKeySpecException {
 		return "/admin/updatePasswordForm";
 	}
-	// @PreAuthorize("isAuthenticated()")
+	
 	@PostMapping("/updatePassword")
 	public void updatePassword(@RequestParam("password") String paramPassword , HttpServletResponse response) throws IOException {
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
@@ -423,6 +423,7 @@ public class SecurityController {
 		}
 		return null;
     }
+    
     // Request Header (cookie) 에서 refresh토큰 정보 추출
     private String resolveRefreshToken(HttpServletRequest request) {
     	Cookie[] list = request.getCookies();

@@ -14,6 +14,8 @@ public class EvaVo {
 	private long evaCnt;
 	private long totalCnt;
 	private double totalAvg;
+	private String review;
+	private String userid;
 	
 	
 }

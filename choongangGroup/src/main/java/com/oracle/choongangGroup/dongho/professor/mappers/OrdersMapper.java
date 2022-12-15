@@ -44,4 +44,42 @@ public interface OrdersMapper {
 			)
 	int updateOrders(@Param("ordersDto") OrdersDto ordersDto);
 	
+	@Select("SELECT count(*) FROM lec_orders WHERE lec_order_status = 0")
+	int makeupTot();
+	
+	@Select({"<script> "
+			+ "SELECT o.*, l.lec_name as lecName " 
+			+ "FROM lecture l, lec_orders o " 
+			+ "WHERE l.lec_id = o.lec_id " 
+			+ "AND lec_order_status in (0,1,2)"
+			+ "<if test=\"status != null and status != ''\">"
+			+ "AND lec_order_status Like '%' || #{status} || '%' "
+			+ "</if>"
+			+ "<if test=\"keyword != null and keyword != ''\">"
+			+ "AND l.lec_name Like '%' || #{keyword} || '%'"
+			+ "</if>"
+			+ "ORDER BY o.lec_orders_id"
+			+ "</script>"
+			})
+	List<OrdersDto> lecOrderList(OrdersDto ordersDto);
+	
+	@Select("SELECT o.*, l.lec_name as lecName " 
+			+ "FROM  lecture l, lec_orders o " 
+			+ "WHERE l.lec_id 	     = o.lec_id " 
+			+ "AND   o.lec_orders_id = #{lec_orders_id}"
+			+ "ORDER BY o.lec_orders_id"
+			)
+	OrdersDto lecDetail(Long lec_orders_id);
+	
+	@Update("UPDATE lec_orders " 
+			+ "SET lec_order_status   = #{lec_order_status}," 
+			+ "    lec_order_date     = #{lec_order_date}," 
+			+ "    lec_order_time     = #{lec_order_time}," 
+			+ "    lec_order_room     = #{lec_order_room}," 
+			+ "    lec_order_building = #{lec_order_building}," 
+			+ "    lec_order_hour     = #{lec_order_hour}" 
+			+ "WHERE lec_orders_id    = #{lec_orders_id}"
+			)
+	int lecOrderUpdate(OrdersDto ordersDto);
+	
 }

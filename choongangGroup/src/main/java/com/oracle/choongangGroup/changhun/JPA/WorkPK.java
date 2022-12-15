@@ -13,5 +13,6 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode
 public class WorkPK implements Serializable{
 	private String workDate;
-	private Member member;
+	private String userid;
+//	private Member member;
 }

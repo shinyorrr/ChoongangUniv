@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<style> @import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@300&family=Old+Standard+TT:ital@0;1&family=Unbounded:wght@300&display=swap'); </style>
 <style type="text/css">
 	.tdwidth{
 		min-width: 150px;
@@ -13,6 +14,20 @@
         margin : 0 auto;
         overflow : hidden;
         white-space : nowrap; /* 줄바꿈 금지(이미지를 한줄로) */
+    }
+    .bi-person-circle{
+    	font-size : 60px;
+    	color : gray;
+    }
+    #month{
+    	margin: 81px;
+    	font-size: 34px;
+    	font-family: 'Crimson Pro', serif;
+    }
+    .font-Bold{
+    	font-family: 'Crimson Pro', serif;
+    	font-size: 19px;
+    	font-weight: 600;
     }
 </style>
 <meta charset="UTF-8">
@@ -37,7 +52,7 @@
 	function chagedeptSelect(){
 		var selectDept = $("#deptSelect option:selected").val();
 		var yearMonth = $('#month').text();
-		location.href = "/attMonthChange?deptno="+selectDept+"&month="+yearMonth;
+		location.href = "/manager/attMonthChange?deptno="+selectDept+"&month="+yearMonth;
 	}
 	
 	function monthChange(add){
@@ -61,7 +76,7 @@
 		var monthStr = String(month).padStart(2,'0');
 		var result = year + "-" + monthStr;
 		
-		location.href = "/attMonthChange?deptno="+selectDept+"&month="+result;
+		location.href = "/manager/attMonthChange?deptno="+selectDept+"&month="+result;
 
 		
 		
@@ -87,7 +102,7 @@
 				var deptno = parseInt(urlParams.get('deptno'));
 				$('.form-select').append(str);
 				if (isNaN(deptno)){
-					$(".form-select option:eq(0)").prop("selected");
+					$(".form-select").val(10).prop("selected", true);
 				}
 				if (!isNaN(deptno)){
 					$(".form-select").val(deptno).prop("selected", true);
@@ -119,64 +134,31 @@
           </a>
     
          <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-  			<jsp:include page="navHeader.jsp"></jsp:include>
-          </ul>
+  		<%-- 	<jsp:include page="navHeader.jsp"></jsp:include> --%>
+          </ul>   
         </header>
     </nav>
     <!-- /header -->
     <!-- side nav bar -->
-    <div class="l-navbar" id="navbar">
+  <div class="l-navbar" id="navbar">
         <nav class="navv">
             <div>
                 <div class="nav__brand">
                     <ion-icon name="menu-outline" class="nav__toggle" id="nav-toggle"></ion-icon>
                     <a href="#" class="nav__logo">Bedimcode</a>
                 </div>
-                <div class="nav__list">
-                    <a href="#" class="nav__link active">
-                        <ion-icon name="home-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Dashboard</span>
-                    </a>
-                    <a href="#" class="nav__link">
-                        <ion-icon name="chatbubbles-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Messenger</span>
-                    </a>
-
                     <div href="#" class="nav__link collapses">
-                        <ion-icon name="folder-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Projects</span>
+     				<ion-icon name="pie-chart-outline" class="nav__icon"></ion-icon>
+                        <span class="nav_name">근태관리</span>
 
                         <ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
 
-                        <ul class="collapse__menu">
-                            <a href="#" class="collapse__sublink">Data</a>
-                            <a href="#" class="collapse__sublink">Group</a>
-                            <a href="#" class="collapse__sublink">Members</a>
+                        <ul class="collapse__menu" style="width: 180px;">
+                            <a href="${pageContext.request.contextPath}/manager/attForm" class="collapse__sublink">나의 근태관리</a><br>
+                            <a href="${pageContext.request.contextPath}/manager/attDeptMemberForm" class="collapse__sublink">부서별 근태관리</a>
+                            <a href="${pageContext.request.contextPath}/manager/attAllMemberForm" class="collapse__sublink">사원별 근태관리</a>
                         </ul>
                     </div>
-
-                    <a href="#" class="nav__link">
-                        <ion-icon name="pie-chart-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Analytics</span>
-                    </a>
-
-                    <div href="#" class="nav__link collapses">
-                        <ion-icon name="people-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Team</span>
-
-                        <ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
-
-                        <ul class="collapse__menu">
-                            <a href="#" class="collapse__sublink">Data</a>
-                            <a href="#" class="collapse__sublink">Group</a>
-                            <a href="#" class="collapse__sublink">Members</a>
-                        </ul>
-                    </div>
-
-                    <a href="#" class="nav__link">
-                        <ion-icon name="settings-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Settings</span>
-                    </a>
                 </div>
                 <a href="#" class="nav__link">
                     <ion-icon name="log-out-outline" class="nav__icon"></ion-icon>
@@ -206,32 +188,69 @@
 	                    	<div class ="col-2">부서별 근태현황</div>
 	                    	<div class ="col-8"
 							style=" align-items: center;text-align: center;font-size: 21px;"
-	                		><i class="bi bi-caret-left" onclick="monthChange(1)"></i><span id="month">${Month }</span><i class="bi bi-caret-right" onclick="monthChange(-1)"></i></div>
+	                		><i class="bi bi-chevron-left" onclick="monthChange(1)"></i><span id="month">${Month }</span><i class="bi bi-chevron-right" onclick="monthChange(-1)"></i></div>
 	                    	<div class ="col-2"></div>
                     	</div><hr>
                     <select class="form-select" id = "deptSelect" name = "deptno" aria-label="Default select example" onchange="chagedeptSelect()">
 					</select>
 						<div class ="row">
 							<div class ="col" onclick="j_test(-1300)" style="display: flex;align-items:center;">
-								<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-caret-left" viewBox="0 0 16 16">
-								  <path d="M10 12.796V3.204L4.519 8 10 12.796zm-.659.753-5.48-4.796a1 1 0 0 1 0-1.506l5.48-4.796A1 1 0 0 1 11 3.204v9.592a1 1 0 0 1-1.659.753z"/>
-								</svg>
+								<i class="bi bi-chevron-left"></i>
 							</div>
 							<div class ="col" style="width: 90%;">
 								<div id = "overflow">
 			                    	<table class="table table-hover">
 			                    		<tr>
-			                    		<th class="tdwidth">이름</th>
+			                    		<th class="tdwidth" colspan="2">이름</th>
 			                     		<c:forEach var="i" begin="0" end="${monthList.size()-1}">
-			   	   	              			<th class="tdwidth">${monthList.get(i)}</th>
+			   	   	              			<th class="tdwidth" style = "text-align: left">${monthList.get(i)}</th>
 			                    		</c:forEach>
-			                    		<c:if test="${attList.size() != 0 && memberList.size() != 0}">
+			                    		<c:if test="${attList.size() != 0 && memberList.size() != 0 && attList.size() != 1}">
 					                    		<c:forEach var="i" begin="0" end ="${attList.size()-attList.size()/memberList.size()}" step ="${attList.size()/memberList.size()}">
 					                    		<tr>
-					                    			<td class="tdwidth">${attList.get(i).member.name}(${attList.get(i).member.position}) <br>${attList.get(i).member.dept.dname} </td>
-					                    			<td class="tdwidth">출근 : ${attList.get(i).attOnTime} <br> 퇴근 : ${attList.get(i).attOffTime } <br> ${attList.get(i).attStatus}</td>
-						                     			<c:forEach var="j" begin="1" end="${monthList.size()-1}">
-					    	    	            			<td class="tdwidth">출근 : ${attList.get(i+j).attOnTime} <br> 퇴근 : ${attList.get(i+j).attOffTime }</td>
+					                    			<td class="td" style = "text-align: center">
+					                    				<i class="bi bi-person-circle"></i>
+					                    			</td>
+					                    			<td>
+					                    				<span class = "font-Bols"><br>
+					                    				${attList.get(i).member.name} ${attList.get(i).member.position}<br>
+					                    				<span style = "margin-left : 20px">${attList.get(i).member.dept.dname}</span>
+						                    			</span>
+					                    			</td>
+					                    			<td class="tdwidth" style = "text-align: center">
+					                    				<span class = "font-Bold">
+					                    				${attList.get(i).attOnTime} 
+					                    				<br>-
+					                    				<br>${attList.get(i).attOffTime } <br>
+					                    				</span>
+					                    			<c:if test = "${attList.get(i).attStatus eq '출근'}">
+						                    			<span style = "color : blue ; text-align: center; font-size : 13px">
+							                    			 ${attList.get(i).attStatus}
+						                    			</span>
+					                    			</c:if>
+					                    			<c:if test = "${attList.get(i).attStatus ne '출근'}">
+						                    			<span style = "color : red ; text-align: center; font-size : 13px">
+							                    			 ${attList.get(i).attStatus}
+						                    			</span>
+					                    			</c:if>
+					                    			
+					                    			 </td>
+						                     			<c:forEach var="j" begin="1" end="${attList.size()/memberList.size()-1}">
+					    	    	            			<td class="tdwidth" style = "text-align: center">
+					    	    	            			<span class = "font-Bold"> ${attList.get(i+j).attOnTime} 
+					    	    	            			<br>-
+					    	    	            			<br>${attList.get(i+j).attOffTime }<br>
+					    	    	            			</span>
+					    	    	            			<c:if test = "${attList.get(i+j).attStatus eq '출근'}">
+								                    			<span style = "color : blue ; text-align: center; font-size : 13px">
+									                    			 ${attList.get(i+j).attStatus}
+								                    			</span>
+							                    			</c:if>
+							                    			<c:if test = "${attList.get(i+j).attStatus eq '지각'}">
+								                    			<span style = "color : red ; text-align: center; font-size : 13px">
+									                    			 ${attList.get(i+j).attStatus}
+								                    			</span>
+							                    			</c:if>
 					        	            			</c:forEach>
 					                    		</tr>
 					                    		</c:forEach>
@@ -240,9 +259,7 @@
 			                    </div>
 							</div>
 							<div class="col" onclick="j_test(1300)" style="display: flex;align-items:center;">
-								<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-caret-right" viewBox="0 0 16 16">
-								  <path d="M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z"/>
-								</svg>
+								<i class="bi bi-chevron-right"></i>
 							</div>
 						</div>
            			</div>

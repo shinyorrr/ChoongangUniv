@@ -32,5 +32,12 @@ public class EvaService {
 		
 		return total;
 	}
+
+	public List<EvaVo> reviewList(String pname) {
+		
+		List<EvaVo> reviewList = ed.reviewList(pname);
+			
+		return reviewList;
+	}
 	
 }

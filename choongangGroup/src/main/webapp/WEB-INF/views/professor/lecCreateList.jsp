@@ -390,91 +390,87 @@ function setDateBox() {
 				<use xlink:href="#bootstrap"></use>
 			</a>
 
-			<ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+			<!-- <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
 				<li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>
 				<li><a href="#" class="nav-link px-2 link-dark">Features</a></rotli>
 				<li><a href="#" class="nav-link px-2 link-dark">Pricing</a></li>
 				<li><a href="#" class="nav-link px-2 link-dark">FAQs</a></li>
 				<li><a href="#" class="nav-link px-2 link-dark">About</a></li>
-			</ul>
+			</ul> -->
 		</header>
+		<div class=" flex-row float-end ms-4" style="float: right;">
+				<span class="text-primary h5" ><b>${name}</b>님</span>
+				<i class="text-primary bi-gear-fill mx-2"></i>
+				<span class="text-primary mx-3  font09">${major} | ${position} </span>
+				<%-- <i class="bi bi-envelope-fill text-primary"></i>
+				<span class="text-primary ms-2 font09">${email}</span>--%>			
+		</div>
 	</nav>
 	
 	<!-- side nav bar -->
-    <div class="l-navbar" id="navbar">
-        <nav class="navv">
-            <div>
-                <div class="nav__brand">
-                    <ion-icon name="menu-outline" class="nav__toggle" id="nav-toggle"></ion-icon>
-                    <a href="#" class="nav__logo">Bedimcode</a>
-                </div>
-                
-                
-                <div href="#" class="nav__link collapses active">
-                        <ion-icon name="folder-outline" class="nav__icon md hydrated" role="img" aria-label="folder outline"></ion-icon>
-                        <span class="nav_name">학사관리</span>
-
-                        <ion-icon name="chevron-down-outline" class="collapse__link md hydrated rotate" role="img" aria-label="chevron down outline"></ion-icon>
-
-                        <ul class="collapse__menu showCollapse">
-                            <a href="#" class="collapse__sublink">강의시간표</a>
-                            <a href="#" class="collapse__sublink">Group</a>
-                            <a href="#" class="collapse__sublink">Members</a>
-                        </ul>
-                </div>
-                
-                
-                
-                <div class="nav__list">
-                    <a href="#" class="nav__link active">
-                        <ion-icon name="home-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Dashboard</span>
-                    </a>
-                    <a href="#" class="nav__link">
-                        <ion-icon name="chatbubbles-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Messenger</span>
-                    </a>
-
-              
-
-                    <a href="#" class="nav__link">
-                        <ion-icon name="pie-chart-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Analytics</span>
-                    </a>
-
-                    <div href="#" class="nav__link collapses">
-                        <ion-icon name="people-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Team</span>
-
-                        <ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
-
-                        <ul class="collapse__menu">
-                            <a href="#" class="collapse__sublink">Data</a>
-                            <a href="#" class="collapse__sublink">Group</a>
-                            <a href="#" class="collapse__sublink">Members</a>
-                        </ul>
-                    </div>
-
-                    <a href="#" class="nav__link">
-                        <ion-icon name="settings-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Settings</span>
-                    </a>
-                </div>
-                <a href="#" class="nav__link">
-                    <ion-icon name="log-out-outline" class="nav__icon"></ion-icon>
-                    <span class="nav_name">Log out</span>
-                </a>
+   <div class="l-navbar" id="navbar">
+      <nav class="navv">
+         <div>
+            <div class="nav__brand">
+               <ion-icon name="menu-outline" class="nav__toggle" id="nav-toggle"></ion-icon>
+               <a href="#" class="nav__logo"></a>
             </div>
-        </nav>
-    </div>
-	<!-- /side nav bar -->
+            <!-- <a href="/professor/calenderForm" class="nav__link active">
+               <i class="bi bi-calendar-plus nav__icon" ></i>
+               <span class="nav_name">캘린더</span>
+            </a> -->
+            
+            <div class="nav__list">
+               <a href="/notice/noticeList" class="nav__link">
+                  <ion-icon name="pie-chart-outline" class="nav__icon"></ion-icon>
+                  <span class="nav_name">공지사항</span>
+               </a>
+      
+               <div href="#" class="nav__link collapses ">
+                  <i class="bi bi-mortarboard-fill nav__icon"></i>
+                  <span class="nav_name mt-1">학사관리</span>
+                  <ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
+                  <ul class="collapse__menu" style="width: 180px;">
+                     <a href="#" class="collapse__sublink mt-2 mb-3" style="font-size: 0.85rem; display: block;">강의시간표</a>
+                     <a href="/professor/lecMgMain?userid=${userid}" class="collapse__sublink mb-1" style="display: block;font-size: 0.85rem;">강의관리</a>
+                     <a  class="collapse__sublink ms-3" style="font-size: 0.8rem; display: block;">전자출석부</a>
+                     <a href="#" class="collapse__sublink ms-3 mb-3"  style="font-size: 0.8rem; display: block;">과제관리</a>
+                     
+                     <a href="#" class="collapse__sublink mb-3" style="font-size: 0.85rem; display: block;">강의계획서</a>
+                     <a href="/professor/lecCreateList" class="collapse__sublink mb-3" style="font-size: 0.85rem; display: block;">강의개설</a>
+                     <!-- <a href="#" class="collapse__sublink mb-1   " style="font-size: 0.875rem;">강의정보</a>
+                     <a href="#" class="collapse__sublink ms-3"  style="font-size: 0.8rem;">강의계획서</a>
+                     <a href="#" class="collapse__sublink ms-3 mb-2"  style="font-size: 0.8rem;">강의개설</a> -->
+                     <a href="/professor/lecScore" class="collapse__sublink mb-3" style="font-size: 0.85rem; display: block;">성적관리</a>
+                     <a href="#" class="collapse__sublink mb-3" style="font-size: 0.85rem; display: block;">휴&#183;보강 신청</a>
+                     <a href="#" class="collapse__sublink" style="font-size: 0.85rem; display: block;">내선번호관리</a>
+                  </ul>
+               </div>
+   
+               <a href="#" class="nav__link">
+                  <ion-icon name="chatbubbles-outline" class="nav__icon"></ion-icon>
+                  <span class="nav_name">결재</span>
+               </a>
+               <a href="#" class="nav__link">
+                  <ion-icon name="settings-outline" class="nav__icon"></ion-icon>
+                  <span class="nav_name">개인정보관리</span>
+               </a>
+            </div>
+            <a href="/logout" class="nav__link">
+               <ion-icon name="log-out-outline" class="nav__icon"></ion-icon>
+               <span class="nav_name">Log out</span>
+            </a>
+         </div>
+      </nav>
+   </div>
+   <!-- /side nav bar -->
 
 <!------- main content ------------>
 <div style=" background-color: rgb(214, 225, 237);">
 	<!-- <div class="row"> -->
 
 		<!-- content header -->
-		<div class="col-12 p-4" style="height: 110px; background-color: rgb(95, 142, 241); vertical-align: middle;">
+		<%-- <div class="col-12 p-4" style="height: 110px; background-color: rgb(95, 142, 241); vertical-align: middle;">
 			<div class="d-flex flex-row" >
 				<div class="text-white h5">안녕하세요. <b>${name }</b>님!</div>
 					<span class="border border-1 font08 border-white border-bottom rounded-pill text-white px-2  ms-3 me-2"
@@ -482,11 +478,11 @@ function setDateBox() {
 					<i class="text-white bi-gear-fill mx-2" style="height: 18px;"></i>
 			</div>
 			<div class="d-flex text-white" style="font-size: 14px;" ><span id="userMajor">${major} &nbsp;</span>| ${position}</div>
-			<%-- <div class="d-flex flex-low text-white" style="font-size: 14px;">
+			<div class="d-flex flex-low text-white" style="font-size: 14px;">
 				<i class="bi bi-envelope-fill me-3 ml-0 "></i>${email }
-			</div> --%>
+			</div>
 		</div>
-
+ --%>
 	<!------------- card header  컨텐츠 폼------------->
 		<main class="col-9 h-100 w-100">
 			<div class="row m-5">
@@ -544,9 +540,7 @@ function setDateBox() {
 						</div>
 					</div>
 	
-					
-	
-	<br>
+				<br>
 				<div class="mt-4 mb-2 form-group mx-0 font09" style="display: inline;">
 					
 						<!-- <p class="fw-bold ">개설강좌 목록</p> -->
@@ -811,14 +805,19 @@ function setDateBox() {
 					
 				</div>
 				</div>
-			</div>
-		<!-- footer -->
-		<footer class="col-12" style="height: 60px; font-size: 12px;">
-			@2022 ChoongAng University. All Rights Reserved.
-		</footer>    
-					
-		</main>
-</div>
-
-</body>
+			
+		 <!-- footer -->
+               <jsp:include page="../footer.jsp"></jsp:include>
+               <!-- <footer class="col-12 mt-5" style="height: 60px; font-size: 12px;">
+                  @2022 ChoongAng University. All Rights Reserved.
+               </footer>  -->
+            </div> 
+         </main>
+      </div> 
+   </div> <!-- container div end -->
+   
+   <!-- NavBar 관련 IONICONS -->
+   <script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script>
+   <!-- JS -->
+   <script src="/js/main.js"></script>
 </html>

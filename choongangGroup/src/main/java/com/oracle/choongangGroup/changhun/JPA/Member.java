@@ -16,7 +16,6 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.oracle.choongangGroup.taewoo.domain.Notice;
 
 import lombok.Data;
-import lombok.ToString;
 
 @Data
 @Entity

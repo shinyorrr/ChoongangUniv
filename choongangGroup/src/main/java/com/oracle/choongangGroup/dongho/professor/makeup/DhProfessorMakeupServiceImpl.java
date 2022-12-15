@@ -10,7 +10,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
-import com.oracle.choongangGroup.dongho.professor.LectureMapper;
+import com.oracle.choongangGroup.dongho.professor.mappers.LectureMapper;
 import com.oracle.choongangGroup.dongho.professor.mappers.OrdersMapper;
 import com.oracle.choongangGroup.hs.lecManagement.LectureVO;
 

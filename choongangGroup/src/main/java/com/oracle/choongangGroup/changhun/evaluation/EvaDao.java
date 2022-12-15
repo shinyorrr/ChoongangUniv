@@ -10,4 +10,6 @@ public interface EvaDao {
 
 	EvaVo total(String pname);
 
+	List<EvaVo> reviewList(String pname);
+
 }
