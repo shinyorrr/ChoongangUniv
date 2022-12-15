@@ -12,6 +12,7 @@
 			obj.submit();
 			
 		}
+		
 
 		function apply(lecId, userid){
 			$.ajax({
@@ -23,6 +24,7 @@
 
 					if(result == 1){
 					alert("성공")
+					
 					location.reload();
 					}else if(result == 0){
 						alert("중복된 강의입니다.")
@@ -34,6 +36,8 @@
 				}		
 			});	
 		}
+		
+	
 		
 </script>
 
@@ -176,20 +180,23 @@
                 <div class="row m-5">
                     <!-- card header -->
                     <div class="col-12 rounded-top text-white overflow-auto pt-2 fw-bold" style="background-color: rgb(39, 40, 70); height: 40px;"> 
-                        <i class="bi bi-bookmark-fill me-2"></i>교수서비스 <i class="bi bi-chevron-right"></i>학사관리 <i class="bi bi-chevron-right"></i>강의 시간표 조회
+                        <i class="bi bi-bookmark-fill me-2"></i>학생서비스 <i class="bi bi-chevron-right"></i>수강신청 <i class="bi bi-chevron-right"></i>수강 신청
                     </div>
                     <!-- card content -->  
                     <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
                         <!-------------------------------------------------- 본문 --------------------------------------------------->             
-                        
+                        <!------------------- 수강 신청 ------------------------------>  
+                    <div class="col-12 rounded-bottom overflow-auto bg-light p-4" style="min-height: 550px;"> 
+                    	<div class="d-flex flex-row">                    		
+                    	 	<div class="col-6 mx-1 ">
 	                        <!--메인 제목-->
 	                        <div class="mt-3 mb-3">                    
 	                       	  <span class="fs-2 fw-bold">수강신청 </span>                         
 	                        </div> 
 	                       	
 	                       	<!--  검색상단바 -->
-	                        <!-- class="fw-bold border rounded-top " style="background-color:#EAEAEA; height: 45px;" -->	                       	
-	                       	<div class="fw-bold fs-5 " style="background-color:#EAEAEA; height: 45px;">
+	                                           	
+	                       	<div class="fw-bold fs-6 " style="background-color:#EAEAEA; height: 45px;">
 	                       		<span style="line-height: 45px; margin-left: 10px;">${year }학년도 ${semester }학기 개설강좌</span>
 	                       		
 	                    		<!-- 강의명으로 검색 -->
@@ -198,14 +205,14 @@
 		                       		  
 									  <div class="col-12">							    
 									  	<div class="input-group">				     
-									      <input type="text" name="lecName" class="form-control mt-1" placeholder="강의명으로 검색">
+									      <input type="text" name="lecName" class="form-control form-control-sm mt-2" placeholder="강의명으로 검색">
 									    </div>
 									  </div>
 									 
 									 <!-- 강의목록 정렬 Select -->
 									 <div class="col-12">	
 			                       		<input type="hidden" name="userid" value="${userid }">
-										<select class="form-select mt-1" name="select" onchange="submit(this.form)">
+										<select class="form-select-sm mt-2" name="select" onchange="submit(this.form)">
 											<option label="강의 목록"/>
 											<option value="like">수강 장바구니</option >				
 											<option value="all">수강 전체 과목</option>			
@@ -231,7 +238,7 @@
 										<td>${list.lecture.id }</td><td>${list.lecture.name }</td><td>${list.lecture.grade }</td>
 										<td>${list.lecture.day1}${list.lecture.time1}, ${list.lecture.day2}${list.lecture.time2}</td><td>${list.lecture.prof }</td><td>${list.lecture.type }</td>
 										<td>${list.lecture.major }</td><td>${list.lecture.unitScore }</td>
-										<td><input type="button" value="신청" onclick="apply('${list.lecture.id}','${userid}')"></td> 			
+										<td><input type="button" value="신청" id="button" onclick="apply('${list.lecture.id}','${userid}');change()"></td> 			
 									</tr>	
 								</c:forEach>
 								</c:if>	
@@ -243,7 +250,7 @@
 										<td>${lec.id }</td><td>${lec.name }</td><td>${lec.grade }</td>
 										<td>${lec.day1}${lec.time1}, ${lec.day2}${lec.time2}</td><td>${lec.prof }</td><td>${lec.type }</td>
 										<td>${lec.major }</td><td>${lec.unitScore }</td>
-										<td><input type="button" value="신청" onclick="apply('${lec.id}','${userid}')"></td>	
+										<td><input type="button" value="신청" id="button" onclick="apply('${lec.id}','${userid}');change() "></td>	
 									</tr>	
 								</c:forEach>
 								</c:if>	
@@ -332,6 +339,49 @@
 								</div>
 								<!-- 페이징 영역 끝 -->
 							</div>
+							
+							<!-- 세로줄 -->
+							<div class="d-flex mx-1" style="height: 750px;">
+  							<div class="vr"></div>
+							</div>
+							
+							<div class="col-6 ms-4"> <!-----------------수강  신청된 강의------------------------>
+								<!-- 신청강의 목록 제목-->
+		                        <div class="mt-3 mb-3">                    
+		                       	  <span class="fs-2 fw-bold">수강신청 된 목록</span> 
+		                        </div>
+		                        
+		                        <!-- 총 신청 학점 -->
+		                        <div class="fw-bold fs-6 " style="background-color:#EAEAEA; height: 45px;">
+	                       		<span style="line-height: 45px; margin-left: 10px;">총 신청학점 : </span>
+		                        </div>
+		                        <!----------- 수강신청된 목록 -------------->
+		                        <div class="mt-5">
+								<table class="table table-striped">
+								<thead>
+									<tr>
+										<th>강의코드</th><th>강의명</th><th>학년</th><th>강의시간</th><th>교수명</th>
+										<th>이수구분</th><th>전공</th><th>학점</th>
+									</tr>
+								</thead>
+								
+								
+								<c:forEach var="list" items="${list }">
+									<tr>
+										<td>${list.lecture.id }</td><td>${list.lecture.name }</td><td>${list.lecture.grade }</td>
+										<td>${list.lecture.day1}${list.lecture.time1}, ${list.lecture.day2}${list.lecture.time2}</td><td>${list.lecture.prof }</td><td>${list.lecture.type }</td>
+										<td>${list.lecture.major }</td><td>${list.lecture.unitScore }</td>
+										<td><button>취소</button></td>
+												
+									</tr>	
+								</c:forEach>
+								</table>
+							
+							
+							</div>													
+						</div>
+							
+							
 							<!------------------------------------------------------------------------------------------------------------>	
 						</div>                                       
                     </div>

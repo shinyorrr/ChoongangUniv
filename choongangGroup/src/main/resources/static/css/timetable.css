@@ -1,0 +1,27 @@
+
+.timetable{
+	margin-top : 35px;
+	height: 80%;
+}
+
+.timetable table{
+		border: 1px solid 	#6E9FED;
+		width: 100%;
+		border-collapse: separate;
+				
+	}
+	
+	
+.timetable td, .timetable th{
+	border: 1px solid #6E9FED ;
+	text-align: center;
+	height: 20px;
+	width: 10%;
+	
+	}
+
+
+
+	
+	
+	

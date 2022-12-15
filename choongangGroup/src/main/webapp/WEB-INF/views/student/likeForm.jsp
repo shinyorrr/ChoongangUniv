@@ -16,12 +16,17 @@
 <!-- font awesome -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <!-- CSS -->
+<link rel="stylesheet" href="/css/timetable.css">
 <link rel="stylesheet" href="/css/styles.css">
+
 
     <title>SideBar sub menus</title>
 </head>
+
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript">
+
+
 	function submit(lecId, userid){
 		$.ajax({
 			url:"/student/like",
@@ -43,7 +48,19 @@
 			}		
 		});	
 	}
-</script>
+	
+	$(document).ready(function(){
+	var color = '#';
+	var letters = ['f6c9cc', 'a8c0c0', 'FEBF36', 'FF7238', '6475A0', 'acc7bf', '5e5f67', 'c37070', 'eae160', 'bf7aa3', 'd7d967'];
+	color += letters[Math.floor(Math.random() * letters.length)]; 
+	document.getElementById('wrap').style.background = color; 
+	document.getElementById('wrap2').style.background = color; 
+	});
+	
+
+    </script>
+
+
 
 <body class="" id="body-pd">
     <!-- header -->
@@ -167,7 +184,7 @@
                 <div class="row m-5">
                     <!-- card header -->
                     <div class="col-12 rounded-top text-white overflow-auto pt-2 fw-bold" style="background-color: rgb(39, 40, 70); height: 40px;"> 
-                        <i class="bi bi-bookmark-fill me-2"></i>교수서비스 <i class="bi bi-chevron-right"></i>학사관리 <i class="bi bi-chevron-right"></i>강의 시간표 조회
+                        <i class="bi bi-bookmark-fill me-2"></i>학생서비스 <i class="bi bi-chevron-right"></i>수강신청 <i class="bi bi-chevron-right"></i>장바구니 신청
                     </div>
                     
                     <!------------------- 장바구니 신청 ------------------------------>  
@@ -181,7 +198,7 @@
 	                        </div> 
 	                       	
 	                       	<!--  검색상단바 -->
-	                        <!-- class="fw-bold border rounded-top " style="background-color:#EAEAEA; height: 45px;" -->	                       	
+	                                         	
 	                       	<div class="fw-bold fs-6 " style="background-color:#EAEAEA; height: 45px;">
 	                       		<span style="line-height: 45px; margin-left: 10px;">${year }학년도 ${semester }학기 개설강좌</span>
 	                       		
@@ -202,10 +219,7 @@
 				                       						                    		
 				                       	</div>
 									</div>	
-								</form>
-								
-								
-								
+								</form>							
 	                       	</div>
 	
 								<!-- 리스트 -->
@@ -223,6 +237,7 @@
 										</tr>	
 									</c:forEach>	
 								</table>
+								
 								
 								<!------------------------------------- 페이징 영역 시작 ------------------------------------------>
 								<div class="text-xs-center">
@@ -262,36 +277,102 @@
 								<!-- 페이징 영역 끝 -->
 							</div>
 							
+							<!-- 세로줄 -->
+							<div class="d-flex mx-3" style="height: 750px;">
+  							<div class="vr"></div>
+							</div>
 							
 							
-							<div class="col-5 ms-5"> <!-----------------장바구니  신청된 강의------------------------>
+							<div class="col-5 ms-4"> <!-----------------장바구니  신청된 강의------------------------>
 								<!-- 신청강의 목록 제목-->
 		                        <div class="mt-3 mb-3">                    
 		                       	  <span class="fs-2 fw-bold">장바구니 담긴 목록</span> 
 		                        </div>
-							
-							
-								<table class="table table-striped">
-										<thead>
-										<tr>
-											<th>강의코드</th><th>강의명</th><th>학년</th><th>강의시간</th><th>교수명</th>
-											<th>이수구분</th><th>전공</th><th>학점</th><th>&nbsp;&nbsp;</th>
-										</tr>
-										</thead>
-										<c:forEach var="lec" items="${likeList }">
-											<tr>
-												<td>${lec.lecture.id }</td><td>${lec.lecture.name }</td><td>${lec.lecture.grade }</td>
-												<td>${lec.lecture.day1}${lec.lecture.time1}, ${lec.lecture.day2}${lec.lecture.time2}</td><td>${lec.lecture.prof }</td><td>${lec.lecture.type }</td>
-												<td>${lec.lecture.major }</td><td>${lec.lecture.unitScore }</td>
+		                        
+		                        <!-- 총 신청 학점 -->
+		                        <div class="fw-bold fs-6 " style="background-color:#EAEAEA; height: 45px;">
+	                       		<span style="line-height: 45px; margin-left: 10px;">총 신청학점 : </span>
+		                        </div>
+		                       
+		                       
+			<%-- 					<table class="table table-striped">
+								<thead>
+									<tr>
+										<th>강의코드</th><th>강의명</th><th>학년</th><th>강의시간</th><th>교수명</th>
+										<th>이수구분</th><th>전공</th><th>학점</th>
+									</tr>
+								</thead>
+								
+								
+								<c:forEach var="list" items="${list }">
+									<tr>
+										<td>${list.lecture.id }</td><td>${list.lecture.name }</td><td>${list.lecture.grade }</td>
+										<td>${list.lecture.day1}${list.lecture.time1}, ${list.lecture.day2}${list.lecture.time2}</td><td>${list.lecture.prof }</td><td>${list.lecture.type }</td>
+										<td>${list.lecture.major }</td><td>${list.lecture.unitScore }</td>
+												
+									</tr>	
+								</c:forEach>
+								</table> --%>
+							<!-- ffebf0 베핑    #FFF0F5     연두#F2F9E8 내픽#F2F8F8-->
+								<!--------------------------------- 시간표 -------------------------------------->
+							<div class="mt-1 timetable" >
+								<table class="timetable" style="background-color: #F2F8F8 ; color: 	#003A9D" >								
+												<thead >
+												<tr >
+													<th style="width: 6%; ">시간</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th>											
+												</tr>
+												</thead>									
+												<tbody>			
 													
-											</tr>	
+									<c:forEach var="j" begin="1" end="7">	
+										<tr>
+											<td style="width: 6%">${j }교시</td>	
+											
+											<c:forEach var="d" items="${day }">
+															
+												<c:forEach var="lec" items="${list }" >	
+													<c:if test="${lec.lecture.day1 eq d and lec.lecture.time1 le j and lec.lecture.time1+lec.lecture.hour1 gt j}">
+														<c:set var="day1" value="${lec.lecture.day1 }"></c:set> 
+														<c:set var="name1" value="${lec.lecture.name }"></c:set>
+														<c:set var="time1" value="${lec.lecture.time1 }"></c:set>
+														<c:set var="hour1" value="${lec.lecture.hour1 }"></c:set>
+													</c:if>	
+													
+													
+													
+													<c:if test="${lec.lecture.day2 eq d and lec.lecture.time2 le j and lec.lecture.time2+lec.lecture.hour2 gt j}">
+														<c:set var="day2" value="${lec.lecture.day2 }"></c:set> 
+														<c:set var="name2" value="${lec.lecture.name }"></c:set>
+														<c:set var="time2" value="${lec.lecture.time2 }"></c:set>
+														<c:set var="hour2" value="${lec.lecture.hour2 }"></c:set>
+													</c:if>															
+												</c:forEach>
+												
+												<c:choose>
+													<c:when test="${day1 eq d and time1+hour1 gt j}"> 
+													 	<td style="background-color: #6799FF; color: white;">${name1 }</td>
+													</c:when>
+													<c:when test="${day2 eq d and time2+hour2 gt j}"> 
+													 	<td style="background-color: #B2CCFF; color: white">${name2 }</td>
+													</c:when>
+													<c:otherwise>
+														<td></td>
+													</c:otherwise>
+												</c:choose>
+											</c:forEach>	
+											</tr>
 										</c:forEach>	
-									</table>
-							
-							
-							
-							
-							
+													 
+									</tbody>																	
+								</table> 
+								
+								
+							</div>	
+								
+								
+								
+
+																				
 							</div>
 						</div>
                     </div>
