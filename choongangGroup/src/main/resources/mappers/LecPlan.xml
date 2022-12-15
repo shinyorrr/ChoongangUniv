@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ======= mapper 기본설정 ======= -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- ==== 루트 엘리먼트 & 네임스페이스 설정(프로젝트 전체 내에서 유일해야 한다.) ==== -->
+<mapper namespace="com.oracle.choongangGroup.dongho.professor.mappers.LecPlanMapper">
+	<insert id="insertPlan" parameterType="com.oracle.choongangGroup.dongho.professor.lecturePlan.LecPlanDto">
+		INSERT INTO lec_plan (
+								lec_id, 
+								plan_goal, 
+								plan_midterm_ratio, 
+								plan_final_ratio, 
+								plan_report_ratio, 
+								plan_attendance, 
+								plan_way, 
+								book_name, 
+								book_author, 
+								book_publisher, 
+								book_year, 
+								plan_eval_detail1, 
+								plan_eval_detail2
+								)
+		VALUES (
+				#{lec_id}, 
+				#{plan_goal}, 
+				#{plan_midterm_ratio}, 
+				#{plan_final_ratio}, 
+				#{plan_report_ratio}, 
+				#{plan_attendance}, 
+				#{plan_way}, 
+				#{book_name}, 
+				#{book_author}, 
+				#{book_publisher}, 
+				#{book_year}, 
+				#{plan_eval_detail1}, 
+				#{plan_eval_detail2}
+				)
+	</insert>
+	
+	<delete id="deletePlanAndLec" parameterType="Long">
+		DECLARE
+		BEGIN
+			DELETE lec_plan 
+			WHERE lec_id = #{lec_id} ;
+			
+			DELETE lec_plan_week 
+			WHERE lec_id = #{lec_id} ;
+		END;
+	</delete>
+</mapper>
