@@ -99,7 +99,7 @@
 </script>
 </head>
 
-<body class="" id="body-pd">
+<body class="" id="body-pd" onload="printClock()">
     <!-- header -->
     <!-- <nav class="navbar navbar-expand-lg navbar-dark bd-navbar bg-light sticky-top position-fixed fixed-top w-100" style="position : absolute">
         <a class="navbar-brand">
@@ -115,12 +115,7 @@
           </a>
     
  <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-            <li><a href="/manager/main" class="nav-link px-2 link-secondary">Home</a></li>
-            <li><a href="#" class="nav-link px-2 link-dark">전자 결재</a></li>
-            <li><a href="#" class="nav-link px-2 link-dark">학사 관리</a></li>
-            <li><a href="#" class="nav-link px-2 link-dark">교재 관리</a></li>
-            <li><a href="/notice/noticeList" class="nav-link px-2 link-dark">공지사항 관리</a></li>
-            <li><a href="/message/messageList" class="nav-link px-2 link-dark">쪽지함</a></li>
+            <jsp:include page="../navHeader.jsp"></jsp:include>
           </ul>
         </header>
     </nav>
@@ -128,63 +123,28 @@
     <!-- side nav bar -->
     <div class="l-navbar" id="navbar">
         <nav class="navv">
-            <div>
-                <div class="nav__brand">
-                    <ion-icon name="menu-outline" class="nav__toggle" id="nav-toggle"></ion-icon>
-                    <a href="/notice/noticeList" class="nav__logo">공지사항 관리</a>
-                </div>
-                <div class="nav__list">
-                    <a href="/noticeWrite" class="nav__link active">
-                        <ion-icon name="home-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">공지사항 글쓰기</span>
-                    </a>
-                    <a href="#" class="nav__link">
-                        <ion-icon name="chatbubbles-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Messenger</span>
-                    </a>
+			<div>
+				<div class="nav__brand">
+					<ion-icon name="menu-outline" class="nav__toggle" id="nav-toggle"></ion-icon>
+				</div>
+				<div class="nav__list">
+					<div href="/manager/notice/noticeList" class="nav__link collapses">
+						<ion-icon name="folder-outline" class="nav__icon"></ion-icon>
+						<span class="nav_name"><a style="text-decoration: none; color: white;"  href="/notice/noticeList">공지사항 관리</a></span>
 
-                    <div href="#" class="nav__link collapses">
-                        <ion-icon name="folder-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Projects</span>
+						<ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
 
-                        <ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
-
-                        <ul class="collapse__menu">
-                            <a href="#" class="collapse__sublink">Data</a>
-                            <a href="#" class="collapse__sublink">Group</a>
-                            <a href="#" class="collapse__sublink">Members</a>
-                        </ul>
-                    </div>
-
-                    <a href="#" class="nav__link">
-                        <ion-icon name="pie-chart-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Analytics</span>
-                    </a>
-
-                    <div href="#" class="nav__link collapses">
-                        <ion-icon name="people-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Team</span>
-
-                        <ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
-
-                        <ul class="collapse__menu">
-                            <a href="#" class="collapse__sublink">Data</a>
-                            <a href="#" class="collapse__sublink">Group</a>
-                            <a href="#" class="collapse__sublink">Members</a>
-                        </ul>
-                    </div>
-
-                    <a href="#" class="nav__link">
-                        <ion-icon name="settings-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Settings</span>
-                    </a>
-                </div>
-                <a href="#" class="nav__link">
-                    <ion-icon name="log-out-outline" class="nav__icon"></ion-icon>
-                    <span class="nav_name">Log out</span>
-                </a>
-            </div>
-        </nav>
+						<ul class="collapse__menu" style="width: 180px;">
+							<a href="/manager/noticeWrite" class="collapse__sublink">공지사항 글쓰기</a>
+						</ul>
+					</div>
+				</div>
+				<a href="/logout" class="nav__link"> <ion-icon
+						name="log-out-outline" class="nav__icon"></ion-icon> <span
+					class="nav_name">Log out</span>
+				</a>
+			</div>
+		</nav>
     </div>
     <!-- /side nav bar -->
     <!-- main content -->
@@ -193,36 +153,12 @@
             
             
             <!-- content header -->
-            <div class="col-12 pt-4" style="height: 150px; background-color: rgb(95, 142, 241)">
-                <div class="d-flex flex-row mb-3">
-                    <div>
-                        <span class="text-white h4">공지사항 조회 <span class="fw-bold">${notice.writer.userid }</span>님!</span>
-                    </div> 
-                    <div class="border border-1 border-white border-bottom rounded-pill text-white px-2 pt-1 ms-2 h6">교수</div>
-                    <div>
-                        <i class="text-white bi-gear-fill mx-2"></i>
-                    </div>
-                </div>
-                <div class="row">
-                    <div>
-                        <span class="text-white h6">이공대학 컴퓨터공학과 | 정교수</span>
-                    </div>
-                </div>
-                <div class="d-flex flex-low">
-                    <div>
-                        <i class="bi bi-envelope-fill text-white"></i>
-                    </div>
-                    <div>
-                        <span class="text-white ms-3">test123@naver.com</span>
-                    </div>
-                </div>
-                
-            </div>
+            <jsp:include page="../contentHeader.jsp"></jsp:include>
             <main class="col-9 h-100 w-100">
                 <div class="row m-5">
                     <!-- card header -->
                     <div class="col-12 rounded-top text-white overflow-auto pt-2 fw-bold" style="background-color: rgb(39, 40, 70); height: 40px;"> 
-                        <i class="bi bi-bookmark-fill me-2"></i>공지사항 관리 <i class="bi bi-chevron-right"></i> <a style="text-decoration: none; color: white;"  href="/notice/noticeList">공지사항</a>
+                        <i class="bi bi-bookmark-fill me-2"></i>공지사항 관리 <i class="bi bi-chevron-right"></i> <a style="text-decoration: none; color: white;"  href="/notice/noticeList">공지사항</a> <i class="bi bi-chevron-right"></i> 상세내용
                     </div>
                     <!-- card content -->  
                     <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
