@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.oracle.choongangGroup.changhun.JPA.Member;
 import com.oracle.choongangGroup.sh.domain.ApplicationLec;
 import com.oracle.choongangGroup.yn.repository.LecApplicationRepository;
 import com.oracle.choongangGroup.yn.repository.LecRepository;
@@ -37,7 +38,7 @@ public class LecServiceImpl implements LecService {
 	private final LecRepository lr;
 	private final LecApplicationRepository ar;
 	private final ObjectMapper obm;
-
+	
 	@Override  
 	public List<ApplicationLec> findByLecture_IdAndGubun(Long id, Long gubun) {
 		return ar.findByLecture_IdAndGubun(id, gubun);
@@ -133,7 +134,6 @@ public class LecServiceImpl implements LecService {
 			e.printStackTrace();
 		}
 	}
-
 
 
 

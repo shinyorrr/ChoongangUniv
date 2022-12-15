@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.oracle.choongangGroup.changhun.JPA.Member;
 import com.oracle.choongangGroup.dongho.auth.GetMember;
+import com.oracle.choongangGroup.hs.approval.ApprovalService;
 import com.oracle.choongangGroup.sh.domain.ApplicationLec;
 import com.oracle.choongangGroup.sh.domain.Grade;
 import com.oracle.choongangGroup.sh.domain.Lecture;
@@ -43,15 +44,16 @@ public class LecController {
 	private final LecRepository lr;
 	private final GradeRepository gr;
 	private final GradeServiceImpl gs;
-
+	private final ApprovalService as;
+	
 	private final LecRepositoryImpl lm;
 	private final GetMember gm;
 
 	@GetMapping(value = "professor/professorMain")
 	public String professorMain(Model model) {
+		
 		System.out.println("LecController professorMain 시작 ==============");
 		String mainCheck = "1";
-
 		String name = gm.getMember().getName();
 		System.out.println(name);
 
@@ -62,29 +64,26 @@ public class LecController {
 		model.addAttribute("mainCheck", mainCheck);
 		model.addAttribute("lecList", lectureList);
 		model.addAttribute("lecCnt", lectureList.size());
+		
+		model.addAttribute("member", gm.getMember());
 		return "professor/main";
 	}
 	
-	// 캘린더이동   ---> 작업중 : 일단 연결만
-//	
-
 	// 캘린더이동 ---> 작업중 : 일단 연결만
-
 //	@GetMapping(value = "professor/calenderForm") public String lecList(Model model) { //
 //	String name = gm.getMember().getName();
 //	String userid = gm.getMember().getUserid();
 //	System.out.println(name);
-//
 //	return "/professor/calenderForm"; }
 
+	
 	////// 강의개설 페이지 시작 //////
 	// 교수의 강의리스트 조회 - 로그인된 교수이름으로 강의조회
 	@GetMapping(value = "professor/lecCreateList")
-	public String findLecList(/* HttpSession session, */ Model model) {
+	public String findLecList(Model model) {
 
 		// 접속아이디 -> 교수 이름 찾기
 		String name = gm.getMember().getName();
-		/* String name = (String) session.getAttribute("name"); */
 		System.out.println(name);
 
 		///////// 접속 아이디 받아서 넘기기////////////
@@ -92,7 +91,8 @@ public class LecController {
 		System.out.println("lectureList.size() --> " + lectureList.size());
 		model.addAttribute("lecCnt", lectureList.size());
 		model.addAttribute("lecList", lectureList);
-
+		model.addAttribute("member", gm.getMember());
+		
 		return "professor/lecCreateList";
 	}
 
@@ -113,7 +113,6 @@ public class LecController {
 		String name = gm.getMember().getName();
 
 		log.info("LecController saveLec START ====================");
-		log.info("lecture name ====> {}", lecture.getName());
 		System.out.println("lecture name ====> " + lecture.getName());
 
 		lecture.setProf(name);
@@ -178,19 +177,19 @@ public class LecController {
 	 * 강의관리 메인 1. 로그인된 교수의 강의조회 2. 강의를 듣는 Member(학생) 조회 .(findByLecture_IdAndGubun)
 	 */
 	@GetMapping(value = "professor/lecMgMain")
-	public String lecMgList(/* HttpSession session, */ Model model) {
+	public String lecMgList(Model model) {
 		// 접속아이디 -> 교수 이름 찾기
-//		String name = (String) session.getAttribute("name");
 		String name = gm.getMember().getName();
 		System.out.println(name);
 
-		///////// 접속교수 이름 받아서 넘기기////////////
+		///////// 접속교수 이름 받아서 넘기기 - 교수의 개강된 강의 조회 ////////////
 		List<Lecture> lectureList = lr.findByProfAndStatusOrderByIdAsc(name, "0");
-
+		
 		System.out.println(lectureList.size());
 		model.addAttribute("lecList", lectureList);
 		model.addAttribute("lecCnt", lectureList.size());
-
+		model.addAttribute("member", gm.getMember());
+		
 		return "professor/lecMgMain";
 	}
 
@@ -200,18 +199,45 @@ public class LecController {
 	 */
 	@GetMapping(value = "professor/lecAttendanceCheck")
 	public String selectOneLec(@RequestParam(value = "id") Long id, Model model) {
-		System.out.println("=====selectOneLec Start=====");
+		String name = gm.getMember().getName();
 		Lecture lecture = lr.findById(id);
 		Long gubun = (long) 1;
+		
 		List<ApplicationLec> alList = ls.findByLecture_IdAndGubun(id, gubun);
-
+		List<Lecture> lectureList = lr.findByProfAndStatusOrderByIdAsc(name, "0"); // 개설된 강의조회
 		List<Member> memList = new ArrayList<Member>();
+		
+		System.out.println(lectureList.size());
 		for (ApplicationLec applicationLec : alList) {
 			memList.add(applicationLec.getMember());
 		}
+		// 출석부 정렬 : 이름순 - 학년순 - 학번순
+		Collections.sort(memList, new Comparator<Member>() {
+			@Override
+			public int compare(Member o1, Member o2) {
+				String name1 = o1.getName();
+				String name2 = o2.getName();
 
+				Long grade1 = o1.getGrade();
+				Long grade2 = o2.getGrade();
+				
+				String userid1 = o1.getName();
+				String userid2 = o2.getName();
+
+				if (name1 == name2) {
+					if(grade1 == grade2) {
+						return userid1.compareTo(userid2);
+					}
+					return grade1.compareTo(grade2);
+				}
+				return name1.compareTo(name2); // 비교 리턴 -> -1, 0, 1
+			}
+		});
+
+		model.addAttribute("lecList", lectureList);
 		model.addAttribute("lecture", lecture);
 		model.addAttribute("memList", memList);
+		model.addAttribute("member", gm.getMember());
 
 		log.info("lec id == {}", lecture.getId());
 		return "professor/lecCheckForm";
@@ -232,10 +258,10 @@ public class LecController {
 	public String lecScore(Model model) {
 		String name = gm.getMember().getName();
 		List<Lecture> lecList = lr.findByProfAndStatusOrderByIdAsc(name, "0");
-
+		System.out.println(lecList);
 		model.addAttribute("lecList", lecList);
 		model.addAttribute("lecCnt", lecList.size());
-
+		model.addAttribute("member", gm.getMember());
 		return "professor/lecScoreForm";
 	}
 
@@ -277,31 +303,22 @@ public class LecController {
 		return map;
 	}
 
-	// 성적관라 : 점수등록
+	// 성적 : 점수저장
 	@PostMapping(value = "professor/lecScoreSave")
 	@ResponseBody
 	public String lecScoreSave(@RequestParam(value = "data") String data, @RequestParam(value = "lecId") Long lecId,
-			Model model) {
-//			JSONParser parser = new JSONParser();
-//			JSONObject object = (JSONObject) parser.parse(lecId);
+								Model model) {
 
 		JSONArray jarray = new JSONArray(data);
 
 		List<Grade> gradeList = new ArrayList<>();
-		List<Map<String, Object>> objList = new ArrayList<>();
 
 		int insertCnt = 0;
-		int studF = 0;
 		for (int i = 0; i < jarray.length(); i++) {
 			ApplicationLec applicationLec = new ApplicationLec();
 			Member mem = new Member();
 			Lecture lec = new Lecture();
 			Grade grade = new Grade();
-			Map<String, Object> sumObj = new HashMap<>();
-//				System.out.println("jarray.getJSONArray(i) ->" + jarray.getJSONObject(i));
-			System.out.println("나는 유저 ->" + jarray.getJSONObject(i).get("userid"));
-			System.out.println("나는 기말 ->" + jarray.getJSONObject(i).get("finals"));
-			System.out.println("나는 아이디 ->" + jarray.getJSONObject(i).get("id"));
 
 			lec.setId(lecId);
 			mem.setUserid(jarray.getJSONObject(i).getString("userid"));
@@ -313,105 +330,54 @@ public class LecController {
 				grade.setId(jarray.getJSONObject(i).getLong("id"));
 			}
 
-			sumObj.put("userid", jarray.getJSONObject(i).getString("userid"));
-			sumObj.put("sum", jarray.getJSONObject(i).getLong("attendance") + jarray.getJSONObject(i).getLong("finals")
-					+ jarray.getJSONObject(i).getLong("midterm") + jarray.getJSONObject(i).getLong("report"));
-
-			if (jarray.getJSONObject(i).getLong("attendance") > 20) { // 20보다 크면 학점에 안넣음
-				sumObj.put("total", "");
-			} else {
-				studF++;
-				sumObj.put("total", "F");// 20보다 작으면 학점 F넣음
-			}
-
-			objList.add(sumObj);
-
 			grade.setAttendance(jarray.getJSONObject(i).getLong("attendance"));
 			grade.setFinals(jarray.getJSONObject(i).getLong("finals"));
 			grade.setMidterm(jarray.getJSONObject(i).getLong("midterm"));
 			grade.setReport(jarray.getJSONObject(i).getLong("report"));
+			grade.setCredits(jarray.getJSONObject(i).getString("credits"));
+			
+			switch (jarray.getJSONObject(i).getString("credits")) {
+			case "A+":
+				grade.setTotal(4.5);
+				break;
+			case "A":
+				grade.setTotal(4.0);
+				break;
+			case "B+":
+				grade.setTotal(3.5);
+				break;
+			case "B":
+				grade.setTotal(3.0);
+				break;
+			case "C+":
+				grade.setTotal(2.5);
+				break;
+			case "C":
+				grade.setTotal(2.0);
+				break;
+			case "D+":
+				grade.setTotal(1.5);
+				break;
+			case "D":
+				grade.setTotal(1.0);
+				break;
+			case "F":
+				grade.setTotal(0.0);
+				break;
+			default:
+				log.error("성적입력오류");
+				break;
+			}
 			grade.setApplicationLec(applicationLec);
 			gradeList.add(grade);
 			insertCnt++;
 		} // for end
-
-		Collections.sort(objList, new Comparator<Map<String, Object>>() {
-
-			@Override
-			public int compare(Map<String, Object> o1, Map<String, Object> o2) {
-				Long sum1 = (Long) o1.get("sum");
-				Long sum2 = (Long) o2.get("sum");
-
-				return sum2.compareTo(sum1); // 비교 리턴 -> -1, 0, 1
-
-			}
-		});
-
-		int studentCnt = objList.size(); // 총 학생수 -> F학점을 포함시켜서
-		double[] rto = { 0.1, 0.15, 0.25, 0.3, 0.1, 0.1 };
-
-		for (int i = 0; i < studentCnt; i++) {
-			if (!objList.get(i).get("total").equals("F")) {
-				if (i < studentCnt * rto[0]) {
-					objList.get(i).put("total", "A+");
-				} else if (i < (studentCnt - studF) * rto[1]) {
-					objList.get(i).put("total", "A");
-				} else if (i < (studentCnt - studF) * rto[2]) {
-					objList.get(i).put("total", "B+");
-				} else if (i < (studentCnt - studF) * rto[3]) {
-					objList.get(i).put("total", "B");
-				} else if (i < (studentCnt - studF) * rto[4]) {
-					objList.get(i).put("total", "C+");
-				} else {
-					objList.get(i).put("total", "C");
-				}
-			}
-
-		}
-
-//		for(int i = 0; i < gradeList.size(); i++) {
-//			System.out.println("나는 sort 전 Userid : " + gradeList.get(i).getApplicationLec().getMember().getUserid());
-//			System.out.println(gradeList.get(i));
-//		}
-
-		// gradeList 를 정렬
-		Collections.sort(gradeList, new Comparator<Grade>() {
-
-			@Override
-			public int compare(Grade o1, Grade o2) {
-				String userid1 = o1.getApplicationLec().getMember().getUserid();
-				String userid2 = o2.getApplicationLec().getMember().getUserid();
-
-				return userid1.compareTo(userid2);
-			}
-
-		});
-
-		// objList 를 정렬 -> userid, total(등급), 총점
-		Collections.sort(objList, new Comparator<Map<String, Object>>() {
-
-			@Override
-			public int compare(Map<String, Object> o1, Map<String, Object> o2) {
-				String userid1 = (String) o1.get("userid");
-				String userid2 = (String) o2.get("userid");
-
-				return userid1.compareTo(userid2); // 비교 리턴 -> -1, 0, 1
-
-			}
-		});
-
-		for (int i = 0; i < objList.size(); i++)
-			System.out.println(objList.get(i));
-
-		for (int i = 0; i < gradeList.size(); i++) {
-			gradeList.get(i).setTotal((String) objList.get(i).get("total"));
-
-			gr.save(gradeList.get(i));
-		}
+		gr.saveAll(gradeList);
 
 		return String.valueOf(insertCnt);
 	}
 
+	
 	// 점수 다운 excel
 	@GetMapping("professor/scoreExcelDown")
 	public ResponseEntity lecScoreExcel(@RequestParam(value = "id") Long id, HttpServletResponse response) {
