@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ======= mapper 기본설정 ======= -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.oracle.choongangGroup.dongho.professor.mappers.LecPlanWeekMapper">
+	
+	<insert id="insertWeek" parameterType="java.util.List">
+		<!--<selectKey keyProperty="lec_id" resultType="int" order="BEFORE">
+			 SELECT lec_orders_seq.NEXTVAL FROM DUAL
+			select NVL(MAX(TO_NUMBER(lec_id)), 0) + 1 from lec_plan_week
+		</selectKey>-->
+		INSERT ALL
+		<foreach collection="list" item="item" index ="index">
+		INTO lec_plan_week(lec_id, week, week_detail) 
+		VALUES
+		(
+			#{item.lec_id},
+			#{item.week},
+			#{item.weekDetail}
+		)
+		</foreach>
+		SELECT * FROM DUAL
+	</insert>
+	
+	<update id="updateWeek" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index" separator=";" open="declare begin" close="; end;">
+			UPDATE lec_plan_week 
+			SET week_detail = #{item.weekDetail} 
+			WHERE lec_id = #{item.lec_id} 
+			AND week = #{item.week}
+		</foreach>
+	</update>
+</mapper>
