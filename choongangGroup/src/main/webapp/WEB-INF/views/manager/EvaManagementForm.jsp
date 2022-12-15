@@ -130,30 +130,36 @@
     </nav>
     <!-- /header -->
     <!-- side nav bar -->
-    <div class="l-navbar" id="navbar">
-        <nav class="navv">
-        	<div>
-        	 <div class="nav__brand">
-                    <ion-icon name="menu-outline" class="nav__toggle" id="nav-toggle"></ion-icon>
-                    <a href="#" class="nav__logo"></a>
-                </div>
-        	<div href="#" class="nav__link">
-                        <ion-icon name="folder-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">게시판 관리</span>
+   <div class="l-navbar" id="navbar">
+		<nav class="navv">
+			<div>
+				<div class="nav__brand">
+					<ion-icon name="menu-outline" class="nav__toggle" id="nav-toggle"></ion-icon>
+					<a href="/manager/approval" class="nav__logo">학사관리</a>
+				</div>
+				<div class="nav__list">
+					<div href="" class="nav__link collapses">
+						<!-- <ion-icon name="folder-outline" class="nav__icon"></ion-icon> -->
+						<!-- <i class="bi bi-gear-fill nav__icon" name="folder-outline"></i> -->
+						<i class="bi bi-mortarboard-fill nav__icon" name="folder-outline"></i>
+						<span class="nav_name">학사관리</span>
+
+						<ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
+
+						<ul class="collapse__menu" style="width: 200px;">
+							<a href="/manager/studentManage" class="collapse__sublink">학생관리</a></br>
+							<a href="/manager/professorManage" class="collapse__sublink">교수관리</a></br>
+							<a href="/manager/EvaManagementForm" class="collapse__sublink">강의 평가 관리</a></br>
+						</ul>
+					</div>
+				</div>
+				<a href="/logout" class="nav__link"> <ion-icon
+						name="log-out-outline" class="nav__icon"></ion-icon> <span
+					class="nav_name">로그아웃</span>
+				</a>
 			</div>
-           		<ul class="collapse__menu" style="width: 180px; margin-left : 10px">
-           			<div class="row">
-                    <a href="#" class="collapse__sublink">공지사항 글쓰기</a>
-                    <a href="#" class="collapse__sublink">Group</a><br>
-                    <a href="#" class="collapse__sublink">Members</a>
-           			
-           			</div>
-             	</ul>
-        	</div>
-               
-               
-        </nav>
-    </div>
+		</nav>
+	</div>
     <!-- /side nav bar -->
     <!-- main content -->
     <div class="container-fluid w-100" style=" background-color: rgb(214, 225, 237)">

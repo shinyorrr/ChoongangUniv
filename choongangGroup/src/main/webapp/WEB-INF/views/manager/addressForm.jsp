@@ -93,7 +93,7 @@
             <div>
                 <div class="nav__brand">
                     <ion-icon name="menu-outline" class="nav__toggle" id="nav-toggle"></ion-icon>
-                    <a href="#" class="nav__logo">Bedimcode</a>
+                    <a href="#" class="nav__logo"></a>
                 </div>
                     <div href="#" class="nav__link collapses">
                         <ion-icon name="people-outline" class="nav__icon"></ion-icon>
@@ -103,14 +103,13 @@
 
                         <ul class="collapse__menu" style="width: 180px;">
                             <a href="${pageContext.request.contextPath}/manager/addressForm" class="collapse__sublink">주소록 검색</a><br>
-                            <a href="${pageContext.request.contextPath}/manager/myLikeAddress" class="collapse__sublink">주소록 즐겨찾기</a>
                         </ul>
                     </div>
-                </div>
-                <a href="#" class="nav__link">
+                <a href="/logout" class="nav__link">
                     <ion-icon name="log-out-outline" class="nav__icon"></ion-icon>
                     <span class="nav_name">Log out</span>
                 </a>
+                </div>
             </div>
         </nav>
     </div>
