@@ -38,7 +38,7 @@
 		var user= $('#user'+vIndex).val();
 		console.log(user);
 		$.ajax({
-			url 	: '/phoneLikeSave',
+			url 	: '/manager/phoneLikeSave',
 			data	: {userid : user},
 			dataType: 'text',
 			success : function(data){
@@ -49,7 +49,15 @@
 		});
 	}
 	
-	/* 출근버튼 구현 */
+	/*모달*/
+ 	function fnModuleInfo(index){
+		console.log("성공");
+		if(index == undefined || index == "undefined"){
+			index = 0;
+		}
+		console.log(index);
+		$('.modal-body').load("/manager/myLikeAddress?page="+index);
+	}
 	
 
 	
@@ -85,58 +93,23 @@
             <div>
                 <div class="nav__brand">
                     <ion-icon name="menu-outline" class="nav__toggle" id="nav-toggle"></ion-icon>
-                    <a href="#" class="nav__logo">Bedimcode</a>
+                    <a href="#" class="nav__logo"></a>
                 </div>
-                <div class="nav__list">
-                    <a href="#" class="nav__link active">
-                        <ion-icon name="home-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Dashboard</span>
-                    </a>
-                    <a href="#" class="nav__link">
-                        <ion-icon name="chatbubbles-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Messenger</span>
-                    </a>
-
-                    <div href="#" class="nav__link collapses">
-                        <ion-icon name="folder-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Projects</span>
-
-                        <ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
-
-                        <ul class="collapse__menu">
-                            <a href="#" class="collapse__sublink">Data</a>
-                            <a href="#" class="collapse__sublink">Group</a>
-                            <a href="#" class="collapse__sublink">Members</a>
-                        </ul>
-                    </div>
-
-                    <a href="#" class="nav__link">
-                        <ion-icon name="pie-chart-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Analytics</span>
-                    </a>
-
                     <div href="#" class="nav__link collapses">
                         <ion-icon name="people-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Team</span>
+                        <span class="nav_name">주소록관리</span>
 
                         <ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
 
-                        <ul class="collapse__menu">
-                            <a href="#" class="collapse__sublink">Data</a>
-                            <a href="#" class="collapse__sublink">Group</a>
-                            <a href="#" class="collapse__sublink">Members</a>
+                        <ul class="collapse__menu" style="width: 180px;">
+                            <a href="${pageContext.request.contextPath}/manager/addressForm" class="collapse__sublink">주소록 검색</a><br>
                         </ul>
                     </div>
-
-                    <a href="#" class="nav__link">
-                        <ion-icon name="settings-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Settings</span>
-                    </a>
-                </div>
-                <a href="#" class="nav__link">
+                <a href="/logout" class="nav__link">
                     <ion-icon name="log-out-outline" class="nav__icon"></ion-icon>
                     <span class="nav_name">Log out</span>
                 </a>
+                </div>
             </div>
         </nav>
     </div>
@@ -150,12 +123,29 @@
                     <!-- card header -->
                     <div class="col-12 rounded-top text-white overflow-auto pt-2 fw-bold" style="background-color: rgb(39, 40, 70); height: 40px;"> 
                         <i class="bi bi-bookmark-fill me-2"></i>교직원<i class="bi bi-chevron-right"></i>전체 주소록 조회 
-                        <button class="btn btn-danger" onclick="location.href='${pageContext.request.contextPath}/myLikeAddress'"
+                        <button class="btn btn-danger"  data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="fnModuleInfo(0)"
                         	style="margin-left: 64%;line-height: 11px;">내 즐겨찾기</button>
                     </div>
+
                     <!-- card content -->  
                     <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
-                    
+                    <!-- Scrollable modal -->
+					<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+					  <div class="modal-dialog">
+					    <div class="modal-content">
+					      <div class="modal-header">
+					        <h5 class="modal-title" id="staticBackdropLabel">즐겨찾기 주소록</h5>
+					        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					      </div>
+					      <div class="modal-body">
+					        
+					      </div>
+					      <div class="modal-footer">
+					        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					      </div>
+					    </div>
+					  </div>
+					</div>
                     <!-- 오류 메세지 출력 -->
                     <span id="msg" style="
 										    font-size: medium;
@@ -172,13 +162,19 @@
 							<input  type = "text"  name = "search" class="form-control" placeholder="search">
 						</div>
 					</div> -->
-					
+					 <form action="searchAddress">
+	                    <div class="input-group mb-3" style="width: 350px;margin-right : 120px;text-align: center;float: right;" >
+							<input  type = "text"  name = "search" class="form-control" placeholder="이름을 검색하세요" aria-describedby="button-addon2">
+							<button class="btn btn-outline-primary" type="submit" id="button-addon2"><i class="bi bi-search"></i></button>
+						</div>
+						</form>
                     	<table class="table table-hover">
                     		 <thead>
-							    <tr><th>이름</th><th>직위</th><th>부서</th><th>연락처</th><th>즐겨찾기</th></tr>
+							    <tr><th>번호</th><th>이름</th><th>직위</th><th>부서</th><th>이메일</th><th>연락처</th><th>즐겨찾기</th></tr>
 							  </thead>
 							  	<c:forEach var="address" items="${addressList}" varStatus="status">
 							  	<tr>
+							  		<td>${status.index+1 }</td>
 							  		<td><input type="text" name ="userid" id = "user${status.index}" value="${address.userid}" hidden="true">
 							  			${address.name }</td>
 							  		<c:if test="${address.dept.upDeptno == 100}">
@@ -191,6 +187,7 @@
 								  		<td></td>
 								  	</c:if>
 							  		<td>${address.dept.dname}</td>
+							  		<td>${address.email}</td>
 							  		<td>${address.phone}</td>
 							  		<td>
 							  			<button type="button" class="btn btn-outline-danger" onclick="phoneLikeSave(${status.index})">+</button>
@@ -205,12 +202,7 @@
                     	<!--================================================  -->
                     					<!-- 검색버튼 구현 -->
                     	<!--================================================  -->
-	                    <form action="searchAddress">
-	                    <div class="input-group mb-3" style="width: 206px;text-align: center;float: left;" >
-							<input  type = "text"  name = "search" class="form-control" placeholder="이름을 검색하세요" aria-describedby="button-addon2">
-							<button class="btn btn-outline-secondary" type="submit" id="button-addon2"><i class="bi bi-search"></i></button>
-						</div>
-						</form>
+	                   
 					  <ul class="pagination" style="margin-left: 40%;">
 					  
 					    <li class="page-item">

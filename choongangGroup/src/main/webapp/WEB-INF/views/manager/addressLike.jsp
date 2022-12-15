@@ -48,13 +48,17 @@
 		}
 		
 	}
+	/*모달*/
+	function fnModuleInfo(index){
+		$('.modal-body').load("/manager/myLikeAddress?page="+index);
+	}
 	
 	
 </script>
     <title>즐겨찾기 주소록</title>
 </head>
-
-<body class="" id="body-pd" onload="printClock()">
+<body>
+<%-- <body class="" id="body-pd" onload="printClock()">
     <!-- header -->
     <!-- <nav class="navbar navbar-expand-lg navbar-dark bd-navbar bg-light sticky-top position-fixed fixed-top w-100" style="position : absolute">
         <a class="navbar-brand">
@@ -83,51 +87,17 @@
                     <ion-icon name="menu-outline" class="nav__toggle" id="nav-toggle"></ion-icon>
                     <a href="#" class="nav__logo">Bedimcode</a>
                 </div>
-                <div class="nav__list">
-                    <a href="#" class="nav__link active">
-                        <ion-icon name="home-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Dashboard</span>
-                    </a>
-                    <a href="#" class="nav__link">
-                        <ion-icon name="chatbubbles-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Messenger</span>
-                    </a>
-
-                    <div href="#" class="nav__link collapses">
-                        <ion-icon name="folder-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Projects</span>
-
-                        <ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
-
-                        <ul class="collapse__menu">
-                            <a href="#" class="collapse__sublink">Data</a>
-                            <a href="#" class="collapse__sublink">Group</a>
-                            <a href="#" class="collapse__sublink">Members</a>
-                        </ul>
-                    </div>
-
-                    <a href="#" class="nav__link">
-                        <ion-icon name="pie-chart-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Analytics</span>
-                    </a>
-
                     <div href="#" class="nav__link collapses">
                         <ion-icon name="people-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Team</span>
+                        <span class="nav_name">주소록관리</span>
 
                         <ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
 
-                        <ul class="collapse__menu">
-                            <a href="#" class="collapse__sublink">Data</a>
-                            <a href="#" class="collapse__sublink">Group</a>
-                            <a href="#" class="collapse__sublink">Members</a>
+                        <ul class="collapse__menu" style="width: 180px;">
+                            <a href="${pageContext.request.contextPath}/manager/addressForm" class="collapse__sublink">주소록 검색</a><br>
+                            <a href="${pageContext.request.contextPath}/manager/myLikeAddress" class="collapse__sublink">주소록 즐겨찾기</a>
                         </ul>
                     </div>
-
-                    <a href="#" class="nav__link">
-                        <ion-icon name="settings-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Settings</span>
-                    </a>
                 </div>
                 <a href="#" class="nav__link">
                     <ion-icon name="log-out-outline" class="nav__icon"></ion-icon>
@@ -147,7 +117,7 @@
                     <!-- card header -->
                     <div class="col-12 rounded-top text-white overflow-auto pt-2 fw-bold" style="background-color: rgb(39, 40, 70); height: 40px;"> 
                         <i class="bi bi-bookmark-fill me-2"></i>교직원관리 <i class="bi bi-chevron-right"></i>즐겨찾기 주소록
-                    </div>
+                    </div> --%>
                     <!-- card content -->  
                     <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
                         <table class="table table-hover">
@@ -178,15 +148,33 @@
 							  <tbody>
 							  </tbody>
                     	</table>
+                    	<!-- Scrollable modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Understood</button>
+      </div>
+    </div>
+  </div>
+</div>
                     	<!-- =============================================  -->
                     	<!-- ================= 페이징 작업 ==================  -->
                     	<!-- =============================================  -->
                     <nav aria-label="...">
-					  <ul class="pagination" style="margin-left: 40%;">
+					  <ul class="pagination" style="margin-left: 117px;">
 					  
 					    <li class="page-item">
 					      <c:if test="${page > 0}">
-						      <a class="page-link" href="myLikeAddress?page=${page-1}">Previous</a>				      
+						      <a class="page-link" data-bs-target="#staticBackdrop" onclick="fnModuleInfo('${page-1}')">Previous</a>				      
 					      </c:if>
 					      <c:if test= "${page == 0 }">
 					      	  <a class="page-link">Previous</a>
@@ -195,11 +183,11 @@
 					
 					  <c:forEach var="i" begin="1" end="${totalPage}">
 					    <li id="page-item${i}" class="page-item" onclick="active(${i})">
-					    <a class="page-link" href="myLikeAddress?page=${i-1 }" >${i }</a></li>
+					    <a class="page-link" data-bs-target="#staticBackdrop"  onclick="fnModuleInfo('${i-1}')" >${i }</a></li>
 					  </c:forEach>
 					    <li class="page-item">
 					    	<c:if test="${page < totalPage-1}">
-						      <a class="page-link" href="myLikeAddress?page=${page+1}">Next</a>
+						      <a class="page-link" data-bs-target="#staticBackdrop" onclick="fnModuleInfo('${page+1}')">Next</a>
 					    	</c:if>
 					      	<c:if test= "${page > totalPage-2}">
 						      <a class="page-link">Next</a>

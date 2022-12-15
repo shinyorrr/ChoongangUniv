@@ -1,7 +1,5 @@
 package com.oracle.choongangGroup.hs.approval;
 
-import com.oracle.choongangGroup.changhun.JPA.Member;
-
 import lombok.Getter;
 import lombok.Setter;
 

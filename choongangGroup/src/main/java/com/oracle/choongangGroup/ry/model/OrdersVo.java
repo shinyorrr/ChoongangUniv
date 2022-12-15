@@ -14,6 +14,8 @@ public class OrdersVo {
 	private int amount;
 	private Date orderDate;
 	private String state;
+	private String billState;
+	private String bookLoca;
 	
 	private int orderDetailsNum;
 	private int bookId;
@@ -22,6 +24,8 @@ public class OrdersVo {
 	private String bookName;
 	private String bookThumbImg;
 	private int bookPrice;
-	
+	private int bookStock;
+	private String type;
+	private String keyword;
 	
 }

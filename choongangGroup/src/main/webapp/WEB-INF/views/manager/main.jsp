@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="header.jsp"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,10 +19,19 @@
 <!-- CSS -->
 <link rel="stylesheet" href="/css/styles.css">
 
-    <title>SideBar sub menus</title>
+    <title>교직원홈</title>
 </head>
+<script type="text/javascript">
 
-<body class="" id="body-pd">
+$(document).ready(function(){
+   if($("#mainCheck").val() != "1") {
+       location.href="/manager/managerMain";  
+   }
+   
+});
+
+</script>
+<body class="" id="body-pd" onload="printClock()">
     <!-- header -->
     <!-- <nav class="navbar navbar-expand-lg navbar-dark bd-navbar bg-light sticky-top position-fixed fixed-top w-100" style="position : absolute">
         <a class="navbar-brand">
@@ -37,15 +47,11 @@
           </a>
     
           <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-            <li><a href="/manager/main" class="nav-link px-2 link-secondary">Home</a></li>
-            <li><a href="#" class="nav-link px-2 link-dark">전자 결재</a></li>
-            <li><a href="#" class="nav-link px-2 link-dark">학사 관리</a></li>
-            <li><a href="#" class="nav-link px-2 link-dark">교재 관리</a></li>
-            <li><a href="/notice/noticeList" class="nav-link px-2 link-dark">공지사항 관리</a></li>
-            <li><a href="/message/messageList" class="nav-link px-2 link-dark">쪽지함</a></li>
-          </ul>
+  			<jsp:include page="navHeader.jsp"></jsp:include>
+  		 </ul>
         </header>
     </nav>
+    <input type="hidden" id="mainCheck" value="${mainCheck}">
     <!-- /header -->
     <!-- side nav bar -->
     <div class="l-navbar" id="navbar">
@@ -53,9 +59,10 @@
             <div>
                 <div class="nav__brand">
                     <ion-icon name="menu-outline" class="nav__toggle" id="nav-toggle"></ion-icon>
+                    <a href="/manager/main" class="nav__logo">교직원홈</a>
                 </div>
                 <div class="nav__list">
-                    <div href="#" class="nav__link collapses">
+                    <!-- <div href="#" class="nav__link collapses">
                         <ion-icon name="folder-outline" class="nav__icon"></ion-icon>
                         <span class="nav_name">Projects</span>
 
@@ -66,11 +73,11 @@
                             <a href="#" class="collapse__sublink">Group</a>
                             <a href="#" class="collapse__sublink">Members</a>
                         </ul>
-                    </div>
+                    </div> -->
                 </div>
                 <a href="/logout" class="nav__link">
                     <ion-icon name="log-out-outline" class="nav__icon"></ion-icon>
-                    <span class="nav_name">Log out</span>
+                    <span class="nav_name">로그아웃</span>
                 </a>
             </div>
         </nav>
@@ -79,55 +86,132 @@
     <!-- main content -->
     <div class="container-fluid w-100" style=" background-color: rgb(214, 225, 237)">
         <div class="row">
-            
-            
             <!-- content header -->
-            <div class="col-12 pt-4" style="height: 150px; background-color: rgb(95, 142, 241)">
-                <div class="d-flex flex-row mb-3">
-                    <div>
-                        <span class="text-white h4">안녕하세요. <span class="fw-bold">${name}</span>님!</span>
-                    </div>
-                    <div class="border border-1 border-white border-bottom rounded-pill text-white px-2 pt-1 ms-2 h6">교수</div>
-                    <div>
-                        <i class="text-white bi-gear-fill mx-2"></i>
-                    </div>
-                </div>
-                <div class="row">
-                    <div>
-                        <span class="text-white h6">이공대학 컴퓨터공학과 | ${position}</span>
-                    </div>
-                </div>
-                <div class="d-flex flex-low">
-                    <div>
-                        <i class="bi bi-envelope-fill text-white"></i>
-                    </div>
-                    <div>
-                        <span class="text-white ms-3">test123@naver.com</span>
-                    </div>
-                </div>
-                
-            </div>
-            <main class="col-9 h-100 w-100">
-                <div class="row m-5">
-                    <!-- card header -->
-                    <div class="col-12 rounded-top text-white overflow-auto pt-2 fw-bold" style="background-color: rgb(39, 40, 70); height: 40px;"> 
-                        <i class="bi bi-bookmark-fill me-2"></i>교수서비스 <i class="bi bi-chevron-right"></i>학사관리 <i class="bi bi-chevron-right"></i>강의 시간표 조회
-                    </div>
+			<jsp:include page="contentHeader.jsp"></jsp:include>
+                   
                     <!-- card content -->  
-                    <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
-                        content
-                    </div>
-                    <!-- footer -->
-                    <footer class="col-12" style="height: 60px;">
-                        footer
-                    </footer>    
-                </div>
-            </main>
-        </div>
-    </div>
-    <!-- IONICONS -->
-    <script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script>
-    <!-- JS -->
-    <script src="/js/main.js"></script>
+               <div class="row mb-2 pe-0 ps-2" >
+                  <div class="col-md-5 me-3 rounded overflow-auto bg-light p-4" style="min-height: 400px;"> 
+                     <h6 style="display: inline;">결재 대기중 목록</h6><p class="font08" style="display: inline; float: right;">총 <b style="color: red; ">${waitTotal}</b>개의 문서가 있습니다.</p><br>
+                     <hr>
+  					 <table class="table table-hover" style="font-size: 14px; text-align: center;">
+						<tbody>
+							<c:forEach var="wait" items="${waitList}">
+								<tr>
+									<td>
+										<a href="apprWaitDetail?approval_no=${wait.approval_no}" style="color: black">${wait.approval_no}</a>
+									</td>
+									<td>${wait.writeday}</td>
+									<td>${wait.approval_sort_name}</td>
+									<td>${wait.title}</td>
+									<c:if test="${wait.file_path ne null }">
+										<td><i class="bi bi-file-earmark"></i></td>
+									</c:if>
+									<c:if test="${wait.file_path eq null }">
+										<td>&nbsp;</td>
+									</c:if>
+									<c:if test="${wait.approval_status eq '0'}">
+										<td>대기중<td>
+									</c:if>
+									<c:if test="${wait.approval_status eq '1'}">
+										<td>승인<td>
+									</c:if>
+									<c:if test="${wait.approval_status eq '2'}">
+										<td>반려<td>
+									</c:if>
+								</tr>
+							</c:forEach>
+						</tbody>
+					 </table>
+					 </br>
+					 <h6 style="display: inline;">기안 진행중 목록</h6><p class="font08" style="display: inline; float: right;">총 <b style="color: red; ">${processTotal}</b>개의 문서가 있습니다.</p><br>
+                     <hr>
+                     <table class="table table-hover" style="font-size: 14px; text-align: center;">
+						<tbody>
+							<c:forEach var="process" items="${processList}">
+								<tr>
+									<td>
+										<a href="apprProcessDetail?approval_no=${process.approval_no}" style="color: black">${process.approval_no}</a>
+									</td>
+									<td>${process.writeday}</td>
+									<td>${process.approval_sort_name}</td>
+									<td>${process.title}</td>
+									<c:if test="${process.file_path ne null }">
+										<td><i class="bi bi-file-earmark"></i></td>
+									</c:if>
+									<c:if test="${process.file_path eq null }">
+										<td>&nbsp;</td>
+									</c:if>
+									<c:if test="${process.approval_status eq 0}">
+										<td>대기중<td>
+									</c:if>
+									<c:if test="${process.approval_status eq 1}">
+										<td>승인<td>
+									</c:if>
+									<c:if test="${process.approval_status eq 2}">
+										<td>반려<td>
+									</c:if>
+								</tr>
+							</c:forEach>
+						</tbody>
+					 </table>
+                  </div>
+                  <div class="col-md-3 me-5 rounded overflow-auto bg-light p-4" style="min-height: 400px;"> 
+                     <h5>공지사항</h5><hr>
+                     <table class="table table-hover" style="font-size: 14px;">
+                       	<tbody>
+                     		<c:forEach var="notice" items="${noticeList}" varStatus="status" begin="0" end="5">
+                     			<tr>
+	                     				<c:choose>
+											<c:when test="${fn:length(notice.noticeTitle) gt 15}">
+												<td><a
+													href="/noticeDetail?noticeNum=${notice.noticeNum}" style="color: black;">${fn:substring(notice.noticeTitle, 0 , 14)}  ....</a></td>
+											</c:when>
+											<c:otherwise>
+												<td><a
+													href="/noticeDetail?noticeNum=${notice.noticeNum}" style="color: black;">${notice.noticeTitle }</a></td>
+											</c:otherwise>
+										</c:choose>									
+	                     				<c:choose>
+											<c:when test="${notice.createdDate != null}">
+												<c:set var="DateValue" value="${notice.createdDate}" />
+												<td>${fn:substring(DateValue,0,10)}</td>
+											</c:when>
+											<c:when test="${notice.modifiedDate != null}">
+												<c:set var="DateValue" value="${notice.modifiedDate}" />
+												<td>${fn:substring(DateValue,0,10)}</td>
+											</c:when>
+										</c:choose>
+	                     		</tr>
+                     		</c:forEach>
+                     	</tbody>
+                     </table>
+
+                  </div>
+                  <div class="col-md-2  rounded overflow-auto bg-light p-4" style="max-height: 300px;"> 
+                      <h5>쪽지함</h5><hr>
+                      <table>
+                      	<c:forEach var="message" items="${messageList}" varStatus="status" begin="0" end="5">
+                      		<tbody>
+                      			<tr>
+                      				<td><a href="" style="color: black;">${message.senderName}</a>님 쪽지가 왔습니다!</td>
+                      			</tr>       
+                      		</tbody>
+                      	</c:forEach>
+                      </table>
+                  </div>
+               </div>
+               
+               <!-- footer -->
+               <jsp:include page="../footer.jsp"></jsp:include>
+            </div>
+         </main>
+      </div> 
+   </div> <!-- container div end -->
+   
+   <!-- NavBar 관련 IONICONS -->
+   <script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script>
+   <!-- JS -->
+   <script src="/js/main.js"></script>
 </body>
 </html>

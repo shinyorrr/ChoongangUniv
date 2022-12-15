@@ -41,6 +41,7 @@
 		var vnoticeNum = $("#noticeNum").val();
 		var vnoticeTitle = $("#noticeTitle2").val();
 		var vnoticeContent = $("#noticeContent2").val();
+		var vnoticeHit = $("#noticeHit").val();
 			
 		console.log("vnoticeNum -> " + vnoticeNum);
 		console.log("vnoticeTitle -> " + vnoticeTitle);
@@ -58,8 +59,8 @@
 		
 				
 		$.ajax({
-			url		 : "/updateNotice",
-			data	 : { noticeNum : vnoticeNum , noticeTitle : vnoticeTitle, noticeContent : vnoticeContent},
+			url		 : "/manager/updateNotice",
+			data	 : { noticeNum : vnoticeNum , noticeTitle : vnoticeTitle, noticeContent : vnoticeContent, noticeHit : vnoticeHit },
 			dataType : 'text',
 			success	 : function(data){
 				$("#noticeTitle1").val(vnoticeTitle);
@@ -83,11 +84,11 @@
 		console.log("dnoticeNum -> " + dnoticeNum);
 		
 		$.ajax({
-			url 	: "/deleteNotice",
+			url 	: "/manager/deleteNotice",
 			data	: {noticeNum : dnoticeNum},
 			success : function(data){
 				alert("삭제 되었습니다.");
-				location.href = "/notice/noticeList";
+				location.href = "/manager/notice/noticeList";
 			}
 		});
 	}
@@ -195,7 +196,7 @@
             <div class="col-12 pt-4" style="height: 150px; background-color: rgb(95, 142, 241)">
                 <div class="d-flex flex-row mb-3">
                     <div>
-                        <span class="text-white h4">공지사항 조회 <span class="fw-bold">김중앙</span>님!</span>
+                        <span class="text-white h4">공지사항 조회 <span class="fw-bold">${notice.writer.userid }</span>님!</span>
                     </div> 
                     <div class="border border-1 border-white border-bottom rounded-pill text-white px-2 pt-1 ms-2 h6">교수</div>
                     <div>
@@ -241,8 +242,8 @@
 		                     		
 		                     		<textarea id="noticeContent2" class="form-control" rows="3" style="height: 300px; display: none;">${notice.noticeContent}</textarea>            	
 		                      	</div>
-		                      	<c:set value='<%=(String)session.getAttribute("userid") %>' var="userid"/>
-									<c:if test="${notice.userid eq userid}">
+		                      	<c:set value='${member.userid}' var="userid"/>
+									<c:if test="${notice.writer.userid eq userid}">
 		                      	<div style="margin: 10px;">
 			                        	<button id="beforeButton" type="button" class="btn btn-outline-primary"  onclick="updateFormNotice()">수정</button>
 			                        	<button id="afterButton" type="button" class="btn btn-outline-primary"  onclick="return updateNotice()" style="display: none;">수정완료</button>

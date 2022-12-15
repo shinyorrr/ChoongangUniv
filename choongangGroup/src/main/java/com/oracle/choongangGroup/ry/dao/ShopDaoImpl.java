@@ -62,7 +62,7 @@ public class ShopDaoImpl implements ShopDao {
 
 	@Override
 	public void orderInfoDetail(OrderDetailVo orderDetail) {
-		session.insert("OrderDetail", orderDetail);
+		session.insert("OrderBookDetail", orderDetail);
 		
 	}
 
@@ -100,6 +100,24 @@ public class ShopDaoImpl implements ShopDao {
 		List<OrdersVo> adminOrderView = session.selectList("AdminOrderView", order);
 		return adminOrderView;
 	}
+
+	@Override
+	public void changeStock(BookVo book) {
+		
+		session.update("ChangeStock", book);
+	}
+
+	@Override
+	public void billUpdateState(OrdersVo order) {
+		session.update("BillUpdate", order);
+	}
+
+	@Override
+	public List<OrdersVo> searchOrderList(OrdersVo order) {
+		List<OrdersVo> orderList = session.selectList("SearchOrderList", order);
+		return orderList;
+	}
+
 	
 	
 }

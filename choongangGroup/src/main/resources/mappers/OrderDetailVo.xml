@@ -7,7 +7,7 @@
 <!-- ==== 루트 엘리먼트 & 네임스페이스 설정(프로젝트 전체 내에서 유일해야 한다.) ==== -->
 <mapper namespace="com.oracle.choongangGroup.ry.model.OrderDetailVoMapper">
 	<!-- 주문 상세 정보 --> 
-	<insert id="OrderDetail" parameterType="OrderDetailVo">
+	<insert id="OrderBookDetail" parameterType="OrderDetailVo">
 	 insert into orderDetail(orderDetailsNum, orderId, bookId, cartStock)
 	     select orderDetailsNum_seq.nextval, #{orderId}, bookId, cartStock
 	         from Book_Cart   

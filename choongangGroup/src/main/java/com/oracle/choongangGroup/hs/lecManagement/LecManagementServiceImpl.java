@@ -12,6 +12,8 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
+import com.oracle.choongangGroup.dongho.professor.makeup.OrdersDto;
+import com.oracle.choongangGroup.dongho.professor.mappers.OrdersMapper;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +26,7 @@ public class LecManagementServiceImpl implements LecManagementService {
 	
 	private final LecManagementDao lmd;
 	private final MakeupMapper mm;
+	private final OrdersMapper om;
 	
 	@Override
 	public List<LectureVO> listLec(LectureVO lectureVO) {
@@ -185,6 +188,35 @@ public class LecManagementServiceImpl implements LecManagementService {
 	public int lecUpdate(LectureVO lectureVO) {
 		log.info("lecUpdate start...");
 		int result = lmd.lecUpdate(lectureVO);
+		return result;
+	}
+
+	@Override
+	public int makeupTot() {
+		log.info("makeupTot start...");
+		int makeupTot = om.makeupTot();
+		return makeupTot;
+	}
+
+	@Override
+	public List<OrdersDto> lecOrderList(OrdersDto ordersDto) {
+		log.info("lecOrderList start...");
+		List<OrdersDto> lecOrderList = null;
+		lecOrderList = om.lecOrderList(ordersDto);
+		return lecOrderList;
+	}
+
+	@Override
+	public OrdersDto lecOrderdetail(Long lec_orders_id) {
+		log.info("lecOrderDetail start...");
+		OrdersDto ordersDto = om.lecDetail(lec_orders_id);
+		return ordersDto;
+	}
+
+	@Override
+	public int lecOrderUpdate(OrdersDto ordersDto) {
+		log.info("lecOrderUpdate start...");
+		int result = om.lecOrderUpdate(ordersDto);
 		return result;
 	}
 	

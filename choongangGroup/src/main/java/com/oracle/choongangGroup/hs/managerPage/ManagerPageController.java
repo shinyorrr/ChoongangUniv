@@ -43,6 +43,7 @@ public class ManagerPageController {
 	@RequestMapping("/mypage")
 	public String form(Model model) {
 		log.info("mypage Start...");
+		Member member = gm.getMember();
 		String userid = gm.getMember().getUserid();
 		Member mypage = ms.findByUserid(userid);
 		
@@ -56,6 +57,7 @@ public class ManagerPageController {
 			log.info("mypage Exception->{}", e.getMessage());
 		}
 		
+		model.addAttribute("member", member);
 		model.addAttribute("mypage", mypage);
 		return "/manager/mypage";
 	}
@@ -121,11 +123,14 @@ public class ManagerPageController {
 	// ------------------ 학생 수정 --------------------------
 	@RequestMapping("/studentManage")
 	public String stuList(@RequestParam(required = false, defaultValue = "0", value="page") int page, Model model) {
+		Member member = gm.getMember();
 		log.info("stuList Start...");
 		String memRole = "ROLE_STUDENT";
 		Page<Member> studentList = mr.findByMemRole(memRole, PageRequest.of(page, 10, Sort.by(Sort.Direction.ASC,"admission", "name")));
 		int pageTotal = studentList.getTotalPages();
 		Long stuTotal = studentList.getTotalElements();
+		
+		model.addAttribute("member", member);
 		model.addAttribute("studentList", studentList.getContent());
 		model.addAttribute("page",page);
 		model.addAttribute("pageTotal", pageTotal);
@@ -184,10 +189,13 @@ public class ManagerPageController {
 	@RequestMapping("/professorManage")
 	public String proList(@RequestParam(required = false, defaultValue = "0", value="page") int page, Model model) {
 		log.info("proList Start...");
+		Member member = gm.getMember();
 		String memRole = "ROLE_PROFESSOR";
 		Page<Member> professorList = mr.findByMemRole(memRole, PageRequest.of(page, 10, Sort.by(Sort.Direction.ASC,"hiredate", "name")));
 		int pageTotal = professorList.getTotalPages();
 		Long proTotal = professorList.getTotalElements();
+		
+		model.addAttribute("member", member);
 		model.addAttribute("professorList", professorList.getContent());
 		model.addAttribute("page",page);
 		model.addAttribute("pageTotal", pageTotal);

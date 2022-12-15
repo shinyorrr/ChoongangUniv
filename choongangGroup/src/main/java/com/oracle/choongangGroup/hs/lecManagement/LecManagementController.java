@@ -7,10 +7,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.oracle.choongangGroup.changhun.JPA.Member;
 import com.oracle.choongangGroup.dongho.auth.GetMember;
+import com.oracle.choongangGroup.dongho.professor.makeup.OrdersDto;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import oracle.net.aso.m;
 
 @Controller
 @Slf4j
@@ -25,8 +28,10 @@ public class LecManagementController {
 	public String form(LectureVO lectureVO, String year, String semester, String keyword,
 					   String status, Model model) {
 		log.info("lecManagement start...");
-		String userid = gm.getMember().getUserid();
-		log.info(userid);
+//		String userid = gm.getMember().getUserid();
+//		log.info(userid);
+		
+		Member member = gm.getMember();
 		
 		// 승인해야하는 강의 수
 		int lecAgreeTot = lms.lecAgreeCnt();
@@ -48,6 +53,7 @@ public class LecManagementController {
 		model.addAttribute("lecList", lecList);
 		model.addAttribute("lecAgreeTot", lecAgreeTot);
 		model.addAttribute("lecTotal", lecTotal);
+		model.addAttribute("member", member);
 		return "manager/lecManagementForm";
 	}
 	
@@ -101,6 +107,60 @@ public class LecManagementController {
 			return "redirect:lecManagement";
 		} else {
 			return "forward:lecManagement";
+		}
+		
+	}
+	
+	// -------------------- 휴 보강 관리 ---------------------------
+	
+	@RequestMapping("makeupManagement")
+	public String makeup(OrdersDto ordersDto, String status, String keyword, Model model) {
+		log.info("makeupManage start...");
+		
+		Member member = gm.getMember();
+		
+		// 승인해야하는 강의 수
+		int makeupTot = lms.makeupTot();
+		
+		log.info(keyword);
+		log.info(status);
+//		ordersDto.setKeyword(keyword);
+//		ordersDto.setStatus(status);
+		
+		List<OrdersDto> lecOrderList = lms.lecOrderList(ordersDto);
+		log.info("lecOrderList->{}", lecOrderList);
+		
+		model.addAttribute("keyword", keyword);
+		model.addAttribute("status", status);
+		model.addAttribute("lecOrderList", lecOrderList);
+		model.addAttribute("makeupTot", makeupTot);
+		model.addAttribute("member", member);
+		
+		return "manager/makeupManagement";
+	}
+	
+	@ResponseBody
+	@RequestMapping("lecOrderDetail")
+	public OrdersDto lecOrderdetail(Long lec_orders_id, Model model) {
+		log.info("lecOrderDetail start...");
+		
+		OrdersDto ordersDto = lms.lecOrderdetail(lec_orders_id);
+		
+		return ordersDto;
+	}
+	
+	@RequestMapping("lecOrderUpdate")
+	public String lecOrderUpdate(OrdersDto ordersDto) {
+		log.info("lecOrderUpdate start...");
+		log.info("ordersDto->{}", ordersDto);
+		
+		int result = lms.lecOrderUpdate(ordersDto);
+		log.info("result->{}", result);
+		
+		if(result > 0) {
+			return "redirect:makeupManagement";
+		} else {
+			return "forward:makeupManagement";
 		}
 		
 	}

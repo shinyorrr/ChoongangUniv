@@ -19,6 +19,18 @@
 <link rel="stylesheet" href="/css/styles.css">
 
     <title>SideBar sub menus</title>
+    <style> @import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@300&family=Old+Standard+TT:ital@0;1&family=Unbounded:wght@300&display=swap'); </style>
+    <style type="text/css">
+    	.total{
+    		marin-top : 10px;
+    		color : #6699FF;
+    		font-size : 27px;
+    		font-weight: 600;
+    		font-family: 'Crimson Pro', serif;
+    		
+    		
+    	}
+    </style>
 </head>
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
@@ -50,8 +62,8 @@
 		            			+"<td>"+item.totalTime+"</td>"
 		            			+"</tr>";
 				});
-				str +="</tbody></table>"
-			 	$('#weekWork'+vindex).append(str) 
+				str +="</tbody></table>";
+			 	$('#weekWork'+vindex).append(str); 
 			}
 		}); 
 	}
@@ -88,58 +100,25 @@
             <div>
                 <div class="nav__brand">
                     <ion-icon name="menu-outline" class="nav__toggle" id="nav-toggle"></ion-icon>
-                    <a href="#" class="nav__logo">Bedimcode</a>
+                    <a href="#" class="nav__logo"></a>
                 </div>
-                <div class="nav__list">
-                    <a href="#" class="nav__link active">
-                        <ion-icon name="home-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Dashboard</span>
-                    </a>
-                    <a href="#" class="nav__link">
-                        <ion-icon name="chatbubbles-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Messenger</span>
-                    </a>
-
                     <div href="#" class="nav__link collapses">
-                        <ion-icon name="folder-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Projects</span>
+     				<ion-icon name="pie-chart-outline" class="nav__icon"></ion-icon>
+                        <span class="nav_name">근태관리</span>
 
                         <ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
 
-                        <ul class="collapse__menu">
-                            <a href="#" class="collapse__sublink">Data</a>
-                            <a href="#" class="collapse__sublink">Group</a>
-                            <a href="#" class="collapse__sublink">Members</a>
+                        <ul class="collapse__menu" style="width: 180px;">
+                            <a href="${pageContext.request.contextPath}/manager/attForm" class="collapse__sublink">나의 근태관리</a><br>
+                            <a href="${pageContext.request.contextPath}/manager/attDeptMemberForm" class="collapse__sublink">부서별 근태관리</a>
+                            <a href="${pageContext.request.contextPath}/manager/attAllMemberForm" class="collapse__sublink">사원별 근태관리</a>
                         </ul>
                     </div>
-
-                    <a href="#" class="nav__link">
-                        <ion-icon name="pie-chart-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Analytics</span>
-                    </a>
-
-                    <div href="#" class="nav__link collapses">
-                        <ion-icon name="people-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Team</span>
-
-                        <ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
-
-                        <ul class="collapse__menu">
-                            <a href="#" class="collapse__sublink">Data</a>
-                            <a href="#" class="collapse__sublink">Group</a>
-                            <a href="#" class="collapse__sublink">Members</a>
-                        </ul>
-                    </div>
-
-                    <a href="#" class="nav__link">
-                        <ion-icon name="settings-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Settings</span>
-                    </a>
-                </div>
-                <a href="#" class="nav__link">
+                <a href="/logout" class="nav__link">
                     <ion-icon name="log-out-outline" class="nav__icon"></ion-icon>
                     <span class="nav_name">Log out</span>
                 </a>
+                </div>
             </div>
         </nav>
     </div>
@@ -159,36 +138,54 @@
                     <!-- card content -->  
                     <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
                     	<div>내 근태현황</div><hr>
-                    	<div class="row">
-                    		<div class="col border border-3 p-3 mb-2 bg-secondary text-white" style="text-align: center">
-                    			이번 주 누적 근무시간<br>
-                    			${weekSum }
-                    		</div>
-                    		<div class="col border border-3 p-3 mb-2 bg-secondary text-white" style="text-align: center">
-                    			이번 주 초과 근무시간<br>
-                    			${weekOver }
-                    		</div>
-                    		<div class="col border border-3 p-3 mb-2 bg-secondary text-white" style="text-align: center">
-                    			이번달 누적근무시간<br>
-                    			${monthTotalTime }
-                    		</div>
-                    		<div class="col border border-3 p-3 mb-2 bg-secondary text-white" style="text-align: center">
-                    			이번 달 초과 근무시간<br>
-                    			${monthOver }
-                    		</div>
-                    	</div>
-                    	<div class="row">
-                    		<div class="col border border-3 p-3 mb-2 bg-secondary text-white" style="text-align: center">
-                    			지난달 근무시간<br>
-                    			${lastMonthTotal }
-                    		</div>
-                    		<div class="col border border-3 p-3 mb-2 bg-secondary text-white" style="text-align: center">
-                    			지난달 초과근무시간<br>
-                    			${lastMonthOver}
-                    		</div>
-                    		<div class="col border border-3 p-3 mb-2 bg-secondary text-white" style="text-align: center">
-                    			남은 연차<br>
-                    			${vacation}
+                    	<div class = "row">
+                    		<div>
+		                    	<div class="row">
+		                    		<div class="col border border-2 p-3 mb-2  rounded-start" style="text-align: center;">
+		                    			이번 주 누적 근무시간<br>
+		                    			<span class = "total">
+		                    			${weekSum }
+		                    			</span>
+		                    		</div>
+		                    		<div class="col border border-2 p-3 mb-2  rounded-start" style="text-align: center;">
+		                    			이번 주 초과 근무시간<br>
+		                    			<span class = "total">
+		                    			${weekOver }
+		                    			</span>
+		                    		</div>
+		                    		<div class="col border border-2 p-3 mb-2 rounded-start" style="text-align: center; ">
+		                    			이번달 누적근무시간<br>
+		                    			<span class = "total">
+		                    			${monthTotalTime }
+		                    			</span>
+		                    		</div>
+		                    		<div class="col border border-2 p-3 mb-2 rounded-start" style="text-align: center; ">
+		                    			이번 달 초과 근무시간<br>
+		                    			<span class = "total">
+		                    			${monthOver }
+		                    			</span>
+		                    		</div>
+		                    	</div>
+		                    	<div class="row">
+		                    		<div class="col border border-2 p-3 mb-2 rounded-start" style="text-align: center; ">
+		                    			지난달 근무시간<br>
+		                    			<span class = "total">
+		                    			${lastMonthTotal }
+		                    			</span>
+		                    		</div>
+		                    		<div class="col border border-2 p-3 mb-2 rounded-start" style="text-align: center; ">
+		                    			지난달 초과근무시간<br>
+		                    			<span class = "total">
+		                    			${lastMonthOver}
+		                    			</span>
+		                    		</div>
+		                    		<div class="col border border-2 p-3 mb-2 rounded-start" style="text-align: center;">
+		                    			남은 연차<br>
+		                    			<span class = "total">
+		                    			${vacation}
+		                    			</span>
+		                    		</div>
+		                    	</div>
                     		</div>
                     	</div>
                     	<div id="weekWorkClk1" onclick="weekWorkClick(0)">1주차</div><hr>

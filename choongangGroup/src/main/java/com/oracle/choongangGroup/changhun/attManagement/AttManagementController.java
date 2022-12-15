@@ -54,25 +54,30 @@ public class AttManagementController {
 //		String userid = "18301001";
 		Member member = getMember.getMember();
 		String userid = member.getUserid();
-		
+		System.out.println("userid --> " + userid);
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
 		Date now = new Date();
 		String nowDate = sdf.format(now);
+		System.out.println("nowDate --> " + nowDate);
 		
 		//일주일 근무시간
 		Map<String, String> weekWorkMap = attManagementService.sumWeekWorking(userid);
+		System.out.println("weekWorkMap --> " + weekWorkMap);
 		
 		//한달 근무시간
 		Map<String, String> monthTotal = attManagementService.monthTotal(userid); 
-		
+		System.out.println("monthTotal --> " + monthTotal);
 		
 		
 		//내 근태내역 리스트
 		Page<Work> workList = repository.findPageByMember_UseridAndWorkDateContaining(userid,nowDate,PageRequest.of(page, 5, Sort.by(Sort.Direction.ASC,"workDate")));
+		System.out.println("workList --> " + workList);
 		
 		//연차 갯수 표시
 		long vacation = attManagementService.vacation(userid);
+		System.out.println("vacation --> " + vacation);
+		System.out.println("weekWorkMap --> " + weekWorkMap);
 		
 		model.addAttribute("member", member);
 		model.addAttribute("attList",workList.getContent());
@@ -89,7 +94,7 @@ public class AttManagementController {
 	
 	@RequestMapping(value = "attDeptMemberForm")
 	public String attAllMemberForm(Model model,
-								@RequestParam(value = "deptno",defaultValue = "102") int deptno
+								@RequestParam(value = "deptno",defaultValue = "10") int deptno
 								) throws ParseException {
 		Member member = getMember.getMember();
 		
@@ -98,7 +103,7 @@ public class AttManagementController {
 		List<Work> attMemberList = attManagementService.attAllList(deptno);
 		// 주말을 제외한 날짜 출력
 		List<String> monthList = attManagementService.monthList();
-		// 현재 로그인 사용자에 대한 리스트 출력
+		// 부서별 인원 조회
 		List<String> memberList = attManagementService.memberFormList(deptno);
 		
 		// 현재 달 구하기
@@ -117,7 +122,6 @@ public class AttManagementController {
 	public String attMonthChange(Model model,
 			@RequestParam(value = "deptno",defaultValue = "102") int deptno,
 			@RequestParam(value = "month") String month) throws ParseException {
-		String userid = "1";
 		// 현재 날짜에 대한 리스트 출력
 		List<Work> attMemberList = attManagementService.attToMonthAllList(deptno,month);
 		// 주말을 제외한 날짜 출력
@@ -127,6 +131,8 @@ public class AttManagementController {
 		
 		Member member = getMember.getMember();
 		
+		log.info("attMonthChange memberList --> {} ",memberList.size());
+		log.info("attMonthChange attMemberList --> {} ",attMemberList.size());
 		
 		model.addAttribute("member", member);
 		model.addAttribute("Month" , month);

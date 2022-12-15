@@ -38,14 +38,14 @@ import lombok.extern.slf4j.Slf4j;
 public class AdminBookController {
 	
 private final AdminBookService abs;
-	
-	
+private final GetMember gm;	
+
 	@GetMapping(value = "student/adminMain")
 	public void adminMain() throws Exception{
 		
 	}
 	
-	@GetMapping(value = "student/bookInsert")
+	@GetMapping(value = "manager/bookInsert")
 	public void bookInsertGet(Model model){
 		System.out.println("bookInsertGet Start..." );
 		List<BookCateVo> category = abs.category();
@@ -63,7 +63,7 @@ private final AdminBookService abs;
 		model.addAttribute("category", jsonArray);
 	}
 	
-	@PostMapping(value = "student/bookInsert")
+	@PostMapping(value = "manager/bookInsert")
 	public String bookInsertPost(BookVo book, MultipartFile file, HttpServletRequest request) throws Exception{
 //		String userid = gm.getMember().getUserid();
 		
@@ -90,20 +90,39 @@ private final AdminBookService abs;
 		return "redirect:/student/adminMain";
 	}
 	
-	@GetMapping(value = "student/bookList")
+	@GetMapping(value = "manager/bookList")
 	public void BookListGet(Model model) {
 		List<BookVo> list = abs.bookList();
 		model.addAttribute("list", list);
 	}
 	
-	@GetMapping(value = "student/detailBookList")
+	@RequestMapping(value = "/manager/getSearch")
+	public String bookgetSearch(BookVo book, String cateParent, String keyword, Model model) {
+		log.info("bookgetSearch start...");
+		String userid = gm.getMember().getUserid();
+		log.info(userid);
+		log.info(cateParent);
+		log.info(keyword);
+		
+		List<BookVo> bookList = abs.bookSearchList(book);
+		log.info("bookList.size()->{}", bookList.size());
+		System.out.println();
+		model.addAttribute("cateParent", cateParent);
+		model.addAttribute("keyword", keyword);
+		model.addAttribute("list", bookList);
+		
+		return "/student/bookList";
+	}
+	
+	
+	@GetMapping(value = "manager/detailBookList")
 	public void detailBookList(int bookId, Model model, BookCateVo category) {
 		BookVo books = abs.bookDetailList(bookId);
 		model.addAttribute("books", books);
 		model.addAttribute("category", category);
 	}
 	
-	@GetMapping(value = "student/updateBook")
+	@GetMapping(value = "manager/updateBook")
 	public void updateBookGet(int bookId, Model model) {
 		BookVo books = abs.updateBook(bookId);
 		model.addAttribute("books", books);
@@ -123,7 +142,7 @@ private final AdminBookService abs;
 		model.addAttribute("category", jsonArray);
 	}
 	
-	@PostMapping(value = "student/updateBook")
+	@PostMapping(value = "manager/updateBook")
 	public String updateBookPost(BookVo book, MultipartFile file, HttpServletRequest request) throws Exception {
 		
 
@@ -147,14 +166,14 @@ private final AdminBookService abs;
 
 		
 		abs.bookUpdate(book);
-		return "redirect:/student/bookList";
+		return "redirect:/manager/bookList";
 	}
 	
 	
-	@GetMapping(value = "/student/deleteBook")
+	@GetMapping(value = "/manager/deleteBook")
 	public String deleteBookPost(int bookId) {
 //		int bId = Integer.parseInt(bookId);
 		abs.bookDelete(bookId);
-		return "redirect:/student/bookList";
+		return "redirect:/manager/bookList";
 	}
 }

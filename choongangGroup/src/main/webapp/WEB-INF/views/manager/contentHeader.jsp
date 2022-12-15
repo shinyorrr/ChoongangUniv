@@ -7,9 +7,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-	 <div class="col-12 pt-4" style="height: 150px; background-color: rgb(95, 142, 241)">
+	 <div class="col-11 pt-4" style="height: 150px; background-color: rgb(95, 142, 241)">
                 <div class="row">
-                   <div class="col-6">
+                   <div class="col-5">
                       <div class="d-flex flex-row mb-3">
                           <div>
                               <span class="text-white h4">안녕하세요. <span class="fw-bold">${member.name }</span>님!</span>
@@ -32,17 +32,26 @@
                           </div>
                       </div>
                   </div>
-                  <div class="col-4">
-                     <div style="width: 535px;line-height: 100px;color: white;font-size: 77px;text-align:center;" id="clock">
-                  </div>
-                  </div>
-                  <div class="col-1">
-                     <button type="button" class="btn btn-secondary" style="width: 100px;height: 43px;margin: 5px;" onclick="attInsert()">출근</button>
-                     <button type="button" class="btn btn-secondary" style="width: 100px;height: 43px;margin: 5px;" onclick="attOff()">퇴근</button>
+                  <div class="col-7">
+                  	<div class = "row" style = "background-color : white; padding-right:10px">
+                  		<div class="col-3" style="line-height: 93px;">
+                  			<span id="date" style="font-weight: bold;float: right;font-size: 16px;"></span>
+                  		</div>
+	                  	<div class ="col-5">
+	                     <div class = "border border-4" style="width: 308px;line-height: 56px;color: black;font-size: 44px;text-align: center;float: right;margin: 8px;padding: 3px;" id="clock"></div>
+	                  	</div>
+	                  	<div class = "col-2" style="line-height: 88px">
+	                     <button type="button" class="btn" style="width: 120px;height: 70px;font-size: 19px;font-weight: 500; background-color: #6699FF; color:white" onclick="attInsert()">출근</button>
+	                  	</div>
+	                  	<div class = "col-2" style="line-height: 88px">
+	                     <button type="button" class="btn" style="width: 120px; color : white; height: 70px;font-size: 19px;font-weight: 500;margin-right: 5px; background-color: #99CCCC;" onclick="attOff()">퇴근</button>
+	                  	</div>
+                  	</div>
                   </div>
               </div>
                 
             </div>
+            <div class="col-1"style="height: 150px; background-color: rgb(95, 142, 241)"></div>
             <main class="col-9 h-100 w-100">
                 <div class="row m-5">
 </body>

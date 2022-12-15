@@ -74,7 +74,7 @@ public class AddressController {
 //		return "manager/addressLike";
 //	}
 	@RequestMapping(value = "/myLikeAddress")
-	public String likeAddress(HttpServletRequest request,Model model,
+	public String likeAddress(Model model,
 							  @RequestParam(required = false, defaultValue = "0", value="page") int page) {
 		Member member = getMember.getMember();
 		String userid = member.getUserid();
@@ -82,7 +82,7 @@ public class AddressController {
 		
 //		String userid = "18301001";
 		
-		Page<PhoneLike> like = addressRepository.findByMyUserid(userid, PageRequest.of(page, 2, Sort.by(Sort.Direction.ASC,"member.name")));
+		Page<PhoneLike> like = addressRepository.findByMyUserid(userid, PageRequest.of(page, 10, Sort.by(Sort.Direction.ASC,"member.name")));
 		
 		int totalPage = like.getTotalPages();
 		

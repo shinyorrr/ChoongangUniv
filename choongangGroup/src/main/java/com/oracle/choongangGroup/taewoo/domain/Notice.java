@@ -12,6 +12,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 import com.oracle.choongangGroup.changhun.JPA.Member;
 
 import lombok.Data;
@@ -38,19 +40,17 @@ public class Notice extends BaseTimeEntity {
 					)
 		private Long noticeNum;					// No.
 		
-		private String userid;
-		
 		@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-		@JoinColumn(name = "userid", insertable = false, updatable = false)
+		@JoinColumn(name = "userid", updatable = false)
 		private Member writer;					// 작성자
 
 		@Column(name = "notice_title")
 		private String noticeTitle;				// 제목
 		
-		@Column(name = "notice_content", length = 50000)
+		@Column(name = "notice_content")
 		private String noticeContent;			// 내용
 		
-		@Column(name = "notice_type")
+		@Column(name = "notice_type", updatable = false)
 		private String noticeType;				// 구분
 				
 		@Column(name = "notice_hit")
