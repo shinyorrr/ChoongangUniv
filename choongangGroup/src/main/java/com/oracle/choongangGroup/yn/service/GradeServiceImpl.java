@@ -153,8 +153,7 @@ public class GradeServiceImpl implements GradeService {
 								  (grList.get(i).getFinals() * 0.3) + (grList.get(i).getReport() * 0.2))); // 총점
 				
 				cell = row.createCell(10);
-				cell.setCellStyle(numCellStyle);
-				cell.setCellValue(grList.get(i).getTotal()); // 등급
+				cell.setCellValue(grList.get(i).getCredits()); // 등급
 			}
 			response.setContentType("application/vnd.ms-ecxcel");
 			response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8")+".xlsx");

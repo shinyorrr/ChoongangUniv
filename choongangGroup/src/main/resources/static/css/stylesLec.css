@@ -1,10 +1,22 @@
 /* GOOGLE FONTS */
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
+.font12 {
+	font-size: 1.2em;
+}
+.font11 {
+	font-size: 1.1em;
+}
 .font09 {
 	font-size: 0.9em;
 }
 .font08 {
 	font-size: 0.8em;
+}
+.font07 {
+	font-size: 0.7em;
+}
+.font06 {
+	font-size: 0.6em;
 }
 .fontColGr2 {
 	font: #8C8C8C !important;
