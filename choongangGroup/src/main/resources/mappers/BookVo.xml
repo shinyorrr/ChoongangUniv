@@ -11,14 +11,18 @@
 	</insert>
 	
 	<select id="BookList" resultType="BookVo">
-		Select *
-		From Book
+		Select b.bookId, b.bookName, b.publisher, b.bookPrice, b.bookStock, b.bookInfo , b.bookImg , b.bookThumbImg ,b.cateCode,b.regDate, c.cateParent,c.cateName
+		From book b
+			inner join book_cate c
+				on b.cateCode = c.cateCode
 		Order By bookId
 	</select>
 	
 	<select id="BookDetail" resultType="BookVo" parameterType="int">
-		Select *
-		From Book
+		Select b.bookId, b.bookName, b.publisher, b.bookPrice, b.bookStock, b.bookInfo , b.bookImg , b.bookThumbImg ,b.cateCode, c.cateParent,c.cateName
+		From book b
+			inner join book_cate c
+				on b.cateCode = c.cateCode
 		Where bookId = #{bookId}
 	</select>
 	
@@ -50,8 +54,10 @@
 	</delete>
 	
 	<select id="ShopList" resultType="BookVo">
-		Select *
-		From Book
+		Select b.bookId, b.bookName, b.publisher, b.bookPrice, b.bookStock, b.bookInfo , b.bookImg , b.bookThumbImg ,b.cateCode,b.regDate, c.cateParent,c.cateName
+		From book b
+			inner join book_cate c
+				on b.cateCode = c.cateCode
 		Order By bookId
 	</select>
 	
@@ -61,14 +67,43 @@
 		Where bookId = #{bookId}
 	</select>
 	
-	<select id="SearchBookList" resultType="BookVo">
-	SELECT *
-	From Book
-		<if test="type != null and type.equals('bookName')">
+	<select id="GetBookSearch" resultType="BookVo" parameterType="BookVo">
+	select b.bookId, b.bookName, b.publisher, b.bookPrice, b.bookStock, b.bookInfo , b.bookImg , b.bookThumbImg ,b.cateCode, c.cateParent,c.cateName
+		From book b
+			inner join book_cate c
+				on b.cateCode = c.cateCode
+		<!-- <if test="cateParent != null and cateParent !=''" >
+		Where cateParent Like CONCAT('%', #{keyword}, '%')
+		</if> -->
+		<if test="keyword != null and keyword !=''">
+		and bookName Like '%'|| #{keyword} || '%'
+		</if>
+	</select>
+	
+	<select id="SearchBookList" resultType="BookVo" parameterType="BookVo">
+	select b.bookId, b.bookName, b.publisher, b.bookPrice, b.bookStock, b.bookInfo , b.bookImg , b.bookThumbImg ,b.cateCode, c.cateParent,c.cateName
+		From book b
+			inner join book_cate c
+				on b.cateCode = c.cateCode
+		<choose>
+			<when test="type == 'bookName'">
+			Where bookName Like '%'|| #{keyword} || '%'
+			</when>
+			<when test="type =='publisher'">
+			Where publisher Like '%'|| #{keyword} || '%'
+			</when>
+		</choose>
+		<!-- <if test="type != null and type.equals('bookName')">
 		Where bookName Like CONCAT('%', #{keyword}, '%')
 		</if>
 		<if test="type != null and type.equals('publisher')">
 		and publisher Like CONCAT('%', #{keyword}, '%')
-		</if>
+		</if> -->
 	</select>
+	
+	<update id="ChangeStock" parameterType="BookVo">
+		update Book
+		set bookStock = bookStock - #{bookStock}
+		where bookId = #{bookId}
+	</update>
 </mapper>

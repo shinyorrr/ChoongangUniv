@@ -56,15 +56,20 @@ public class ShopController {
 		model.addAttribute("userId", userId);
 	}
 	
-	@GetMapping(value = "/student/shopList/getSearchList")
-	public List<BookVo> getSearchList(String type , String keyword, Model model){
-		BookVo book = new BookVo();
-		book.setType(type);
-		book.setKeyword(keyword);
-		return ss.getSearchList(book);
+	// 
+	@GetMapping(value = "/student/getSearchList")
+	public String getSearchList(BookVo book,String type , String keyword, Model model){
+		List<BookVo> bookList = ss.getSearchList(book);
+//		book.setType(type);
+//		book.setKeyword(keyword);
+		model.addAttribute("type", type);
+		model.addAttribute("keyword", keyword);
+		model.addAttribute("bookList", bookList);
+		
+		return "student/shopList";
 	}
 	
-	
+	// 장바구니 담기
 	@ResponseBody
 	@RequestMapping(value = "/student/shopDetailList/addCart", method = RequestMethod.POST )
 	public void addCart(BookCartVo cart,int bookId, Model model)	{
@@ -91,6 +96,7 @@ public class ShopController {
 	 
 	}
 	
+	// 카트 목록 삭제
 	@ResponseBody
 	@RequestMapping(value = "/student/deleteCart", method = RequestMethod.POST )
 	public void deleteCart(int cartNum, Model model, BookCartVo cart)	{
@@ -101,7 +107,7 @@ public class ShopController {
 		
 	}
 	
-	// 주문
+	// 주문 및 주문 번호 생성
 	@RequestMapping(value = "/student/cartList", method = RequestMethod.POST)
 	public String order(OrdersVo order, OrderDetailVo orderDetail) throws Exception {
 	String userId = gm.getMember().getUserid();
@@ -129,9 +135,10 @@ public class ShopController {
 	 ss.cartAllDelete(userId);
 
 	 
-	 return "redirect:/student/orderList";  
+	 return "/student/orderList";  
 	}
 	
+	// 학생 주문 목록
 	@RequestMapping(value = "/student/orderList", method =RequestMethod.GET )
 	public void getOrderList(OrdersVo order, Model model) {
 		String userId = gm.getMember().getUserid();
@@ -140,6 +147,7 @@ public class ShopController {
 		model.addAttribute("orderList", orderList);
 	}
 	
+	// 학생 주문 상세 목록
 	@RequestMapping(value = "/student/orderView", method =RequestMethod.GET )
 	public void getOrderList(OrdersVo order,String orderId, Model model) {
 		String userId = gm.getMember().getUserid();
@@ -149,29 +157,84 @@ public class ShopController {
 		model.addAttribute("orderView", orderView);
 	}
 	
-	@RequestMapping(value = "/admin/adminOrderList", method =RequestMethod.GET )
+	// 학생 주문 상태 변경
+	@RequestMapping(value = "/student/orderView", method = RequestMethod.POST)
+	public String studentupdateState(String state1_btn, OrdersVo order) {
+
+		System.out.println("------------controller start-----------------------------------");
+		
+		order.setState(state1_btn);
+		ss.updateState(order);
+		List<OrdersVo> orderView = ss.orderView(order);
+		
+//		return "redirect:/student/orderView?orderId="+order.getOrderId();
+		return "redirect:/student/orderList";
+	}
+	
+	// 카트 목록 삭제
+		@ResponseBody
+		@RequestMapping(value = "/student/billChange", method = RequestMethod.POST )
+		public void billChange(String billState,String orderId, OrdersVo order)	{
+			order.setBillState(billState);
+			order.setOrderId(orderId);
+			String userId = gm.getMember().getUserid();
+			order.setUserId(userId);
+			System.out.println("billChange billState -> "+ billState);
+			System.out.println("billChange orderId -> "+ orderId);
+			System.out.println("billChange userId -> "+ userId);
+			ss.billUpdateState(order);
+			List<OrdersVo> orderView = ss.orderView(order);
+			
+		}
+	// 관리자 주문 목록 확인
+	@RequestMapping(value = "/manager/adminOrderList", method =RequestMethod.GET )
 	public void getadminOrderList( Model model) {
 		String userId = gm.getMember().getUserid();
 		List<OrdersVo> orderList = ss.adminOrderList();
 		model.addAttribute("orderList", orderList);
 	}
 	
-	@RequestMapping(value = "/admin/adminOrderView", method =RequestMethod.GET )
+	// 관리자 주문 상세 확인
+	@RequestMapping(value = "/manager/adminOrderView", method =RequestMethod.GET )
 	public void getadminOrderList( OrdersVo order,String orderId, Model model) {
 		order.setOrderId(orderId);
 		List<OrdersVo> orderView = ss.adminOrderView(order);
 		model.addAttribute("orderView", orderView);
 	}
-	@RequestMapping(value = "/admin/adminOrderView", method = RequestMethod.POST)
+	
+	@RequestMapping(value = "/manager/SearchOrderList", method =RequestMethod.GET )
+	public String SearchOrderList( OrdersVo order,String orderId,String billState,String type ,
+								String keyword,  Model model) {
+		List<OrdersVo> orderList = ss.SearchOrderList(order);
+		order.setOrderId(orderId);
+		model.addAttribute("billState", billState);
+		model.addAttribute("type", type);
+		model.addAttribute("keyword", keyword);
+		model.addAttribute("orderId", orderId);
+		model.addAttribute("orderList", orderList);
+		
+		return "/manager/adminOrderList";
+	}
+	
+	// 관리자 주문 상태 변경 및 재고 변경
+	@RequestMapping(value = "/manager/adminOrderView", method = RequestMethod.POST)
 	public String updateState(String state1_btn, OrdersVo order) {
 
 		System.out.println("------------controller start-----------------------------------");
 		
 		order.setState(state1_btn);
 		ss.updateState(order);
+		List<OrdersVo> orderView = ss.adminOrderView(order);
 		
-		return "redirect:/admin/adminOrderView?orderId="+order.getOrderId();
-		
+		BookVo book = new BookVo();
+		if(state1_btn.equals("준비 완료")) {
+		for(OrdersVo i : orderView) {
+			book.setBookId(i.getBookId());
+			book.setBookStock(i.getCartStock());
+			ss.changeStock(book);
+		}
+		}
+		return "redirect:/manager/adminOrderView?orderId="+order.getOrderId();
 	}
 	
 
