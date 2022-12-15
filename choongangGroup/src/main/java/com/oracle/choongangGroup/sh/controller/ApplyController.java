@@ -210,7 +210,7 @@ public class ApplyController {
 		List<ApplicationLec> applyList = as.applyList(userid, year, semester);
 		
 		//총 신청학점
-		Long
+		/* Long */
 		model.addAttribute("list", applyList);
 		model.addAttribute("userid", userid);
 		model.addAttribute("select", select);
