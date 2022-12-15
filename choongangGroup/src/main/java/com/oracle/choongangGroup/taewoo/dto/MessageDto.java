@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MessageDto extends BaseTimeEntity {
+	private Long messageId;
 	private String messageTitle;
 	private String messageContent;
 	private String senderUserid;
@@ -19,6 +20,7 @@ public class MessageDto extends BaseTimeEntity {
 	
 	public static MessageDto toDto(Message message) {
 		return new MessageDto(
+				message.getMessageId(),
 				message.getMessageTitle(),
 				message.getMessageContent(),
 				message.getSender().getUserid(),

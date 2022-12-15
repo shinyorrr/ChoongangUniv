@@ -225,12 +225,12 @@
 						style="min-height: 550px;">
 						<h3>쪽지 작성</h3>
 						<hr>
-						<input type="hidden" id=userid name="userid" value="${userid}">
+						<input type="hidden" id=userid name="userid" value="${member.userid}">
 						<form action="messageSave" method="post">
 							<div>
 								<label class="form-label">받는 사람</label>
-								<input type="hidden" name="senderUserid" id="senderUserid" value="${userid}">
-								<input type="hidden" name="senderName" id="senderName" value="${name}">
+								<input type="hidden" name="senderUserid" id="senderUserid" value="${member.userid}">
+								<input type="hidden" name="senderName" id="senderName" value="${member.name}">
 								<input type="hidden" name="receiverUserid" id="receiverUserid"> 
 								<input type="text" name="receiverName" id="receiverName" readonly="readonly">
 								<!-- Button trigger modal -->

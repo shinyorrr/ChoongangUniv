@@ -54,6 +54,15 @@ public class MessageService {
 	        return messageDtos;
 	}
 
+	public int delete(Long messageId) {
+		System.out.println("delete start....");
+		System.out.println(messageId);
+		
+		
+		int result = messageRepository.deleteByMessageId(messageId);
+		return result;
+	}
+
 
 	
 	

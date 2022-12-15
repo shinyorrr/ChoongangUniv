@@ -42,7 +42,7 @@
             <li><a href="#" class="nav-link px-2 link-dark">학사 관리</a></li>
             <li><a href="#" class="nav-link px-2 link-dark">교재 관리</a></li>
             <li><a href="/notice/noticeList" class="nav-link px-2 link-dark">공지사항 관리</a></li>
-            <li><a href="/message/messageList" class="nav-link px-2 link-dark">쪽지함</a></li>
+            <li><a href="/manager/message/messageList" class="nav-link px-2 link-dark">쪽지함</a></li>
           </ul>
         </header>
     </nav>

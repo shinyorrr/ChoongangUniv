@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.oracle.choongangGroup.changhun.JPA.Member;
 import com.oracle.choongangGroup.dongho.auth.GetMember;
 import com.oracle.choongangGroup.taewoo.domain.Notice;
+import com.oracle.choongangGroup.taewoo.dto.NoticeDto;
 import com.oracle.choongangGroup.taewoo.repository.NoticeJpaRepository;
 import com.oracle.choongangGroup.taewoo.service.NoticeService;
 
@@ -40,16 +41,49 @@ public class NoticeController {
 	@PreAuthorize("isAuthenticated()")
 	public String listPage(Model model,
 						   @RequestParam(required = false, defaultValue = "0", value="page") int page) {
-		// 페이징처리
-		Page<Notice> noticeList = noticeJpaRepository.findAll(PageRequest.of(page, 10, Sort.by(Sort.Direction.DESC,"noticeNum")));
-		int noticeTotal = noticeList.getTotalPages();
-		Member member = getMember.getMember();
-		model.addAttribute("member" , member);
-		model.addAttribute("page",page);
-		model.addAttribute("noticeTotal", noticeTotal);
-		model.addAttribute("noticeList", noticeList.getContent());
+		String NoticeType = getMember.getMember().getMemRole();
+		String Student = "ROLE_STUDENT";
+		String Professor = "ROLE_PROFESSOR";
+		String Allcontent = "allContent";
+		System.out.println(NoticeType);
 		
-		return "/manager/notice/noticeList";
+		if(NoticeType.equals(Student)) {
+			System.out.println("Student Start....");
+			Page<Notice> noticeList = noticeJpaRepository.findByNoticeTypeOrNoticeType(PageRequest.of(page, 10, Sort.by(Sort.Direction.DESC,"noticeNum")), NoticeType, Allcontent);
+			int noticeTotal = noticeList.getTotalPages();
+			Member member = getMember.getMember();
+			model.addAttribute("member" , member);
+			model.addAttribute("page",page);
+			model.addAttribute("noticeTotal", noticeTotal);
+			model.addAttribute("noticeList", noticeList.getContent());
+			
+			return "/manager/notice/noticeList";
+
+		} else if(NoticeType.equals(Professor)){
+			System.out.println("Professor Start....");
+			Page<Notice> noticeList = noticeJpaRepository.findByNoticeTypeOrNoticeType(PageRequest.of(page, 10, Sort.by(Sort.Direction.DESC,"noticeNum")), NoticeType, Allcontent);
+			int noticeTotal = noticeList.getTotalPages();
+			Member member = getMember.getMember();
+			model.addAttribute("member" , member);
+			model.addAttribute("page",page);
+			model.addAttribute("noticeTotal", noticeTotal);
+			model.addAttribute("noticeList", noticeList.getContent());
+			
+			return "/manager/notice/noticeList";		
+		}
+		
+		else {
+				System.out.println("manager Start....");
+			Page<Notice> noticeList = noticeJpaRepository.findAll(PageRequest.of(page, 10, Sort.by(Sort.Direction.DESC,"noticeNum")));
+			int noticeTotal = noticeList.getTotalPages();
+			Member member = getMember.getMember();
+			model.addAttribute("member" , member);
+			model.addAttribute("page",page);
+			model.addAttribute("noticeTotal", noticeTotal);
+			model.addAttribute("noticeList", noticeList.getContent());
+			
+			return "/manager/notice/noticeList";
+		}
 	}
 	
 	// 검색 기능
@@ -69,47 +103,55 @@ public class NoticeController {
 	
 	
 	// 공지사항 작성 화면
-	@GetMapping(value = "/noticeWrite")
+	@GetMapping(value = "/manager/noticeWrite")
 	@Secured("ROLE_MANAGER")
-	public String createForm() {
+	public String createForm(Model model) {
 		System.out.println("NoticeController createForm Start....");
+		Member member = getMember.getMember();
+		model.addAttribute("member" , member);
 		return "/manager/notice/createNoticeForm";
 	}
 	
 	// 공지사항 작성
-	@PostMapping(value = "/notice/noticeSave")
+	@PostMapping(value = "/manager/noticeSave")
 	@Secured("ROLE_MANAGER")
-	public String create(Notice notice) {
+	public String create(NoticeDto noticeDto, @RequestParam String writerUserid) {
 		log.info("NoticeController create start....");
-		 noticeJpaRepository.save(notice);
+		System.out.println(writerUserid);
+		noticeDto.setWriterUserid(writerUserid);
+		
+		noticeService.write(noticeDto, writerUserid);
 		return "redirect:/notice/noticeList";
 	}
 	
 	// 상세화면
 	@RequestMapping(value = "/noticeDetail")
 	@PreAuthorize("isAuthenticated()")
-	public String detail( Long noticeNum, Model model, HttpServletRequest request, HttpServletResponse response) {
+	public String detail(@RequestParam Long noticeNum, Model model, HttpServletRequest request, HttpServletResponse response, NoticeDto noticeDto) {
 		log.info("Detail start...");
-		System.out.println("noticeNum -> " + noticeNum);
-		model.addAttribute("notice", noticeService.findById(noticeNum));
+		System.out.println("noticeNum -> " + noticeNum);		
+		Member member = getMember.getMember();
+		Notice notice = noticeService.findById(noticeNum);
+		model.addAttribute("member" , member);
+		model.addAttribute("notice", notice );
 		noticeService.updateHit(noticeNum,request,response);
 		return "/manager/notice/noticeDetail";
 	}
 	
 	// 글 수정	
-	@RequestMapping(value = "updateNotice")
+	@RequestMapping(value = "/manager/updateNotice")
 	@Secured("ROLE_MANAGER")
 	public String NoticeUpdate(Notice notice) {
 		System.out.println("start");
 		System.out.println(notice.getNoticeNum());
 		System.out.println(notice.getNoticeTitle());
-		
+		System.out.println(notice.getNoticeContent());
 		noticeJpaRepository.save(notice);
 		return "/manager/notice/noticeDetail";
 	}
 	
 	// 글 삭제
-	@RequestMapping(value = "/deleteNotice")
+	@RequestMapping(value = "/manager/deleteNotice")
 	@Secured("ROLE_MANAGER")
 	public String NoticeDelete(Notice notice) {
 		System.out.println("NoticeDelete start....");
@@ -117,7 +159,7 @@ public class NoticeController {
 		
 		noticeJpaRepository.delete(notice);
 		
-		return "redirect:/notice/noticeList";
+		return "redirect:/manager/notice/noticeList";
 	}
 	
 	
