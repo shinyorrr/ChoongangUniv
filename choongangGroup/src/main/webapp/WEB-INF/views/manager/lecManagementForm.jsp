@@ -31,7 +31,9 @@
 	/* 년도 뿌리기 */
 	$(document).ready(function(){
 	    setDateBox();
-		
+	    getDate();
+	    
+	    
 	}); 
 
 	 function setDateBox() {
@@ -76,8 +78,20 @@
 				document.getElementById("lec_type").value=lec.lec_type;
 				document.getElementById("prof_name").value=lec.prof_name;
 				document.getElementById("lec_start").value=lec.lec_start;
+				
+				let status = document.getElementById("lec_status").value;
+				console.log(status);
+			    if(status == 1) {
+			    	$("#btnUpdate").attr('disabled','disabled');
+			    	$("#btnAgree").attr('disabled',false);
+			    } else {
+			    	$("#btnUpdate").attr('disabled',false);
+			    	$("#btnAgree").attr('disabled','disabled');
+			    }
+			    
 			}
 		});
+		
 	}
 	
 	function lecDelete() {
@@ -107,16 +121,27 @@
 	}
 	
 	function lecAgree(lecFrm) {
-		 if (confirm("강의를 승인하시겠습니까?") == true) {
-			 alert("승인되었습니다.");
-			 lecFrm.action = "lecAgree";
-			 lecFrm.submit();
-			 return true;
-		 }
-		 else {
-			 alert("취소되었습니다.")
-			 return false;
-		 }
+		if(lecFrm.lec_start.value == "" ||  lecFrm.lec_start.value == null) {
+			alert("개강일을 선택해주세요.");
+			lecFrm.lec_start.focus();
+			return false;
+		} else if(lecFrm.lec_status.value == 1) {
+			alert("승인을 선택해주세요");
+			lecFrm.lec_status.focus();
+			return false;
+		} else {
+			 if (confirm("강의를 승인하시겠습니까?") == true) {
+				 alert("승인되었습니다.");
+				 lecFrm.action = "lecAgree";
+				 lecFrm.submit();
+				 return true;
+			 }
+			 else {
+				 alert("취소되었습니다.")
+				 return false;
+			 }
+		}
+		
 	}
 	
 	function lecUpdate(lecFrm) {
@@ -127,9 +152,23 @@
 			 return true;
 		 }
 		 else {
-			 alert("취소되었습니다.")
+			 alert("취소되었습니다.");
 			 return false;
 		 }
+	}
+	
+	function getDate() {
+		var date = new Date();
+		var Year = date.getFullYear();
+		var Month = "-" + (date.getMonth()+1);
+		var Day = "-" + date.getDate();
+		
+		if(Month.length < 2 ) Month = "0" + Month;
+		if(Day.length < 2 ) Day = "0" + Day;
+		
+		var Today = Year.toString() + Month + Day;
+		
+	 	document.getElementById('lec_start').setAttribute("min", Today);
 	}
 	
 	
@@ -465,7 +504,7 @@
 										
 										<th class="table-secondary" scope="col" style="width: 9%; vertical-align:middle;">개강일</th>
 										<td>
-											<input id="lec_start" name="lec_start" class="form-control form-control-sm text-start" type="date" required="required">
+											<input id="lec_start" name="lec_start" class="form-control form-control-sm text-start" type="date" required="required" onclick="getDate();">
 										</td>
 									</tr>
 								</table>
