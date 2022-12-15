@@ -33,8 +33,7 @@ public class ApplyServiceImpl implements ApplyService {
 	
 	
 	
-
-	//장바구니신청
+	//장바구니, 수강 신청
 	@Override
 	public int apply(Long lecId, String userid, Long gubun) {
 		int result = 0;
@@ -51,7 +50,7 @@ public class ApplyServiceImpl implements ApplyService {
 		
 		return result;
 	}
-
+	//장바구니, 수강신청 기간등록
 	@Override
 	public int register(ApplyTime applyTime) {
 		String year = applyTime.getYear();
@@ -114,30 +113,31 @@ public class ApplyServiceImpl implements ApplyService {
 		return lecr.findByYearAndSemesterAndNameContaining(year,semester,lecName,pageable2);
 	}
 
+	//장바구니 리스트 조회
 	@Override
 	public List<ApplicationLec> likeList(String userid, String year, String semester) {
-		Long gubun = 1L;
+		Long gubun = 1L; //장바구니 구분
+		return aplr.findAllByMember_UseridAndLecture_YearAndLecture_SemesterAndGubun(userid, year, semester, gubun);
+	}
+	//수강신청 리스트 조회
+	@Override
+	public List<ApplicationLec> applyList(String userid, String year, String semester) {
+		Long gubun = 2L; //수강신청 구분
 		return aplr.findAllByMember_UseridAndLecture_YearAndLecture_SemesterAndGubun(userid, year, semester, gubun);
 	}
 
+
+
 	
-	
-
-
-
-
 	
 
 
 
 
+	
 
-	/*
-	 * //장바구니 담은 강의 리스트 조회
-	 * 
-	 * @Override public List<ApplicationLec> likeListAll(String userid) {
-	 * List<ApplicationLec> list = lr.likeListAll(userid); return list; }
-	 */
+
+
 
 
 
