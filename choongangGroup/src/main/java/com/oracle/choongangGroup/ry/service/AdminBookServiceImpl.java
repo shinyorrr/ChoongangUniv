@@ -63,6 +63,12 @@ public class AdminBookServiceImpl implements AdminBookService {
 		abd.deleteBook(bookId);
 		
 	}
+
+	@Override
+	public List<BookVo> bookSearchList(BookVo book) {
+		List<BookVo> getSearch = abd.bookSearchList(book);
+		return getSearch;
+	}
 	
 
 }

@@ -62,8 +62,8 @@ $(function(){
 			<input type="hidden" name="bookId" value="books.bookId"/>
 			
 			<div class="inputArea"> 
-			 <label style="width: auto;">교재 카테고리 코드</label>
-			 <span class="category2">${books.cateCode}</span>
+			 <label style="width: auto;">교재 카테고리</label>
+			 <span class="category2">${books.cateName}</span>
 			</div>
 			
 			<div class="inputArea">
@@ -78,7 +78,7 @@ $(function(){
 			
 			<div class="inputArea">
 			 <label for="publisher">저자</label>
-			 <span>${book.publisher}</span>
+			 <span>${books.publisher}</span>
 			</div>
 			
 			<div class="inputArea">
@@ -97,7 +97,7 @@ $(function(){
 			</div>
 			
 			<div class="inputArea">
-			 <label for="bookImg" style="width: auto;">교재이미지</label>
+			 <label for="bookImg" style="width: auto;"></label>
 			 <img alt="" style="height: 450px;" src="${books.bookImg}">
 			</div>
 			

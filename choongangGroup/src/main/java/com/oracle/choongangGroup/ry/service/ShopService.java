@@ -38,5 +38,12 @@ public interface ShopService {
 
 	List<OrdersVo> adminOrderView(OrdersVo order);
 
+	void changeStock(BookVo book);
+
+	void billUpdateState(OrdersVo order);
+
+	List<OrdersVo> SearchOrderList(OrdersVo order);
+
+
 
 }

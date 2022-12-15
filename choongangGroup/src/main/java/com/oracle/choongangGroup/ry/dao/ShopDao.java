@@ -37,4 +37,11 @@ public interface ShopDao {
 
 	List<OrdersVo> adminOrderView(OrdersVo order);
 
+	void changeStock(BookVo book);
+
+	void billUpdateState(OrdersVo order);
+
+	List<OrdersVo> searchOrderList(OrdersVo order);
+
+
 }
