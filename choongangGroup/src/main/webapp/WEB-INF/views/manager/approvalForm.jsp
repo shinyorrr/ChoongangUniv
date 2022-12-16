@@ -54,7 +54,7 @@
 
 <script type="text/javascript">
 	/* 기안일 구하기 */
-	window.onload = function() {
+	window.addEventListener('load', function() {
 		var date = new Date();
 		var Year = date.getFullYear();
 		var Month = "-" + (date.getMonth()+1);
@@ -67,7 +67,7 @@
 		document.getElementById("date").value = Today;
 		$('input[name=writeday]').attr('value',Today);
 		
-	}
+	});
 	
 	
 	
