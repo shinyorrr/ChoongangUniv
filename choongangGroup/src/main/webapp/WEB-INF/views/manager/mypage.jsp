@@ -24,7 +24,7 @@
 
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
-window.onload = function(){
+window.addEventListener('load', function(){
     document.getElementById("address_kakao").addEventListener("click", function(){ //주소입력칸을 클릭하면
         //카카오 지도 발생
         new daum.Postcode({
@@ -34,7 +34,7 @@ window.onload = function(){
             }
         }).open();
     });
-}
+});
 
 
 const autoHyphen = (target) => {

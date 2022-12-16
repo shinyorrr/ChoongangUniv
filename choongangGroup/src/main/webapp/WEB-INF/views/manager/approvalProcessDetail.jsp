@@ -72,7 +72,7 @@
 						success:function(data) {
 							if(data == '1'){
 								alert("상신취소 되었습니다");
-								window.location.href = "approvalProcess";
+								window.location.href = "/manager/approvalProcess";
 							}
 							else{
 								alert("삭제실패");
@@ -81,6 +81,7 @@
 					}
 			);
 		  }	else {   //취소
+			  alert("취소되었습니다.");
 		      return false;
 		}
 	}
@@ -102,7 +103,7 @@
 							 org_file_name	  : selOrgName},
 						dataType:'text',
 						success:function(data) {
-							alert("다운로드 성공");
+							/* alert("다운로드 성공"); */
 							downloadFile();
 							window.location.reload();
 						}
@@ -320,11 +321,11 @@
 												</td>
 												<th style="width: 10%; font-size: 14px; display: table-cell; vertical-align: middle; background-color: #dddddd">기안일</th>
 												<td>
-													<input type="text" id="date" name="writeday" value="${appr.writeday }" style="border: none;">
+													<input type="text" id="date" name="writeday" value="${appr.writeday }" style="border: none;" readonly="readonly">
 												</td>
 												<th style="width: 10%; font-size: 14px; display: table-cell; vertical-align: middle; background-color: #dddddd">문서번호</th>
 												<td>
-													<input type="text" id=approval_no name="approval_no" value="${appr.approval_no }" style="border: none;">
+													<input type="text" id=approval_no name="approval_no" value="${appr.approval_no }" style="border: none;" readonly="readonly">
 												</td>
 											</tr>
 									    	<tr>
