@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -60,13 +61,14 @@ public class MessageController {
 
 	// 받은편지함 확인
 	@GetMapping(value = "/message/messageList")
-	public String receiveMessageList(Model model) {
+	public String receiveMessageList(Model model, Pageable pageable ) {
 		log.info("MessageController messageList Start....");
 		Member member = getMember.getMember();
 		String userid = getMember.getMember().getUserid();
 		Member member2 = securityService.findByUserid(userid);
-		List<MessageDto> messageList = messageService.receiveMessage(member2);
+		List<MessageDto> messageList = messageService.receiveMessage(member2, pageable);
 		System.out.println(messageList.size());
+		System.out.println(messageList.toString());
 		model.addAttribute("messageList", messageList);
 		model.addAttribute("member", member);
 
@@ -75,10 +77,11 @@ public class MessageController {
 	
 	//받은 쪽지 삭제
 	@RequestMapping(value = "/messageDelete")
-	public String messageDelete(@RequestParam(value = "valueArr[]") ArrayList<Long> valueArr) {
+	public String messageDelete(@RequestParam(value = "valueArr[]") ArrayList<Long> valueArr, Message messageDto) {
 		System.out.println("messageDelete start....");
 		System.out.println(valueArr.size());
 		System.out.println(valueArr);
+		System.out.println(messageDto.toString());
 		for(int i = 0; i< valueArr.size(); i++) {
 			System.out.println(valueArr.get(i));
 //			try {
@@ -101,4 +104,5 @@ public class MessageController {
 		model.addAttribute("message", message);
 		return "/manager/message/messageDetail";
 	}
+	
 }

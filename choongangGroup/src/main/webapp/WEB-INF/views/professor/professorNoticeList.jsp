@@ -3,7 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ include file="../header.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -44,10 +43,6 @@
 				src="/images/logo2.png" alt="logo2" style="height: 40px;"> <use
 					xlink:href="#bootstrap"></use> </svg>
 			</a>
-
-			<ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-				<jsp:include page="../navHeader.jsp"></jsp:include>
-			</ul>
 		</header>
 	</nav>
 	<!-- /header -->
@@ -55,26 +50,56 @@
 	<div class="l-navbar" id="navbar">
 		<nav class="navv">
 			<div>
-				<div class="nav__brand">
-					<ion-icon name="menu-outline" class="nav__toggle" id="nav-toggle"></ion-icon>
-				</div>
-				<div class="nav__list">
-					<div href="/manager/notice/noticeList" class="nav__link collapses">
-						<ion-icon name="folder-outline" class="nav__icon"></ion-icon>
-						<span class="nav_name">공지사항 관리</span>
-
-						<ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
-
-						<ul class="collapse__menu" style="width: 180px;">
-							<a href="/manager/noticeWrite" class="collapse__sublink">공지사항 글쓰기</a>
-						</ul>
-					</div>
-				</div>
-				<a href="/logout" class="nav__link"> <ion-icon
-						name="log-out-outline" class="nav__icon"></ion-icon> <span
-					class="nav_name">Log out</span>
-				</a>
-			</div>
+            <div class="nav__brand">
+               <ion-icon name="menu-outline" class="nav__toggle" id="nav-toggle"></ion-icon>
+               <a href="#" class="nav__logo"></a>
+            </div>
+            <!-- <a href="/professor/calenderForm" class="nav__link active">
+               <i class="bi bi-calendar-plus nav__icon" ></i>
+               <span class="nav_name">캘린더</span>
+            </a> -->
+            
+            <div class="nav__list">
+               <a href="/notice/noticeList" class="nav__link">
+                  <ion-icon name="pie-chart-outline" class="nav__icon"></ion-icon>
+                  <span class="nav_name">공지사항</span>
+               </a>
+      
+               <div href="#" class="nav__link collapses ">
+                  <i class="bi bi-mortarboard-fill nav__icon"></i>
+                  <span class="nav_name mt-1">학사관리</span>
+                  <ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
+                  <ul class="collapse__menu" style="width: 180px;">
+                     <a href="#" class="collapse__sublink mt-2 mb-3" style="font-size: 0.85rem; display: block;">강의시간표</a>
+                     <a href="/professor/lecMgMain?userid=${userid}" class="collapse__sublink mb-1" style="display: block;font-size: 0.85rem;">강의관리</a>
+                     <a  class="collapse__sublink ms-3" style="font-size: 0.8rem; display: block;">전자출석부</a>
+                     <a href="#" class="collapse__sublink ms-3 mb-3"  style="font-size: 0.8rem; display: block;">과제관리</a>
+                     
+                     <a href="#" class="collapse__sublink mb-3" style="font-size: 0.85rem; display: block;">강의계획서</a>
+                     <a href="/professor/lecCreateList" class="collapse__sublink mb-3" style="font-size: 0.85rem; display: block;">강의개설</a>
+                     <!-- <a href="#" class="collapse__sublink mb-1   " style="font-size: 0.875rem;">강의정보</a>
+                     <a href="#" class="collapse__sublink ms-3"  style="font-size: 0.8rem;">강의계획서</a>
+                     <a href="#" class="collapse__sublink ms-3 mb-2"  style="font-size: 0.8rem;">강의개설</a> -->
+                     <a href="/professor/lecScore" class="collapse__sublink mb-3" style="font-size: 0.85rem; display: block;">성적관리</a>
+                     <a href="#" class="collapse__sublink mb-3" style="font-size: 0.85rem; display: block;">휴&#183;보강 신청</a>
+                     <a href="#" class="collapse__sublink" style="font-size: 0.85rem; display: block;">내선번호관리</a>
+                  </ul>
+               </div>
+   
+               <a href="#" class="nav__link">
+                  <ion-icon name="chatbubbles-outline" class="nav__icon"></ion-icon>
+                  <span class="nav_name">결재</span>
+               </a>
+               <a href="#" class="nav__link">
+                  <ion-icon name="settings-outline" class="nav__icon"></ion-icon>
+                  <span class="nav_name">개인정보관리</span>
+               </a>
+            </div>
+            <a href="/logout" class="nav__link">
+               <ion-icon name="log-out-outline" class="nav__icon"></ion-icon>
+               <span class="nav_name">Log out</span>
+            </a>
+         </div>
 		</nav>
 	</div>
 	<!-- /side nav bar -->
@@ -84,12 +109,31 @@
 		style="background-color: rgb(214, 225, 237)">
 		<div class="row">
 			<!-- content header -->
-			<jsp:include page="../contentHeader.jsp"></jsp:include>
+			<div class="col-12 px-5 py-4" style=" background-color: rgb(95, 142, 241)">
+            <div class="d-flex flex-row mb-2 mt-2">
+               <div>
+                  <span class="text-white h4">안녕하세요. <span class="fw-bold">${username}</span>님!</span>
+               </div>
+               <div class="border border-1 border-white rounded-pill text-white ms-2"  style="height: 25px;">
+                  <div class="font09 align-items-center">&nbsp; 교수  &nbsp;</div>
+               </div>
+               <div><i class="text-white bi-gear-fill mx-2"></i></div>
+            </div>
+            <div class="row">
+               <div>
+                  <span class="text-white font09">${major} | ${position} </span>
+               </div>
+            </div>
+            <div class="d-flex flex-low mb-2">
+               <div><i class="bi bi-envelope-fill text-white"></i></div>
+               <div><span class="text-white ms-2 font09">${email}</span></div>
+            </div>
+         </div>
 			<!-- card header -->
 			<div class="col-12 rounded-top text-white overflow-auto pt-2 fw-bold"
 				style="background-color: rgb(39, 40, 70); height: 40px;">
 				<i class="bi bi-bookmark-fill me-2"></i>공지사항 관리 <i
-					class="bi bi-chevron-right"></i>공지사항 글 조회
+					class="bi bi-chevron-right"></i>공지사항 조회
 			</div>
 			<!-- card content -->
 			<div class="col-12 rounded-bottom overflow-auto bg-light p-3"
@@ -107,10 +151,7 @@
 					<tbody>
 						<c:forEach items="${noticeList}" var="notice" varStatus="status">
 							<c:set value='${member.memRole}' var="role" />
-							<%-- <c:if
-								test="${notice.noticeType eq role || notice.noticeType eq 'allContent'}"> --%>
 								<tr>
-									<%-- <td>${status.index+1+(page * 10)}</td> --%>
 									<td style="display: none;">${notice.noticeType}</td>
 									<c:choose>
 										<c:when test="${fn:length(notice.noticeTitle) gt 11}">
@@ -142,7 +183,6 @@
 									</c:choose>
 									<td>${notice.noticeHit}</td>
 								</tr>
-							<%-- </c:if> --%>
 						</c:forEach>
 					</tbody>
 				</table>

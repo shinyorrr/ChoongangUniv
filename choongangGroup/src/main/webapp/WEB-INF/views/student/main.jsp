@@ -231,7 +231,7 @@
 						</c:forEach> --%>
 						</div>
 						<div class="col-md-3 me-3 rounded overflow-auto bg-light p-4" style="min-height: 400px;"> 
-							<h5>공지사항</h5><hr>
+							<h5><a href="/notice/noticeList">공지사항</a></h5><hr>
 
 						</div>
 						<div class="col-md-3  rounded overflow-auto bg-light p-4" style="max-height: 300px;"> 
