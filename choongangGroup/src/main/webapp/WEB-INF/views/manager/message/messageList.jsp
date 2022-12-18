@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <%@ include file="../header.jsp" %>
 <!DOCTYPE html>
 <html>
@@ -159,11 +160,6 @@
 					        <th>제목</th>
 					        <th>내용</th>
 					        <th>보낸시간</th>
-					        <th>
-					        	<button onclick="deleteMessage()">
-					        		<span>삭제</span>
-					        	</button>
-					        </th>
 					    </tr>
 					    </thead>
 					    <tbody>
@@ -194,13 +190,17 @@
 						    	</c:choose>
 							</td>
 							<td>
-							    <c:set var="DateValue" value="${message.createdDate}"/>
-							     ${fn:substring(DateValue,0,10)}
+							     <fmt:parseDate value="${message.createdDate}" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both"/>
+							     <fmt:formatDate value="${parsedDateTime}" pattern="yy-MM-dd HH:mm"/>
 							</td>
 					    </tr>
 					    </c:forEach>
-					    </tbody>					    
+
+					    </tbody>					    					    
 					</table>
+						<button onclick="deleteMessage()">
+					        <span>삭제</span>
+					    </button>
         	  </div>
                     <!-- footer -->
                     <footer class="col-12" style="height: 60px;">

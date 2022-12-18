@@ -3,7 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ include file="../header.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -44,10 +43,6 @@
 				src="/images/logo2.png" alt="logo2" style="height: 40px;"> <use
 					xlink:href="#bootstrap"></use> </svg>
 			</a>
-
-			<ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-				<jsp:include page="../navHeader.jsp"></jsp:include>
-			</ul>
 		</header>
 	</nav>
 	<!-- /header -->
@@ -55,26 +50,62 @@
 	<div class="l-navbar" id="navbar">
 		<nav class="navv">
 			<div>
-				<div class="nav__brand">
-					<ion-icon name="menu-outline" class="nav__toggle" id="nav-toggle"></ion-icon>
-				</div>
-				<div class="nav__list">
-					<div href="/manager/notice/noticeList" class="nav__link collapses">
-						<ion-icon name="folder-outline" class="nav__icon"></ion-icon>
-						<span class="nav_name">공지사항 관리</span>
+                <div class="nav__brand">
+                    <ion-icon name="menu-outline" class="nav__toggle" id="nav-toggle"></ion-icon>
+                   <!--  <a href="#" class="nav__logo">카테고리</a> -->
+                </div>
+                <div class="nav__list">
+                	<div href="#" class="nav__link collapses">
+                        <ion-icon name="folder-outline" class="nav__icon"></ion-icon>
+                        <span class="nav_name">학사관리</span>
 
-						<ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
+                        <ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
 
-						<ul class="collapse__menu" style="width: 180px;">
-							<a href="/manager/noticeWrite" class="collapse__sublink">공지사항 글쓰기</a>
-						</ul>
-					</div>
-				</div>
-				<a href="/logout" class="nav__link"> <ion-icon
-						name="log-out-outline" class="nav__icon"></ion-icon> <span
-					class="nav_name">Log out</span>
-				</a>
-			</div>
+                        <ul class="collapse__menu" style="width: 200px;">
+                            <li><a href="/student/listEmp" class="collapse__sublink">학적정보 조회</a></li>
+                            <li><a href="/professor/lecMgMain?userid=${userid}" class="collapse__sublink">강의목록 조회</a></li>
+                            
+                            <li><a href="#" class="collapse__sublink">시간표 조회</a></li>
+                            <li><a href="/professor/lecCreateList" class="collapse__sublink">과제 업로드</a></li>
+
+                        </ul>
+                    </div>
+                    
+
+					<a href="/student/gradeList" class="nav__link">
+	                    <ion-icon name="log-out-outline" class="nav__icon"></ion-icon>
+	                    <span class="nav_name">성적 관리</span>
+	                </a>
+		
+
+					<a href="/student/evaluationList" class="nav__link">
+	                    <ion-icon name="log-out-outline" class="nav__icon"></ion-icon>
+	                    <span class="nav_name">강의 평가</span>
+	                </a>
+
+
+					<a href="/student/applyIndex" class="nav__link">
+	                    <ion-icon name="log-out-outline" class="nav__icon"></ion-icon>
+	                    <span class="nav_name">수강 신청</span>
+	                </a>
+                    <div href="/student/shopList" class="nav__link collapses">
+                        <ion-icon name="folder-outline" class="nav__icon"></ion-icon>
+                        <span class="nav_name">교재 구매</span>
+
+                        <ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
+
+                        <ul class="collapse__menu" style="width: 200px;">
+                            <li><a href="/student/shopList" class="collapse__sublink">교재 목록</a></li>
+                            <li><a href="/student/cartList" class="collapse__sublink">장바구니</a></li>
+                            <li><a href="/student/orderList" class="collapse__sublink">주문 목록</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <a href="/logout" class="nav__link">
+                    <ion-icon name="log-out-outline" class="nav__icon"></ion-icon>
+                    <span class="nav_name">Log out</span>
+                </a>
+            </div>
 		</nav>
 	</div>
 	<!-- /side nav bar -->
@@ -84,12 +115,33 @@
 		style="background-color: rgb(214, 225, 237)">
 		<div class="row">
 			<!-- content header -->
-			<jsp:include page="../contentHeader.jsp"></jsp:include>
+			<div class="col-12 px-5 py-4" style=" background-color: rgb(95, 142, 241)">
+				<div class="d-flex flex-row mb-2 mt-2">
+					<div>
+						<span class="text-white h4">안녕하세요. <span class="fw-bold">${name}</span>님!</span>
+					</div>
+					<div class="border border-1 border-white rounded-pill text-white ms-2"  style="height: 25px;">
+						<div class="font09 align-items-center">&nbsp; 학생  &nbsp;</div>
+					</div>
+					<div><i class="text-white bi-gear-fill mx-2">  </i></div>
+				</div>
+				<div class="row">
+
+				<div>
+					<span class="text-white font09">${major} | ${position} </span>
+				</div>
+				</div>
+				<div class="d-flex flex-low mb-2">
+					<div><i class="bi bi-envelope-fill text-white"></i></div>
+					<div><span class="text-white ms-2 font09">${email}</span></div>
+				</div>
+
+			</div>
 			<!-- card header -->
 			<div class="col-12 rounded-top text-white overflow-auto pt-2 fw-bold"
 				style="background-color: rgb(39, 40, 70); height: 40px;">
 				<i class="bi bi-bookmark-fill me-2"></i>공지사항 관리 <i
-					class="bi bi-chevron-right"></i>공지사항 글 조회
+					class="bi bi-chevron-right"></i>공지사항 조회
 			</div>
 			<!-- card content -->
 			<div class="col-12 rounded-bottom overflow-auto bg-light p-3"
@@ -107,10 +159,7 @@
 					<tbody>
 						<c:forEach items="${noticeList}" var="notice" varStatus="status">
 							<c:set value='${member.memRole}' var="role" />
-							<%-- <c:if
-								test="${notice.noticeType eq role || notice.noticeType eq 'allContent'}"> --%>
 								<tr>
-									<%-- <td>${status.index+1+(page * 10)}</td> --%>
 									<td style="display: none;">${notice.noticeType}</td>
 									<c:choose>
 										<c:when test="${fn:length(notice.noticeTitle) gt 11}">
@@ -142,7 +191,6 @@
 									</c:choose>
 									<td>${notice.noticeHit}</td>
 								</tr>
-							<%-- </c:if> --%>
 						</c:forEach>
 					</tbody>
 				</table>

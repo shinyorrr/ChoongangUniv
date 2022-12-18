@@ -47,7 +47,7 @@
 						$.each(data, function(index, obj){ 
 					  			html+="<tr>";
 					  	  		html+="<td>"+obj.name+"</td>";
-					  	  		html+="<td>"+obj.dept+"</td>";
+					  	  		html+="<td>"+obj.dname+"</td>";
 					  	  		html+="<td>"+obj.position+"</td>";
 					  	  		html+="<td>"+obj.phone+"</td>";
 					  	  		html+="<td>";
@@ -199,8 +199,8 @@
 													<thead>
 														<tr>
 															<th>이름</th>
-															<th>직위</th>
 															<th>부서</th>
+															<th>직위</th>
 															<th>연락처</th>
 															<th>선택</th>
 														</tr>
