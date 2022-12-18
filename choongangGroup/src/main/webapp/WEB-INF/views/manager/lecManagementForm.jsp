@@ -84,9 +84,13 @@
 			    if(status == 1) {
 			    	$("#btnUpdate").attr('disabled','disabled');
 			    	$("#btnAgree").attr('disabled',false);
+			    	$("#lec_status").attr('disabled',false);
+			    	$("#lec_start").attr('disabled',false);
 			    } else {
 			    	$("#btnUpdate").attr('disabled',false);
 			    	$("#btnAgree").attr('disabled','disabled');
+			    	$("#lec_status").attr('disabled','disabled');
+			    	$("#lec_start").attr('disabled','disabled');
 			    }
 			    
 			}

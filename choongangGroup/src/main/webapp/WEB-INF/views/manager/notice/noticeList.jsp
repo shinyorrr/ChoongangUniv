@@ -89,7 +89,7 @@
 			<div class="col-12 rounded-top text-white overflow-auto pt-2 fw-bold"
 				style="background-color: rgb(39, 40, 70); height: 40px;">
 				<i class="bi bi-bookmark-fill me-2"></i>공지사항 관리 <i
-					class="bi bi-chevron-right"></i>공지사항 조회
+					class="bi bi-chevron-right"></i>공지사항 글 조회
 			</div>
 			<!-- card content -->
 			<div class="col-12 rounded-bottom overflow-auto bg-light p-3"

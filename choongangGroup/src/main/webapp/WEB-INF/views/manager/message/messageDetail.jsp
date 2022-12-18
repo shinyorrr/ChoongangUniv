@@ -225,8 +225,8 @@
 										      <form class="form-signin" id="messageForm">
 										        <div class="mb-3">
 			                   						<label class="form-label">받는 사람</label>
-			                   						<input type="hidden" id="sender" name="sender" value="${message.sender.userid}">
-			                   						<input type="hidden" id="receiver" name="receiver" value="${message.receiver.userid}">                  		
+			                   						<input type="hidden" id="sender" name="sender" value="${message.receiver.userid}">
+			                   						<input type="hidden" id="receiver" name="receiver" value="${message.sender.userid}">                  		
 			                      					<input id="senderName" name="senderName" type="text" class="form-control" readonly="readonly" value="${message.senderName}">   
 			                   					</div>
 			                   					<div class="mb-3">

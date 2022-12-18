@@ -191,7 +191,7 @@
 
                     <!-- footer -->
                     <footer class="col-12" style="height: 60px;">
-                        footer
+                        @2022 ChoongAng University. All Rights Reserved.
                     </footer>    
                 </div>
             </main>
