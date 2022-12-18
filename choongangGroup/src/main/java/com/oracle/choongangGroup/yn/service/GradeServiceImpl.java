@@ -8,7 +8,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -21,7 +20,6 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
-import org.json.JSONArray;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -100,16 +98,25 @@ public class GradeServiceImpl implements GradeService {
 			//파일명 처리
 			final String fileName = "강의성적표";
 			//헤더 처리
-			final String[] header = {"번호", "학번", "학년", "이름", "전공", "출결점수", "중간점수", "기말점수", "과제점수",
-									 "총점", "등급"};
-			Row row = sheet.createRow(0);
-			for(int i = 0; i < header.length; i++) {
-				
-				Cell cell = row.createCell(i);
-				cell.setCellStyle(backYellow);
-				cell.setCellValue(header[i]);
+			Row row = null;
+			if(grList.get(0) != null) {
+				final String[] header = {"번호", "학번", "학년", "이름", "전공", "출결점수", "중간점수", "기말점수", "과제점수",
+						"총점", "등급"};
+				row = sheet.createRow(0);
+				for(int i = 0; i < header.length; i++) {
+					Cell cell = row.createCell(i);
+					cell.setCellStyle(backYellow);
+					cell.setCellValue(header[i]);
+				}
+			} else {
+				final String[] header = {"번호", "학번", "학년", "이름", "전공", "출결점수", "중간점수", "기말점수", "과제점수"};
+				row = sheet.createRow(0);
+				for(int i = 0; i < header.length; i++) {
+					Cell cell = row.createCell(i);
+					cell.setCellStyle(backYellow);
+					cell.setCellValue(header[i]);
+				}
 			}
-			
 			//바디 처리
 			for(int i = 0; i < memList.size(); i++) {
 				row = sheet.createRow(i + 1); // 헤더 이후로 출력되어야 해서 +1한다.
@@ -120,7 +127,7 @@ public class GradeServiceImpl implements GradeService {
 				cell.setCellValue(i+1); // 출석점수
 				
 				cell = row.createCell(1);
-				cell.setCellValue(grList.get(i).getApplicationLec().getMember().getUserid()); // 학번
+				cell.setCellValue(memList.get(i).getUserid()); // 학번
 				
 				cell = row.createCell(2);
 				cell.setCellValue(memList.get(i).getGrade()); // 학년
@@ -130,30 +137,32 @@ public class GradeServiceImpl implements GradeService {
 				
 				cell = row.createCell(4);
 				cell.setCellValue(memList.get(i).getMajor()); // 전공
-				
-				cell = row.createCell(5);
-				cell.setCellStyle(numCellStyle); // 숫자 포맷 사용
-				cell.setCellValue(grList.get(i).getAttendance()); // 출석
-				
-				cell = row.createCell(6);
-				cell.setCellStyle(numCellStyle); 
-				cell.setCellValue(grList.get(i).getMidterm()); // 중간
-				
-				cell = row.createCell(7);
-				cell.setCellStyle(numCellStyle); 
-				cell.setCellValue(grList.get(i).getFinals()); // 기말
-				
-				cell = row.createCell(8);
-				cell.setCellStyle(numCellStyle); 
-				cell.setCellValue(grList.get(i).getReport()); // 과제
-				
-				cell = row.createCell(9);
-				cell.setCellStyle(numCellStyle);
-				cell.setCellValue((double)((grList.get(i).getAttendance() * 0.2) + (grList.get(i).getMidterm() * 0.3) + 
-								  (grList.get(i).getFinals() * 0.3) + (grList.get(i).getReport() * 0.2))); // 총점
-				
-				cell = row.createCell(10);
-				cell.setCellValue(grList.get(i).getCredits()); // 등급
+
+				if(grList.get(i) != null) {
+					cell = row.createCell(5);
+					cell.setCellStyle(numCellStyle); // 숫자 포맷 사용
+					cell.setCellValue(grList.get(i).getAttendance()); // 출석
+					
+					cell = row.createCell(6);
+					cell.setCellStyle(numCellStyle); 
+					cell.setCellValue(grList.get(i).getMidterm()); // 중간
+					
+					cell = row.createCell(7);
+					cell.setCellStyle(numCellStyle); 
+					cell.setCellValue(grList.get(i).getFinals()); // 기말
+					
+					cell = row.createCell(8);
+					cell.setCellStyle(numCellStyle); 
+					cell.setCellValue(grList.get(i).getReport()); // 과제
+					
+					cell = row.createCell(9);
+					cell.setCellStyle(numCellStyle);
+					cell.setCellValue((double)((grList.get(i).getAttendance() * 0.2) + (grList.get(i).getMidterm() * 0.3) + 
+									  (grList.get(i).getFinals() * 0.3) + (grList.get(i).getReport() * 0.2))); // 총점
+					
+					cell = row.createCell(10);
+					cell.setCellValue(grList.get(i).getCredits()); // 등급
+				}
 			}
 			response.setContentType("application/vnd.ms-ecxcel");
 			response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8")+".xlsx");
@@ -172,5 +181,14 @@ public class GradeServiceImpl implements GradeService {
 			e.printStackTrace();
 		}
 	}
+		
+	private long nvl (Long num) {
+		if(num == null) {
+			num = 0L;
+		}
+		return num;
+	}
 	
-}
+	
+} 
+
