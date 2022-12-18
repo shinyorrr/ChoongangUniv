@@ -53,8 +53,8 @@ public class LecServiceImpl implements LecService {
 			return null; // 없으면 에러
 		}
 		List<Map> appliMap = memList.stream()
-							 .map(applicationLec -> obm.convertValue(applicationLec, Map.class))
-							 .collect(Collectors.toList());
+							.map(applicationLec -> obm.convertValue(applicationLec, Map.class))
+							.collect(Collectors.toList());
 		
 		return appliMap;
 	}
@@ -80,7 +80,7 @@ public class LecServiceImpl implements LecService {
 			final String fileName = "강의출석부";
 			
 			//헤더 처리
-			final String[] header = {"번호", "이름", "학년", "학번", "출석점수"};
+			final String[] header = {"번호","이름", "학년", "학번", "출석점수"};
 			Row row = sheet.createRow(0);
 			for(int i = 0; i < header.length; i++) {
 				

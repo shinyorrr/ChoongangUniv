@@ -3,20 +3,30 @@ package com.oracle.choongangGroup.yn.controller;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.oracle.choongangGroup.changhun.JPA.Member;
@@ -24,9 +34,19 @@ import com.oracle.choongangGroup.changhun.JPA.PhoneLike;
 import com.oracle.choongangGroup.changhun.address.AddressRepository;
 import com.oracle.choongangGroup.changhun.address.AddressService;
 import com.oracle.choongangGroup.changhun.address.MemberRepository;
+import com.oracle.choongangGroup.changhun.evaluation.EvaService;
+import com.oracle.choongangGroup.changhun.evaluation.EvaVo;
 import com.oracle.choongangGroup.dongho.auth.GetMember;
 import com.oracle.choongangGroup.hs.managerPage.ManagerPageRepository;
 import com.oracle.choongangGroup.hs.managerPage.ManagerPageService;
+import com.oracle.choongangGroup.sh.domain.ApplicationLec;
+import com.oracle.choongangGroup.sh.domain.Lecture;
+import com.oracle.choongangGroup.taewoo.domain.Notice;
+import com.oracle.choongangGroup.taewoo.dto.NoticeDto;
+import com.oracle.choongangGroup.taewoo.repository.NoticeJpaRepository;
+import com.oracle.choongangGroup.taewoo.service.NoticeService;
+import com.oracle.choongangGroup.yn.repository.LecRepository;
+import com.oracle.choongangGroup.yn.service.LecService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,9 +60,54 @@ public class ProfessorController {
 	private final ManagerPageRepository mr;
 	private final AddressService addressService;
 	private final ManagerPageService ms;
+	private final LecService ls;
+	private final LecRepository lr;
 	
 	private final GetMember gm;
 	public final AddressRepository ar;
+	
+	private final NoticeService noticeService;
+	private final NoticeJpaRepository noticeJpaRepository;
+	private final GetMember getMember;
+	private final EvaService es;
+	
+	
+	@GetMapping(value = "professor/professorMain")
+	@PreAuthorize("isAuthenticated()")
+	public String professorMain(Model model, @RequestParam(required = false, defaultValue = "0", value="page") int page) {
+		
+		System.out.println("LecController professorMain 시작 ==============");
+		String mainCheck = "1";
+		String name = gm.getMember().getName();
+		System.out.println(name);
+		
+		///////// 접속교수 이름 받아서 넘기기////////////
+		List<Lecture> lectureList = lr.findByProfAndStatusOrderByIdAsc(name, "0");
+		
+		List<Map<String, Object>> mapList = new ArrayList<Map<String,Object>>();
+		for(Lecture lecList : lectureList) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("lecture", lecList);
+			List<ApplicationLec> alList = ls.findByLecture_IdAndGubun(lecList.getId(), 1L);
+			map.put("memberCnt", alList.size());
+			mapList.add(map);
+		}
+		
+		Page<Notice> noticeList = noticeJpaRepository.findByNoticeTypeOrNoticeType(PageRequest.of(page, 5, Sort.by(Sort.Direction.DESC,"noticeNum")), "ROLE_PROFESSOR", "allContent");
+		int noticeTotal = noticeList.getTotalPages();
+		model.addAttribute("member" , getMember.getMember());
+		model.addAttribute("page",page);
+		model.addAttribute("noticeTotal", noticeTotal);
+		model.addAttribute("noticeList", noticeList.getContent());
+		
+		System.out.println(lectureList.size());
+		model.addAttribute("mainCheck", mainCheck);
+		model.addAttribute("lecList", mapList);
+		model.addAttribute("lecCnt", lectureList.size());
+		
+		model.addAttribute("member", gm.getMember());
+		return "professor/main";
+	}
 	
 // ------------------ 마이페이지 --------------------------
 		@RequestMapping("professor/mypage")
@@ -62,6 +127,7 @@ public class ProfessorController {
 			}
 			
 			model.addAttribute("mypage", member);
+			model.addAttribute("member", gm.getMember());
 			model.addAttribute("mem", gm.getMember());
 			return "professor/professorMypage";
 		}
@@ -109,8 +175,8 @@ public class ProfessorController {
 			return savedName;
 		}
 		
-		/***********************
-		***  주소록페이지 ***/
+		/************************/
+		/******* 주소록페이지 *******/
 		/***********************/
 		@RequestMapping(value = "professor/addressForm")
 		public String addressForm(Model model,
@@ -134,7 +200,7 @@ public class ProfessorController {
 		
 			String userid = gm.getMember().getUserid();
 			
-			Page<PhoneLike> like = ar.findByMyUserid(userid, PageRequest.of(page, 2, Sort.by(Sort.Direction.ASC,"member.name")));
+			Page<PhoneLike> like = ar.findByMyUserid(userid, PageRequest.of(page, 10, Sort.by(Sort.Direction.ASC,"member.name")));
 			
 			int totalPage = like.getTotalPages();
 			
@@ -174,17 +240,15 @@ public class ProfessorController {
 		}
 		
 		@RequestMapping("professor/phoneLikeSave")
+		@ResponseBody
 		public String phoneLikeSave(@RequestParam(value = "userid") String userid) {
 			String msg = null;
 			
 			log.info("userid 값은? -> {}",userid);
 			Member member = gm.getMember();
 			
-			
-			String Myuserid = member.getUserid(); 
-			
 			try {
-				addressService.phoneLikeSave(userid,Myuserid);			
+				addressService.phoneLikeSave(userid,member.getUserid());			
 			} catch (Exception e) {
 				msg = "이미 등록된 주소록입니다!";
 			}
@@ -192,11 +256,90 @@ public class ProfessorController {
 		}
 		
 		@RequestMapping("professor/phoneLikeDelete")
+		@ResponseBody
 		public String phoneLikeDelete(@RequestParam(value = "myUserid") String myuserid,
 									  @RequestParam(value = "userid") String userid) {
 			addressService.phoneLikeDelete(myuserid,userid);
 		return null;
 		}
+		
+		/************************/
+		/******** 공지사항 ********/
+		/***********************/
+		//공지사항 List
+		@GetMapping(value = "professor/notice/noticeList")
+		@PreAuthorize("isAuthenticated()")
+		public String listPage(Model model,
+							   @RequestParam(required = false, defaultValue = "0", value="page") int page) {
+			
+			Page<Notice> noticeList = noticeJpaRepository.findByNoticeTypeOrNoticeType(PageRequest.of(page, 10, Sort.by(Sort.Direction.DESC,"noticeNum")), "ROLE_PROFESSOR", "allContent");
+			int noticeTotal = noticeList.getTotalPages();
+			Member member = getMember.getMember();
+			model.addAttribute("member" , member);
+			model.addAttribute("page",page);
+			model.addAttribute("noticeTotal", noticeTotal);
+			model.addAttribute("noticeList", noticeList.getContent());
+			
+			return "professor/notice/noticeList";		
+		}
+		
+		// 검색 기능
+		@RequestMapping(value = "professor/notice/search")
+		@PreAuthorize("isAuthenticated()")
+		public String SearchNotice(Model model, String keyword) {
+			List<Notice> searchNotice = noticeService.searchNotice(keyword);
+			String msg = "";
+			if(searchNotice == null) {
+				msg += "다시 입력해주세요";
+			}
+			model.addAttribute("msg",msg);
+			model.addAttribute("noticeList",searchNotice);
+			model.addAttribute("member", gm.getMember());
+			return "professor/notice/noticeList";
+		}
+		
+		// 상세화면
+		@RequestMapping(value = "professor/noticeDetail")
+		@PreAuthorize("isAuthenticated()")
+		public String detail(@RequestParam Long noticeNum, Model model, HttpServletRequest request, HttpServletResponse response, NoticeDto noticeDto) {
+			log.info("Detail start...");
+			System.out.println("noticeNum -> " + noticeNum);		
+			Member member = getMember.getMember();
+			Notice notice = noticeService.findById(noticeNum);
+			model.addAttribute("member" , member);
+			model.addAttribute("notice", notice );
+			noticeService.updateHit(noticeNum,request,response);
+			return "professor/notice/noticeDetail";
+		}
+		
+		/************************/
+		/******** 강의평가 ********/
+		/***********************/
+		@RequestMapping("professor/EvaManagementForm")
+		public String EvaManagementForm(Model model,
+										@RequestParam(value = "pname") String pname) {
+			pname = gm.getMember().getName();
+			
+			log.info("EvaManagementForm pname --> {}",pname);
+			
+			model.addAttribute("member", getMember.getMember());
+			model.addAttribute("evaList", es.evaList(pname));
+			model.addAttribute("reviewList", es.reviewList(pname));
+			model.addAttribute("total", es.total(pname));
+			
+			return "professor/EvaManagementForm";
+		}
+		
+		@ResponseBody
+		@RequestMapping("professor/findProf")
+		public List<String> findProf(){
+			
+			List<String> profList = es.profList();
+			
+			return profList;
+			
+		}
+		
 	// 캘린더이동 ---> 작업중 : 일단 연결만
 //	@GetMapping(value = "professor/calenderForm") public String lecList(Model model) { //
 //	String name = gm.getMember().getName();

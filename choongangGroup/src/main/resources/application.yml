@@ -21,7 +21,7 @@ spring:
    # Jpa Setting  
   jpa: 
     hibernate: 
-      ddl-auto: create  # none   update    create
+      ddl-auto: update  # none   update    create
     properties:
       hibernate:
         default_batch_fetch_size : 500 

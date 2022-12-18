@@ -10,6 +10,9 @@ import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONArray;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +27,8 @@ import com.oracle.choongangGroup.hs.approval.ApprovalService;
 import com.oracle.choongangGroup.sh.domain.ApplicationLec;
 import com.oracle.choongangGroup.sh.domain.Grade;
 import com.oracle.choongangGroup.sh.domain.Lecture;
+import com.oracle.choongangGroup.taewoo.domain.Notice;
+import com.oracle.choongangGroup.taewoo.repository.NoticeJpaRepository;
 import com.oracle.choongangGroup.yn.repository.GradeRepository;
 import com.oracle.choongangGroup.yn.repository.LecRepository;
 import com.oracle.choongangGroup.yn.repository.LecRepositoryImpl;
@@ -49,25 +54,6 @@ public class LecController {
 	private final LecRepositoryImpl lm;
 	private final GetMember gm;
 
-	@GetMapping(value = "professor/professorMain")
-	public String professorMain(Model model) {
-		
-		System.out.println("LecController professorMain 시작 ==============");
-		String mainCheck = "1";
-		String name = gm.getMember().getName();
-		System.out.println(name);
-
-		///////// 접속교수 이름 받아서 넘기기////////////
-		List<Lecture> lectureList = lr.findByProfAndStatusOrderByIdAsc(name, "0");
-
-		System.out.println(lectureList.size());
-		model.addAttribute("mainCheck", mainCheck);
-		model.addAttribute("lecList", lectureList);
-		model.addAttribute("lecCnt", lectureList.size());
-		
-		model.addAttribute("member", gm.getMember());
-		return "professor/main";
-	}
 	
 	// 캘린더이동 ---> 작업중 : 일단 연결만
 //	@GetMapping(value = "professor/calenderForm") public String lecList(Model model) { //
@@ -185,9 +171,19 @@ public class LecController {
 		///////// 접속교수 이름 받아서 넘기기 - 교수의 개강된 강의 조회 ////////////
 		List<Lecture> lectureList = lr.findByProfAndStatusOrderByIdAsc(name, "0");
 		
+		List<Map<String, Object>> mapList = new ArrayList<Map<String,Object>>();
+		for(Lecture lecList : lectureList) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("lecture", lecList);
+			List<ApplicationLec> alList = ls.findByLecture_IdAndGubun(lecList.getId(), 1L);
+			map.put("memberCnt", alList.size());
+			mapList.add(map);
+		}
+		
 		System.out.println(lectureList.size());
-		model.addAttribute("lecList", lectureList);
 		model.addAttribute("lecCnt", lectureList.size());
+		
+		model.addAttribute("lecList", mapList);
 		model.addAttribute("member", gm.getMember());
 		
 		return "professor/lecMgMain";
@@ -237,16 +233,16 @@ public class LecController {
 		model.addAttribute("lecList", lectureList);
 		model.addAttribute("lecture", lecture);
 		model.addAttribute("memList", memList);
+		model.addAttribute("memCnt", memList.size());
 		model.addAttribute("member", gm.getMember());
 
-		log.info("lec id == {}", lecture.getId());
 		return "professor/lecCheckForm";
 	}
 
-	// 출석부 다운 excel
+	/********* 출석부 다운 excel *******/
 	@GetMapping("professor/lecAttendExcel")
 	public ResponseEntity lecAttendExcel(@RequestParam(value = "id") Long id, HttpServletResponse response,
-			@RequestParam(value = "excelDownload") boolean excelDown) {
+										 @RequestParam(value = "excelDownload") boolean excelDown) {
 		System.out.println("lecAttendExcel" + response);
 		return ResponseEntity.ok(lsi.getLecCheck(response, excelDown, id));
 	}
@@ -258,7 +254,7 @@ public class LecController {
 	public String lecScore(Model model) {
 		String name = gm.getMember().getName();
 		List<Lecture> lecList = lr.findByProfAndStatusOrderByIdAsc(name, "0");
-		System.out.println(lecList);
+
 		model.addAttribute("lecList", lecList);
 		model.addAttribute("lecCnt", lecList.size());
 		model.addAttribute("member", gm.getMember());
@@ -270,7 +266,6 @@ public class LecController {
 	@ResponseBody
 	public Map<String, Object> lecScoreForm(@RequestParam(value = "id") Long id, Model model) {
 		Long gubun = (long) 1;
-		System.out.println("나는 id ==> " + id);
 		List<ApplicationLec> alList = ls.findByLecture_IdAndGubun(id, gubun);
 		Collections.sort(alList, new Comparator<ApplicationLec>() {
 
