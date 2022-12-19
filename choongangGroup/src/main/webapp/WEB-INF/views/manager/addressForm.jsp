@@ -169,7 +169,7 @@
 						</div>
 						</form>
                     	<table class="table table-hover">
-                    		 <thead>
+                    		 <thead class="table-dark">
 							    <tr><th>번호</th><th>이름</th><th>직위</th><th>부서</th><th>이메일</th><th>연락처</th><th>즐겨찾기</th></tr>
 							  </thead>
 							  	<c:forEach var="address" items="${addressList}" varStatus="status">
