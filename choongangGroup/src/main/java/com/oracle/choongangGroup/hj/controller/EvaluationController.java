@@ -26,6 +26,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.oracle.choongangGroup.dongho.auth.GetMember;
 import com.oracle.choongangGroup.hj.model.EvaluationVo;
+import com.oracle.choongangGroup.hj.model.MemberVo;
 import com.oracle.choongangGroup.hj.service.EvaluationService;
 
 import lombok.RequiredArgsConstructor;
@@ -50,6 +51,9 @@ public class EvaluationController {
 
 		String userid = gm.getMember().getUserid();
 		
+		//이름받기 
+		MemberVo memberinfo = es.infoList(userid);
+		
 		// 셀렉트바 강의명 +교수이름
 		List<EvaluationVo> evList = es.findev(userid);
 		model.addAttribute("evList", evList);
@@ -58,6 +62,7 @@ public class EvaluationController {
 		List<EvaluationVo> cgList = es.findcg(userid);
 		model.addAttribute("cgList", cgList);
 		model.addAttribute("userid", userid);
+		model.addAttribute("member",memberinfo);
 		return "student/evaluationList";
 
 	}
@@ -126,7 +131,7 @@ public class EvaluationController {
 //		Gson gson = new Gson();
 //		String jsonRs = gson.toJson(rsList);
 		
-		return "redirect:updateFormEvaluation";
+		return "student/updateFormEvaluation";
 
 	}
 

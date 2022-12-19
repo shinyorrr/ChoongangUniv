@@ -73,34 +73,53 @@
 
 	$(document).ready(function(){
 		var str = "";
+		const urlParams = new URL(location.href).searchParams;
+		var pname = urlParams.get('pname');
+		
+		if (pname == null){
+			$("#profName").val("유상신").prop("selected",true);
+		}
+ 		if (pname != null){
+			$("#profName").val(pname).prop("selected", true);
+		} 
+		
+		// 강의 이름 select Box
 		$.ajax({
 			url : '/manager/findProf',
+			data : {pname : pname},
 			dataType : 'json',
 			success  : function(data){
 				$.each(data,function(index,item){
-					str += "<option value='" + item + "'>" + item + "</option>";
+					str += "<option value='" + item.lecId + "'>" + item.lecName + '(' + item.type +item.typeCode+item.lecid+')'+"</option>";
 				});
 			
- 			const urlParams = new URL(location.href).searchParams;
-			var pname = urlParams.get('pname');
-			$('#profOption').append(str);
-			console.log("pname --> " + pname);
-			if (pname == null){
-				$(".form-select").val("오태우").prop("selected",true);
+				var lecid = urlParams.get('lecId')
+				$('#lecName').append(str);
+				
+				if (lecid == null){
+					$("#lecName").val(eq[0]).prop("selected",true);
+				}
+				if (lecid != null){
+					$("#lecName").val(lecid).prop("selected", true);
+				}
 			}
-			if (pname != null){
-				$(".form-select").val(pname).prop("selected", true);
-			}
-			}
-		});
-		
-		$('.form-select').on('change',function(){
-			var optionName = $(".form-select").val();
-			location.href = "/manager/EvaManagementForm?pname=" + optionName;
 		});
 
+		// 강의 이름이 변경되었을 때
+		$('#lecName').on('change',function(){
+			var optionName = $("#lecName").val();
+			var pname = $("#profName").val();
+			
+			location.href = "/manager/EvaManagementForm?lecId=" + optionName + "&pname=" + pname;
+		});
+		
+		
+		$('#profName').on('change',function(){
+			var optionName = $("#profName").val();
+			location.href = "/manager/EvaManagementForm?pname=" + optionName +'&lecId=0';
+		});
+		
 	});
-	
 
 	
 	
@@ -170,16 +189,26 @@
             <!-- content header -->
              <jsp:include page="contentHeader.jsp"></jsp:include>
                     <!-- card content -->  
-                    <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
-                    	<div class = "row border-bottom border-4" style="margin-bottom: 50px;">
-                    		<div class = "col-8 m-2" style="line-height: 2.5;">
+                    <div class="col-12 rounded-bottom overflow-auto bg-light" style="min-height: 550px;"> 
+                    	<div class = "row" style="margin-bottom: 50px;background-color: rgb(39, 40, 70);color: white;">
+                    		<div class = "col-5 m-2" style="line-height: 2.5;font-weight: 700;font-size: 17px;">
                     			강의 평가
                     		</div>
-                    		<div class = "col-1 m-2" style="line-height: 2.5;">
-                    			교수 이름  
+                    		<div class = "col-1 m-2" style="line-height: 2.5;font-weight: 700;font-size: 17px;">
+                    			교수 이름
                     		</div>
                     		<div class = "col-2 m-2">
-	                    		<select class="form-select" id = "profOption" aria-label="Default select example">
+	                    		<select class="form-select" id = "profName" aria-label="Default select example">
+	                				<c:forEach var="i" begin="0" end="${profList.size()-1 }">
+	                					<option value="${profList.get(i)}">${profList.get(i)}</option>
+	                				</c:forEach>
+	                    		</select>
+                    		</div>
+                    		<div class = "col-1 m-2" style="line-height: 2.5;font-weight: 700;font-size: 17px;">
+                    			강의 이름  
+                    		</div>
+                    		<div class = "col-2 m-2">
+	                    		<select class="form-select" id = "lecName" aria-label="Default select example">
 	                    		</select>
                     		</div>
                     	</div>
@@ -206,6 +235,7 @@
                     			<span class = "koreafont-1">평가참여율</span>
                     		</div>
                     	</div>
+                    	
                     	<div class = "row">
                     	<c:if test="${evaList.size()==0}">
                     		<div class="col-2"></div>
@@ -270,13 +300,14 @@
                     	</c:forEach>
                     	</c:if>
                     	</div>
-                    		<div class ="border-bottom border-3 m-3 pb-3" style ="padding-left : 25px">수강후기</div>
-
+                    		<div class ="border-bottom border-3 m-3 pb-3" style ="padding-left : 25px;font-weight: 700;">수강후기</div>
+							<c:if test="${reviewList.size() != 0}">
                     			<c:forEach var="review" items="${reviewList}">
 	                    		<div class = "review">
                     				<i class="bi bi-alexa"></i>${review.review}
     	                		</div>
                     			</c:forEach>
+							</c:if>
                     	</div>
                     	
                     </div>

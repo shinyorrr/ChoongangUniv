@@ -24,7 +24,11 @@
 
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
+window.addEventListener('load', function(){
+=======
+<script type="text/javascript">
 window.onload = function(){
+>>>>>>> refs/heads/RY
     document.getElementById("address_kakao").addEventListener("click", function(){ //주소입력칸을 클릭하면
         //카카오 지도 발생
         new daum.Postcode({
@@ -34,7 +38,6 @@ window.onload = function(){
             }
         }).open();
     });
-}
 
 
 const autoHyphen = (target) => {
@@ -95,6 +98,17 @@ function readURL(input) {
   }
   
 }
+
+.passUpdate:link, .passUpdate:visited {
+	 background-color: #12192c;
+     padding: 6px 12px;
+     text-align: center;
+     text-decoration: none;
+     display: inline-block;
+     color: white;
+     border-radius: 0.375rem;
+}
+
 
 </style>
 </head>
@@ -212,8 +226,9 @@ function readURL(input) {
 							  <div class="col-md-10">
 								<input type="file" name="file1" id="file1" value="${mypage.image }" style="display: none;" onchange="readURL(this)">
 							  </div>
-							  <div class="col-md-3">
+							  <div class="col-md-6">
 							    <button type="submit" class="btn btn-secondary" style="margin: auto;">변경사항 저장</button>
+							    <a href="/updatePasswordForm" class="passUpdate">비밀번호 번경하기</a>
 							  </div>
 							</form>
 						</div>

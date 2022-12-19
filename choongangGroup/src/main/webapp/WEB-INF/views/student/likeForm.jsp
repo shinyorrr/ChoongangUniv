@@ -291,7 +291,7 @@
 		                        
 		                        <!-- 총 신청 학점 -->
 		                        <div class="fw-bold fs-6 " style="background-color:#EAEAEA; height: 45px;">
-	                       		<span style="line-height: 45px; margin-left: 10px;">총 신청학점 : </span>
+	                       		<span style="line-height: 45px; margin-left: 10px;">총 신청학점 : &nbsp;<span style="color: red;">${unit }</span>학점</span>
 		                        </div>
 		                       
 		                       

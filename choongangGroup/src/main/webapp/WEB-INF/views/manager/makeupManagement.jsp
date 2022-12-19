@@ -41,8 +41,18 @@ function lecOrderDetail(id) {
 			document.getElementById("lec_order_status").value=lec.lec_order_status;
 			document.getElementById("lec_orders_id").value=lec.lec_orders_id;
 			document.getElementById("lec_order_date").value=lec.lec_order_date;
+		
+
+			let status = document.getElementById("lec_order_status").value;
+			console.log(status);
+			if(status > 0) {
+				$("#lec_order_status").attr('disabled','disabled');
+			} else {
+				$("#lec_order_status").attr('disabled', false);
+			}
 		}
 	});
+	
 }
 
 function lecOrderUpdate(lecOrderFrm) {

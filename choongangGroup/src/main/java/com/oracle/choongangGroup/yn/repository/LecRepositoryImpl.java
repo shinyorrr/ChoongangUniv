@@ -1,6 +1,5 @@
 package com.oracle.choongangGroup.yn.repository;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -10,12 +9,10 @@ import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
 
-import com.oracle.choongangGroup.changhun.JPA.Member;
 import com.oracle.choongangGroup.sh.domain.Lecture;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import oracle.net.aso.q;
 
 @Repository
 @RequiredArgsConstructor
