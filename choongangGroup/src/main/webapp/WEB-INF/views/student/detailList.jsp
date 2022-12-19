@@ -178,18 +178,22 @@
 
 		<!--이미지   -->
 		
-		
-			<div class="card mt-5" style="width: 20%; position: static; float: left;">
-						  <img id="preview" src="../upload/hj/${member.image}" class="card-img-top" alt="..." style="object-fit:contain;">
-						  <label for="file1">
-							 
-						  </label>
-						  <ul class="list-group list-group-flush" style="text-align: center;">
-					
-						  </ul>
-						</div>
-		
-		
+					<!--이미지   -->
+			<div  style="width: 1000px; height: 250px; ">
+			  <div class="row g-0">
+				   <div class="col-md-4">
+				      <img  id="preview"    src="../upload/hj/${member.image}" style="width: 600px; height: 200px;"   class="img-fluid rounded-start" alt="이미지">
+				      <label for="file1">
+                      
+                    </label>
+                   
+				    <input type="file" style="display: none;"  onchange="readURL(this)"   name="file1"  id="file1" value="${member.image}">
+				    
+				   </div>
+				        
+			  </div>
+				 
+			</div>
 		
 		
 		
