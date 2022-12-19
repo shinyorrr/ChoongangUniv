@@ -320,9 +320,8 @@ public class ProfessorController {
 		public String EvaManagementForm(Model model,
 										@RequestParam(value = "lecId", required = false) String lecid) {
 			List<Lecture> lecIdList = null ;
-			Member member = getMember.getMember();
-			
-			String name = member.getName();
+//			Member member = getMember.getMember();
+			String name = getMember.getMember().getName();
 			
 			lecIdList = lr.findByProf(name);
 			
@@ -336,12 +335,12 @@ public class ProfessorController {
 			EvaVo total = es.total(lecid);
 			
 			
-			model.addAttribute("member", member);
+			model.addAttribute("member", getMember.getMember());
 			model.addAttribute("evaList", evaList);
 			model.addAttribute("reviewList", reviewList);
 			model.addAttribute("total", total);
 			
-			return "professor/EvaManagementForm1";
+			return "professor/lecEvaForm";
 		}
 		
 		@ResponseBody
