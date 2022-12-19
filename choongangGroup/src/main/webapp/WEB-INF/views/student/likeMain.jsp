@@ -153,19 +153,17 @@
                           <span class="fs-6 fw-bold text-danger">(장바구니 교과목은 반드시  실 수강신청 기간에 신청)</span>
                         </div> 
                         
-                        
-                        
                         <!-- 공지사항 -->
                         <div>
 	                      	<div class=" float-start col-12">
 								<div class="fw-bold fs-5 border rounded-top p-2" style="background-color:#EAEAEA; height: 45px;">&nbsp; <i class="bi bi-bell-fill" style="color: rgb(39, 40, 70);"></i> &nbsp;공지사항</div>
-								<div class=" fs-6 fw-bold border p-4" style="height: 260px;">									
+								<div class=" fs-6 fw-bold border p-4" style="height: 230px;">									
 									<p> ※ 수강신청 장바구니 유의사항 안내</p>
 									<p class="px-3"> 
-									<i class="bi bi-1-square-fill"></i> &nbsp;장바구니 시행 기간 : &nbsp;<!-- 장바구니기간 --><br>				 
-									<i class="bi bi-2-square-fill"></i> &nbsp;장바구니 신청 대상 : &nbsp;2022학년도 2학기 (년도,월기준으로 설정)<br>
-									<i class="bi bi-3-square-fill"></i> &nbsp;장바구니 최대 학점 : &nbsp;21학점<br>
-									<i class="bi bi-4-square-fill"></i> &nbsp;장바구니 주요 사항<br>
+									1. &nbsp;장바구니 시행 기간 : &nbsp;<!-- 장바구니기간 --><br>				 
+									2. &nbsp;장바구니 신청 대상 : &nbsp;2022학년도 2학기 (년도,월기준으로 설정)<br>
+									3. &nbsp;장바구니 최대 학점 : &nbsp;21학점<br>
+									4. &nbsp;장바구니 주요 사항<br>
 										<span class="px-3">가. &nbsp;수업시간 중복 불가</span><br>
 										<span class="px-3">나. &nbsp;장바구니 인원 제한 없음(실제 수강신청 시 수강 인원 제한 있음)</span></p>									
 	                      		</div> 
@@ -173,20 +171,20 @@
                       </div>
                         
                         <!-- 버튼 -->                                 
-                        <div class="container text-center mt-5 float-start">
-						<!--   <div class="row "> -->
-						    <!-- <div class="col-3 border rounded fs-6 fw-bold pt-2" style="background-color: #EAEAEA">
-						      	
-						    </div> -->
-					  		 <div >
-						      	<button class="btn btn-dark fw-bold col-12" style="background-color:rgb(39, 40, 70);" onclick="location.href='likeForm?userid=${userid}&lecName='">수강신청 장바구니 담기</button>
+                        <div class="container text-center mt-4 float-start">
+						  <div class="row ">
+						    <div class="col-3 border rounded fs-6 fw-bold pt-2" style="background-color: #EAEAEA">
+						      	수강신청 장바구니 담기
+						    </div>
+					  		 <div class="col-1">
+						      	<button class="btn btn-dark" style="background-color:rgb(39, 40, 70);" onclick="location.href='likeForm?userid=${userid}&lecName='">Click</button>
 						    </div>
 
 						  </div>
 						</div>
 						
 						
-						<%-- <div class="container text-center mt-3 float-start mb-4">
+						<div class="container text-center mt-3 float-start mb-4">
 						  <div class="row">
 						   <div class="col-3 border rounded fs-6 fw-bold pt-2" style="background-color: #EAEAEA">
 						      	장바구니 시간표 조회
@@ -197,7 +195,7 @@
 						    
 						  </div>
 						</div>
-                      	  --%>
+                      	 
                       	<!-- //////////////////////////////////// -->
                       		 
                       	 
