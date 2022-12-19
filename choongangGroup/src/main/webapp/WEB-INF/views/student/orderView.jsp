@@ -266,6 +266,10 @@ textarea#bookInfo {
 				$("#state2_btn").attr('disabled',false);
 		}
 	});
+	
+		
+</script>
+<!-- <script type="text/javascript">
 	$(document).ready(function(){
 		var billState = $("#billState").val();
 		/* const target = document.getElementById('#state1_btn');
@@ -279,8 +283,8 @@ textarea#bookInfo {
 				$("#state2_btn").attr('disabled',false);
 		}
 	});
-		
-</script>
+
+</script> -->
 </head>
 <body id="body-pd">
 	<!-- header -->
