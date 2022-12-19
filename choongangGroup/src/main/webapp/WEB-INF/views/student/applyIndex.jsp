@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,6 +20,13 @@
 
     <title>SideBar sub menus</title>
 </head>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript">
+function submit(){
+	alert("기간이 아닙니다");
+	
+}
+</script>
 
 <body class="" id="body-pd">
     <!-- header -->
@@ -142,7 +150,7 @@
                 <div class="row m-5">
                     <!-- card header -->
                     <div class="col-12 rounded-top text-white overflow-auto pt-2 fw-bold" style="background-color: rgb(39, 40, 70); height: 40px;"> 
-                        <i class="bi bi-bookmark-fill me-2"></i>교수서비스 <i class="bi bi-chevron-right"></i>학사관리 <i class="bi bi-chevron-right"></i>강의 시간표 조회
+                        <i class="bi bi-bookmark-fill me-2"></i>학생서비스 <i class="bi bi-chevron-right"></i>수강신청 <i class="bi bi-chevron-right"></i>안내문
                     </div>
                     <!-- --------------------------본  문 ----------------------------->  
                     <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
@@ -151,28 +159,54 @@
                     		
 	                    	<p class="fs-1 fw-bold mt-3" >안내문</p>
 							<hr>
-							<p class="fs-5 lh-lg mt-4 pt-3"> 
+							<p class="fs-5 lh-lg mt-4 pt-3 fw-bold"> 
 								장바구니 기간 : &nbsp; ${likeTime.start } ~ ${likeTime.end }
+								<c:if test="${likeResult eq 'likeWrong'}"><span style="color: red;">장바구니 기간이 아닙니다</span></c:if>
 								<br>
 								수강신청 기간 : &nbsp; ${applyTime.start } ~ ${applyTime.end }
+								<c:if test="${applyResult eq 'applyWrong'}"><span style="color: red;">수강신청 기간이 아닙니다</span></c:if>
 							</p>                   	
                     	</div>
                         
 						
-						<!-- 버튼 -->
-						<div class="col text-center " style=" margin-top: 65px;" >
-						<button type="button" value="장바구니" onclick="location.href='likeMain?userid=${userid}'"  
-								class="btn btn-secondary btn-lg" style="width: 28%; height:60px; margin-right: 2%; background-color:rgb(39, 40, 70)" >장바구니</button>
-						<button type="button" value="수강신청" onclick="location.href='applySelect?userid=${userid}'" 
-								class="btn btn-secondary btn-lg" style="width: 28%; height:60px; background-color:rgb(39, 40, 70)">수강신청</button>
-						</div>			
+							<!-- 버튼 -->
+							
+							<div class="col text-center " style=" margin-top: 65px;" >
+							
+							
+								
+								<button type="button" value="장바구니" 
+									<c:if test="${likeResult eq 'ok'}"> 
+										onclick="location.href='likeMain?userid=${userid}'" 
+									</c:if> 
+									<c:if test="${likeResult ne 'ok'}">
+										onclick="submit()"
+									</c:if>
+									class="btn btn-secondary btn-lg" style="width: 28%; height:60px; margin-right: 2%; background-color:rgb(39, 40, 70)" >장바구니</button>
+								
+								
+								
+								
+								
+								<button type="button" value="수강신청" 
+									<c:if test="${applyResult eq 'ok'}"> 
+										onclick="location.href='applySelect?userid=${userid}'" 
+									</c:if>
+									<c:if test="${applyResult ne 'ok'}">
+										onclick="submit()"
+									</c:if>
+									class="btn btn-secondary btn-lg" style="width: 28%; height:60px; background-color:rgb(39, 40, 70)">수강신청</button>
+								
+						
+							
+							</div>			
 						
                    		
                    		
                     </div>
                     <!-- footer -->
                     <footer class="col-12" style="height: 60px;">
-                        footer
+                        
                     </footer>    
                 </div>
             </main>
