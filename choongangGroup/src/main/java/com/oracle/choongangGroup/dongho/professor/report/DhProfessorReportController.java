@@ -22,6 +22,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -114,12 +116,14 @@ public class DhProfessorReportController {
 	}
 	
 	// 과제 파일 업로드 form (test용)
+
 	@GetMapping("/uploadReportForm")
 	public String uploadReportForm() {
 		return "/professor/uploadReport";
 	}
 	
 	// 과제 파일 업로드 (test용)
+	
 	@ResponseBody
 	@PostMapping("/uploadReport")
 	public String uploadReport(MultipartFile[] uploadFile) {

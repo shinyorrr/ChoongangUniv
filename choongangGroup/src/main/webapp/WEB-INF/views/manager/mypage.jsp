@@ -24,7 +24,7 @@
 
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
-window.onload = function(){
+window.addEventListener('load', function(){
     document.getElementById("address_kakao").addEventListener("click", function(){ //주소입력칸을 클릭하면
         //카카오 지도 발생
         new daum.Postcode({
@@ -34,7 +34,7 @@ window.onload = function(){
             }
         }).open();
     });
-}
+});
 
 
 const autoHyphen = (target) => {
@@ -85,7 +85,7 @@ function readURL(input) {
 
 .card-img-top {
   width: 100%;
-  height: 250px;
+  height: 270px;
   background-position: 50% 50%;
   background-repeat: no-repeat;
   background-color: #e0e0e0;
@@ -157,12 +157,12 @@ function readURL(input) {
 		<jsp:include page="contentHeader.jsp"></jsp:include>
                     <!-- card header -->
                     <div class="col-12 rounded-top text-white overflow-auto pt-2 fw-bold" style="background-color: rgb(39, 40, 70); height: 40px;"> 
-                        <i class="bi bi-bookmark-fill me-2"></i>교직원서비스 <i class="bi bi-chevron-right"></i>마이페이지
+                        <i class="bi bi-bookmark-fill me-2"></i>교직원 <i class="bi bi-chevron-right"></i>마이페이지
                     </div>
                     <!-- card content -->  
                     <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
 						<div class="card mt-5" style="width: 20%; position: static; float: left;">
-						  <img id="preview" src="../fileUpload/hs/image/${mypage.image}" class="card-img-top" alt="..." >
+						  <img id="preview" src="../upload/hj/${mypage.image}" class="card-img-top" alt="..." style="object-fit:contain;">
 						  <label for="file1">
 							  <div class="btn-upload">이미지 변경</div>
 						  </label>

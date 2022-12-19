@@ -314,6 +314,7 @@
 												<option value="휴학">휴학</option>
 												<option value="졸업">졸업</option>
 												<option value="퇴학">퇴학</option>
+												<option value="자퇴">자퇴</option>
 											</select>
 										</td>
 										<th class="table-secondary me-0" scope="col" style="vertical-align:middle; width: 9%;">국적</th>

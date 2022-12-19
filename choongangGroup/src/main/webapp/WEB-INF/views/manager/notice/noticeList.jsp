@@ -45,17 +45,8 @@
 					xlink:href="#bootstrap"></use> </svg>
 			</a>
 
-			<ul
-				class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-				<li><a href="/manager/main"
-					class="nav-link px-2 link-secondary">Home</a></li>
-				<li><a href="#" class="nav-link px-2 link-dark">전자 결재</a></li>
-				<li><a href="#" class="nav-link px-2 link-dark">학사 관리</a></li>
-				<li><a href="#" class="nav-link px-2 link-dark">교재 관리</a></li>
-				<li><a href="/notice/noticeList"
-					class="nav-link px-2 link-dark">공지사항 관리</a></li>
-				<li><a href="/manager/message/messageList"
-					class="nav-link px-2 link-dark">쪽지함</a></li>
+			<ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+				<jsp:include page="../navHeader.jsp"></jsp:include>
 			</ul>
 		</header>
 	</nav>
@@ -98,7 +89,7 @@
 			<div class="col-12 rounded-top text-white overflow-auto pt-2 fw-bold"
 				style="background-color: rgb(39, 40, 70); height: 40px;">
 				<i class="bi bi-bookmark-fill me-2"></i>공지사항 관리 <i
-					class="bi bi-chevron-right"></i>공지사항 조회
+					class="bi bi-chevron-right"></i>공지사항 글 조회
 			</div>
 			<!-- card content -->
 			<div class="col-12 rounded-bottom overflow-auto bg-light p-3"
