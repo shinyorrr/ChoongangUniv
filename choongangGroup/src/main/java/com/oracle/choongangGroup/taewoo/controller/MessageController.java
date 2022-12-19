@@ -134,6 +134,19 @@ public class MessageController {
 		}
 		return "redirect:/manager/message/senderMessageList";
 	}
+	
+	// 개별 삭제 ( 보낸 쪽지)
+	@RequestMapping(value = "/SendermessageDeleteOne")
+	public String senderMessageDeleteOne(Message message) {
+		System.out.println("messageDeleteOne start....");
+		Member member = getMember.getMember();
+		System.out.println("message.getMessageId() ->" + message.getMessageId());
+		Long messageId = message.getMessageId();
+		
+		messageService.senderDelete(messageId, member);
+		
+		return "redirect:/manager/message/senderMessageList";
+	}
 
 	
 	// 상세 쪽지화면
@@ -145,6 +158,17 @@ public class MessageController {
 		model.addAttribute("member",member);
 		model.addAttribute("message", message);
 		return "/manager/message/messageDetail";
+	}
+	
+	// 상세 쪽지화면
+	@RequestMapping(value = "/senderMessageDetail")
+	public String SenderMessageDetail(@RequestParam Long messageId, Model model) {
+		log.info("messageDetail start....");
+		Member member = getMember.getMember();
+		Message message = messageService.Detail(messageId);
+		model.addAttribute("member",member);
+		model.addAttribute("message", message);
+		return "/manager/message/SenderMessageDetail";
 	}
 	
 }

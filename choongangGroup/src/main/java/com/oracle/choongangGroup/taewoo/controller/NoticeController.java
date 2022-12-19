@@ -90,12 +90,14 @@ public class NoticeController {
 	@RequestMapping(value = "/notice/search")
 	@PreAuthorize("isAuthenticated()")
 	public String SearchNotice(Model model, String keyword) {
+		Member member = getMember.getMember();
 		log.info("keyword --> {}", keyword);
 		List<Notice> searchNotice = noticeService.searchNotice(keyword);
 		String msg = "";
 		if(searchNotice == null) {
 			msg += "다시 입력해주세요";
 		}
+		model.addAttribute(member);
 		model.addAttribute("msg",msg);
 		model.addAttribute("noticeList",searchNotice);
 		return "/manager/notice/noticeList";
@@ -163,17 +165,19 @@ public class NoticeController {
 
 	}
 	
-	// 글 수정	
-	@RequestMapping(value = "/manager/updateNotice")
-	@Secured("ROLE_MANAGER")
-	public String NoticeUpdate(Notice notice) {
-		System.out.println("start");
-		System.out.println(notice.getNoticeNum());
-		System.out.println(notice.getNoticeTitle());
-		System.out.println(notice.getNoticeContent());
-		noticeJpaRepository.save(notice);
-		return "/manager/notice/noticeDetail";
-	}
+//	// 글 수정	
+//	@RequestMapping(value = "/manager/updateNotice")
+//	@Secured("ROLE_MANAGER")
+//	public String NoticeUpdate(NoticeDto noticeDto) {
+//		String writerUserid = getMember.getMember().getUserid();
+//		System.out.println("start");
+//		System.out.println(noticeDto.toString());
+//		System.out.println(noticeDto.getNoticeTitle());
+//		System.out.println(noticeDto.getNoticeContent());
+//		noticeDto.setWriterUserid(writerUserid);	
+//		noticeService.update(noticeDto, writerUserid);
+//		return "/manager/notice/noticeDetail";
+//	}
 	
 	// 글 삭제
 	@RequestMapping(value = "/manager/deleteNotice")
