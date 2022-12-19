@@ -4,7 +4,23 @@
 <!DOCTYPE html>
 <html>
 <head>
+<style type="text/css">
 
+.passUpdate:link, .passUpdate:visited {
+    background-color: #12192c;
+     padding: 6px 12px;
+     text-align: center;
+     text-decoration: none;
+     display: inline-block;
+     color: white;
+     border-radius: 0.375rem;
+}
+
+
+
+
+
+</style>
 
 <meta charset="UTF-8">
 <!-- bottSTrap CSS only -->
@@ -161,6 +177,25 @@
        
 
 		<!--이미지   -->
+		
+		
+			<div class="card mt-5" style="width: 20%; position: static; float: left;">
+						  <img id="preview" src="../upload/hj/${member.image}" class="card-img-top" alt="..." style="object-fit:contain;">
+						  <label for="file1">
+							 
+						  </label>
+						  <ul class="list-group list-group-flush" style="text-align: center;">
+					
+						  </ul>
+						</div>
+		
+		
+		
+		
+		
+		
+<%-- 		
+		
 		<div  style="width: 200px; height: 200px; ">
 		    <div class="row g-0">
 		     
@@ -170,7 +205,7 @@
 		     </div>
 		 
 		</div>
-
+ --%>
 
 
 		<table id="table1"  class="table table-striped-columns" style="table-layout: fixed;">
@@ -187,6 +222,7 @@
                 <!-- 학적수정 버튼  -->
         <div>
              <label class="btn btn-secondary" for="option2" onclick="location.href='updateFormMember?userid=${member.userid}'" >학적수정</label>
+             <a href="/updatePasswordForm" class="passUpdate">비밀번호 번경하기</a>
         </div>          
                        
                        
