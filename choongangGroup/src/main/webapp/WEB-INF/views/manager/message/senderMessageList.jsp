@@ -54,12 +54,12 @@
 		else{
 			console.log(valueArr);
 			$.ajax({
-					url : "/manager/messageDelete",
+					url : "/manager/senderMessageDelete",
 					data : { valueArr : valueArr },
 					type : "POST",
 					success : function (){
 						alert("삭제 성공");
-						location.href = "/manager/message/messageList";
+						location.href = "/manager/message/senderMessageList";
 					}
 			});
 		}
