@@ -216,7 +216,21 @@ public class ShopController {
 		model.addAttribute("orderView", orderView);
 		model.addAttribute("member", member);
 	}
-	
+	// 학생 결제 목록 확인
+	@RequestMapping(value = "/student/SearchOrderList", method =RequestMethod.GET )
+	public String studentSearchOrderList( OrdersVo order,String orderId,String billState,String type ,
+			String keyword,  Model model) {
+		List<OrdersVo> orderList = ss.SearchOrderList(order);
+		order.setOrderId(orderId);
+		Member member = gm.getMember();
+		model.addAttribute("billState", billState);
+		model.addAttribute("type", type);
+		model.addAttribute("keyword", keyword);
+		model.addAttribute("orderId", orderId);
+		model.addAttribute("orderList", orderList);
+		model.addAttribute("member", member);
+		return "/student/orderList";
+	}
 	@RequestMapping(value = "/manager/SearchOrderList", method =RequestMethod.GET )
 	public String SearchOrderList( OrdersVo order,String orderId,String billState,String type ,
 								String keyword,  Model model) {
