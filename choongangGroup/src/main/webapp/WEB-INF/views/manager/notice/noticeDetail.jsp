@@ -91,7 +91,7 @@
 			data	: {noticeNum : dnoticeNum},
 			success : function(data){
 				alert("삭제 되었습니다.");
-				location.href = "/manager/notice/noticeList";
+				location.href = "/notice/noticeList";
 			}
 		});
 	}

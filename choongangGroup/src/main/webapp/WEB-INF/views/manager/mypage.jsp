@@ -34,6 +34,7 @@ window.addEventListener('load', function(){
             }
         }).open();
     });
+    });
 
 
 const autoHyphen = (target) => {

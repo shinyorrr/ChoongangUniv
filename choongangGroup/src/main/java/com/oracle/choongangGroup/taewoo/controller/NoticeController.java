@@ -188,7 +188,7 @@ public class NoticeController {
 		
 		noticeJpaRepository.delete(notice);
 		
-		return "redirect:/manager/notice/noticeList";
+		return "redirect:/notice/noticeList";
 	}
 	
 	
