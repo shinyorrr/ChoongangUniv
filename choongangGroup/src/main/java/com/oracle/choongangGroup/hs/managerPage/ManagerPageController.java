@@ -69,7 +69,7 @@ public class ManagerPageController {
 		Member findMember = mr.findByUserid(userid);
 		if(!file1.isEmpty()) {
 			// 파일 저장
-			String filePath = request.getSession().getServletContext().getRealPath("/fileUpload/hs/image/");
+			String filePath = request.getSession().getServletContext().getRealPath("/upload/hj/");
 			log.info("file POST Start...");
 			log.info("originalName: {}", file1.getOriginalFilename());
 			log.info("size: {}", file1.getSize());
@@ -246,6 +246,8 @@ public class ManagerPageController {
 		findMember.setGender(member.getGender());
 		findMember.setMajor(member.getMajor());
 		findMember.setNation(member.getNation());
+		findMember.setPosition(member.getPosition());
+		findMember.setLab(member.getLab());
 		
 		mr.save(findMember);
 		return "redirect:/manager/professorManage";

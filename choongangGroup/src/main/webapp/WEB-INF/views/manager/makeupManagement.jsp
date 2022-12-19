@@ -32,7 +32,7 @@ function lecOrderDetail(id) {
 			console.log("성공===> " + data );
 			var lec = JSON.parse(data);
 			console.log("==>" + lec.lecname);
-			/* document.getElementById("lecName").value=lec.lecname; */
+			document.getElementById("lecname").value=lec.lecname;
 			document.getElementById("lec_order_room").value=lec.lec_order_room;
 			document.getElementById("lec_order_building").value=lec.lec_order_building;
 			document.getElementById("lec_order_time").value=lec.lec_order_time;
@@ -41,8 +41,18 @@ function lecOrderDetail(id) {
 			document.getElementById("lec_order_status").value=lec.lec_order_status;
 			document.getElementById("lec_orders_id").value=lec.lec_orders_id;
 			document.getElementById("lec_order_date").value=lec.lec_order_date;
+		
+
+			let status = document.getElementById("lec_order_status").value;
+			console.log(status);
+			if(status > 0) {
+				$("#lec_order_status").attr('disabled','disabled');
+			} else {
+				$("#lec_order_status").attr('disabled', false);
+			}
 		}
 	});
+	
 }
 
 function lecOrderUpdate(lecOrderFrm) {
@@ -220,6 +230,9 @@ function lecOrderUpdate(lecOrderFrm) {
 						</div>
 						<div class="row justify-content-center mt-3">
 							<div id="titleInBox" style="font-weight: bold; font-size: 19px; margin-top: 20px;">휴/보강 상세정보</div>
+							<div class="" style="font-size: 14px; color: #7F7F7F;">
+								강의명 : <input type="text" id="lecname" value="" style="border: hidden;">
+							</div>
 							<div style="border-top: 1px dashed #c9c9c9; margin: 10px 0;"></div>
 						</div>
 						<form name="LecOrderFrm" id="LecOrderFrm" action="" method="post">

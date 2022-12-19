@@ -1,6 +1,10 @@
 package com.oracle.choongangGroup.hs.lecManagement;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -96,7 +100,7 @@ public class LecManagementController {
 	}
 	
 	@RequestMapping("lecUpdate")
-	public String update(LectureVO lectureVO) {
+	public String update(LectureVO lectureVO)  {
 		log.info("lecUpdate start...");
 		log.info("lectureVO->{}", lectureVO);
 		

@@ -47,7 +47,7 @@ function proSearch() {
 					html += "<td class='text-center'>" + item.name +"</td>";
 					html += "<td class='text-center'>" + item.major + "</td>";
 					html += "<td class='text-center'>" + item.hiredate + "</td>";
-					/* html += "<td class='text-center'>" + item.dept.dname + "</td>"; */
+					html += "<td class='text-center'>" + item.position + "</td>";
 					html += "<td class='text-center'>" + item.lab + "</td>";
 					html += "</tr>"; 
 					html += "</tbody>";
@@ -77,9 +77,10 @@ function proDetail(id) {
 			document.getElementById("nation").value=pro.nation;
 			document.getElementById("phone").value=pro.phone;
 			document.getElementById("subphone").value=pro.subphone;
-			/* document.getElementById("dname").value=data.dept.dname; */
+			document.getElementById("position").value=pro.position;
 			document.getElementById("address").value=pro.address;
 			document.getElementById("birth").value=pro.birth;
+			document.getElementById("lab").value=pro.lab;
 		}
 	});
 }
@@ -207,7 +208,7 @@ function proUpdate(proFrm) {
 										<th>이름</th>
 										<th>전공</th>
 										<th>입사일</th>
-										<!-- <th>직급</th> -->
+										<th>직급</th>
 										<th>연구실</th>
 									</tr>
 								</thead>
@@ -221,7 +222,7 @@ function proUpdate(proFrm) {
 								      <td>${professor.name }</td>
 								      <td>${professor.major }</td>
 								      <td>${professor.hiredate }</td>
-								      <%-- <td>${professor.dept.dname }</td> --%>
+								      <td>${professor.position}</td>
 								      <td>${professor.lab }</td>
 								    </tr>
 								    </c:forEach>
@@ -249,7 +250,12 @@ function proUpdate(proFrm) {
 										</td>
 										<th class="table-secondary" scope="col" style="width: 9%; vertical-align:middle;">직급</th>
 										<td>
-											<input class="form-control text-center mx-0 form-inline form-control-sm " type="text" id="dname" name="dname" readonly="readonly">
+											<select id="position" name="position" class="form-select form-select-sm me-0 " style="margin-left: 0;" required="required">
+												<option value="" selected>선택</option>
+												<option value="정교수">정교수</option>
+												<option value="부교수">부교수</option>
+												<option value="초빙교수">초빙교수</option>
+											</select>
 										</td>
 									</tr>
 									
@@ -298,6 +304,17 @@ function proUpdate(proFrm) {
 										<th class="table-secondary me-0" scope="col" style="vertical-align:middle; width: 9%;">생년월일</th>
 										<td>
 											<input id="birth" name="birth" class="form-control form-control-sm text-start" type="text" readonly="readonly">
+										</td>
+										<th class="table-secondary me-0" scope="col" style="vertical-align:middle; width: 9%;">연구실</th>
+										<td>
+											<select id="lab" name="lab" class="form-select form-select-sm me-0 " style="margin: 0;" required="required">
+												<option selected value="">선택</option>
+												<option value="102호">102호</option>
+												<option value="103호">103호</option>
+												<option value="201호">201호</option>
+												<option value="202호">202호</option>
+												<option value="203호">203호</option>
+											</select>
 										</td>
 									</tr>
 									</table>

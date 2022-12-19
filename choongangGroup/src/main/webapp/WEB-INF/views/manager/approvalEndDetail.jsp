@@ -299,11 +299,11 @@ function fileDownload() {
 												</td>
 												<th style="width: 10%; font-size: 14px; display: table-cell; vertical-align: middle; background-color: #dddddd">기안일</th>
 												<td>
-													<input type="text" id="date" name="writeday" value="${appr.writeday }" style="border: none;">
+													<input type="text" id="date" name="writeday" value="${appr.writeday }" style="border: none;" readonly="readonly">
 												</td>
 												<th style="width: 10%; font-size: 14px; display: table-cell; vertical-align: middle; background-color: #dddddd">문서번호</th>
 												<td>
-													<input type="text" id=approval_no name="approval_no" value="${appr.approval_no }" style="border: none;">
+													<input type="text" id=approval_no name="approval_no" value="${appr.approval_no }" style="border: none;" readonly="readonly">
 												</td>
 											</tr>
 									    	<tr>

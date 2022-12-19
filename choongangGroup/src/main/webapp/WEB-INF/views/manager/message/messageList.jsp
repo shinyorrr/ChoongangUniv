@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <%@ include file="../header.jsp" %>
 <!DOCTYPE html>
 <html>
@@ -86,12 +87,7 @@
           </a>
     
  		 <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-            <li><a href="/manager/main" class="nav-link px-2 link-secondary">Home</a></li>
-            <li><a href="#" class="nav-link px-2 link-dark">전자 결재</a></li>
-            <li><a href="#" class="nav-link px-2 link-dark">학사 관리</a></li>
-            <li><a href="#" class="nav-link px-2 link-dark">교재 관리</a></li>
-            <li><a href="/notice/noticeList" class="nav-link px-2 link-dark">공지사항 관리</a></li>
-            <li><a href="/message/messageList" class="nav-link px-2 link-dark">쪽지함</a></li>
+          <jsp:include page="../navHeader.jsp"></jsp:include>
           </ul>
         </header>
     </nav>
@@ -102,37 +98,22 @@
             <div>
                 <div class="nav__brand">
                     <ion-icon name="menu-outline" class="nav__toggle" id="nav-toggle"></ion-icon>
-                    <a href="/message/messageList" class="nav__logo">쪽지 관리</a>
+                    <a href="/manager/message/messageList" class="nav__logo">쪽지함</a>
                 </div>
                 <div class="nav__list">
                     <a href="/manager/messageWriteForm" class="nav__link active">
-                        <ion-icon name="home-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">쪽지 쓰기</span>
-                    </a>
-                    <a href="#" class="nav__link">
                         <ion-icon name="chatbubbles-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Messenger</span>
+                        <span class="nav_name">쪽지보내기</span>
                     </a>
-
-                    <div href="#" class="nav__link collapses">
+                    <a href="/manager/message/messageList"" class="nav__link">
                         <ion-icon name="folder-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Projects</span>
-
-                        <ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
-
-                        <ul class="collapse__menu">
-                            <a href="#" class="collapse__sublink">Data</a>
-                            <a href="#" class="collapse__sublink">Group</a>
-                            <a href="#" class="collapse__sublink">Members</a>
-                        </ul>
-                    </div>
-
-                    <a href="#" class="nav__link">
-                        <ion-icon name="pie-chart-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Analytics</span>
+                        <span class="nav_name">받은 쪽지함</span>
                     </a>
-
-                    <div href="#" class="nav__link collapses">
+                    <a href="#" class="nav__link">
+                        <ion-icon name="folder-outline" class="nav__icon"></ion-icon>
+                        <span class="nav_name">보낸 쪽지함</span>
+                    </a>
+<!--                     <div href="#" class="nav__link collapses">
                         <ion-icon name="people-outline" class="nav__icon"></ion-icon>
                         <span class="nav_name">Team</span>
 
@@ -143,14 +124,9 @@
                             <a href="#" class="collapse__sublink">Group</a>
                             <a href="#" class="collapse__sublink">Members</a>
                         </ul>
-                    </div>
-
-                    <a href="#" class="nav__link">
-                        <ion-icon name="settings-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">Settings</span>
-                    </a>
+                    </div> -->
                 </div>
-                <a href="#" class="nav__link">
+                <a href="/logout" class="nav__link">
                     <ion-icon name="log-out-outline" class="nav__icon"></ion-icon>
                     <span class="nav_name">Log out</span>
                 </a>
@@ -184,11 +160,6 @@
 					        <th>제목</th>
 					        <th>내용</th>
 					        <th>보낸시간</th>
-					        <th>
-					        	<button onclick="deleteMessage()">
-					        		<span>삭제</span>
-					        	</button>
-					        </th>
 					    </tr>
 					    </thead>
 					    <tbody>
@@ -219,13 +190,17 @@
 						    	</c:choose>
 							</td>
 							<td>
-							    <c:set var="DateValue" value="${message.createdDate}"/>
-							     ${fn:substring(DateValue,0,10)}
+							     <fmt:parseDate value="${message.createdDate}" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both"/>
+							     <fmt:formatDate value="${parsedDateTime}" pattern="yy-MM-dd HH:mm"/>
 							</td>
 					    </tr>
 					    </c:forEach>
-					    </tbody>					    
+
+					    </tbody>					    					    
 					</table>
+						<button onclick="deleteMessage()">
+					        <span>삭제</span>
+					    </button>
         	  </div>
                     <!-- footer -->
                     <footer class="col-12" style="height: 60px;">

@@ -20,118 +20,29 @@
 	<!-- CSS -->
 	<link rel="stylesheet" href="/css/stylesLec.css">
 	<link rel="stylesheet" href="/css/styles.css">
-	<!-- IONICONS -->
-	<script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script>
-	<!-- JS -->
-	<script src="/js/main.js"></script>
 
 	<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 	<script type="text/javascript">
-
-	
+	$(document).ready(function(){
+		$("#lecSelect").val($("#lecIdHidden").val());
+		$("#lecSelect").change(function(){
+			location.href='lecAttendanceCheck?id=' + $(this).val();
+		});
+	});
 	</script>
 </head>
 
-<body class="" id="body-pd">
-	<nav class="navbar navbar-expand-lg navbar-dark bd-navbar bg-light sticky-top position-fixed fixed-top w-100" style="position : absolute">
-		<header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between">
-			<a href="/" class="navbar-brand">
-				<img class="img-fluid" src="/images/logo2.png" alt="logo2" style="height: 40px;"><use xlink:href="#bootstrap"></use></svg>
-			</a>
-
-			<ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-				<li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>
-				<li><a href="#" class="nav-link px-2 link-dark">Features</a></li>
-				<li><a href="#" class="nav-link px-2 link-dark">Pricing</a></li>
-				<li><a href="#" class="nav-link px-2 link-dark">FAQs</a></li>
-				<li><a href="#" class="nav-link px-2 link-dark">About</a></li>
-			</ul>
-		</header>
-	</nav>
+<body id="body-pd">
+	<jsp:include page="shortHeadrInfo.jsp"></jsp:include>
 	
 	<!-- side nav bar -->
-<div class="l-navbar" id="navbar">
-		<nav class="navv">
-			<div>
-				<div class="nav__brand">
-					<ion-icon name="menu-outline" class="nav__toggle" id="nav-toggle"></ion-icon>
-				</div>
-				<div class="nav__list">
-					<a href="#" class="nav__link active">
-						<div style="width: 20px; height: 20px;">
-							<i class="bi bi-mortarboard nav__icon "></i>
-						</div>
-						<span class="nav_name">학사관리</span>
-					</a>
-					<a href="#" class="nav__link">
-						<div style="width: 20px; height: 20px;">
-							<i class="bi bi-file-earmark-text nav__icon "></i>
-						</div>
-						<span class="nav_name">결재</span>
-					</a>
-	
-					<div href="#" class="nav__link collapses">
-						<ion-icon name="folder-outline" class="nav__icon"></ion-icon>
-						<span class="nav_name">Projects</span>
-	
-						<ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
-	
-						<ul class="collapse__menu">
-							<a href="#" class="collapse__sublink">Data</a>
-							<a href="#" class="collapse__sublink">Group</a>
-							<a href="#" class="collapse__sublink">Members</a>
-						</ul>
-					</div>
-	
-					<a href="#" class="nav__link">
-						<ion-icon name="pie-chart-outline" class="nav__icon"></ion-icon>
-						<span class="nav_name">Analytics</span>
-					</a>
-	
-					<div href="#" class="nav__link collapses">
-						<ion-icon name="people-outline" class="nav__icon"></ion-icon>
-						<span class="nav_name">Team</span>
-	
-						<ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
-	
-						<ul class="collapse__menu">
-							<a href="#" class="collapse__sublink">Data</a>
-							<a href="#" class="collapse__sublink">Group</a>
-							<a href="#" class="collapse__sublink">Members</a>
-						</ul>
-					</div>
-	
-					<a href="#" class="nav__link">
-						<ion-icon name="settings-outline" class="nav__icon"></ion-icon>
-						<span class="nav_name">Settings</span>
-					</a>
-				</div>
-  				<a href="#" class="nav__link">
-					<ion-icon name="log-out-outline" class="nav__icon"></ion-icon>
-					<span class="nav_name">Log out</span>
-				</a>
-			</div>
-		</nav>
-	</div>
+	<jsp:include page="sideNavBar.jsp"></jsp:include>
 	<!-- /side nav bar -->
 
 	<!------- main content ------------>
 	<div class="container-fluid w-100" style=" background-color: rgb(214, 225, 237);">
 		<div class="row">
 
-			<!-- content header -->
-			<div class="col-12 p-4" style="height: 150px; background-color: rgb(95, 142, 241); vertical-align: middle;">
-				<div class="d-flex flex-row" >
-					<div class="text-white h4">안녕하세요. <b>${name }</b>님!</div>
-					<span class="border border-1 border-white border-bottom rounded-pill text-white px-2 pt-1 pb-0 ms-2 me-3"
-							style="font-size: 12px; height: 24px;">교수</span>
-					<i class="text-white bi-gear-fill mx-2" style="height: 18px;"></i>
-				</div>
-				<div class="d-flex text-white" style="font-size: 14px;">${major} | ${position}</div>
-				<div class="d-flex flex-low text-white" style="font-size: 14px;">
-					<i class="bi bi-envelope-fill me-3 ml-0 "></i>${email }
-				</div>
-			</div>
 
 			<!------------- card header  컨텐츠 폼------------->
 			<main class="col-9 h-100 w-100">
@@ -140,20 +51,28 @@
 				<div class="row m-5">
 					<!------------- 컨텐츠 경로 ------------->
 					<div class="col-12 rounded-top text-white overflow-auto pt-2 fw-bold" style="background-color: rgb(39, 40, 70); height: 40px;">
-						<i class="bi bi-bookmark-fill me-2"></i>강의관리 &gt; 전자출석부</div>
+						<i class="bi bi-bookmark-fill me-2"></i>학사관리&gt; <a style="text-decoration: none; color: white;" href='lecMgMain'>강의관리 </a> &gt; 전자출석부</div>
 					<!----- card content 내용 ------>
 						<div class="col-12 rounded-bottom overflow-auto bg-white p-5" style="min-height: 550px;">
 							
 							<h2>전자출석부</h2><hr>
-							<br>
+							
+							<!-- 강의 목록 select box -->
+							<select class="form-select form-select-sm w-28 my-2 font09" id="lecSelect" aria-label="Default select" >
+								<c:forEach var="lecList" items="${lecList}">
+									<option value="${lecList.id }">(${lecList.typeCode}${lecList.id}) <b>${lecList.name}</b> _${lecList.grade}학년</option>
+								</c:forEach>
+							</select>
 							
 							<div class="mt-1 mb-4 py-4 px-3" style="border-collapse: collapse; border: 1px solid #BDBDBD;">
 								<div class="mb-2">
 									<div style="font-size: 1.4em; display: inline-block;">(${lecture.typeCode}${lecture.id}) <b>${lecture.name}</b> _ ${lecture.grade}학년</div>
-									<button style="display: inline-block; float: right;" type="button" class="btn btn-primary btn-sm"
-											onclick="location.href='lecMgMain?userid=${userid}'" >&nbsp; 강의 목록보기  &nbsp;</button>
-									<button style="display: inline-block; float: right;" type="button" class="btn btn-dark btn-sm"
-											onclick="location.href='lecAttendExcel?excelDownload=true&id=${lecture.id}'" >&nbsp; 엑셀 다운로드  &nbsp;</button>
+									<div style="float: right;">
+										<button style="display: inline-block; " type="button" class="btn btn-primary btn-sm me-2"
+												onclick="location.href='lecMgMain'" >&nbsp; 강의 목록보기  &nbsp;</button>
+										<button style="display: inline-block;" type="button" class="btn btn-dark btn-sm"
+												onclick="location.href='lecAttendExcel?excelDownload=true&id=${lecture.id}'" >&nbsp; 엑셀 다운로드  &nbsp;</button>
+									</div>
 								</div>
 								
 								<%-- ${ param.id != null ? param.id : 'NULL' } --%>
@@ -168,8 +87,9 @@
 										<c:if test="${lecture.hour2 > 1}"> - ${lecture.time2 + (lecture.hour2 - 1)}</c:if> 교시
 									</c:otherwise>
 								</c:choose>
-								&nbsp;&nbsp;&#183;&nbsp;&nbsp; ${lecture.building} ${lecture.room} &nbsp;&nbsp;&#183;&nbsp;&nbsp;강의학생 : <b>${lecture.studCount}</b>명</div>
+								&nbsp;&nbsp;&#183;&nbsp;&nbsp; ${lecture.building} ${lecture.room} &nbsp;&nbsp;&#183;&nbsp;&nbsp;강의학생 : <b>${memCnt}</b>명</div>
 							</div>
+							<input type="hidden" id="lecIdHidden" value="${lecture.id}">
 	
 							<table class="table table-bordered table-sm font09" >
 								<thead class="table-secondary">
@@ -190,12 +110,14 @@
 									</c:if>
 												<td  style="text-align: center; vertical-align: middle;" >${i}</td>
 												<td  class="d-flex py-2">
-													<div class="m-1 mx-2 bg-secondary align-self-center" style=" height:70px; width: 78%;"></div>
+													<div class="m-1 mx-2 bg-white align-self-center" style="width: 70%; ">
+														<img src="../upload/hj/${mem.image}" style="width: 100%;"  class="img-fluid " >
+													</div>
 												</td>
 												<td class="p-3 mb-0">
 													<div class=" px-2" style="font-size:1em; "><b >${mem.name}</b>  
 														<p class="font09 mb-0" style="margin-top:3px;">${mem.userid}</p>
-														<p class="font09 mt-0 mb-0">${mem.major} <span class="fontColorGr1 mb-0"> &nbsp;&#183; &nbsp; ${mem.grade}학년</span></p>
+														<p class="font09 mt-0 mb-0">${mem.major} <span class="fontColorGr1 mb-0"> &nbsp; &nbsp; ${mem.grade}학년</span></p>
 													</div>
 												</td>
 
@@ -207,13 +129,17 @@
 						</div>
 					
 					<!-- footer -->
-					<footer class="col-12" style="height: 60px; font-size: 12px;">
-						@2022 ChoongAng University. All Rights Reserved.
-					</footer>    
-				</div>
-			</main>
-		</div>
-	</div>
-
+               <footer class="col-12 mt-5" style="height: 60px; font-size: 12px;">
+               <jsp:include page="../footer.jsp"></jsp:include>
+               </footer> 
+            </div>
+         </main>
+      </div> 
+   </div> <!-- container div end -->
+   
+   <!-- NavBar 관련 IONICONS -->
+   <script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script>
+   <!-- JS -->
+   <script src="/js/main.js"></script>
 </body>
 </html>
