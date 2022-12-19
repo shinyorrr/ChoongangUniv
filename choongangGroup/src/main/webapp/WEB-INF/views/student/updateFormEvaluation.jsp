@@ -318,9 +318,9 @@ function updateEvaluation(vuserId){
 
 	<div>
 		<%--             <input type="submit" value="수정" onclick="location.href='updateEvaluation?userid=${userid}'"    > --%>
-		<form>
+		
 			<input class="btn btn-primary"     style="margin-left:900px;" type="submit" value="수정완료" onclick="updateEvaluation(${userid})" />
-		</form>
+		
 		<!--  //아작스 실행  -->
 
 	</div>
