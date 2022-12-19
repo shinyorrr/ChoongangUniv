@@ -51,7 +51,7 @@
 			success : function(data){
 				console.log("성공");
 				var str = "<table class='table table-hover'>"
-        				+"<thead><tr><th>일자</th><th>업무시작</th><th>업무종료</th><th>총근무시간</th>"
+        				+"<thead class='table-dark'><tr><th>일자</th><th>업무시작</th><th>업무종료</th><th>총근무시간</th>"
         				+"</thead>"
         				+"<tbody>";
 			 	$.each(data,function(index,item){
@@ -141,25 +141,25 @@
                     	<div class = "row">
                     		<div>
 		                    	<div class="row">
-		                    		<div class="col border border-2 p-3 mb-2  rounded-start" style="text-align: center;">
+		                    		<div class="col border border-2 p-3 mb-2  rounded-start border-secondary" style="text-align: center;font-weight: 700;">
 		                    			이번 주 누적 근무시간<br>
 		                    			<span class = "total">
 		                    			${weekSum }
 		                    			</span>
 		                    		</div>
-		                    		<div class="col border border-2 p-3 mb-2  rounded-start" style="text-align: center;">
+		                    		<div class="col border border-2 p-3 mb-2  rounded-start border-secondary" style="text-align: center;font-weight: 700;">
 		                    			이번 주 초과 근무시간<br>
 		                    			<span class = "total">
 		                    			${weekOver }
 		                    			</span>
 		                    		</div>
-		                    		<div class="col border border-2 p-3 mb-2 rounded-start" style="text-align: center; ">
+		                    		<div class="col border border-2 p-3 mb-2 rounded-start border-secondary" style="text-align: center;font-weight: 700; ">
 		                    			이번달 누적근무시간<br>
 		                    			<span class = "total">
 		                    			${monthTotalTime }
 		                    			</span>
 		                    		</div>
-		                    		<div class="col border border-2 p-3 mb-2 rounded-start" style="text-align: center; ">
+		                    		<div class="col border border-2 p-3 mb-2 rounded-start border-secondary" style="text-align: center;font-weight: 700; ">
 		                    			이번 달 초과 근무시간<br>
 		                    			<span class = "total">
 		                    			${monthOver }
@@ -167,19 +167,19 @@
 		                    		</div>
 		                    	</div>
 		                    	<div class="row">
-		                    		<div class="col border border-2 p-3 mb-2 rounded-start" style="text-align: center; ">
+		                    		<div class="col border border-2 p-3 mb-2 rounded-start border-secondary" style="text-align: center;font-weight: 700; ">
 		                    			지난달 근무시간<br>
 		                    			<span class = "total">
 		                    			${lastMonthTotal }
 		                    			</span>
 		                    		</div>
-		                    		<div class="col border border-2 p-3 mb-2 rounded-start" style="text-align: center; ">
+		                    		<div class="col border border-2 p-3 mb-2 rounded-start border-secondary" style="text-align: center;font-weight: 700; ">
 		                    			지난달 초과근무시간<br>
 		                    			<span class = "total">
 		                    			${lastMonthOver}
 		                    			</span>
 		                    		</div>
-		                    		<div class="col border border-2 p-3 mb-2 rounded-start" style="text-align: center;">
+		                    		<div class="col border border-2 p-3 mb-2 rounded-start border-secondary" style="text-align: center;font-weight: 700;">
 		                    			남은 연차<br>
 		                    			<span class = "total">
 		                    			${vacation}
@@ -191,7 +191,7 @@
                     	<div id="weekWorkClk1" onclick="weekWorkClick(0)">1주차</div><hr>
                     		<div class="weekclk" id = "weekWork1">
 	                    		<table class="table table-hover">
-	                    			<thead><tr><th>일자</th><th>업무시작</th><th>업무종료</th><th>총근무시간</th>
+	                    			<thead class="table-dark"><tr><th>일자</th><th>업무시작</th><th>업무종료</th><th>총근무시간</th>
 	                    				</thead>
                     					<c:forEach var="attList" items="${attList }">
 	                    				<tbody>

@@ -117,8 +117,7 @@
     <!-- main content -->
     <div class="container-fluid w-100" style=" background-color: rgb(214, 225, 237)">
         <div class="row">
-        
-            
+
          	<jsp:include page="contentHeader.jsp"></jsp:include>
                     <!-- card header -->
                     <div class="col-12 rounded-top text-white overflow-auto pt-2 fw-bold" style="background-color: rgb(39, 40, 70); height: 40px;"> 
@@ -169,7 +168,7 @@
 						</div>
 						</form>
                     	<table class="table table-hover">
-                    		 <thead>
+                    		 <thead class="table-dark">
 							    <tr><th>번호</th><th>이름</th><th>직위</th><th>부서</th><th>이메일</th><th>연락처</th><th>즐겨찾기</th></tr>
 							  </thead>
 							  	<c:forEach var="address" items="${addressList}" varStatus="status">
@@ -232,6 +231,7 @@
                     <!-- footer -->
          
                 </div>
+            </div>
         </div>
         <jsp:include page="../footer.jsp"></jsp:include>
     <!-- IONICONS -->

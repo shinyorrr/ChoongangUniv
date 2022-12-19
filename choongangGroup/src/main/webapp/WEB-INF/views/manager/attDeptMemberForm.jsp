@@ -201,9 +201,9 @@
 								<div id = "overflow">
 			                    	<table class="table table-hover">
 			                    		<tr>
-			                    		<th class="tdwidth" colspan="2">이름</th>
+			                    		<th class="tdwidth table-dark" colspan="2">이름</th>
 			                     		<c:forEach var="i" begin="0" end="${monthList.size()-1}">
-			   	   	              			<th class="tdwidth" style = "text-align: left">${monthList.get(i)}</th>
+			   	   	              			<th class="tdwidth table-dark" style = "text-align: left">${monthList.get(i)}</th>
 			                    		</c:forEach>
 			                    		<c:if test="${attList.size() != 0 && memberList.size() != 0 && attList.size() != 1}">
 					                    		<c:forEach var="i" begin="0" end ="${attList.size()-attList.size()/memberList.size()}" step ="${attList.size()/memberList.size()}">

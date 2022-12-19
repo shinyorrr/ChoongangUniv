@@ -355,7 +355,7 @@
                     		</div>
                     		<div class="col">
                     			<table class= "table table-hover">
-        							<tr>
+        							<tr class = "table-dark">
         								<th>날짜</th><th>출근시간</th><th>퇴근시간</th><th>연차갯수</th><th>수정</th>
         							</tr>
                     			</table>

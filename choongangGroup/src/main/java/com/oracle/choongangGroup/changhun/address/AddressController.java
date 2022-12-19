@@ -48,7 +48,7 @@ public class AddressController {
 	public String addressForm(Model model,
 			 				  @RequestParam(required = false, defaultValue = "0", value="page") int page) {
 		
-		Page<Member> addressList = memberRepository.findAll(PageRequest.of(page, 10, Sort.by(Sort.Direction.ASC,"name")));
+		Page<Member> addressList = memberRepository.findAll(PageRequest.of(page, 10, Sort.by(Sort.Direction.ASC,"dept_deptno")));
 		
 		int totalPage = addressList.getTotalPages();
 		

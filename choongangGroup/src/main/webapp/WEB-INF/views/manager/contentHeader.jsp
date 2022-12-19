@@ -33,18 +33,18 @@
                       </div>
                   </div>
                   <div class="col-7">
-                  	<div class = "row" style = "background-color : white; padding-right:10px">
+                  	<div class = "row" style = "background-color : white; padding-right:10px;height: 106px;border-radius: 13px;">
                   		<div class="col-3" style="line-height: 93px;">
-                  			<span id="date" style="font-weight: bold;float: right;font-size: 16px;"></span>
+                  			<span id="date" style="font-weight: bold;float: left;font-size: 16px;margin-top: 6px;"></span>
                   		</div>
 	                  	<div class ="col-5">
-	                     <div class = "border border-4" style="width: 308px;line-height: 56px;color: black;font-size: 44px;text-align: center;float: right;margin: 8px;padding: 3px;" id="clock"></div>
+	                     <div class = "border border-4" style="width: 423px;line-height: 56px;color: black;font-size: 44px;text-align: center;float: right;margin: 13px;padding: 3px;" id="clock"></div>
 	                  	</div>
 	                  	<div class = "col-2" style="line-height: 88px">
-	                     <button type="button" class="btn" style="width: 120px;height: 70px;font-size: 19px;font-weight: 500; background-color: #6699FF; color:white" onclick="attInsert()">출근</button>
+	                     <button type="button" class="btn" style="width: 138px;height: 60px;font-size: 19px;font-weight: 600;background-color: #6699FF;color:white;margin-top: 10px;" onclick="attInsert()">출근</button>
 	                  	</div>
 	                  	<div class = "col-2" style="line-height: 88px">
-	                     <button type="button" class="btn" style="width: 120px; color : white; height: 70px;font-size: 19px;font-weight: 500;margin-right: 5px; background-color: #99CCCC;" onclick="attOff()">퇴근</button>
+	                     <button type="button" class="btn" style="width: 138px;color : white;height: 60px;font-size: 19px;font-weight: 600;margin-right: 5px;background-color: #99CCCC;margin-top: 10px;" onclick="attOff()">퇴근</button>
 	                  	</div>
                   	</div>
                   </div>
