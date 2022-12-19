@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.oracle.choongangGroup.changhun.JPA.Member;
 import com.oracle.choongangGroup.sh.domain.ApplicationLec;
 import com.oracle.choongangGroup.yn.repository.LecApplicationRepository;
 import com.oracle.choongangGroup.yn.repository.LecRepository;
@@ -37,7 +38,7 @@ public class LecServiceImpl implements LecService {
 	private final LecRepository lr;
 	private final LecApplicationRepository ar;
 	private final ObjectMapper obm;
-
+	
 	@Override  
 	public List<ApplicationLec> findByLecture_IdAndGubun(Long id, Long gubun) {
 		return ar.findByLecture_IdAndGubun(id, gubun);
@@ -52,8 +53,8 @@ public class LecServiceImpl implements LecService {
 			return null; // 없으면 에러
 		}
 		List<Map> appliMap = memList.stream()
-							 .map(applicationLec -> obm.convertValue(applicationLec, Map.class))
-							 .collect(Collectors.toList());
+							.map(applicationLec -> obm.convertValue(applicationLec, Map.class))
+							.collect(Collectors.toList());
 		
 		return appliMap;
 	}
@@ -79,7 +80,7 @@ public class LecServiceImpl implements LecService {
 			final String fileName = "강의출석부";
 			
 			//헤더 처리
-			final String[] header = {"번호", "이름", "학년", "학번", "출석점수"};
+			final String[] header = {"번호","이름", "학년", "학번", "출석점수"};
 			Row row = sheet.createRow(0);
 			for(int i = 0; i < header.length; i++) {
 				
@@ -133,7 +134,6 @@ public class LecServiceImpl implements LecService {
 			e.printStackTrace();
 		}
 	}
-
 
 
 

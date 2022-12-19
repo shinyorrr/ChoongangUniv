@@ -40,76 +40,7 @@
 	</nav>
 	
 	<!-- side nav bar -->
-	<%-- <div class="l-navbar" id="navbar">
-		<nav class="navv">
-			<div class="nav__brand">
-				<ion-icon name="menu-outline" class="nav__toggle" id="nav-toggle"></ion-icon>
-				<a href="#" class="nav__logo"></a>
-			</div>
-			<a href="/professor/calenderForm" class="nav__link active">
-				<i class="bi bi-calendar-plus nav__icon" ></i>
-				<span class="nav_name">캘린더</span>
-			</a>
-			<a href="/logout" class="nav__link">
-				<ion-icon name="log-out-outline" class="nav__icon"></ion-icon>
-				<span class="nav_name">Log out</span>
-			</a>
-			
 
-			<div href="#" class="nav__link collapses ">
-				<ion-icon name="folder-outline" class="nav__icon"></ion-icon>
-				<span class="nav_name">학사관리</span>
-				<ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
-
-				<ul class="collapse__menu  " style="width: 180px;">
-					<a href="#" class="collapse__sublink mt-2 mb-2" style="font-size: 0.875rem;">강의시간표</a>
-					<a href="/professor/lecMgMain?userid=${userid}" class="collapse__sublink mb-1 ms-0" style="font-size: 0.875rem;">강의관리</a>
-					<a href="#" class="collapse__sublink ms-3" style="font-size: 0.8rem;">전자출석부</a>
-					<a href="#" class="collapse__sublink ms-3 mb-2"  style="font-size: 0.8rem;">과제관리</a>
-					
-					<a href="#" class="collapse__sublink mb-2" style="font-size: 0.875rem;">강의계획서</a>
-					<a href="/professor/lecCreateList" class="collapse__sublink mb-2" style="font-size: 0.875rem;">강의개설</a>
-					<!-- <a href="#" class="collapse__sublink mb-1" style="font-size: 0.875rem;">강의정보</a>
-					<a href="#" class="collapse__sublink ms-3"  style="font-size: 0.8rem;">강의계획서</a>
-					<a href="#" class="collapse__sublink ms-3 mb-2"  style="font-size: 0.8rem;">강의개설</a> -->
-					<a href="/professor/lecScore" class="collapse__sublink mb-2" style="font-size: 0.875rem;">성적관리</a>
-					<a href="#" class="collapse__sublink mb-2" style="font-size: 0.875rem;">휴&#183;보강 신청</a>
-					<a href="#" class="collapse__sublink mb-2" style="font-size: 0.875rem;">내선번호관리</a>
-				</ul>
-			</div>
-
-			<div class="nav__list">
-				<div href="#" class="nav__link collapses">
-	                 <ion-icon name="folder-outline" class="nav__icon"></ion-icon>
-	                 <span class="nav_name">Projects</span>
-	
-	                 <ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
-	
-	                 <ul class="collapse__menu">
-	                     <a href="#" class="collapse__sublink">Data</a>
-	                     <a href="#" class="collapse__sublink">Group</a>
-	                     <a href="#" class="collapse__sublink">Members</a>
-	                 </ul>
-	             </div>
-				<a href="#" class="nav__link">
-					<ion-icon name="chatbubbles-outline" class="nav__icon"></ion-icon>
-					<span class="nav_name">결재</span>
-				</a>
-				<!-- <a href="#" class="nav__link">
-					<ion-icon name="people-outline" class="nav__icon"></ion-icon>
-					<span class="nav_name">내선번호관리</span>
-				</a> -->
-				<a href="#" class="nav__link">
-					<ion-icon name="settings-outline" class="nav__icon"></ion-icon>
-					<span class="nav_name">개인정보관리</span>
-				</a>
-				<a href="/logout" class="nav__link">
-					<ion-icon name="log-out-outline" class="nav__icon"></ion-icon>
-					<span class="nav_name">Log out</span>
-				</a>
-			</div>
-		</nav>
-	</div> --%>
 	
 	<!-- side nav bar -->
     <div class="l-navbar" id="navbar">
@@ -121,43 +52,54 @@
                 </div>
                 <div class="nav__list">
                 	<div href="#" class="nav__link collapses">
-                        <ion-icon name="folder-outline" class="nav__icon"></ion-icon>
+                        <i class="bi bi-person-rolodex"></i>
                         <span class="nav_name">학사관리</span>
 
                         <ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
 
                         <ul class="collapse__menu" style="width: 200px;">
                             <li><a href="/student/listEmp" class="collapse__sublink">학적정보 조회</a></li>
-                            <li><a href="/professor/lecMgMain?userid=${userid}" class="collapse__sublink">강의목록 조회</a></li>
+                            <li><a href="/student/lectureListForm" class="collapse__sublink">강의목록 조회</a></li>
                             
-                            <li><a href="#" class="collapse__sublink">시간표 조회</a></li>
-                            <li><a href="/professor/lecCreateList" class="collapse__sublink">과제 업로드</a></li>
+                            <li><a href="/student/timetable" class="collapse__sublink">시간표 조회</a></li>
+                           
 
                         </ul>
                     </div>
                     
 
 					<a href="/student/gradeList" class="nav__link">
-	                    <ion-icon name="log-out-outline" class="nav__icon"></ion-icon>
-	                    <span class="nav_name">성적 관리</span>
+	                    <i class="bi-mortarboard"></i>
+	                    <span class="nav_name">&nbsp;성적 관리</span>
 	                </a>
 		
 
 					<a href="/student/evaluationList" class="nav__link">
-	                    <ion-icon name="log-out-outline" class="nav__icon"></ion-icon>
-	                    <span class="nav_name">강의 평가</span>
+	                    <i class="bi-pencil"></i>
+	                    <span class="nav_name">&nbsp;강의 평가</span>
 	                </a>
 
 
 					<a href="/student/applyIndex" class="nav__link">
-	                    <ion-icon name="log-out-outline" class="nav__icon"></ion-icon>
-	                    <span class="nav_name">수강 신청</span>
+	                    <i class="bi bi-box-arrow-up-right"></i>
+	                    <span class="nav_name">&nbsp;수강 신청</span>
 	                </a>
-                    
+                    <div href="/student/shopList" class="nav__link collapses">
+                        <i class="bi bi-book"></i>
+                        <span class="nav_name">&nbsp;교재 구매</span>
+
+                        <ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
+
+                        <ul class="collapse__menu" style="width: 200px;">
+                            <li><a href="/student/shopList" class="collapse__sublink">교재 목록</a></li>
+                            <li><a href="/student/cartList" class="collapse__sublink">장바구니</a></li>
+                            <li><a href="/student/orderList" class="collapse__sublink">주문 목록</a></li>
+                        </ul>
+                    </div>
                 </div>
                 <a href="/logout" class="nav__link">
-                    <ion-icon name="log-out-outline" class="nav__icon"></ion-icon>
-                    <span class="nav_name">Log out</span>
+                    <i class="bi-power"></i>
+                    <span class="nav_name">&nbsp; Log out</span>
                 </a>
             </div>
         </nav>
@@ -182,7 +124,7 @@
 				<div class="row">
 
 				<div>
-					<span class="text-white font09">${major} | ${position} </span>
+					<span class="text-white font09">${major}과&nbsp; &nbsp; ${grade}&nbsp;학년 </span>
 				</div>
 				</div>
 				<div class="d-flex flex-low mb-2">
@@ -220,7 +162,7 @@
 						</c:forEach> --%>
 						</div>
 						<div class="col-md-3 me-3 rounded overflow-auto bg-light p-4" style="min-height: 400px;"> 
-							<h5>공지사항</h5><hr>
+							<h5><a href="/notice/noticeList">공지사항</a></h5><hr>
 
 						</div>
 						<div class="col-md-3  rounded overflow-auto bg-light p-4" style="max-height: 300px;"> 
@@ -235,6 +177,8 @@
 
 							<button type="button" style="width: 30%;" class="btn btn-warning btn-sm my-2" 
 									onclick="location.href='/professor/calenderForm?userid=${userid}'">캘린더</button>
+									
+									
 
 						</div>
 					</div>

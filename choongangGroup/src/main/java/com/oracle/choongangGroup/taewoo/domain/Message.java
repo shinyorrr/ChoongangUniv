@@ -10,6 +10,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import com.oracle.choongangGroup.changhun.JPA.Member;
 
 import lombok.AllArgsConstructor;
@@ -34,17 +37,26 @@ public class Message extends BaseTimeEntity {
 					strategy = GenerationType.SEQUENCE
 			)
 	private Long messageId;
+	
 	private String messageTitle;
+	
 	@Column(length = 50000)
 	private String messageContent;
+	
 	private boolean deletedBySender;
+	
 	private boolean deletedByReceiver;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "sender_userid")
+	@OnDelete(action = OnDeleteAction.NO_ACTION)
 	private Member sender;
+	
 	private String senderName;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "receiver_userid")
+	@OnDelete(action = OnDeleteAction.NO_ACTION)
 	private Member receiver;
 	
 	public void deleteBySender() {

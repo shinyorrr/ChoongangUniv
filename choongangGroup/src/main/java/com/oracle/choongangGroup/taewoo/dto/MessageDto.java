@@ -1,5 +1,7 @@
  package com.oracle.choongangGroup.taewoo.dto;
 
+import java.time.LocalDateTime;
+
 import com.oracle.choongangGroup.taewoo.domain.BaseTimeEntity;
 import com.oracle.choongangGroup.taewoo.domain.Message;
 
@@ -17,6 +19,7 @@ public class MessageDto extends BaseTimeEntity {
 	private String senderUserid;
 	private String senderName;
 	private String receiverUserid;
+	private LocalDateTime createdDate;
 	
 	public static MessageDto toDto(Message message) {
 		return new MessageDto(
@@ -25,7 +28,8 @@ public class MessageDto extends BaseTimeEntity {
 				message.getMessageContent(),
 				message.getSender().getUserid(),
 				message.getSenderName(),
-				message.getReceiver().getUserid()				
+				message.getReceiver().getUserid(),
+				message.getCreatedDate()
 				);
 	}
 }

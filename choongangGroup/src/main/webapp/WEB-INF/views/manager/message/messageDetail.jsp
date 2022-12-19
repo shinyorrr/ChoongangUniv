@@ -145,11 +145,11 @@
                     <a href="/manager/message/messageList" class="nav__logo">쪽지함</a>
                 </div>
                 <div class="nav__list">
-                    <a href="/noticeWrite" class="nav__link active">
+                    <a href="/manager/messageWriteForm" class="nav__link active">
                         <ion-icon name="chatbubbles-outline" class="nav__icon"></ion-icon>
                         <span class="nav_name">쪽지보내기</span>
                     </a>
-                    <a href="#" class="nav__link">
+                    <a href="/manager/message/messageList" class="nav__link">
                         <ion-icon name="folder-outline" class="nav__icon"></ion-icon>
                         <span class="nav_name">받은 쪽지함</span>
                     </a>
@@ -225,8 +225,8 @@
 										      <form class="form-signin" id="messageForm">
 										        <div class="mb-3">
 			                   						<label class="form-label">받는 사람</label>
-			                   						<input type="hidden" id="sender" name="sender" value="${message.sender.userid}">
-			                   						<input type="hidden" id="receiver" name="receiver" value="${message.receiver.userid}">                  		
+			                   						<input type="hidden" id="sender" name="sender" value="${message.receiver.userid}">
+			                   						<input type="hidden" id="receiver" name="receiver" value="${message.sender.userid}">                  		
 			                      					<input id="senderName" name="senderName" type="text" class="form-control" readonly="readonly" value="${message.senderName}">   
 			                   					</div>
 			                   					<div class="mb-3">

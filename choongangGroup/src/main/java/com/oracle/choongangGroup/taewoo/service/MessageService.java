@@ -3,6 +3,8 @@ package com.oracle.choongangGroup.taewoo.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +23,7 @@ public class MessageService {
 	private final MessageRepository messageRepository;
 	private final MemberRepository memberRepository;
 	
+	// 쪽지 보내기
 	public MessageDto write(MessageDto messageDto) {
 		System.out.println("MessageService write start....");
 		Member receiver = memberRepository.findByUserid(messageDto.getReceiverUserid());
@@ -39,8 +42,10 @@ public class MessageService {
 		return MessageDto.toDto(message);
 	}
 
-	public List<MessageDto> receiveMessage(Member member) {
-		   List<Message> messages = messageRepository.findAllByReceiver(member);
+	// 보낸 쪽지함
+	public List<MessageDto> receiveMessage(Member member, Pageable pageable) {
+//		   List<Message> messages = messageRepository.findAllByReceiver(member);	
+		   List<Message> messages = messageRepository.findByReceiverOrderByMessageIdDesc(member,  pageable);
 	        List<MessageDto> messageDtos = new ArrayList<>();
 
 	        for(Message message : messages) {
@@ -52,6 +57,7 @@ public class MessageService {
 	        return messageDtos;
 	}
 
+	// 쪽지 삭제
 	public int delete(Long messageId) {
 		System.out.println("delete start....");
 		System.out.println(messageId);
@@ -61,6 +67,7 @@ public class MessageService {
 		return result;
 	}
 
+	// 상세 쪽지
 	public Message Detail(Long messageId) {
 		System.out.println("MessageService Detail start....");
 		System.out.println("messageId -->" + messageId);

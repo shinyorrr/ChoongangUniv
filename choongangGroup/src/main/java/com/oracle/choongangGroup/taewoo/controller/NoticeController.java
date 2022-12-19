@@ -57,7 +57,7 @@ public class NoticeController {
 			model.addAttribute("noticeTotal", noticeTotal);
 			model.addAttribute("noticeList", noticeList.getContent());
 			
-			return "/manager/notice/noticeList";
+			return "/student/studentNoticeList";
 
 		} else if(NoticeType.equals(Professor)){
 			System.out.println("Professor Start....");
@@ -69,7 +69,7 @@ public class NoticeController {
 			model.addAttribute("noticeTotal", noticeTotal);
 			model.addAttribute("noticeList", noticeList.getContent());
 			
-			return "/manager/notice/noticeList";		
+			return "/professor/professorNoticeList";		
 		}
 		
 		else {
@@ -129,13 +129,38 @@ public class NoticeController {
 	@PreAuthorize("isAuthenticated()")
 	public String detail(@RequestParam Long noticeNum, Model model, HttpServletRequest request, HttpServletResponse response, NoticeDto noticeDto) {
 		log.info("Detail start...");
-		System.out.println("noticeNum -> " + noticeNum);		
-		Member member = getMember.getMember();
-		Notice notice = noticeService.findById(noticeNum);
-		model.addAttribute("member" , member);
-		model.addAttribute("notice", notice );
-		noticeService.updateHit(noticeNum,request,response);
-		return "/manager/notice/noticeDetail";
+		String NoticeType = getMember.getMember().getMemRole();
+		String Student = "ROLE_STUDENT";
+		String Professor = "ROLE_PROFESSOR";
+		if(NoticeType.equals(Student)) {
+			System.out.println("noticeNum -> " + noticeNum);		
+			Member member = getMember.getMember();
+			Notice notice = noticeService.findById(noticeNum);
+			model.addAttribute("member" , member);
+			model.addAttribute("notice", notice );
+			noticeService.updateHit(noticeNum,request,response);
+			return "/student/studentNoticeDetail";
+			
+		} else if(NoticeType.equals(Professor)) {
+			System.out.println("noticeNum -> " + noticeNum);		
+			Member member = getMember.getMember();
+			Notice notice = noticeService.findById(noticeNum);
+			model.addAttribute("member" , member);
+			model.addAttribute("notice", notice );
+			noticeService.updateHit(noticeNum,request,response);
+			return "/professor/professorNoticeDetail";
+			
+		} else {
+			
+			System.out.println("noticeNum -> " + noticeNum);		
+			Member member = getMember.getMember();
+			Notice notice = noticeService.findById(noticeNum);
+			model.addAttribute("member" , member);
+			model.addAttribute("notice", notice );
+			noticeService.updateHit(noticeNum,request,response);
+			return "/manager/notice/noticeDetail";
+		}
+
 	}
 	
 	// 글 수정	

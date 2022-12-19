@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -44,7 +45,7 @@ public class ApprovalController {
 	
 	
 	@GetMapping("/managerMain")
-	public String managerMain(Model model, @RequestParam(required = false, defaultValue = "0", value="page") int page) {
+	public String managerMain(Model model, @RequestParam(required = false, defaultValue = "0", value="page") int page, Pageable pageable) {
 		log.info("managerMain 시작");
 		String mainCheck = "1";
 		
@@ -59,7 +60,7 @@ public class ApprovalController {
 		
 		//  쪽지함 부분
 		Member member2 = ss.findByUserid(userid);
-		List<MessageDto> messageList = ms.receiveMessage(member2);
+		List<MessageDto> messageList = ms.receiveMessage(member2, pageable);
 		model.addAttribute("messageList", messageList);
 		
 		List<Approval> approvalWaitingList = null;     // 승인 대기중
