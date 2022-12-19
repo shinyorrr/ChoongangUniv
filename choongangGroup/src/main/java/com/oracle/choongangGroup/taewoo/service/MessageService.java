@@ -91,7 +91,6 @@ public class MessageService {
 		Message message = messageRepository.findByMessageId(messageId);
 		System.out.println("senderDelete start....");
 		System.out.println("messageId -->" + messageId);
-		System.out.println("message -->" + message);
 		System.out.println(message.isDeletedBySender());
 		System.out.println(message.isDeleted());
 		message.deleteBySender();
