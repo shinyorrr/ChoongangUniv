@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.oracle.choongangGroup.sh.domain.ApplicationLec;
 import com.oracle.choongangGroup.sh.domain.ApplyTime;
 import com.oracle.choongangGroup.sh.domain.Lecture;
+import com.oracle.choongangGroup.sh.domain.Report;
 
 
 public interface ApplyService {
@@ -22,6 +23,9 @@ public interface ApplyService {
 	Page<Lecture> findByName(String year, String semester, String lecName, Pageable pageable2);
 	List<ApplicationLec> likeList(String userid, String year, String semester); //장바구니 목록
 	List<ApplicationLec> applyList(String userid, String year, String semester);//수강신청 목록
+	List<ApplicationLec> yearList(String userid);
+	ApplicationLec findByIdName(String userid, Long lecId);
+	void saveReport(Report report);
 	
 
 

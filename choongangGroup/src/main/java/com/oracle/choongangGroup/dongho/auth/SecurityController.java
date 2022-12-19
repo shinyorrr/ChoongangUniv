@@ -51,13 +51,24 @@ public class SecurityController {
 	private final PasswordEncoder passwordEncoder;
 	private final JavaMailSender mailSender;
 	private final JwtTokenProvider jwtp;
+	private final GetMember gm;
 	
 	@Value("${spring.mail.username}")
 	private String MAIL_USERNAME;
 	
 	//login성공 후 role 별 main page 연결
 	@GetMapping("/student/main")
-	public String studentMain() {
+	public String studentMain(Model model) {
+		String name = gm.getMember().getName();
+		String major = gm.getMember().getMajor();
+		Long grade = gm.getMember().getGrade();
+		String email = gm.getMember().getEmail();
+		model.addAttribute("name", name);
+		model.addAttribute("major", major);
+		model.addAttribute("grade", grade);
+		model.addAttribute("email", email);
+		
+		
 		return "/student/main";
 	}
 	@GetMapping("/manager/main")
