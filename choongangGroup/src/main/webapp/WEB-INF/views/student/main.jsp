@@ -84,6 +84,7 @@
 	                    <i class="bi bi-box-arrow-up-right"></i>
 	                    <span class="nav_name">&nbsp;수강 신청</span>
 	                </a>
+
                     <div href="/student/shopList" class="nav__link collapses">
                         <i class="bi bi-book"></i>
                         <span class="nav_name">&nbsp;교재 구매</span>
