@@ -51,7 +51,7 @@
 			</staticText>
 			<image>
 				<reportElement stretchType="ContainerHeight" x="0" y="0" width="100" height="30" uuid="7a194aa0-d5e3-41ff-a510-1854c8f12c25"/>
-				<imageExpression><![CDATA["C:/Users/regul/Desktop/team-project/team-project/choongangGroup/src/main/resources/static/images/logo1.png"]]></imageExpression>
+				<imageExpression><![CDATA["C:/Users/RyeYeong/Desktop/CA/choongangGroup/src/main/resources/static/images/logo1.png"]]></imageExpression>
 			</image>
 		</band>
 	</title>

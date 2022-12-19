@@ -208,7 +208,6 @@ $(document).ready(function(){
 											<option value="결제 대기" <c:if test="${billState eq '결제 대기'}">selected</c:if>>결제 대기</option>
 											<option value="결제 완료" <c:if test="${billState eq '결제 완료'}">selected</c:if>>결제 완료</option>
 							             </select>
-							             <input type="text" name="keyword" value=""></input>
 							             <input type="submit" class="btn btn-ouyline-primary mr-2" value="검색"></input>
 							             </form>
 							</div>		

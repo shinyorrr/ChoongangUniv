@@ -336,7 +336,7 @@
 											<span>교재소개</span> <br /> ${books.bookInfo}
 											<div class="d-flex justify-content-center">
 												<img
-													style="width: 500px; height: 300px; text-align: center; object-fit: contain; "
+													style="width: 600px; height: 500px; text-align: center; object-fit: contain; "
 													src="${books.bookImg}">
 											</div>
 										</div>

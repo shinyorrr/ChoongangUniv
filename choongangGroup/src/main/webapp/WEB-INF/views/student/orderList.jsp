@@ -314,6 +314,16 @@ section#content .orderList span {
 								</div>
 								</h1>
 							<h2>주문 목록</h2>
+							<div class="search_wrap">
+							             <form action="/student/SearchOrderList" id="searchForm" name="searchForm">
+							             <select name="type">
+							             	<option selected value="결제">선택</option>
+											<option value="결제 대기" <c:if test="${billState eq '결제 대기'}">selected</c:if>>결제 대기</option>
+											<option value="결제 완료" <c:if test="${billState eq '결제 완료'}">selected</c:if>>결제 완료</option>
+							             </select>
+							             <input type="submit" class="btn btn-ouyline-primary mr-2" value="검색"></input>
+							             </form>
+							</div>
 							<hr>
 							<section id="content">
 									<ul class="orderList">

@@ -560,7 +560,7 @@ div.books p.buyStock input {
 
 											<div class="inputArea">
 												<!-- 						<button type="submit" class="order_btn" onclick="requestPay()">주문</button> -->
-												<button type="submit" class="btn btn-light">주문</button>
+												<button type="submit" id="order_btn" class="btn btn-light">주문</button>
 
 												<button type="button" id="cancel_btn" name="cancel_btn"
 													class="btn btn-light">취소</button>

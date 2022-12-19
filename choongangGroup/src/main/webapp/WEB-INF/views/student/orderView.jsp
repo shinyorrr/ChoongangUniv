@@ -257,7 +257,7 @@ textarea#bookInfo {
 		var state = $("#state").val();
 		/* const target = document.getElementById('#state1_btn');
 		const tar = document.getElementById('#state2_btn');  */
-		if(state == '주문취소'){
+		if(state == '주문 취소'){
 			$("#state1_btn").attr('disabled', 'disabled');
 			$("#state2_btn").attr('disabled', 'disabled');
 		}
@@ -266,8 +266,25 @@ textarea#bookInfo {
 				$("#state2_btn").attr('disabled',false);
 		}
 	});
+	
 		
 </script>
+<!-- <script type="text/javascript">
+	$(document).ready(function(){
+		var billState = $("#billState").val();
+		/* const target = document.getElementById('#state1_btn');
+		const tar = document.getElementById('#state2_btn');  */
+		if(billState == '결제 완료'){
+			$("#state1_btn").attr('disabled', 'disabled');
+			$("#state2_btn").attr('disabled', 'disabled');
+		}
+		else {
+				$("#state1_btn").attr('disabled',false);
+				$("#state2_btn").attr('disabled',false);
+		}
+	});
+
+</script> -->
 </head>
 <body id="body-pd">
 	<!-- header -->
@@ -496,7 +513,7 @@ textarea#bookInfo {
 														<input type="hidden" name="orderId" value="${orderView.orderId}" />
 														<input type="hidden" name="state" id="state" class="state"	value="${orderView.state }" />
 														<input type="hidden" name="billState" id="billState" class="billState"	value="${orderView.billState }" />
-														<button type="submit" name="state1_btn" id="state1_btn"	class="state1_btn" value="주문취소" onclick="btnDisabled()" style="margin-left: 20px;" >주문취소</button>
+														<button type="submit" name="state1_btn" id="state1_btn"	class="state1_btn" value="주문 취소" onclick="btnDisabled()" style="margin-left: 20px;" >주문 취소</button>
 													</form>
 												</div>
 												</p>
