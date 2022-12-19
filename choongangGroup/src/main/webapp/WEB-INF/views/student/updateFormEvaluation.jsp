@@ -33,7 +33,7 @@ function updateEvaluation(vuserId){
 		//var cell_3 = cells[2].firstChild.data;		// 첫번째줄의 세번째칸 :질문내용 (필요없음)
 		var content = cells[3].firstChild.value;		// 첫번째줄의 네번째칸 :수업 내용은 ~~~~ ?
 				
-		arr.push(big);
+		arr .push(big);
 		arr.push(small);
 		arr.push(content);
 
@@ -318,9 +318,9 @@ function updateEvaluation(vuserId){
 
 	<div>
 		<%--             <input type="submit" value="수정" onclick="location.href='updateEvaluation?userid=${userid}'"    > --%>
-		<form>
+		
 			<input class="btn btn-primary"     style="margin-left:900px;" type="submit" value="수정완료" onclick="updateEvaluation(${userid})" />
-		</form>
+		
 		<!--  //아작스 실행  -->
 
 	</div>
