@@ -11,31 +11,37 @@
 		select e.big_category bigCategory, sum(e.score) sum, Round(avg(e.score),1) avg,count(e.lec_id) count
 		from evaluation e, lecture l
 		where e.lec_id = l.lec_id
-		and l.prof_name = #{pname}
+		and l.lec_id = #{pname}
 		group by e.big_category
 	</select>
 	
-	<select id="profFind" resultType="String">
-		select prof_name
+	<select id="profFind" resultType="EvaVo" parameterType="String">
+		select lec_id as lecId,lec_name as lecName, LEC_TYPE type, LEC_TYPECODE typeCode
+		from lecture
+		where prof_name = #{pname}
+	</select>
+	
+	<select id="proflist" resultType="String">
+		select distinct prof_name
 		from lecture
 	</select>
 	
 	<select id="totalFind" resultType="EvaVo" parameterType="String">
 		select round(avg(e.score),1) totalAvg,
-			SUM(COUNT(DISTINCT e.mem_userid)) OVER() as evaCnt,
-		  	SUM(COUNT(DISTINCT a.mem_userid)) OVER() as totalCnt
+			SUM(COUNT(DISTINCT e.userid)) OVER() as evaCnt,
+		  	SUM(COUNT(DISTINCT a.userid)) OVER() as totalCnt
 		from evaluation e, lecture l , application_lec a
 		where e.lec_id = l.lec_id
 		and e.lec_id = a.lec_id
-		and l.prof_name = #{pname}
+		and l.lec_id = #{pname}
 		group by e.lec_id
 	</select>
 	
 	<select id = "review" resultType = "EvaVo" parameterType = "String">
-		select distinct e.mem_userid as userid, e.review
+		select distinct userid as userid,l.prof_name as profName, e.review
 		from evaluation e, lecture l
 		where e.lec_id = l.lec_id
-		and l.prof_name = #{pname}
+		and l.lec_id = #{pname}
 	</select>
 	
 	

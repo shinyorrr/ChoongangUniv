@@ -22,18 +22,23 @@ public class EvaController {
 	
 	private final EvaService es;
 	private final GetMember getMember;
+	private final EvaDao repository;
 	
 	@RequestMapping("/EvaManagementForm")
 	public String EvaManagementForm(Model model,
-									@RequestParam(value = "pname", defaultValue = "오태우") String pname) {
+									@RequestParam(value = "lecId", defaultValue = "1") String lecid,
+									@RequestParam(value = "pname", required = false) String pname) {
 		
-		log.info("EvaManagementForm pname --> {}",pname);
-		List<EvaVo> evaList = es.evaList(pname);
-		List<EvaVo> reviewList = es.reviewList(pname);
-		EvaVo total = es.total(pname);
+		log.info("EvaManagementForm pname --> {}",lecid);
+		List<EvaVo> evaList = es.evaList(lecid);
+		List<EvaVo> reviewList = es.reviewList(lecid);
+		List<String> profList = repository.profNameList();
+		EvaVo total = es.total(lecid);
 		Member member = getMember.getMember();
 		
+		
 		model.addAttribute("member", member);
+		model.addAttribute("profList", profList);
 		model.addAttribute("evaList", evaList);
 		model.addAttribute("reviewList", reviewList);
 		model.addAttribute("total", total);
@@ -43,13 +48,20 @@ public class EvaController {
 	
 	@ResponseBody
 	@RequestMapping("/findProf")
-	public List<String> findProf(){
+	public List<EvaVo> findProf(@RequestParam(value = "pname", defaultValue = "유상신") String pname){
 		
-		List<String> profList = es.profList();
+		List<EvaVo> profList = es.profList(pname);
+		
+		log.info("findProf size ==> {}",profList.size() );
 		
 		return profList;
 		
 	}
+	
+	
+	
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
 }
