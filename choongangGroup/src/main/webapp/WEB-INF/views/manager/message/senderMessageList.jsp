@@ -145,7 +145,7 @@
             
                     <!-- card header -->
                     <div class="col-12 rounded-top text-white overflow-auto pt-2 fw-bold" style="background-color: rgb(39, 40, 70); height: 40px;"> 
-                        <i class="bi bi-bookmark-fill me-2"></i>받은 편지함
+                        <i class="bi bi-bookmark-fill me-2"></i>보낸 쪽지함
                     </div>
                     <!-- card content -->  
                   <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
