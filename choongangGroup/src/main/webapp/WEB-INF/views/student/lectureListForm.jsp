@@ -210,8 +210,7 @@ function submit(obj){
 									<tr>
 										<td>${lec.lecture.id }</td><td>${lec.lecture.name }</td><td>${lec.lecture.grade }</td>
 										<td>${lec.lecture.day1}${lec.lecture.time1}, ${lec.lecture.day2}${lec.lecture.time2}</td><td>${lec.lecture.prof }</td><td>${lec.lecture.type }</td>
-										<td>${lec.lecture.major }</td><td>${lec.lecture.unitScore }</td><td><i class="bi-file-earmark-pdf-fill" style="color: red"> </i>${lec.lecture.fileName }</td>
-										<td><i class="bi-cloud-arrow-up-fill" style="color: rgb(95, 142, 241);"></i> <a href = "fileInsertForm?lecId=${lec.lecture.id }&userid=${userid}">제출하기</a></td>
+										<td>${lec.lecture.major }</td><td>${lec.lecture.unitScore }</td><td><i class="bi-pencil"></i> ${lec.lecture.fileName }</td><td>제출하기</td>
 										
 									</tr>	
 								</c:forEach>

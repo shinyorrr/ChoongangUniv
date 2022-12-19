@@ -62,6 +62,7 @@ public class ApplyServiceImpl implements ApplyService {
 		int result = 0;
 		int count = atr.countByYearAndSemesterAndSelect(year, semester, select);
 		
+		//System.out.println("count------------------------>"+time.getId());
 			
 		//중복시 update
 		//update 기준은 select시 PK의 존재유무
@@ -80,10 +81,18 @@ public class ApplyServiceImpl implements ApplyService {
 	}
 
 	@Override
-	public ApplyTime findTime(String year, String semester, String select) {	
+	public ApplyTime findTime(int yearInt, int month, String select) {
+		String semester = "2";
+		String year = String.valueOf(yearInt);
 		ApplyTime applytime = new ApplyTime();
-		applytime = atr.findByYearAndSemesterAndSelect(year, semester, select);
 		
+		if(month>3 && month<=8) {
+			semester = "1";			
+			applytime = atr.findByYearAndSemesterAndSelect(year, semester, select);
+		}else {
+			semester = "2";
+			applytime = atr.findByYearAndSemesterAndSelect(year, semester, select);			
+		}
 		return applytime;
 	}
 	
