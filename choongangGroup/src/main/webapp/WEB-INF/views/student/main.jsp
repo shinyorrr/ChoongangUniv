@@ -153,6 +153,18 @@
 	                    <ion-icon name="log-out-outline" class="nav__icon"></ion-icon>
 	                    <span class="nav_name">수강 신청</span>
 	                </a>
+                	<div href="/student/shopList" class="nav__link collapses">
+                        <ion-icon name="folder-outline" class="nav__icon"></ion-icon>
+                        <span class="nav_name">교재 구매</span>
+
+                        <ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
+
+                        <ul class="collapse__menu" style="width: 200px;">
+                            <li><a href="/student/shopList" class="collapse__sublink">교재 목록</a></li>
+                            <li><a href="/student/cartList" class="collapse__sublink">장바구니</a></li>
+                            <li><a href="/student/orderList" class="collapse__sublink">주문 목록</a></li>
+                        </ul>
+                    </div>
                     
                 </div>
                 <a href="/logout" class="nav__link">

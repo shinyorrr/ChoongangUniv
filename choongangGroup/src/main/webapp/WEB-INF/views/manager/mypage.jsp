@@ -23,7 +23,7 @@
     <title>마이페이지</title>
 
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script>
+<script type="text/javascript">
 window.onload = function(){
     document.getElementById("address_kakao").addEventListener("click", function(){ //주소입력칸을 클릭하면
         //카카오 지도 발생
@@ -35,6 +35,8 @@ window.onload = function(){
         }).open();
     });
 }
+</script>
+<script>
 
 
 const autoHyphen = (target) => {
