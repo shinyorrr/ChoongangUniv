@@ -82,7 +82,9 @@ public class ApplyRepositoryImpl implements ApplyRepository {
 			}else {
 				String jpql = "delete from ApplicationLec a where a.member.userid = :userid and a.lecture.id = :id and a.gubun = 1L"
 														+ "and a.lecture.year = :year and a.lecture.semester = :semester";
-				em.createQuery(jpql).setParameter("userid", userid).setParameter("id", lecId).setParameter("year", year).setParameter("semester", semester);
+				Query query = em.createQuery(jpql).setParameter("userid", userid).setParameter("id", lecId).setParameter("year", year).setParameter("semester", semester);
+				query.executeUpdate();
+				em.clear();
 				em.persist(applyLec); 
 			}
 		}else if(lecResult != 1) {

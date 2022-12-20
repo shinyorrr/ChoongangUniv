@@ -260,7 +260,7 @@ document.addEventListener("DOMContentLoaded", function(){
 		var billState = $("#billState").val();
 		/* const target = document.getElementById('#state1_btn');
 		const tar = document.getElementById('#state2_btn');  */
-		if(state == '주문취소'){
+		if(state == '주문 취소' | billState == '결제 완료' ){
 			$("#state1_btn").attr('disabled', 'disabled');
 			$("#state2_btn").attr('disabled', 'disabled');
 		}
@@ -270,14 +270,14 @@ document.addEventListener("DOMContentLoaded", function(){
 		}
 		/* const target = document.getElementById('#state1_btn');
 		const tar = document.getElementById('#state2_btn');  */
-		if(billState == '결제 완료'){
+		/* if(billState == '결제 완료'){
 			$("#state1_btn").attr('disabled', 'disabled');
 			$("#state2_btn").attr('disabled', 'disabled');
 		}
 		else {
 				$("#state1_btn").attr('disabled',false);
 				$("#state2_btn").attr('disabled',false);
-		}
+		} */
 	}
 /* 	$(document).ready(function(){
 	}); */
