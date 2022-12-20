@@ -27,8 +27,6 @@ import com.oracle.choongangGroup.hs.approval.ApprovalService;
 import com.oracle.choongangGroup.sh.domain.ApplicationLec;
 import com.oracle.choongangGroup.sh.domain.Grade;
 import com.oracle.choongangGroup.sh.domain.Lecture;
-import com.oracle.choongangGroup.taewoo.domain.Notice;
-import com.oracle.choongangGroup.taewoo.repository.NoticeJpaRepository;
 import com.oracle.choongangGroup.yn.repository.GradeRepository;
 import com.oracle.choongangGroup.yn.repository.LecRepository;
 import com.oracle.choongangGroup.yn.repository.LecRepositoryImpl;
