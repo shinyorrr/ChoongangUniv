@@ -335,7 +335,7 @@
 										<td>${list.lecture.id }</td><td>${list.lecture.name }</td><td>${list.lecture.grade }</td>
 										<td>${list.lecture.day1}${list.lecture.time1}, ${list.lecture.day2}${list.lecture.time2}</td><td>${list.lecture.prof }</td><td>${list.lecture.type }</td>
 										<td>${list.lecture.major }</td><td>${list.lecture.unitScore }</td>
-										<td><button>취소</button></td>
+										<!-- <td><button>취소</button></td> -->
 												
 									</tr>	
 								</c:forEach>
