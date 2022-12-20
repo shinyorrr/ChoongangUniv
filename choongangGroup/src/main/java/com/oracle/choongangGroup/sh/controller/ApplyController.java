@@ -403,6 +403,7 @@ public class ApplyController {
 		Report report = new Report();
 		String fileRealName = file.getOriginalFilename(); //파일명
 		Long size = file.getSize(); //파일 사이즈
+		String fileExtension = fileRealName.substring(fileRealName.lastIndexOf("."),fileRealName.length());//확장자
 		
 		UUID uuid = UUID.randomUUID();
 		String[] uuids = uuid.toString().split("-");
@@ -423,7 +424,7 @@ public class ApplyController {
 			savePath.mkdirs();
 		}
 		
-		path += File.separator + uniqueName; // 상대경로 + 구분자 + uuid
+		path += File.separator + uniqueName + fileExtension; // 상대경로 + 구분자 + uuid + 확장자
 		File saveFile = new File(path);
 		
 		try {
