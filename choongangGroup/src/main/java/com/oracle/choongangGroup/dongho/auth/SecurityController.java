@@ -59,18 +59,9 @@ public class SecurityController {
 	
 	//login성공 후 role 별 main page 연결
 	@GetMapping("/student/main")
-	public String studentMain(Model model) {
-		String name = gm.getMember().getName();
-		String major = gm.getMember().getMajor();
-		Long grade = gm.getMember().getGrade();
-		String email = gm.getMember().getEmail();
-		model.addAttribute("name", name);
-		model.addAttribute("major", major);
-		model.addAttribute("grade", grade);
-		model.addAttribute("email", email);
-		
-		
-		return "/student/main";
+	public String studentMain() {
+			
+		return "/student/studentMain";
 	}
 	@GetMapping("/manager/main")
 	public String managerMain() {

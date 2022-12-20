@@ -7,8 +7,10 @@ import java.io.File;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -364,6 +366,9 @@ public class ApplyController {
 		model.addAttribute("semester", semester);
 		model.addAttribute("list", applyList);
 		model.addAttribute("yearList", yearList);
+		
+		Member member =gm.getMember();
+		model.addAttribute("member", member);
 		return "student/lectureListForm";
 		}
 		
@@ -440,6 +445,30 @@ public class ApplyController {
 			
 	}
 	
+	//main
+	@GetMapping(value = "studentMain")
+	public String studentMain(Model model) {
+		Member member = gm.getMember();
+		String userid = gm.getMember().getUserid();
+		String year = getYear();
+		String semester = getSemester();
+		List<ApplicationLec> list = as.applyList(userid, year, semester);
+		
+		//오늘 요일 
+		LocalDate now = LocalDate.now();
+		String today = now.getDayOfWeek().getDisplayName(TextStyle.NARROW, Locale.KOREAN);
+		
+		//시간표 - 요일 리스트
+		List<String> day = new ArrayList<String>();
+		day.add("월");day.add("화");day.add("수");day.add("목");day.add("금");
+		
+		
+		model.addAttribute("list", list);
+		model.addAttribute("today", today);
+		model.addAttribute("day", day);
+		return "student/main";
+	}
+
 	
 	
 	
