@@ -252,29 +252,15 @@ textarea#bookInfo {
 	}
 </script>
 <script type="text/javascript">
-
-	$(document).ready(function(){
-		var state = $("#state").val();
-		/* const target = document.getElementById('#state1_btn');
-		const tar = document.getElementById('#state2_btn');  */
-		if(state == '주문 취소'){
-			$("#state1_btn").attr('disabled', 'disabled');
-			$("#state2_btn").attr('disabled', 'disabled');
-		}
-		else {
-				$("#state1_btn").attr('disabled',false);
-				$("#state2_btn").attr('disabled',false);
-		}
+document.addEventListener("DOMContentLoaded", function(){
+	chk();
 	});
-	
-		
-</script>
-<!-- <script type="text/javascript">
-	$(document).ready(function(){
+	function chk(){
+		var state = $("#state").val();
 		var billState = $("#billState").val();
 		/* const target = document.getElementById('#state1_btn');
 		const tar = document.getElementById('#state2_btn');  */
-		if(billState == '결제 완료'){
+		if(state == '주문 취소' | billState == '결제 완료' ){
 			$("#state1_btn").attr('disabled', 'disabled');
 			$("#state2_btn").attr('disabled', 'disabled');
 		}
@@ -282,9 +268,22 @@ textarea#bookInfo {
 				$("#state1_btn").attr('disabled',false);
 				$("#state2_btn").attr('disabled',false);
 		}
-	});
-
-</script> -->
+		/* const target = document.getElementById('#state1_btn');
+		const tar = document.getElementById('#state2_btn');  */
+		/* if(billState == '결제 완료'){
+			$("#state1_btn").attr('disabled', 'disabled');
+			$("#state2_btn").attr('disabled', 'disabled');
+		}
+		else {
+				$("#state1_btn").attr('disabled',false);
+				$("#state2_btn").attr('disabled',false);
+		} */
+	}
+/* 	$(document).ready(function(){
+	}); */
+	
+		
+</script> 
 </head>
 <body id="body-pd">
 	<!-- header -->
@@ -525,7 +524,8 @@ textarea#bookInfo {
 														<input type="hidden" name="userId"  value="${orderView.userId }">
 														<input type="hidden" name="orderId" id="orderId" value="${orderView.orderId}" />
 														<input type="hidden" name="amount" id="amount" value="${orderView.amount}" />
-														<input type="hidden" name="billState" id="billState" class="billState"	value="" />
+														<input type="hidden" name="state" id="state" class="state"	value="${orderView.state }" />
+														<input type="hidden" name="billState" id="billState" class="billState"	value="${orderView.billState }" />
 															<button type="button" name="state2_btn" id="state2_btn"	class="state2_btn" value="결제 완료" onclick="requestPay()" style="margin-left: 15px;">결제</button>
 													</form>
 												</div>

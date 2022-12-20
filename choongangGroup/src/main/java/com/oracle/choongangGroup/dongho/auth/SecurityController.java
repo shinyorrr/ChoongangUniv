@@ -279,7 +279,7 @@ public class SecurityController {
 		String encodedPassword = passwordEncoder.encode(password);
 		member.setPassword(encodedPassword);
 		securityService.save(member);
-		String targetUrl = "/admin/main";
+		String targetUrl = "/";
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
 		out.append(targetUrl);

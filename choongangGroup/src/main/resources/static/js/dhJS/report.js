@@ -53,8 +53,8 @@
 									  '<td style="min-width: 200px;">' + '-'+
 									  '<input type="hidden" id="hiddenReportFile' + index + '" name="hiddenReportFile" value="'+ '' +'"></td>'+
 									  '<td style="min-width: 140px;">' + '-' + '</td>'+
-									  '<td><input id="score' + index + '" type="text" name="score" value="' + '' + '" disabled></td>'+
-									  '<td><input id="grade' + index + '" type="text" name="grade" value="' + '' + '" disabled></td>'+
+									  '<td><input id="score' + index + '" class="score" type="text" name="score" value="' + '' + '" disabled></td>'+
+									  '<td><input id="grade' + index + '" class="grade" type="text" name="grade" value="' + '' + '" disabled></td>'+
 									  '</tr>';
 						} else {
 							appStr += '<input class="form-check-input" type="checkbox" name="fileCheckBox" value="' + item.report.filePath + '" id="check'+ index +'">' +
@@ -66,8 +66,8 @@
 									  '<td style="min-width: 200px;">' + item.report.fileName +
 									  '<input type="hidden" id="hiddenReportFile' + index + '" name="hiddenReportFile" value="'+ item.report.filePath +'"></td>'+
 									  '<td style="min-width: 140px;">' + item.report.submitDate + '</td>'+
-									  '<td><input id="score' + index + '" type="text" name="score" value="'+item.report.score+'"></td>'+
-									  '<td><input id="grade' + index + '" type="text" name="grade" value="'+item.report.grade+'"></td>'+
+									  '<td><input id="score' + index + '" class="score" type="text" name="score" value="'+item.report.score+'"></td>'+
+									  '<td><input id="grade' + index + '" class="grade" type="text" name="grade" value="'+item.report.grade+'"></td>'+
 									  '</tr>';
 						};
 						$("#ajaxAppend").append(appStr);
@@ -106,7 +106,7 @@
 	
 	// 과제 성적 입력 function(ajax) //입력값이 이전 정보와 동일한 경우 제외하는 logic 추가할것
 	function submitScore() {
-		if (!$("#score" + i).val() || !$("#grade" + i).val()) {
+		if (!$(".score").val() || !$(".grade").val()) {
 			alert("성적을 입력해주세요");
 			return;
 		}

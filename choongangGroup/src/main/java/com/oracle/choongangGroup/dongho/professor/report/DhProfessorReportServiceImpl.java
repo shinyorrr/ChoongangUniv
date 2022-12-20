@@ -75,7 +75,7 @@ public class DhProfessorReportServiceImpl implements DhProfessorReportService {
 	@Override
 	public String createZipAll(Long idToFind) {
 		log.info("====createZipAll Start====");
-		Long gubun = (long) 1; // 신청한 강의 테이블 구분값 (신청한 강의 : gubun = 1)
+		Long gubun = (long) 2; // 신청한 강의 테이블 구분값 (신청한 강의 : gubun = 1)
 		List<ApplicationLec> ApplicataionLecList = alr.findByLecture_IdAndGubun(idToFind, gubun);
 		List<String> fileList = new ArrayList<String>();
 		Optional<Report> report = Optional.empty();
@@ -105,7 +105,7 @@ public class DhProfessorReportServiceImpl implements DhProfessorReportService {
 	@Override
 	public Map<String, Object> lecReportListPaging(Long id, int page) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		Long gubun = (long) 1; // 신청한 강의 테이블 구분값 (신청한 강의 : gubun = 1)
+		Long gubun = (long) 2; // 신청한 강의 테이블 구분값 (신청한 강의 : gubun = 1)
 		// 과제List Paging
 		int pageSize = 6;
 		Pageable pageable = PageRequest.of(page, pageSize, Sort.by(Sort.Direction.ASC,"member.name"));
