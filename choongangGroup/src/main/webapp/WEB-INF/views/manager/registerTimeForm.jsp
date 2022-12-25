@@ -176,7 +176,7 @@
                     </div>
                     <!-- footer -->
                     <footer class="col-12" style="height: 60px;">
-                        footer
+                       
                     </footer>    
                 </div>
             </main>
