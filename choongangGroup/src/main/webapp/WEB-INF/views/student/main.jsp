@@ -114,7 +114,7 @@
 			<div class="col-12 px-5 py-4" style=" background-color: rgb(95, 142, 241)">
 				<div class="d-flex flex-row mb-2 mt-2">
 					<div>
-						<span class="text-white h4">안녕하세요. <span class="fw-bold">${name}</span>님!</span>
+						<span class="text-white h4">안녕하세요. <span class="fw-bold">${member.name}</span>님!</span>
 					</div>
 					<div class="border border-1 border-white rounded-pill text-white ms-2"  style="height: 25px;">
 						<div class="font09 align-items-center">&nbsp; 학생  &nbsp;</div>
@@ -124,12 +124,12 @@
 				<div class="row">
 
 				<div>
-					<span class="text-white font09">${major}과&nbsp; &nbsp; ${grade}&nbsp;학년 </span>
+					<span class="text-white font09">${member.major}과&nbsp; &nbsp; ${member.grade}&nbsp;학년 </span>
 				</div>
 				</div>
 				<div class="d-flex flex-low mb-2">
 					<div><i class="bi bi-envelope-fill text-white"></i></div>
-					<div><span class="text-white ms-2 font09">${email}</span></div>
+					<div><span class="text-white ms-2 font09">${member.email}</span></div>
 				</div>
 
 			</div>
@@ -140,44 +140,96 @@
 					<!-- card content -->  
 					<div class="row mb-2 pe-0 ps-2" >
 						<div class="col-md-5 me-3 rounded overflow-auto bg-light p-4" style="min-height: 400px;"> 
-							<h5>강의목록</h5><hr>
+							<h5 class="fw-bold"><i class="bi bi-pencil-square"></i>&nbsp;&nbsp;오늘의 강의</h5><hr>
 							<input type="hidden" name="gubun" value="1">
 							
+							<!-- ----------------------------------------------------------- -->
+							<%-- <p class="font08">총 <b style="color: red">${i.index}</b>개의 수업이 있습니다</p><br> --%>
 							
-							<p class="font08">총 <b style="color: red">${lecCnt}</b>개의 수업이 있습니다</p><br>
-					<%-- 	<c:forEach var="lec" items="${lecList}">
-							<c:if test ="${lec.status eq '0'}">
-								<p style="font-size: 1.4em;">(${lec.typeCode}${lec.id}) <b>${lec.name}</b> _${lec.grade}학년</p>
-									<p class="mb-1 font09">수강인원 : <b>${lec.studCount}</b>명</p>
-									<div class="font09">총 수업시간 : <b style="color: red">6</b>/${lec.maxCount}
-										&nbsp; &#183; &nbsp; 휴강 : <b>${statusCnt1}</b> &nbsp; &#183; &nbsp; 보강 : <b>${statusCnt2}</b>
-										<button type="button" class="btn btn-danger btn-sm ms-5 font09"
-												onclick="location.href='lecAttendanceCheck?id=${lec.id}'">&nbsp; 출결관리  &nbsp;</button>
-										<button type="button" class="btn btn-primary btn-sm font09"	
-												onclick="location.href='reportList?id=${lec.id}'">&nbsp; 과제조회  &nbsp;</button>
-									</div>
-									<hr class="my-4">	
-							</c:if>
+							
+								<c:forEach var="lec" items="${list}" >
+								<c:if test="${lec.lecture.day1 eq today or lec.lecture.day2 eq today }">
 								
-						</c:forEach> --%>
+									<p style="font-size: 1.4em;">${lec.lecture.name}<b></b> </p>
+										<p class="mb-1 font09">강의실 : <b>${lec.lecture.building}${lec.lecture.room}</b></p>
+										<c:if test="${lec.lecture.day1 eq today}">
+											<div class="font09">강의 시간 : <b style="color: red">${lec.lecture.time1}</b>교시&nbsp; &nbsp;-&nbsp; &nbsp; <b style="color: red">${lec.lecture.time1 + lec.lecture.hour1}</b> 교시
+										</c:if>
+										
+										<c:if test="${lec.lecture.day2 eq today}">
+											<div class="font09">강의 시간 : <b style="color: red">${lec.lecture.time2}</b>/교시&nbsp; &nbsp;-&nbsp; &nbsp; <b style="color: red">${lec.lecture.time2 + lec.lecture.hour2}</b> 교시
+										</c:if>
+											
+											
+											&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-primary btn-sm font09"	
+													onclick="location.href='lectureListForm'">&nbsp; 과제제출  &nbsp;</button>
+										</div>
+										<hr class="my-4">	
+							
+								</c:if>
+								</c:forEach> 
 						</div>
-						<div class="col-md-3 me-3 rounded overflow-auto bg-light p-4" style="min-height: 400px;"> 
+						<!-- <div class="col-md-3 me-3 rounded overflow-auto bg-light p-4" style="min-height: 400px;"> 
 							<h5><a href="/notice/noticeList">공지사항</a></h5><hr>
 
-						</div>
-						<div class="col-md-3  rounded overflow-auto bg-light p-4" style="max-height: 300px;"> 
-							<h5>캘린더</h5><hr>
-							<button type="button" style="width: 30%;" class="btn btn-primary btn-sm me-1" 
-									onclick="location.href='/professor/lecMgMain?userid=${userid}'">강의관리</button>
-							<button type="button" style="width: 30%;" class="btn btn-primary btn-sm me-1" 
-									onclick="location.href='/professor/lecScore'">성적관리</button>
-
-							<button type="button" style="width: 30%;" class="btn btn-primary btn-sm me-1" 
-									onclick="location.href='/professor/lecCreateList'">강의개설</button>
-
-							<button type="button" style="width: 30%;" class="btn btn-warning btn-sm my-2" 
-									onclick="location.href='/professor/calenderForm?userid=${userid}'">캘린더</button>
-									
+						</div> -->
+						<div class="col-md-6  rounded overflow-auto bg-light p-4" style="max-height: 300px;"> 
+							<h5>시간표</h5><hr>
+							<!--------------------------------- 시간표 -------------------------------------->
+							<div class="mt-1 timetable" >
+								<table class="timetable" style="background-color: #F2F8F8 ; color: 	#003A9D" >								
+												<thead >
+												<tr >
+													<th style="width: 6%; ">시간</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th>											
+												</tr>
+												</thead>									
+												<tbody>			
+													
+									<c:forEach var="j" begin="1" end="7">	
+										<tr>
+											<td style="width: 6%">${j }교시</td>	
+											
+											<c:forEach var="d" items="${day }">
+															
+												<c:forEach var="lec" items="${list }" >	
+													<c:if test="${lec.lecture.day1 eq d and lec.lecture.time1 le j and lec.lecture.time1+lec.lecture.hour1 gt j}">
+														<c:set var="day1" value="${lec.lecture.day1 }"></c:set> 
+														<c:set var="name1" value="${lec.lecture.name }"></c:set>
+														<c:set var="time1" value="${lec.lecture.time1 }"></c:set>
+														<c:set var="hour1" value="${lec.lecture.hour1 }"></c:set>
+													</c:if>	
+													
+													
+													
+													<c:if test="${lec.lecture.day2 eq d and lec.lecture.time2 le j and lec.lecture.time2+lec.lecture.hour2 gt j}">
+														<c:set var="day2" value="${lec.lecture.day2 }"></c:set> 
+														<c:set var="name2" value="${lec.lecture.name }"></c:set>
+														<c:set var="time2" value="${lec.lecture.time2 }"></c:set>
+														<c:set var="hour2" value="${lec.lecture.hour2 }"></c:set>
+													</c:if>															
+												</c:forEach>
+												
+												<c:choose>
+													<c:when test="${day1 eq d and time1+hour1 gt j}"> 
+													 	<td style="background-color: #6799FF; color: white;">${name1 }</td>
+													</c:when>
+													<c:when test="${day2 eq d and time2+hour2 gt j}"> 
+													 	<td style="background-color: #B2CCFF; color: white">${name2 }</td>
+													</c:when>
+													<c:otherwise>
+														<td></td>
+													</c:otherwise>
+												</c:choose>
+											</c:forEach>	
+											</tr>
+										</c:forEach>	
+													 
+									</tbody>																	
+								</table> 
+								
+								
+							</div>	
+								
 									
 
 						</div>

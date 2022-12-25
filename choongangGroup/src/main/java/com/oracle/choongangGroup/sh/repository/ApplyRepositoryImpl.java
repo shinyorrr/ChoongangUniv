@@ -80,9 +80,10 @@ public class ApplyRepositoryImpl implements ApplyRepository {
 			if(applyLec.getMember().getCount()>21) { //총 신청학점이 21학점 초과시 신청불가
 				result = 3;
 			}else {
-				String jpql = "delete from ApplicationLec a where a.member.userid = :userid and a.lecture.id = :id and a.gubun = 1L"
-														+ "and a.lecture.year = :year and a.lecture.semester = :semester";
-				em.createQuery(jpql).setParameter("userid", userid).setParameter("id", lecId).setParameter("year", year).setParameter("semester", semester);
+				String jpql = "select a from ApplicationLec a where a.member.userid = :userid and a.lecture.id = :id  "
+						+ "and a.lecture.year = :year and a.lecture.semester = :semester and a.gubun = 1L";
+				ApplicationLec a = em.createQuery(jpql,ApplicationLec.class).setParameter("userid", userid).setParameter("id", lecId).setParameter("year", year).setParameter("semester", semester).getSingleResult();
+				em.remove(a);
 				em.persist(applyLec); 
 			}
 		}else if(lecResult != 1) {
