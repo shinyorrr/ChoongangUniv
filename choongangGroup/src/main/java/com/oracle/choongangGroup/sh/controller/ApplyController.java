@@ -102,8 +102,8 @@ public class ApplyController {
 			applyResult = "applyWrong";
 		}
 		
-		System.out.println("-----------------likeResult--------------"+likeResult);
-		System.out.println("--------------------likeStartInt"+likeStartInt);
+		Member member = gm.getMember();
+		model.addAttribute("member", member);
 		model.addAttribute("likeTime", likeTime);
 		model.addAttribute("applyTime", applyTime);
 		model.addAttribute("userid", userid);
@@ -118,13 +118,18 @@ public class ApplyController {
 	///////////장바구니 기간 넘겨주기///////////
 	public String likeMain(String userid, Model model) {
 		model.addAttribute("userid", userid);
+		
+		Member member = gm.getMember();
+		model.addAttribute("member", member);
 		return "student/likeMain";
 	}
 	
 	//장바구니 신청 페이지
 	@GetMapping(value = "likeForm")
 	public String likeForm(String userid, String lecName, Model model, @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {			
-
+		Member member = gm.getMember();
+		model.addAttribute("member", member);
+		
 		String year = getYear();
 		String semester = getSemester();
 		if(lecName.isEmpty()) {
@@ -192,6 +197,9 @@ public class ApplyController {
 	//수강신청 목록 선택 --> 장바구니/전체강의
 	@GetMapping(value = "applySelect")
 	public String applySelect(String userid, Model model) {
+		Member member = gm.getMember();
+		model.addAttribute("member", member);
+		
 		String year = getYear();
 		String semester = getSemester();
 		model.addAttribute("userid", userid);
@@ -219,7 +227,8 @@ public class ApplyController {
 			 					@PageableDefault(size = 10, sort = "member.userid", direction = Sort.Direction.DESC) @Qualifier("applicationLec") Pageable pageable2,
 								@RequestParam("select") String select) {	
 		
-   
+		Member member = gm.getMember();
+		model.addAttribute("member", member);
 		String year = getYear();
 		String semester = getSemester();
 		
@@ -304,6 +313,8 @@ public class ApplyController {
 	//장바구니, 수강신청 기간 등록 폼
 	@GetMapping(value = "registerTimeForm")
 	public String registerTimeForm(Model model){
+		Member member = gm.getMember();
+		model.addAttribute("member", member);
 		String year = getYear();
 		String semester = getSemester();
 		model.addAttribute("year", year);
@@ -374,6 +385,9 @@ public class ApplyController {
 		
 		@GetMapping(value = "lectureList")
 		public String lectureList(String userid, String semester, String year, Model model) {
+		Member member = gm.getMember();
+		model.addAttribute("member", member);
+			
 		List<ApplicationLec> applyList = as.applyList(userid, year, semester);
 		List<String> yearList = yearList(userid);
 		
@@ -389,6 +403,8 @@ public class ApplyController {
 	//과제 파일 업로드 form
 	@RequestMapping("fileInsertForm")
 	public String fileInsertForm(HttpServletRequest request, String userid, Long lecId, Model model) {
+		Member member = gm.getMember();
+		model.addAttribute("member", member);
 		String referer = request.getHeader("Referer");
 		
 		model.addAttribute("userid", userid);
@@ -400,6 +416,8 @@ public class ApplyController {
 	//과제 파일 업로드
 	@RequestMapping("fileInsert" )
 	public String fileInsert(HttpServletRequest request, @RequestPart MultipartFile file, String userid, Long lecId, String referer, Model model) throws Exception{
+		Member member = gm.getMember();
+		model.addAttribute("member", member);
 		Report report = new Report();
 		String fileRealName = file.getOriginalFilename(); //파일명
 		Long size = file.getSize(); //파일 사이즈
@@ -449,6 +467,8 @@ public class ApplyController {
 	@GetMapping(value = "studentMain")
 	public String studentMain(Model model) {
 		Member member = gm.getMember();
+		model.addAttribute("member", member);
+		
 		String userid = gm.getMember().getUserid();
 		String year = getYear();
 		String semester = getSemester();
@@ -468,6 +488,32 @@ public class ApplyController {
 		model.addAttribute("day", day);
 		return "student/main";
 	}
+	
+	//수강신청
+		@GetMapping(value = "timetable")
+		public String timetable(Model model) {
+			Member member = gm.getMember();
+			model.addAttribute("member", member);
+			
+			String userid = gm.getMember().getUserid();
+			String year = getYear();
+			String semester = getSemester();
+			List<ApplicationLec> list = as.applyList(userid, year, semester);
+			
+			//오늘 요일 
+			LocalDate now = LocalDate.now();
+			String today = now.getDayOfWeek().getDisplayName(TextStyle.NARROW, Locale.KOREAN);
+			
+			//시간표 - 요일 리스트
+			List<String> day = new ArrayList<String>();
+			day.add("월");day.add("화");day.add("수");day.add("목");day.add("금");
+			
+			
+			model.addAttribute("list", list);
+			model.addAttribute("today", today);
+			model.addAttribute("day", day);
+			return "student/timetable";
+		}
 
 	
 	

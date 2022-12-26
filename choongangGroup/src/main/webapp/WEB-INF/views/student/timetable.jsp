@@ -4,13 +4,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-
-<script type="text/javascript">
-function submit(obj){
-	obj.submit();	
-	}
-</script>
-
 <meta charset="UTF-8">
 <!-- bottSTrap CSS only -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">		
@@ -23,26 +16,65 @@ function submit(obj){
 <!-- font awesome -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <!-- CSS -->
+<link rel="stylesheet" href="/css/timetable.css">
 <link rel="stylesheet" href="/css/styles.css">
+
 
     <title>SideBar sub menus</title>
 </head>
 
-<body class="" id="body-pd">
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript">
 
+
+	function submit(lecId, userid){
+		$.ajax({
+			url:"/student/like",
+			data:{lecId : lecId , userid : userid},
+			dataType:'text',
+			success:function(data){
+				const result = $.trim(data);
+
+				if(result == 1){
+				alert("성공")
+				location.reload();
+				}else if(result == 0){
+					alert("중복된 강의입니다.")
+				}else if(result == 2){
+					alert("시간이 중복되었습니다.")
+				}else{
+					alert("최대학점을 초과했습니다 [신청가능 최대학점 : 21학점]")
+				}
+			}		
+		});	
+	}
+	
+	$(document).ready(function(){
+	var color = '#';
+	var letters = ['f6c9cc', 'a8c0c0', 'FEBF36', 'FF7238', '6475A0', 'acc7bf', '5e5f67', 'c37070', 'eae160', 'bf7aa3', 'd7d967'];
+	color += letters[Math.floor(Math.random() * letters.length)]; 
+	document.getElementById('wrap').style.background = color; 
+	document.getElementById('wrap2').style.background = color; 
+	});
+	
+
+    </script>
+
+
+
+<body class="" id="body-pd">
+  
     <nav class="navbar navbar-expand-lg navbar-dark bd-navbar bg-light sticky-top position-fixed fixed-top w-100" style="position : absolute">
         <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between">
           <a href="/" class="navbar-brand">
             <img class="img-fluid" src="/images/logo2.png" alt="logo2" style="height: 40px;"><use xlink:href="#bootstrap"></use></svg>
           </a>
     
-          
+  
         </header>
     </nav>
     <!-- /header -->
-    
-    
-    	<!----------------------- side nav bar ---------------------------------->
+   	<!----------------------- side nav bar ---------------------------------->
     <div class="l-navbar" id="navbar">
         <nav class="navv">
             <div>
@@ -105,7 +137,7 @@ function submit(obj){
         </nav>
     </div>
     <!-- /side nav bar -->
-	<jsp:include page="header.jsp"></jsp:include>
+<jsp:include page="header.jsp"></jsp:include>
 	<!-- main content -->
 	<div class="row">
 		
@@ -116,83 +148,82 @@ function submit(obj){
                 <div class="row m-5">
                     <!-- card header -->
                     <div class="col-12 rounded-top text-white overflow-auto pt-2 fw-bold" style="background-color: rgb(39, 40, 70); height: 40px;"> 
-                        <i class="bi bi-bookmark-fill me-2"></i>학생서비스 <i class="bi bi-chevron-right"></i>학사관리 <i class="bi bi-chevron-right"></i>강의 목록 조회
+                        <i class="bi bi-bookmark-fill me-2"></i>학생서비스 <i class="bi bi-chevron-right"></i>강의목록 조회 <i class="bi bi-chevron-right"></i>과제 제출
                     </div>
-                    <!-- card content -->  
+                    
+                    <!------------------- 장바구니 신청 ------------------------------>  
                     <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
-                        <!-------------- 본문 ------------->
-                        
-                        <!-- 장바구니 메인 제목-->
-                        <div class="mt-3 mb-3">                    
-                       	  <span class="fs-2 fw-bold">신청 강의목록 </span>                         
-                        </div> 
-                        <!-- class="fw-bold border rounded-top " style="background-color:#EAEAEA; height: 45px;" -->
-                       	<div class="fw-bold">
-                       		<span style="line-height: 45px;">${year }학년도 ${semester }학기 신청강의</span>
-                       		
-                    		<!-- 강의명으로 검색 -->
-                       		<form action="lectureList" method="get" class="row row-cols-lg-auto g-3 float-end" >
-	                       		  
-								 
-								 <!-- 년도,학기 select -->
-								 <div class="col-12">	
-		                       		<input type="hidden" name="userid" value="${userid }">
-		                       		
-									<select class="form-select" name="year" required="required">										
-										<option label="년도"/>
-										<c:forEach var="list" items="${yearList }">
-											<option value="${list}" >${list}년</option >														
-										</c:forEach>		
-									</select>
-								 </div>	
-								  <div class="col-12">	
-									<select class="form-select" name="semester" required="required">										
-										<option label="학기"/>
-										<option value="1" >1학기</option >	
-										<option value="2" >2학기</option >																									
-									</select>	
-									
-									
-								</div>
-								<div class="col-12">
-									<input class="btn btn-primary" type="submit" value="검색">	
-								</div>
-							</form>
-							
-							
-								<!----------- 강의 리스트 -------------->
-							<table class="table table-striped mt-5">
-								<thead>
-									<tr>
-										<th>강의코드</th><th>강의명</th><th>학년</th><th>강의시간</th><th>교수명</th>
-										<th>이수구분</th><th>전공</th><th>학점</th><th>강의계획서</th><th>과제</th>
-									</tr>
-								</thead>
-							
+                    	<div class="d-flex flex-row">                    		
+                    	 	<div class="col-6 mx-2 ">
+                    	 	<!-----------------장바구니 전체 ------------------------>
+		                    <!--메인 제목-->
+	                        <div class="mt-3 mb-3">                    
+	                       	  <span class="fs-2 fw-bold">과제 파일 업로드 </span>                         
+	                        </div> 
+	                       	
+							<div class="col-md-6  rounded overflow-auto bg-light p-4" style="max-height: 300px;"> 
+							<h5>시간표</h5><hr>
+							<!--------------------------------- 시간표 -------------------------------------->
+							<div class="mt-1 timetable" >
+								<table class="timetable" style="background-color: #F2F8F8 ; color: 	#003A9D" >								
+												<thead >
+												<tr >
+													<th style="width: 6%; ">시간</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th>											
+												</tr>
+												</thead>									
+												<tbody>			
+													
+									<c:forEach var="j" begin="1" end="7">	
+										<tr>
+											<td style="width: 6%">${j }교시</td>	
+											
+											<c:forEach var="d" items="${day }">
+															
+												<c:forEach var="lec" items="${list }" >	
+													<c:if test="${lec.lecture.day1 eq d and lec.lecture.time1 le j and lec.lecture.time1+lec.lecture.hour1 gt j}">
+														<c:set var="day1" value="${lec.lecture.day1 }"></c:set> 
+														<c:set var="name1" value="${lec.lecture.name }"></c:set>
+														<c:set var="time1" value="${lec.lecture.time1 }"></c:set>
+														<c:set var="hour1" value="${lec.lecture.hour1 }"></c:set>
+													</c:if>	
+													
+													
+													
+													<c:if test="${lec.lecture.day2 eq d and lec.lecture.time2 le j and lec.lecture.time2+lec.lecture.hour2 gt j}">
+														<c:set var="day2" value="${lec.lecture.day2 }"></c:set> 
+														<c:set var="name2" value="${lec.lecture.name }"></c:set>
+														<c:set var="time2" value="${lec.lecture.time2 }"></c:set>
+														<c:set var="hour2" value="${lec.lecture.hour2 }"></c:set>
+													</c:if>															
+												</c:forEach>
+												
+												<c:choose>
+													<c:when test="${day1 eq d and time1+hour1 gt j}"> 
+													 	<td style="background-color: #6799FF; color: white;">${name1 }</td>
+													</c:when>
+													<c:when test="${day2 eq d and time2+hour2 gt j}"> 
+													 	<td style="background-color: #B2CCFF; color: white">${name2 }</td>
+													</c:when>
+													<c:otherwise>
+														<td></td>
+													</c:otherwise>
+												</c:choose>
+											</c:forEach>	
+											</tr>
+										</c:forEach>	
+													 
+									</tbody>																	
+								</table> 
 								
-								<!-- 수강 전체 과목 -->
 								
-								<c:forEach var="lec" items="${list}">
-									<tr>
-										<td>${lec.lecture.id }</td><td>${lec.lecture.name }</td><td>${lec.lecture.grade }</td>
-										<td>${lec.lecture.day1}${lec.lecture.time1}, ${lec.lecture.day2}${lec.lecture.time2}</td><td>${lec.lecture.prof }</td><td>${lec.lecture.type }</td>
-										<td>${lec.lecture.major }</td><td>${lec.lecture.unitScore }</td><td><i class="bi-file-earmark-pdf-fill" style="color: red"> </i>${lec.lecture.fileName }</td>
-										<td><i class="bi-cloud-arrow-up-fill" style="color: rgb(95, 142, 241);"></i> <a href = "fileInsertForm?lecId=${lec.lecture.id }&userid=${userid}">제출하기</a></td>
-										
-									</tr>	
-								</c:forEach>
+							</div>	
 								
 								
-							</table>	
-							
-							
-							
-							
-                       	</div>
-                       		
-                       		
-                       <!-- 본문끝  -->	
-                       </div>                  		
+								
+
+																				
+							</div>
+						</div>
                     </div>
                     <!-- footer -->
                     <footer class="col-12" style="height: 60px;">
