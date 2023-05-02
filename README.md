@@ -3,6 +3,6 @@
 
 <div align=center>
   
-# 대학교 학사포탈 프로그램 
+# Choongang Univ | 대학교 학사포탈 프로그램 
 </div>
 
