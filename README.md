@@ -1,1 +1,1 @@
-![image](https://user-images.githubusercontent.com/113576529/235595091-54edb63d-df7f-4817-b1ea-11fc6125a130.png)
+<img width="500" alt="메인" src="https://user-images.githubusercontent.com/113576529/235595642-97853749-b2a6-43ca-9d8b-f3647c39f45d.PNG">
