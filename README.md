@@ -1,1 +1,2 @@
-<img width="550" alt="메인" src="https://user-images.githubusercontent.com/113576529/235595642-97853749-b2a6-43ca-9d8b-f3647c39f45d.PNG">
+<img width="845" alt="메인" src="https://user-images.githubusercontent.com/113576529/235596313-87934a41-0f7c-4bd5-a33b-a65459a904d5.PNG">
+
