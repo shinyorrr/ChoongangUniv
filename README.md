@@ -52,6 +52,7 @@
 
 ## 팀원 소개
 <br>
+![Slide1](https://user-images.githubusercontent.com/113576529/235857912-a307e5bc-3c06-4b99-b5a1-4852a021bf73.jpg)
 
 ## 팀원별 개발 내용
 <br>
