@@ -52,7 +52,8 @@
 
 ## 팀원 소개
 <br>
-<img width="300" alt="ㅎㅅ" src="https://user-images.githubusercontent.com/113576529/235858926-adfa0e5c-9ebf-4c08-8fe3-ee7c74f0a62d.PNG">
+<img width="476" alt="ㅎㅅ" src="https://user-images.githubusercontent.com/113576529/235858926-adfa0e5c-9ebf-4c08-8fe3-ee7c74f0a62d.PNG">
+
 
 
 ## 팀원별 개발 내용
