@@ -105,6 +105,8 @@ a {
 
 .nav__link:hover {
     background-color: var(--first-color);
+    color: var(--white-color);
+
 }
 
 .nav__icon {

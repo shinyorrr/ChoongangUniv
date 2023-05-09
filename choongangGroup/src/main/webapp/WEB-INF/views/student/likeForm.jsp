@@ -195,7 +195,9 @@
 									<c:forEach var="lec" items="${lectureList.content }">
 										<tr>
 											<td>${lec.id }</td><td>${lec.name }</td><td>${lec.grade }</td>
-											<td>${lec.day1}${lec.time1}, ${lec.day2}${lec.time2}</td><td>${lec.prof }</td><td>${lec.type }</td>
+											<td>${lec.day1}${lec.time1}<c:if test="${lec.hour1==2}">${lec.time1+1}</c:if>,
+											    ${lec.day2}${lec.time2}<c:if test="${lec.hour2==2}">${lec.time2+1}</c:if></td><td>${lec.prof }</td>
+											<td>${lec.type }</td>
 											<td>${lec.major }</td><td>${lec.unitScore }</td>
 											<td><input type="button" value="신청" onclick="submit('${lec.id}','${userid}')"></td>		
 										</tr>	

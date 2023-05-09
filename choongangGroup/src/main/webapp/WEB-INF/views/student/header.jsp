@@ -31,7 +31,7 @@
 				</div>
 				<div class="d-flex flex-low mb-2">
 					<div><i class="bi bi-envelope-fill text-white"></i></div>
-					<div><span class="text-white ms-2 font09">${email}</span></div>
+					<div><span class="text-white ms-2 font09">${member.email}</span></div>
 				</div>
 
 			</div>

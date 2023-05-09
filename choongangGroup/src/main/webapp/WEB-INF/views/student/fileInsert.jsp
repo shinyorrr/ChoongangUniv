@@ -142,17 +142,17 @@
 	<div class="row">
 		
 	
-    <div class="container-fluid w-100" style=" background-color: rgb(214, 225, 237)">
+    <div class="container-fluid w-100 " style=" background-color: rgb(214, 225, 237); height: 800px;">
 		
-            <main class="col-9 h-100 w-100">
+            <main class="col-9 h-500 w-100">
                 <div class="row m-5">
                     <!-- card header -->
                     <div class="col-12 rounded-top text-white overflow-auto pt-2 fw-bold" style="background-color: rgb(39, 40, 70); height: 40px;"> 
                         <i class="bi bi-bookmark-fill me-2"></i>학생서비스 <i class="bi bi-chevron-right"></i>강의목록 조회 <i class="bi bi-chevron-right"></i>과제 제출
                     </div>
                     
-                    <!------------------- 장바구니 신청 ------------------------------>  
-                    <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
+                    <!------------------- 장바구니 신청 ------------------------------>
+                    <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 530px;">
                     	<div class="d-flex flex-row">                    		
                     	 	<div class="col-6 mx-2 ">
                     	 	<!-----------------장바구니 전체 ------------------------>
@@ -179,9 +179,7 @@
 						</div>
                     </div>
                     <!-- footer -->
-                    <footer class="col-12" style="height: 60px;">
-                        footer
-                    </footer>    
+
                 </div>
             </main>
         </div>

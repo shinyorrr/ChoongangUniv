@@ -112,14 +112,14 @@ function submit(obj){
 	
     <div class="container-fluid w-100" style=" background-color: rgb(214, 225, 237)">
 		
-            <main class="col-9 h-100 w-100">
+            <main class="col-9 h-200 w-100">
                 <div class="row m-5">
                     <!-- card header -->
                     <div class="col-12 rounded-top text-white overflow-auto pt-2 fw-bold" style="background-color: rgb(39, 40, 70); height: 40px;"> 
                         <i class="bi bi-bookmark-fill me-2"></i>학생서비스 <i class="bi bi-chevron-right"></i>학사관리 <i class="bi bi-chevron-right"></i>강의 목록 조회
                     </div>
                     <!-- card content -->  
-                    <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 550px;"> 
+                    <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 600px;">
                         <!-------------- 본문 ------------->
                         
                         <!-- 장바구니 메인 제목-->
@@ -195,9 +195,9 @@ function submit(obj){
                        </div>                  		
                     </div>
                     <!-- footer -->
-                    <footer class="col-12" style="height: 60px;">
-                        footer
-                    </footer>    
+                    <footer class="col-12 mt-5" style="height: 60px;">
+
+                    </footer>
                 </div>
             </main>
         </div>

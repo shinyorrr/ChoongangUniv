@@ -15,6 +15,7 @@
 <!-- font awesome -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <!-- CSS -->
+<link rel="stylesheet" href="/css/timetable.css">
 <link rel="stylesheet" href="/css/styles2.css">
 <link rel="stylesheet" href="/css/stylesLec.css">
 
@@ -72,15 +73,15 @@
 	                    <i class="bi-mortarboard"></i>
 	                    <span class="nav_name">&nbsp;성적 관리</span>
 	                </a>
-		
 
-					<a href="/student/evaluationList" class="nav__link">
+
+					<a href="/student/evaluationList" class="nav__link collapses">
 	                    <i class="bi-pencil"></i>
 	                    <span class="nav_name">&nbsp;강의 평가</span>
 	                </a>
 
 
-					<a href="/student/applyIndex" class="nav__link">
+					<a href="/student/applyIndex" class="nav__link collapses">
 	                    <i class="bi bi-box-arrow-up-right"></i>
 	                    <span class="nav_name">&nbsp;수강 신청</span>
 	                </a>
@@ -97,7 +98,7 @@
                         </ul>
                     </div>
                 </div>
-                <a href="/logout" class="nav__link">
+                <a href="/logout" class="nav__link collapses">
                     <i class="bi-power"></i>
                     <span class="nav_name">&nbsp; Log out</span>
                 </a>
@@ -134,12 +135,12 @@
 
 			</div>
 
-			<main class="col-9 h-100 w-100">
+			<main class="col-9 h-300 w-100">
 				<div class="row m-5">
 				
 					<!-- card content -->  
 					<div class="row mb-2 pe-0 ps-2" >
-						<div class="col-md-5 me-3 rounded overflow-auto bg-light p-4" style="min-height: 400px;"> 
+						<div class="col-md-5 me-3 rounded overflow-auto bg-light p-4" style="min-height: 500px;">
 							<h5 class="fw-bold"><i class="bi bi-pencil-square"></i>&nbsp;&nbsp;오늘의 강의</h5><hr>
 							<input type="hidden" name="gubun" value="1">
 							
@@ -153,11 +154,11 @@
 									<p style="font-size: 1.4em;">${lec.lecture.name}<b></b> </p>
 										<p class="mb-1 font09">강의실 : <b>${lec.lecture.building}${lec.lecture.room}</b></p>
 										<c:if test="${lec.lecture.day1 eq today}">
-											<div class="font09">강의 시간 : <b style="color: red">${lec.lecture.time1}</b>교시&nbsp; &nbsp;-&nbsp; &nbsp; <b style="color: red">${lec.lecture.time1 + lec.lecture.hour1}</b> 교시
+											<div class="font09">강의 시간 : <b style="color: red">${lec.lecture.time1}</b>교시&nbsp; &nbsp;-&nbsp; &nbsp; <b style="color: red">${lec.lecture.time1 + lec.lecture.hour1 - 1}</b> 교시
 										</c:if>
 										
 										<c:if test="${lec.lecture.day2 eq today}">
-											<div class="font09">강의 시간 : <b style="color: red">${lec.lecture.time2}</b>/교시&nbsp; &nbsp;-&nbsp; &nbsp; <b style="color: red">${lec.lecture.time2 + lec.lecture.hour2}</b> 교시
+											<div class="font09">강의 시간 : <b style="color: red">${lec.lecture.time2}</b>/교시&nbsp; &nbsp;-&nbsp; &nbsp; <b style="color: red">${lec.lecture.time2 + lec.lecture.hour2 - 1}</b> 교시
 										</c:if>
 											
 											
@@ -169,17 +170,17 @@
 								</c:if>
 								</c:forEach> 
 						</div>
-						<!-- <div class="col-md-3 me-3 rounded overflow-auto bg-light p-4" style="min-height: 400px;"> 
+						<!-- <div class="col-md-3 me-3 rounded overflow-auto bg-light p-4" style="min-height: 500px;">
 							<h5><a href="/notice/noticeList">공지사항</a></h5><hr>
 
 						</div> -->
-						<div class="col-md-6  rounded overflow-auto bg-light p-4" style="max-height: 300px;"> 
-							<h5>시간표</h5><hr>
+						<div class="col-md-5 rounded overflow-auto bg-light p-4" style="min-height: 400px;">
+							<h5 class="fw-bold"><i class="bi bi-calendar-check"></i>&nbsp;&nbsp;시간표</h5><hr>
 							<!--------------------------------- 시간표 -------------------------------------->
-							<div class="mt-1 timetable" >
+							<div class="mt-1 timetable" style="min-height: 520px;">
 								<table class="timetable" style="background-color: #F2F8F8 ; color: 	#003A9D" >								
-												<thead >
-												<tr >
+												<thead>
+												<tr>
 													<th style="width: 6%; ">시간</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th>											
 												</tr>
 												</thead>									
@@ -236,7 +237,7 @@
 					</div>
 					
 					<!-- footer -->
-					<footer class="col-12 mt-5" style="height: 60px; font-size: 12px;">
+					<footer class="col-12 mt-5" style="height: 60px; font-size: 12px; margin-top: 30px;">
 						@2022 ChoongAng University. All Rights Reserved.
 					</footer> 
 				</div>
