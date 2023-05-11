@@ -1,5 +1,5 @@
 
-<div align=center><img width="750" src="https://github.com/shinyorrr/ChoongangUniv/assets/113576529/fab328c1-1302-4675-9513-3af1203aa429.PNG">
+<div align=center><img width="750" src="https://github.com/shinyorrr/ChoongangUniv/assets/113576529/cf5f1dcc-3b77-4d2e-baa7-cfd79047c0f1.PNG">
 </div>
 
 <div align=center>
