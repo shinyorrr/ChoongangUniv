@@ -52,8 +52,9 @@
 
 ## 👪팀원 소개
 <br>
-<img width="1266" alt="제목 없음" src="https://github.com/shinyorrr/ChoongangUniv/assets/113576529/55c095f9-575a-4274-a1d1-f2479be895a5">
-
+|제목|내용|설명|
+|--|--|--|
+|제목|내용|설명|
 
 
 
