@@ -52,7 +52,8 @@
 
 ## 👪팀원 소개
 <br>
-<img width="476" alt="ㅎㅅ" src="https://user-images.githubusercontent.com/113576529/235858926-adfa0e5c-9ebf-4c08-8fe3-ee7c74f0a62d.PNG">
+<img width="1266" alt="제목 없음" src="https://github.com/shinyorrr/ChoongangUniv/assets/113576529/55c095f9-575a-4274-a1d1-f2479be895a5">
+
 
 
 
