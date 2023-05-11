@@ -52,9 +52,9 @@
 
 ## 👪팀원 소개
 <br>
+<img src="이미지주소.png" width="200" height="400"/>
 
-
-|[![KakaoTalk_20230109_163109593](https://github.com/shinyorrr/ChoongangUniv/assets/113576529/821d9dea-a35d-498f-b870-9e82ebce2da7)](https://github.com/shinyorrr)|내용|설명|제목|내용|설명|
+|[<img src="https://github.com/shinyorrr/ChoongangUniv/assets/113576529/821d9dea-a35d-498f-b870-9e82ebce2da7.png" width="200">](https://github.com/shinyorrr)|내용|설명|제목|내용|설명|
 |---|---|---|---|---|---|
 |손신효|공현지|이례영|한창훈|신혜선|오태우|
 
