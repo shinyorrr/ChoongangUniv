@@ -74,5 +74,7 @@
 <br>
 
 ## 🛠기술 스택
+
+<img src="https://github.com/shinyorrr/ChoongangUniv/assets/113576529/c6363b5f-d4e6-448a-8950-52a356ad9ddd.png" width="400">
 ![image](https://github.com/shinyorrr/ChoongangUniv/assets/113576529/c6363b5f-d4e6-448a-8950-52a356ad9ddd)
 <br>
