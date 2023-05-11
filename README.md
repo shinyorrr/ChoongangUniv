@@ -52,11 +52,12 @@
 
 ## 👪팀원 소개
 <br>
-https://avatars.githubusercontent.com/u/110139001?v=4
+https://avatars.githubusercontent.com/u/110706407?v=4
+https://avatars.githubusercontent.com/u/108061839?v=4
 
-|<img src="https://github.com/shinyorrr/ChoongangUniv/assets/113576529/821d9dea-a35d-498f-b870-9e82ebce2da7.png" width="100">|<img src="https://github.com/shinyorrr/ChoongangUniv/assets/113576529/8508ef63-4377-41a6-99ff-b5c7b29a69df.png" width="100">|<img src="https://github.com/shinyorrr/ChoongangUniv/assets/113576529/3f64e341-0eda-44ea-8617-db75207f5b6a.png" width="100">|<img src="https://avatars.githubusercontent.com/u/110139001?v=4.png" width="100">|<img src="https://avatars.githubusercontent.com/u/113097373?v=4.png" width="100">|<img src="https://avatars.githubusercontent.com/u/109948713?v=4.png" width="100">|
-|:---:|:---:|:---:|:---:|:---:|:---:|
-|[손신효](https://github.com/shinyorrr)|[공현지](https://github.com/hyeonji22)|[이례영](https://github.com/LEERYEYEONG)|[한창훈](https://github.com/bluemindhan)|[신혜선](https://github.com/Hyesun112)|[오태우](https://github.com/oreoWoo)|
+|<img src="https://github.com/shinyorrr/ChoongangUniv/assets/113576529/821d9dea-a35d-498f-b870-9e82ebce2da7.png" width="100">|<img src="https://github.com/shinyorrr/ChoongangUniv/assets/113576529/8508ef63-4377-41a6-99ff-b5c7b29a69df.png" width="100">|<img src="https://github.com/shinyorrr/ChoongangUniv/assets/113576529/3f64e341-0eda-44ea-8617-db75207f5b6a.png" width="100">|<img src="https://avatars.githubusercontent.com/u/110139001?v=4.png" width="100">|<img src="https://avatars.githubusercontent.com/u/113097373?v=4.png" width="100">|<img src="https://avatars.githubusercontent.com/u/109948713?v=4.png" width="100">|<img src="https://avatars.githubusercontent.com/u/110706407?v=4.png" width="100">|<img src="https://avatars.githubusercontent.com/u/108061839?v=4.png" width="100">|
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+|[손신효](https://github.com/shinyorrr)|[공현지](https://github.com/hyeonji22)|[이례영](https://github.com/LEERYEYEONG)|[한창훈](https://github.com/bluemindhan)|[신혜선](https://github.com/Hyesun112)|[오태우](https://github.com/oreoWoo)|[신동호](https://github.com/sharru0701)|[허유나](https://github.com/Youna2022)|
 
 
 
