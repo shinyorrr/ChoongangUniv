@@ -93,14 +93,13 @@
 <details>
   <summary> 기간 확인 </summary>
   
-  ### ✔⏰기간 확인
+  ### ⏰기간 확인
   
   * 오늘 기준, 기간에 해당 되지 않으면 빨간 글씨로 경고문구 표시
   * 기간 외에 버튼 클릭 시 경고 창 띄우고 진입 막음
   <img width="500" alt="둘다x" src="https://github.com/shinyorrr/ChoongangUniv/assets/113576529/b98a8281-7de5-4146-a525-3e8c37739115">
-
-
-<img width="500" alt="하나만" src="https://github.com/shinyorrr/ChoongangUniv/assets/113576529/aa25a5f0-0730-4a42-a244-b3f6efe125c2">
+  <img width="500" alt="하나만" src="https://github.com/shinyorrr/ChoongangUniv/assets/113576529/aa25a5f0-0730-4a42-a244-b3f6efe125c2">
+  (좌)둘 다 해당X(6/16일) / (우) 하나만 해당(6/14일)
   
 </details>
 
