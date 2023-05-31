@@ -99,8 +99,11 @@
   * 기간 외에 버튼 클릭 시 경고 창 띄우고 접근 제한
   <br>
   ![기간외접근-_online-video-cutter com_](https://github.com/shinyorrr/ChoongangUniv/assets/113576529/d4a86e46-d637-46d7-bf49-fa97664b737b)
-  * 예시) 현재 날짜 : 6/16일 <
+  <br>
+  
+  * 예시) 현재 날짜 : 6/16일 
   <img width="800" alt="둘다x" src="https://github.com/shinyorrr/ChoongangUniv/assets/113576529/b98a8281-7de5-4146-a525-3e8c37739115"><br>
+  
   * 예시) 현재 날짜 : 6/14일 <br>
   <img width="800" alt="하나만" src="https://github.com/shinyorrr/ChoongangUniv/assets/113576529/aa25a5f0-0730-4a42-a244-b3f6efe125c2"><br>
  
