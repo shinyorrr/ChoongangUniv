@@ -80,7 +80,7 @@
 <details>
   <summary > 수강신청 기간 설정 </summary>
   
-  ### 📆수강신청 기간 설정
+  ### 📆 수강신청 기간 설정
   
   * 관리자 계정으로 로그인 후 기간 관리 탭
   * 일정(장바구니/수강신청)을 드롭다운 목록에서 선택
@@ -88,11 +88,24 @@
   * 현재시간 기준, 오늘 이전의 날짜는 자동 선택 불가 처리
   
   ![장바구니-수강신청-등록](https://github.com/choongang2022/team-project/assets/113576529/48c21f06-521c-412a-8302-940c3e795746)
+</details>
+   
+<details>
+  <summary> 기간 확인 </summary>
+  
+  ### ✔⏰기간 확인
+  
+  * 오늘 기준, 기간에 해당 되지 않으면 빨간 글씨로 경고문구 표시
+  * 기간 외에 버튼 클릭 시 경고 창 띄우고 진입 막음
+  <img width="500" alt="둘다x" src="https://github.com/shinyorrr/ChoongangUniv/assets/113576529/b98a8281-7de5-4146-a525-3e8c37739115">
 
-  <summary >  수강신청 기간 설정 </summary>
 
+<img width="500" alt="하나만" src="https://github.com/shinyorrr/ChoongangUniv/assets/113576529/aa25a5f0-0730-4a42-a244-b3f6efe125c2">
+  
+</details>
 
-
+<details>
+  <summary> </summary>
 </details>
 
 <br>
