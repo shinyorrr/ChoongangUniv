@@ -80,7 +80,8 @@
 <details>
     <summary>수강신청 기간 설정</summary>
   
-https://github.com/choongang2022/team-project/assets/113576529/a5f41703-6c8c-4ca3-b278-94ed85e2f60e
+![GIFMaker_me (1)](https://github.com/choongang2022/team-project/assets/113576529/02b4aa56-4987-4a55-866b-d8787465a3bc)
+
 <!-- summary 아래 한칸 공백 두고 내용 삽입 -->
 
 </details>
