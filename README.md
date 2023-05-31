@@ -78,9 +78,8 @@
 ## 🖥구현 완료 화면
 
 <details>
-    <summary>수강신청 기간 설정</summary>
+    <summary >## 수강신청 기간 설정</summary>
   
-![GIFMaker_me (1)](https://github.com/choongang2022/team-project/assets/113576529/02b4aa56-4987-4a55-866b-d8787465a3bc)
   ![장바구니-수강신청-등록](https://github.com/choongang2022/team-project/assets/113576529/48c21f06-521c-412a-8302-940c3e795746)
 
 
