@@ -97,16 +97,15 @@
   
   * 오늘 기준, 기간에 해당 되지 않으면 빨간 글씨로 경고문구 표시
   * 기간 외에 버튼 클릭 시 경고 창 띄우고 접근 제한
-  <br>
   
   ![기간외접근](https://github.com/shinyorrr/ChoongangUniv/assets/113576529/e67ed0e6-d667-48f1-a70a-b08e474404cd)
   
   <br>
   
-  * 예시) 현재 날짜 : 6/16일 
+  ▫ 예시) 현재 날짜 : 6/16일 
   <img width="800" alt="둘다x" src="https://github.com/shinyorrr/ChoongangUniv/assets/113576529/b98a8281-7de5-4146-a525-3e8c37739115"><br>
   
-  * 예시) 현재 날짜 : 6/14일 <br>
+  ▫ 예시) 현재 날짜 : 6/14일 
   <img width="800" alt="하나만" src="https://github.com/shinyorrr/ChoongangUniv/assets/113576529/aa25a5f0-0730-4a42-a244-b3f6efe125c2"><br>
  
 
