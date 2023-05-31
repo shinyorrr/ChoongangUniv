@@ -98,7 +98,9 @@
   * 오늘 기준, 기간에 해당 되지 않으면 빨간 글씨로 경고문구 표시
   * 기간 외에 버튼 클릭 시 경고 창 띄우고 접근 제한
   <br>
-  ![기간외접근-_online-video-cutter com_](https://github.com/shinyorrr/ChoongangUniv/assets/113576529/d4a86e46-d637-46d7-bf49-fa97664b737b)
+  
+  ![기간외접근](https://github.com/shinyorrr/ChoongangUniv/assets/113576529/e67ed0e6-d667-48f1-a70a-b08e474404cd)
+  
   <br>
   
   * 예시) 현재 날짜 : 6/16일 
