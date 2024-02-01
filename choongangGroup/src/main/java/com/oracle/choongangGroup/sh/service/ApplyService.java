@@ -1,10 +1,10 @@
 package com.oracle.choongangGroup.sh.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
 
 import com.oracle.choongangGroup.sh.domain.ApplicationLec;
 import com.oracle.choongangGroup.sh.domain.ApplyTime;
@@ -26,11 +26,11 @@ public interface ApplyService {
 	List<ApplicationLec> yearList(String userid);
 	ApplicationLec findByIdName(String userid, Long lecId);
 	void saveReport(Report report);
-	
 
 
+	void savePlan(Lecture lecture);
 
+	Optional<Lecture> findByLecId(Long lecId);
 
-	
-
+	void delete(Long lecId, String userid, Long gubun);
 }

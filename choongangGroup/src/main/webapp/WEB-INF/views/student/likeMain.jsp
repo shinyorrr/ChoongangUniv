@@ -126,8 +126,8 @@
 								<div class=" fs-6 fw-bold border p-4" style="height: 260px;">									
 									<p> ※ 수강신청 장바구니 유의사항 안내</p>
 									<p class="px-3"> 
-									<i class="bi bi-1-square-fill"></i> &nbsp;장바구니 시행 기간 : &nbsp;<!-- 장바구니기간 --><br>				 
-									<i class="bi bi-2-square-fill"></i> &nbsp;장바구니 신청 대상 : &nbsp;2022학년도 2학기 (년도,월기준으로 설정)<br>
+									<i class="bi bi-1-square-fill"></i> &nbsp;장바구니 시행 기간 : &nbsp;${start} ~ ${end} <br>
+									<i class="bi bi-2-square-fill"></i> &nbsp;장바구니 신청 대상 : &nbsp;${year}학년도 ${semester}학기 <br>
 									<i class="bi bi-3-square-fill"></i> &nbsp;장바구니 최대 학점 : &nbsp;21학점<br>
 									<i class="bi bi-4-square-fill"></i> &nbsp;장바구니 주요 사항<br>
 										<span class="px-3">가. &nbsp;수업시간 중복 불가</span><br>

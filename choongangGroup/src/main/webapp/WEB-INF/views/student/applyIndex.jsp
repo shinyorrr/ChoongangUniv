@@ -141,7 +141,7 @@ function submit(){
 								
 								<button type="button" value="장바구니" 
 									<c:if test="${likeResult eq 'ok'}"> 
-										onclick="location.href='likeMain?userid=${userid}'" 
+										onclick="location.href='likeMain?userid=${userid}&start=${likeTime.start}&end=${likeTime.end}'"
 									</c:if> 
 									<c:if test="${likeResult ne 'ok'}">
 										onclick="submit()"

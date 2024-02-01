@@ -26,7 +26,6 @@
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript">
 
-
 	function submit(lecId, userid){
 		$.ajax({
 			url:"/student/like",
@@ -48,7 +47,11 @@
 			}		
 		});	
 	}
-	
+
+
+
+
+
 	$(document).ready(function(){
 	var color = '#';
 	var letters = ['f6c9cc', 'a8c0c0', 'FEBF36', 'FF7238', '6475A0', 'acc7bf', '5e5f67', 'c37070', 'eae160', 'bf7aa3', 'd7d967'];
@@ -56,6 +59,9 @@
 	document.getElementById('wrap').style.background = color; 
 	document.getElementById('wrap2').style.background = color; 
 	});
+
+
+
 	
 
     </script>
@@ -302,6 +308,7 @@
 														<c:set var="name1" value="${lec.lecture.name }"></c:set>
 														<c:set var="time1" value="${lec.lecture.time1 }"></c:set>
 														<c:set var="hour1" value="${lec.lecture.hour1 }"></c:set>
+														<c:set var="lecId" value="${lec.lecture.id }"></c:set>
 													</c:if>	
 													
 													
@@ -311,15 +318,26 @@
 														<c:set var="name2" value="${lec.lecture.name }"></c:set>
 														<c:set var="time2" value="${lec.lecture.time2 }"></c:set>
 														<c:set var="hour2" value="${lec.lecture.hour2 }"></c:set>
+														<c:set var="lecId" value="${lec.lecture.id }"></c:set>
 													</c:if>															
 												</c:forEach>
-												
+
 												<c:choose>
 													<c:when test="${day1 eq d and time1+hour1 gt j}"> 
-													 	<td style="background-color: #6799FF; color: white;">${name1 }</td>
+													 	<td style="background-color: #6799FF; color: white;">${name1 }<br>
+													 	<span style="font-size:9pt; font-weight:bold;">
+
+                                                        <a href = "/student/likeDelete?lecId=${lecId }&userid=${userid}"><i class="bi bi-x-circle-fill"></i> 취소</a>
+													 	</span>
+													 	</td>
 													</c:when>
 													<c:when test="${day2 eq d and time2+hour2 gt j}"> 
-													 	<td style="background-color: #B2CCFF; color: white">${name2 }</td>
+													 	<td style="background-color: #B2CCFF; color: white">${name2 }<br>
+													 	<span style="font-size:9pt; font-weight:bold;">
+
+                                                        <a href = "/student/likeDelete?lecId=${lecId }&userid=${userid}"><i class="bi bi-x-circle-fill"></i> 취소</a>
+                                                        </span>
+													 	</td>
 													</c:when>
 													<c:otherwise>
 														<td></td>
@@ -344,7 +362,7 @@
                     </div>
                     <!-- footer -->
                     <footer class="col-12" style="height: 60px;">
-                        footer
+
                     </footer>    
                 </div>
             </main>

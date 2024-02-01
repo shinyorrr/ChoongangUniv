@@ -15,7 +15,8 @@ public interface ApplicationLecRepository extends JpaRepository<ApplicationLec, 
 	List<ApplicationLec> findAllByMember_UseridAndLecture_YearAndLecture_SemesterAndGubun(String userid, String year, String semester, Long gubun);
 	List<ApplicationLec> findByMember_Userid(String userid);
 	ApplicationLec findByMember_UseridAndLecture_Id(String userid, Long lecId);
-	
 
-	
+
+	ApplicationLec findByMember_UseridAndLecture_IdAndGubun(String userid, Long lecId, Long gubun);
+	void deleteByMember_UseridAndLecture_IdAndGubun(String userid,Long lecId,Long gubun);
 }

@@ -1,7 +1,10 @@
 package com.oracle.choongangGroup.sh.service;
 
 import java.util.List;
+import java.util.Optional;
 
+import com.oracle.choongangGroup.changhun.address.MemberRepository;
+import com.oracle.choongangGroup.sh.repository.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -10,14 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.oracle.choongangGroup.changhun.JPA.Member;
 import com.oracle.choongangGroup.sh.domain.ApplicationLec;
 import com.oracle.choongangGroup.sh.domain.ApplyTime;
-import com.oracle.choongangGroup.sh.domain.Attendance;
 import com.oracle.choongangGroup.sh.domain.Lecture;
 import com.oracle.choongangGroup.sh.domain.Report;
-import com.oracle.choongangGroup.sh.repository.ApplicationLecRepository;
-import com.oracle.choongangGroup.sh.repository.ApplyRepository;
-import com.oracle.choongangGroup.sh.repository.ApplyTimeRepository;
-import com.oracle.choongangGroup.sh.repository.LectureRepository;
-import com.oracle.choongangGroup.sh.repository.LikeRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -32,6 +29,8 @@ public class ApplyServiceImpl implements ApplyService {
 	private final LectureRepository lecr;
 	private final ApplicationLecRepository aplr;
 	private final ReportRepostiory rr;
+
+	private final MemberRepository mr;
 	
 	
 	
@@ -138,29 +137,32 @@ public class ApplyServiceImpl implements ApplyService {
 		
 	}
 
+	@Override
+	public void savePlan(Lecture lecture) {
+		lecr.save(lecture);
+	}
 
+	@Override
+	public Optional<Lecture> findByLecId(Long lecId) {
 
-	
-	
+		return lecr.findById(lecId);
+	}
 
+	@Override
+	public void delete(Long lecId, String userid, Long gubun) {
+		Optional<Lecture> lecture = lecr.findById(lecId);
 
+		Long unitScore = lecture.get().getUnitScore();
 
+		Optional<Member> member = mr.findById(userid);
 
-	
+		member.get().setCount(member.get().getCount() - unitScore);
 
+		mr.save(member.get());
 
+		aplr.deleteByMember_UseridAndLecture_IdAndGubun(userid,lecId,gubun);
 
-
-
-
-
-
-
-
-
-
-
-
+	}
 
 
 }

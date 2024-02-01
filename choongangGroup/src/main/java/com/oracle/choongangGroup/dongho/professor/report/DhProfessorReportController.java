@@ -140,9 +140,11 @@ public class DhProfessorReportController {
 	// 다운받을 과제파일이 1개일 경우 다운로드 method
 	@GetMapping("/downloadOneFile")
 	public void downloadOneFile(String filePath, HttpServletResponse response) {
+		System.out.println("dongho filepath----------------------------------------------"+filePath);
 		log.info("===downloadOneFile 시작===");
 		try {
 			File file = new File(filePath);
+
 			response.setHeader("Content-Disposition", "attachment;filename=" + file.getName());
 			log.info(file.getName());// 다운로드 되거나 로컬에 저장되는 용도로 쓰이는지를 알려주는 헤더
 			FileInputStream fileInputStream = new FileInputStream(filePath); //파일 읽어오기

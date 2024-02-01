@@ -77,6 +77,8 @@ public class LikeRepositoryImpl implements LikeRepository {
 			Long unitScore = applyLec.getLecture().getUnitScore();
 			applyLec.getMember().setCount(count + unitScore);
 			if(applyLec.getMember().getCount()>21) {
+				Long totalCount = applyLec.getMember().getCount();
+				applyLec.getMember().setCount(totalCount - unitScore);
 				result = 3;
 			}else {
 				em.persist(applyLec); 

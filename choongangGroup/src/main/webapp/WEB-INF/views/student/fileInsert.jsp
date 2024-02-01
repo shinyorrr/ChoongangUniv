@@ -151,11 +151,11 @@
                         <i class="bi bi-bookmark-fill me-2"></i>학생서비스 <i class="bi bi-chevron-right"></i>강의목록 조회 <i class="bi bi-chevron-right"></i>과제 제출
                     </div>
                     
-                    <!------------------- 장바구니 신청 ------------------------------>
+                    <!------------------- 본문 ------------------------------>
                     <div class="col-12 rounded-bottom overflow-auto bg-light p-3" style="min-height: 530px;">
                     	<div class="d-flex flex-row">                    		
                     	 	<div class="col-6 mx-2 ">
-                    	 	<!-----------------장바구니 전체 ------------------------>
+                    	 	<!-----------------과제 제출------------------------>
 		                    <!--메인 제목-->
 	                        <div class="mt-3 mb-3">                    
 	                       	  <span class="fs-2 fw-bold">과제 파일 업로드 </span>                         
@@ -170,9 +170,19 @@
 									<button type="submit" class="btn btn-dark" onclick="submit()">업로드</button>
 								</form>
 							</div>
+
+							<!-----------------임시 강의계획서 등록------------------------>
+							<div class="container mt-5">
+                            								<form action="planInsert" method="post" enctype="multipart/form-data">
+
+                            									<input type="hidden" name="lecId" value="${lecId }">
+                            									<input type="hidden" name="referer" value="${referer }">
+                            									<input type="file" name="file1">
+                            									<button type="submit" class="btn btn-dark" onclick="submit()">업로드</button>
+                            								</form>
+                            							</div>
 								
-								
-								
+
 
 																				
 							</div>
