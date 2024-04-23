@@ -113,16 +113,21 @@
 
 <details>
   <summary> 장바구니 담기 </summary>
+  
   ### ❤️장바구니 담기
 
   *서버 시간 기준으로 현재 년도, 학기에 개설된 강의 목록 조회
   *학기 바뀔 때 마다 누적학점 초기화
   *장바구니에 강의를 담을 때 반응형으로 담는 즉시 시간표에 추가 후 화면에 표시시
+
+  <img width="800" alt="장바구니 담기" src="https://github.com/shinyorrr/ChoongangUniv/assets/113576529/c5922619-fba8-4317-b3ad-eaa050063b81"><br>
+ 
   
 </details>
 
 <details>
   <summary> 장바구니 중복 체크 </summary>
+  
   *각 오류 상황별로 어떤 문제인지 알림 창 표시
   
    ### ❤️장바구니 시간 중복
