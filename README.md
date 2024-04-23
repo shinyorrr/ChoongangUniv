@@ -103,9 +103,11 @@
   <br>
   
   ▫ 예시) 현재 날짜 : 6/16일 
+  
   <img width="800" alt="둘다x" src="https://github.com/shinyorrr/ChoongangUniv/assets/113576529/b98a8281-7de5-4146-a525-3e8c37739115"><br>
   
   ▫ 예시) 현재 날짜 : 6/14일 
+  
   <img width="800" alt="하나만" src="https://github.com/shinyorrr/ChoongangUniv/assets/113576529/aa25a5f0-0730-4a42-a244-b3f6efe125c2"><br>
  
 
@@ -120,7 +122,9 @@
   *학기 바뀔 때 마다 누적학점 초기화
   *장바구니에 강의를 담을 때 반응형으로 담는 즉시 시간표에 추가 후 화면에 표시시
 
-  <img width="800" alt="장바구니 담기" src="https://github.com/shinyorrr/ChoongangUniv/assets/113576529/c5922619-fba8-4317-b3ad-eaa050063b81"><br>
+  ![장바구니-등록](https://github.com/shinyorrr/ChoongangUniv/assets/113576529/2e6264b7-0dda-4ac9-85e8-474003073f69)
+  
+  <br>
  
   
 </details>
