@@ -132,15 +132,21 @@
 <details>
   <summary> 장바구니 중복 체크 </summary>
   
-  *각 오류 상황별로 어떤 문제인지 알림 창 표시
+  * 각 오류 상황별로 어떤 문제인지 알림 창 표시
   
    ### ❤️장바구니 시간 중복
 
+   <br>
+  
+  ▫ 예시) 목요일 6,7교시가 중복되는 강의 신청 시 
    ![시간 중복](https://github.com/shinyorrr/ChoongangUniv/assets/113576529/b01c2878-6557-41eb-a228-8afc538be1c0)
    
    ### ❤️장바구니 강의 중복
+   ▫ 예시) 기존에 신청한 자바1, 자바2, 자바기초 강의 신청 시
+   ![강의-중복](https://github.com/shinyorrr/ChoongangUniv/assets/113576529/7273fec1-e8fa-47c5-865a-e93369db36ce)
    
    ### ❤️장바구니 최대 신청학점 체크
+   ▫ 예시) 
    
 </details>
 <br>
