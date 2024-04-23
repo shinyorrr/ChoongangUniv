@@ -122,7 +122,7 @@
   *학기 바뀔 때 마다 누적학점 초기화
   *장바구니에 강의를 담을 때 반응형으로 담는 즉시 시간표에 추가 후 화면에 표시시
 
-  ![장바구니-등록](https://github.com/shinyorrr/ChoongangUniv/assets/113576529/2e6264b7-0dda-4ac9-85e8-474003073f69)
+  ![장바구니 등록](https://github.com/shinyorrr/ChoongangUniv/assets/113576529/147c2b06-7665-4474-bc99-42c6c5228704)
   
   <br>
  
