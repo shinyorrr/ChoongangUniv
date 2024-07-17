@@ -156,6 +156,7 @@
   <summary> 수강 신청 </summary>
 
   *장바구니 신청 목록 불러와서 신청 기능
+  ![수강신청](https://github.com/user-attachments/assets/4ab93122-9e53-4b04-a5eb-703096001b82)
   *중복 검사 기능
 
 </details>
