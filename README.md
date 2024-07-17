@@ -151,16 +151,17 @@
    ![학점초과방지](https://github.com/user-attachments/assets/6a218051-9cd3-4025-a9c8-c4ab6e7da73e)
   
 </details>
-<br>
 
 <details>
-  <summary> 수강 신청청 </summary>
+  <summary> 수강 신청 </summary>
 
   *장바구니 신청 목록 불러와서 신청 기능
   *중복 검사 기능
 
 </details>
+
 <br>
+
 ## 🛠기술 스택
 
 <div align=center>
