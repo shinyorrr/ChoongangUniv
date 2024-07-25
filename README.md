@@ -174,6 +174,7 @@
   * '전체 강의 / 장바구니 신청한 강의' 중 선택해서 강의 목록 불러오기
 
   <img width="800" alt="수강신청 목록" src="https://github.com/user-attachments/assets/a9406563-6930-48fb-9e36-3abc606be228">
+  
   ![수강신청](https://github.com/user-attachments/assets/4ab93122-9e53-4b04-a5eb-703096001b82)
   
 
