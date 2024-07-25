@@ -114,7 +114,7 @@
 </details>
 
 <details>
-  <summary> 장바구니 담기 </summary>
+  <summary> 장바구니 </summary>
   
   ### ❤️장바구니 담기
 
@@ -126,15 +126,19 @@
 
   ![장바구니 등록](https://github.com/shinyorrr/ChoongangUniv/assets/113576529/147c2b06-7665-4474-bc99-42c6c5228704)
 
+  ### ❤️장바구니 목록 페이징
+  
   * 강의 목록 페이지 형식으로 표시
 
-  ![장바구니-페이지](https://github.com/user-attachments/assets/3674a85a-1c5f-4197-9b14-7b5b801bcf72)
-    
+  ![장바구니-삭제](https://github.com/user-attachments/assets/5611a556-e17f-4aed-a497-7e5e57b8eb61)
+  
+  ### ❤️장바구니 삭제  
+  
   * 담은 강의 삭제 가능
   * 삭제시 신청 학점 변경
   * 삭제시 시간표 변경
 
-  ![장바구니-삭제](https://github.com/user-attachments/assets/5611a556-e17f-4aed-a497-7e5e57b8eb61)
+  ![장바구니-페이지](https://github.com/user-attachments/assets/3674a85a-1c5f-4197-9b14-7b5b801bcf72)
   
   <br>
   
@@ -165,17 +169,17 @@
 <details>
   <summary> 수강 신청 </summary>
   
-  ### ✨ 수강 신청 
+  ### ✨ 수강 신청 목록
 
   * '전체 강의 / 장바구니 신청한 강의' 중 선택해서 강의 목록 불러오기
 
   ![수강신청](https://github.com/user-attachments/assets/4ab93122-9e53-4b04-a5eb-703096001b82)
 
+  ### ✨ 수강 신청 중복 검사
   * 중복 검사 기능
 
   ![수강신청-중복](https://github.com/user-attachments/assets/338c22fb-a678-49be-8ebb-48781f564b49)
 
-  * 
 </details>
 
 <br>
