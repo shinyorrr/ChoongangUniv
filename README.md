@@ -179,12 +179,22 @@
   
 
   ### ✨ 수강 신청 중복 검사
+  
   * 중복 검사 기능
 
   ![수강신청-중복](https://github.com/user-attachments/assets/338c22fb-a678-49be-8ebb-48781f564b49)
 
 </details>
 
+<details>
+  <summary> 과제 제출 </summary>
+
+ ### 🧩 과제 제출
+ 
+ * 과제 제출
+ ![메인-과제제출-_online-video-cutter com_](https://github.com/user-attachments/assets/c7531295-2496-4c96-bbdc-94ce108e0d67)  
+ ![메뉴바-과제제출-_online-video-cutter com__1](https://github.com/user-attachments/assets/3a08ec9f-07e4-450e-a772-712872a99c94)
+</details>
 <br>
 
 ## 🛠기술 스택
