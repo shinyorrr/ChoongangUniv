@@ -209,7 +209,8 @@
 ## 🛠기술 스택
 
 <div align=center>
-<img src="https://github.com/shinyorrr/ChoongangUniv/assets/113576529/c6363b5f-d4e6-448a-8950-52a356ad9ddd.png" width="800">
+<img src="https://github.com/shinyorrr/ChoongangUniv/assets/113576529/c6363b5f-d4e6-448a-8950-52a356ad9ddd.png" width="800"> 
+  <br>
 <img src="https://img.shields.io/badge/JAVA-007396?style=for-the-badge&logo=Java&logoColor=white"> <img src="https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=Spring&logoColor=white"> <img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=for-the-badge&logo=Spring Boot&logoColor=white"> 
 <img src="https://img.shields.io/badge/Spring Security-6DB33F?style=for-the-badge&logo=Spring Security&logoColor=white">
 <img src="https://img.shields.io/badge/Jpa-006643?style=for-the-badge&logo=jpa&logoColor=white">
