@@ -191,9 +191,18 @@
 
  ### 🧩 과제 제출
  
- * 과제 제출
- ![메인-과제제출-_online-video-cutter com_](https://github.com/user-attachments/assets/c7531295-2496-4c96-bbdc-94ce108e0d67)  
+ * 메인 화면 - 과제 제출 (오늘의 강의)
+   
+ ![메인-과제제출-_online-video-cutter com_](https://github.com/user-attachments/assets/c7531295-2496-4c96-bbdc-94ce108e0d67)
+
+ * 사이드바 - 과제 제출
+   
  ![메뉴바-과제제출-_online-video-cutter com__1](https://github.com/user-attachments/assets/3a08ec9f-07e4-450e-a772-712872a99c94)
+
+ * 제출 완료 시, 해당 교수가 확인 가능
+
+ ![과제제출 교수화면](https://github.com/user-attachments/assets/cebc0696-2b6a-4cad-adf0-9de37389504c)  
+
 </details>
 <br>
 
